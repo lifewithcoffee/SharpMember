@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpMember.Data.DataServices
+namespace SharpMember.Data.ServiceBase
 {
     public interface IUnitOfWork<TDbContext> : IDisposable where TDbContext : DbContext
     {

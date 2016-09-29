@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using SharpMember.Data.DataServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +9,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace SharpMember.Data.DataServices
+namespace SharpMember.Data.ServiceBase
 {
     /// <summary>
     /// Make up the missing methods for EntityFramework Core DbSet object.
@@ -111,7 +110,7 @@ namespace SharpMember.Data.DataServices
 
     public interface IServiceBase<TEntity> where TEntity : class
     {
-        TEntity GetById(object id);
+        TEntity GetById(int id);
         TEntity Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
@@ -156,7 +155,7 @@ namespace SharpMember.Data.DataServices
         ///         return DbSet.Find(id);
         ///     }
         /// </summary>
-        public abstract TEntity GetById(object id); 
+        public abstract TEntity GetById(int id);
 
         public virtual TEntity Add(TEntity entity)
         {
