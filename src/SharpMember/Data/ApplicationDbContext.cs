@@ -10,6 +10,8 @@ namespace SharpMember.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<UserAdditionalInfo> UserAdditionalInfo { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -18,9 +20,10 @@ namespace SharpMember.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+            // configure unique constraint for UserAdditionalInfo.MemberNumber
+            // from: http://ef.readthedocs.io/en/latest/modeling/relational/unique-constraints.html
+            builder.Entity<UserAdditionalInfo>().HasAlternateKey(i => i.MemberNumber).HasName("AlternateKey_MemberNumber");
         }
     }
 }
