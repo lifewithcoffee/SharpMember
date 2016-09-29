@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SharpMember.Data;
-using SharpMember.Models;
+using SharpMember.Data.Models;
 using SharpMember.Services;
 
 namespace SharpMember

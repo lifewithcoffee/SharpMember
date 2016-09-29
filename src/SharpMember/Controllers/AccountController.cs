@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using SharpMember.Models;
+using SharpMember.Data.Models;
 using SharpMember.Models.AccountViewModels;
 using SharpMember.Services;
 
