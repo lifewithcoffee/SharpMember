@@ -67,7 +67,13 @@
     //    "portable-net45+win8"
     //  ]
     //},
-    "net461": { }
+    "net461": {
+      "dependencies": {
+        "SharpCommons": {
+          "target": "project"
+        }
+      }
+    }
   },
 
   "buildOptions": {
