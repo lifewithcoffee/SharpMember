@@ -15,6 +15,7 @@ namespace SharpMember.Data.Models
 
     public class UserAdditionalInfo
     {
+        public int Id { get; set; }
         public int MemberNumber { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }

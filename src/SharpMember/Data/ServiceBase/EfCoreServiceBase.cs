@@ -145,17 +145,10 @@ namespace SharpMember.Data.ServiceBase
             }
         }
 
-        /// <summary>
-        /// Not sure if the Find() extension method on the top is right or not, so declare this method as an abstract 
-        /// and override it in the subclasses then implement it using Single() method
-        /// 
-        /// The original method in EF 6.x:
-        ///     public virtual TEntity GetById(object id)
-        ///     {
-        ///         return DbSet.Find(id);
-        ///     }
-        /// </summary>
-        public abstract TEntity GetById(int id);
+        public TEntity GetById(int id)
+        {
+            return DbSet.Find(id); // Note: the Find() is an extension method on the top of this file.
+        }
 
         public virtual TEntity Add(TEntity entity)
         {
