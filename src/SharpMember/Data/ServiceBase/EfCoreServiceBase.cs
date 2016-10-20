@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace SharpMember.Data.ServiceBase
 {
@@ -140,8 +139,9 @@ namespace SharpMember.Data.ServiceBase
             }
             catch (Exception ex)
             {
+                Debug.Assert(false, ex.Message);
                 //Logger.WriteWarning(ex.Message);
-                Trace.WriteLine(ex.StackTrace);
+                //Trace.WriteLine(ex.StackTrace);
             }
         }
 

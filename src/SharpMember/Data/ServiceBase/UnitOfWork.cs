@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharpCommons;
+using Microsoft.Extensions.Logging;
+using SharpMember.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,11 +20,14 @@ namespace SharpMember.Data.ServiceBase
     public class UnitOfWork : IUnitOfWork<ApplicationDbContext>
     {
         private ApplicationDbContext _context;
+        private readonly ILogger<UnitOfWork> _logger;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context, ILogger<UnitOfWork> logger)
         {
             _context = context;
-            Logger.WriteTrace("Initializing UnitOfWork with system default setting");
+            _logger = logger;
+
+            _logger.LogTrace("Initializing UnitOfWork with system default setting");
         }
 
         /// <summary>
@@ -39,7 +43,7 @@ namespace SharpMember.Data.ServiceBase
 
             _context = new ApplicationDbContext(options);
 
-            Logger.WriteTrace("Initializing UnitOfWork with connection string: {0}", connectionString);
+            _logger.LogTrace("Initializing UnitOfWork with connection string: {0}", connectionString);
         }
 
         public ApplicationDbContext Context { get { return _context; } }
@@ -54,7 +58,7 @@ namespace SharpMember.Data.ServiceBase
             }
             catch (Exception ex)
             {
-                Logger.WriteException(ex);
+                _logger.WriteException(ex);
             }
 
             return result;
@@ -70,7 +74,7 @@ namespace SharpMember.Data.ServiceBase
             }
             catch (Exception ex)
             {
-                Logger.WriteException(ex);
+                _logger.WriteException(ex);
             }
 
             return result;
