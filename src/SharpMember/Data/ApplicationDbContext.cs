@@ -10,8 +10,6 @@ namespace SharpMember.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<UserAdditionalInfo> UserAdditionalInfo { get; set; }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -23,7 +21,7 @@ namespace SharpMember.Data
 
             // configure unique constraint for UserAdditionalInfo.MemberNumber
             // from: http://ef.readthedocs.io/en/latest/modeling/relational/unique-constraints.html
-            builder.Entity<UserAdditionalInfo>().HasAlternateKey(i => i.MemberNumber).HasName("AlternateKey_MemberNumber");
+            builder.Entity<ApplicationUser>().HasAlternateKey(i => i.MemberNumber).HasName("AlternateKey_MemberNumber");
         }
     }
 }
