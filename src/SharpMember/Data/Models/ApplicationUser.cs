@@ -18,9 +18,11 @@ namespace SharpMember.Data.Models
     public class ApplicationUser : IdentityUser
     {
         public int MemberNumber { get; set; }
+        public bool Renewed { get; set; }
         public string FamilyName { get; set; }
         public string GivenName { get; set; }
         public string ChineseName { get; set; }
+        public string EnglishName { get; set; }
         public string Occupation { get; set; }
         public string Mobile { get; set; }
         public string Address { get; set; }
