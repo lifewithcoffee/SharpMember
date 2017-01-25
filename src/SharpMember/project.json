@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-SharpMember-9d0a6b27-2903-48e2-b618-3f0c3ff5a953",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Savorboard.NPOI.Core.Ooxml": "1.1.3"
   },
 
   "tools": {

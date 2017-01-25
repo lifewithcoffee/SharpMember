@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SharpMember.Business;
 
 namespace SharpMember.Controllers
 {
@@ -16,6 +17,9 @@ namespace SharpMember.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page!";
+
+            //new ExcelService().WriteFile();
+            new ExcelService().ReadFile();
 
             return View();
         }
