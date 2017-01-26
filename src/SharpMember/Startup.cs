@@ -32,6 +32,11 @@ namespace SharpMember
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            using(var client = new SqliteDbContext())
+            {
+                client.Database.EnsureCreated();
+            }
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -52,6 +57,7 @@ namespace SharpMember
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
