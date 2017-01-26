@@ -4,21 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharpMember.Data.ServiceBase;
 using SharpMember.Data.Models;
+using SharpMember.Business;
 
 namespace SharpMember.Data.Services
 {
-    public class MemberService : EfCoreServiceBase<Member>
+    public class MemberService : EfCoreServiceBase<Member, SqliteDbContext>
     {
-        IUnitOfWork<ApplicationDbContext> uow;
+        IZjuaaaExcelFileFullMemberSheetReadService _zjuExcelSvc;
 
-        public MemberService(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork)
-        {
-            uow = unitOfWork;
-        }
+        public MemberService(IUnitOfWork<SqliteDbContext> unitOfWork) : base(unitOfWork) { }
 
         public Member GetByMemberNumber(int memberNumber)
         {
-            return uow.Context.Members.Single(i => i.MemberNumber == memberNumber);
+            return this.UnitOfWork.Context.Members.Single(i => i.MemberNumber == memberNumber);
         }
+
+        public void ImportFromExcel()
+        {
+
+        }
+
     }
 }
