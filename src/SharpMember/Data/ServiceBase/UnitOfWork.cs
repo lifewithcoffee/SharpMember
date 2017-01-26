@@ -17,12 +17,12 @@ namespace SharpMember.Data.ServiceBase
         TDbContext Context { get; }
     }
 
-    public class UnitOfWork : IUnitOfWork<ApplicationDbContext>
+    public class UnitOfWork : IUnitOfWork<SqliteDbContext>
     {
-        private ApplicationDbContext _context;
+        private SqliteDbContext _context;
         private readonly ILogger<UnitOfWork> _logger;
 
-        public UnitOfWork(ApplicationDbContext context, ILogger<UnitOfWork> logger)
+        public UnitOfWork(SqliteDbContext context, ILogger<UnitOfWork> logger)
         {
             _context = context;
             _logger = logger;
@@ -33,20 +33,20 @@ namespace SharpMember.Data.ServiceBase
         /// <summary>
         /// This method is for unit test.
         /// </summary>
-        public UnitOfWork(string connectionString)
-        {
-            Ensure.IsTrue(!string.IsNullOrWhiteSpace(connectionString));
+        //public UnitOfWork(string connectionString)
+        //{
+        //    Ensure.IsTrue(!string.IsNullOrWhiteSpace(connectionString));
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(new SqlConnection(connectionString))
-                .Options;
+        //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        //        .UseSqlServer(new SqlConnection(connectionString))
+        //        .Options;
 
-            _context = new ApplicationDbContext(options);
+        //    _context = new SqliteDbContext(options);
 
-            _logger.LogTrace("Initializing UnitOfWork with connection string: {0}", connectionString);
-        }
+        //    _logger.LogTrace("Initializing UnitOfWork with connection string: {0}", connectionString);
+        //}
 
-        public ApplicationDbContext Context { get { return _context; } }
+        public SqliteDbContext Context { get { return _context; } }
 
         public async Task<bool> CommitAsync()
         {
