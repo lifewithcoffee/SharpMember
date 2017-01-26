@@ -19,7 +19,7 @@ namespace SharpMember.Controllers
             ViewData["Message"] = "Your application description page!";
 
             //new ExcelService().WriteFile();
-            new ExcelService().ReadFile();
+            new ExcelTestService().ReadFile();
 
             return View();
         }

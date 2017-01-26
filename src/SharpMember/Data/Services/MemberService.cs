@@ -7,18 +7,18 @@ using SharpMember.Data.Models;
 
 namespace SharpMember.Data.Services
 {
-    public class UserReadService : EfCoreServiceBase<ApplicationUser>
+    public class MemberService : EfCoreServiceBase<Member>
     {
         IUnitOfWork<ApplicationDbContext> uow;
 
-        public UserReadService(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork)
+        public MemberService(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork)
         {
             uow = unitOfWork;
         }
 
-        public ApplicationUser GetByMemberNumber(int memberNumber)
+        public Member GetByMemberNumber(int memberNumber)
         {
-            return uow.Context.Users.Single(i => i.MemberNumber == memberNumber);
+            return uow.Context.Members.Single(i => i.MemberNumber == memberNumber);
         }
     }
 }

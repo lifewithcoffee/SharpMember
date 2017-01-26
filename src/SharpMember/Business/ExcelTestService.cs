@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Business
 {
-    public class ExcelService
+    public class ExcelTestService
     {
         public void ReadFile()
         {
