@@ -11,7 +11,7 @@ namespace SharpMember.Data.Models
     /// </summary>
     public class MemberEntity
     {
-        [Key]
+        public int Id { get; set; } // some members may not have been assigned a member number, so an Id field is still required
         public int MemberNumber { get; set; }
         public bool Renewed { get; set; }
         public string ChineseName { get; set; }
