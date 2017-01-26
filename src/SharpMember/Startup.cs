@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using SharpMember.Data;
 using SharpMember.Data.Models;
 using SharpMember.Services;
+using SharpMember.Data.ServiceBase;
+using SharpMember.Business;
 
 namespace SharpMember
 {
@@ -57,7 +59,13 @@ namespace SharpMember
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
+
+            services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
+            services.AddTransient<IZjuaaaExcelFileFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
+
+            // TODO: need a DI config for ILogger
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
