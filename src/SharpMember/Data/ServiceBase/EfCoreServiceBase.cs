@@ -124,12 +124,14 @@ namespace SharpMember.Data.ServiceBase
     /// http://www.asp.net/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
     /// https://github.com/MarlabsInc/webapi-angularjs-spa/blob/28bea19b3267aeed1768920b0d77be329b0278a5/source/ResourceMetadata/ResourceMetadata.Data/Infrastructure/RepositoryBase.cs
     /// </summary>
-    abstract public class EfCoreServiceBase<TEntity> : IServiceBase<TEntity> where TEntity : class 
+    abstract public class EfCoreServiceBase<TEntity, TDbContext> : IServiceBase<TEntity>
+        where TEntity : class 
+        where TDbContext : DbContext
     {
-        protected IUnitOfWork<ApplicationDbContext> UnitOfWork { get; set; }
+        protected IUnitOfWork<TDbContext> UnitOfWork { get; set; }
         private readonly DbSet<TEntity> DbSet;
 
-        public EfCoreServiceBase(IUnitOfWork<ApplicationDbContext> uow)
+        public EfCoreServiceBase(IUnitOfWork<TDbContext> uow)
         {
             try
             {
