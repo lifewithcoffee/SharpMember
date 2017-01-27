@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SharpMember.Business;
+using SharpMember.Data.Services;
 
 namespace SharpMember.Controllers
 {
@@ -19,7 +20,8 @@ namespace SharpMember.Controllers
             ViewData["Message"] = "Your application description page!";
 
             //new ExcelService().WriteFile();
-            new ExcelTestService().ReadFile();
+            //new ExcelTestService().ReadFile();
+            new MemberService(null).ImportFromExcel();
 
             return View();
         }

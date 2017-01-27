@@ -5,20 +5,24 @@ using SharpMember.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SharpMember.Business
 {
-    public interface IZjuaaaExcelFileFullMemberSheetReadService
+    public interface IZjuaaaExcelFileMemberReadService
     {
         bool ValidateFile();
 
-        Member ReadRow(IWorkbook workbook, int rowNum);
+        List<Member> ReadRow();
     }
 
-    public class ZjuaaaExcelFileFullMemberSheetReadService : IZjuaaaExcelFileFullMemberSheetReadService
+    public interface IFullMemberSheetReadService : IZjuaaaExcelFileMemberReadService { }
+
+    public class ZjuaaaExcelFileFullMemberSheetReadService : IFullMemberSheetReadService
     {
         ILogger _logger;
+        ISheet sheet;
 
         Dictionary<string, int> dict = new Dictionary<string, int> {
             { nameof(MemberEntity.MemberNumber) , 0 },
@@ -37,66 +41,147 @@ namespace SharpMember.Business
 
 
         int[] phoneColumns = new int[] { 7, 8 };
+        int[] NormalizedNameColumns = new int[] { 1, 2 };   // column 1: Family Name; column 2: Given Name
 
-        public ZjuaaaExcelFileFullMemberSheetReadService(ILogger logger)
+        public ZjuaaaExcelFileFullMemberSheetReadService(IWorkbook workbook, ILogger logger)
         {
             _logger = logger;
+            sheet = workbook.GetSheet("Full Member"); 
         }
 
-        public Member ReadRow(IWorkbook workbook, int rowNum)
+        public List<Member> ReadRow()
         {
-            Member result = null;
+            List<Member> result = new List<Member>();
 
+            int currentRowNumber = 0;
             try
             {
-                var sheet = workbook.GetSheet("Associated Member");
-                var row = sheet.GetRow(rowNum);
-                if (row != null)
+                for (int rowNum = sheet.FirstRowNum + 1; rowNum <= sheet.LastRowNum; rowNum++)
                 {
-                    result = new Member();
-
-                    string cellValue = row.GetCell(dict[nameof(MemberEntity.MemberNumber)]).ToString();
-                    if(!string.IsNullOrWhiteSpace(cellValue))
+                    currentRowNumber = rowNum;
+                    var row = sheet.GetRow(rowNum);
+                    if (row != null)
                     {
-                        result.MemberNumber = int.Parse(cellValue);
-                    }
+                        Member member = new Member();
 
-                    result.EnglishName = row.GetCell(dict[nameof(MemberEntity.EnglishName)]).ToString();
-                    result.ChineseName = row.GetCell(dict[nameof(MemberEntity.ChineseName)]).ToString();
-                    result.Email = row.GetCell(dict[nameof(MemberEntity.Email)]).ToString();
-                    result.Occupation = row.GetCell(dict[nameof(MemberEntity.Occupation)]).ToString();
-                    result.Wechat = row.GetCell(dict[nameof(MemberEntity.Wechat)]).ToString();
-                    result.QQ = row.GetCell(dict[nameof(MemberEntity.QQ)]).ToString();
-                    result.Skype = row.GetCell(dict[nameof(MemberEntity.Skype)]).ToString();
-
-                    string registerDate = row.GetCell(dict[nameof(MemberEntity.RegisterDate)]).ToString();
-                    if(!string.IsNullOrWhiteSpace(registerDate))
-                    {
-                        DateTime parsedDate;
-                        if (DateTime.TryParse(registerDate, out parsedDate))
+                        ICell cell = row.GetCell(dict[nameof(MemberEntity.MemberNumber)]);
+                        string cellValue = cell == null ? "" : cell.ToString();
+                        if (!string.IsNullOrWhiteSpace(cellValue))
                         {
-                            result.RegisterDate = parsedDate;
+                            int number;
+                            if (int.TryParse(cellValue, out number))
+                            {
+                                member.MemberNumber = number;
+                            }
+                        }
+                        else
+                        {
+                            member.MemberNumber = 0;
+                        }
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.EnglishName)]);
+                        member.EnglishName = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.ChineseName)]);
+                        member.ChineseName = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.Email)]);
+                        member.Email = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.Occupation)]);
+                        member.Occupation = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.Wechat)]);
+                        member.Wechat = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.QQ)]);
+                        member.QQ = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.Skype)]);
+                        member.Skype = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.RegisterDate)]);
+                        string registerDate = cell == null ? "" : cell.ToString();
+                        if (!string.IsNullOrWhiteSpace(registerDate))
+                        {
+                            DateTime parsedDate;
+                            if (DateTime.TryParse(registerDate, out parsedDate))
+                            {
+                                member.RegisterDate = parsedDate;
+                            }
+                        }
+                        else
+                        {
+                            member.RegisterDate = null;
+                        }
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.CeaseDate)]);
+                        string ceaseDate = cell == null ? "" : cell.ToString();
+                        if (!string.IsNullOrWhiteSpace(ceaseDate))
+                        {
+                            DateTime parsedDate;
+                            if (DateTime.TryParse(ceaseDate, out parsedDate))
+                            {
+                                member.CeaseDate = parsedDate;
+                            }
+                        }
+                        else
+                        {
+                            member.CeaseDate = null;
+                        }
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.State)]);
+                        member.State = cell == null ? "" : cell.ToString();
+
+                        cell = row.GetCell(dict[nameof(MemberEntity.Remarks)]);
+                        member.Remarks = cell == null ? "" : cell.ToString();
+
+                        StringBuilder sb = new StringBuilder();
+
+                        foreach(int idx in phoneColumns)
+                        {
+                            cell = row.GetCell(idx);
+                            if(cell != null)
+                            {
+                                sb.Append(cell.ToString());
+                                sb.Append(";");
+                            }
+                        }
+
+                        member.Phone = sb.ToString();
+                        if(member.Phone.Length > 0)
+                        {
+                            member.Phone = member.Phone.Remove(member.Phone.Length - 1);    // remove the last ';'
+                        }
+
+                        foreach(int idx in NormalizedNameColumns)
+                        {
+                            cell = row.GetCell(idx);
+                            if(cell != null)
+                            {
+                                sb.Append(cell.ToString());
+                                sb.Append(',');
+                            }
+                        }
+                        member.NormalizedName = sb.ToString();
+                        if(member.NormalizedName.Length > 0)
+                        {
+                            member.NormalizedName = member.NormalizedName.Remove(member.NormalizedName.Length - 1); // remove the last ','
+                        }
+
+                        // if contains any of those names
+                        if(     !string.IsNullOrWhiteSpace(member.NormalizedName)
+                            ||  !string.IsNullOrWhiteSpace(member.ChineseName)
+                            ||  !string.IsNullOrWhiteSpace(member.EnglishName)
+                        ){
+                            result.Add(member);
                         }
                     }
-
-                    string ceaseDate = row.GetCell(dict[nameof(MemberEntity.CeaseDate)]).ToString();
-                    if (!string.IsNullOrWhiteSpace(ceaseDate))
-                    {
-                        DateTime parsedDate;
-                        if(DateTime.TryParse(ceaseDate, out parsedDate))
-                        {
-                            result.CeaseDate = parsedDate;
-                        }
-                    }
-
-                    result.State = row.GetCell(dict[nameof(MemberEntity.State)]).ToString();
-                    result.Remarks = row.GetCell(dict[nameof(MemberEntity.Remarks)]).ToString();
                 }
             }
             catch (Exception ex)
             {
-                _logger.WriteException(ex);
-                result = null;
+                _logger.WriteException(ex, string.Format("Row number: {0}", currentRowNumber));
             }
 
             return result;

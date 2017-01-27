@@ -8,7 +8,7 @@ namespace SharpMember.Utils
 {
     static public class LoggerExtension
     {
-        static public void WriteException(this ILogger logger, Exception ex)
+        static public void WriteException(this ILogger logger, Exception ex, string message = null)
         {
             throw new NotImplementedException();
         }

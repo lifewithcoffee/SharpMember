@@ -63,7 +63,7 @@ namespace SharpMember
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
 
             services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
-            services.AddTransient<IZjuaaaExcelFileFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
+            services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
 
             // TODO: need a DI config for ILogger
         }

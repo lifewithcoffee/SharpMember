@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using SharpMember.Data.ServiceBase;
 using SharpMember.Data.Models;
 using SharpMember.Business;
+using System.IO;
+using Npoi.Core.SS.UserModel;
+using Npoi.Core.XSSF.UserModel;
 
 namespace SharpMember.Data.Services
 {
     public class MemberService : EfCoreServiceBase<Member, SqliteDbContext>
     {
-        IZjuaaaExcelFileFullMemberSheetReadService _zjuExcelSvc;
+        IFullMemberSheetReadService _zjuExcelSvc;
 
         public MemberService(IUnitOfWork<SqliteDbContext> unitOfWork) : base(unitOfWork) { }
 
@@ -21,8 +24,15 @@ namespace SharpMember.Data.Services
 
         public void ImportFromExcel()
         {
+            //var newFile = @"C:\_temp\校友会机构会员注册清单 revision 2016-12-21.xlsx";
+            var newFile = @"C:\_temp\test.xlsx";
 
+            using (var fs = new FileStream(newFile, FileMode.Open, FileAccess.Read))
+            {
+                IWorkbook workbook = new XSSFWorkbook(fs);  // NOTE the excel file MUST not contain comments, otherwise an exception will throw out
+
+                var members = new ZjuaaaExcelFileFullMemberSheetReadService(workbook, null).ReadRow();
+            }
         }
-
     }
 }
