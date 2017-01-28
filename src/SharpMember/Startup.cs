@@ -14,6 +14,8 @@ using SharpMember.Data.Models;
 using SharpMember.Services;
 using SharpMember.Data.ServiceBase;
 using SharpMember.Business;
+using SharpMember.Data.Services;
+using Npoi.Core.SS.UserModel;
 
 namespace SharpMember
 {
@@ -63,7 +65,8 @@ namespace SharpMember
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
 
             services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
-            services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
+            //services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
+            services.AddTransient<IMemberService, MemberService>();
 
             // TODO: need a DI config for ILogger
         }

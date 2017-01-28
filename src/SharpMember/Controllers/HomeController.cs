@@ -15,13 +15,11 @@ namespace SharpMember.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult About([FromServices] IMemberService memberService)
         {
             ViewData["Message"] = "Your application description page!";
 
-            //new ExcelService().WriteFile();
-            //new ExcelTestService().ReadFile();
-            new MemberService(null).ImportFromExcel();
+            memberService.ImportFromExcel();
 
             return View();
         }

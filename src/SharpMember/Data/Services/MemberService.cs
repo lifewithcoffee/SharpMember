@@ -8,14 +8,30 @@ using SharpMember.Business;
 using System.IO;
 using Npoi.Core.SS.UserModel;
 using Npoi.Core.XSSF.UserModel;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SharpMember.Data.Services
 {
-    public class MemberService : EfCoreServiceBase<Member, SqliteDbContext>
+    public interface IMemberService
     {
-        IFullMemberSheetReadService _zjuExcelSvc;
+        Member GetByMemberNumber(int memberNumber);
+        void ImportFromExcel();
+    }
 
-        public MemberService(IUnitOfWork<SqliteDbContext> unitOfWork) : base(unitOfWork) { }
+    public class MemberService : EfCoreServiceBase<Member, SqliteDbContext>, IMemberService
+    {
+        private readonly ILogger _logger;
+        private readonly ILoggerFactory _loggerFactory;
+
+        public MemberService(
+            IUnitOfWork<SqliteDbContext> unitOfWork, 
+            ILogger<MemberService> logger, 
+            ILoggerFactory loggerFactory
+        ) : base(unitOfWork) {
+            _logger = logger;
+            _loggerFactory = loggerFactory;
+        }
 
         public Member GetByMemberNumber(int memberNumber)
         {
@@ -31,7 +47,10 @@ namespace SharpMember.Data.Services
             {
                 IWorkbook workbook = new XSSFWorkbook(fs);  // NOTE the excel file MUST not contain comments, otherwise an exception will throw out
 
-                var members = new ZjuaaaExcelFileFullMemberSheetReadService(workbook, null).ReadRow();
+                var members = new ZjuaaaExcelFileFullMemberSheetReadService(
+                    workbook, 
+                    _loggerFactory.CreateLogger<IFullMemberSheetReadService>()
+                ).ReadRow();
             }
         }
     }
