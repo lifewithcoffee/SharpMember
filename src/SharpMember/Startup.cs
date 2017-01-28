@@ -65,10 +65,7 @@ namespace SharpMember
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
 
             services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
-            //services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
             services.AddTransient<IMemberService, MemberService>();
-
-            // TODO: need a DI config for ILogger
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
