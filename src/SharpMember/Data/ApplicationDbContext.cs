@@ -31,6 +31,7 @@ namespace SharpMember.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=Members.sqlitedb");
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

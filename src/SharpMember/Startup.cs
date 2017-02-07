@@ -63,9 +63,8 @@ namespace SharpMember
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
-
-            services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
-            services.AddTransient<IMemberService, MemberService>();
+            services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
+            services.AddScoped<IMemberService, MemberService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
