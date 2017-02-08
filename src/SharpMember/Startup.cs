@@ -14,7 +14,7 @@ using SharpMember.Data.Models;
 using SharpMember.Services;
 using SharpMember.Data.ServiceBase;
 using SharpMember.Business;
-using SharpMember.Data.Services;
+using SharpMember.Data.Repositories;
 using Npoi.Core.SS.UserModel;
 
 namespace SharpMember
@@ -62,11 +62,8 @@ namespace SharpMember
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             
-            // DbContext and UnitOfWork are declared as Transient for multithreading cases
-            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>(ServiceLifetime.Transient);   
-            services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
-
-            services.AddScoped<IMemberService, MemberService>();
+            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>(ServiceLifetime.Transient);   // NOTE: declared as Transient for multithreading cases
+            services.AddScoped<IMemberRepository, MemberRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
