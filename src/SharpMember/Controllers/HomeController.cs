@@ -4,18 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SharpMember.Business;
-using SharpMember.Data.Services;
+using SharpMember.Data.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SharpMember.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public HomeController(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About([FromServices] IMemberService memberService)
+        public IActionResult About([FromServices] IMemberRepository memberService)
         {
             ViewData["Message"] = "Your application description page!";
 
@@ -27,6 +35,9 @@ namespace SharpMember.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
+
+            IMemberRepository memberSvc1 = _serviceProvider.GetService<IMemberRepository>();
+            IMemberRepository memberSvc2 = _serviceProvider.GetService<IMemberRepository>();
 
             return View();
         }
