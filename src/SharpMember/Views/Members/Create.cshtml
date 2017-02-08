@@ -1,0 +1,190 @@
+@model SharpMember.Data.Models.Member
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Member</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Address" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CeaseDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CeaseDate" class="form-control" />
+                <span asp-validation-for="CeaseDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ChineseName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ChineseName" class="form-control" />
+                <span asp-validation-for="ChineseName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="City" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Degree" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Degree" class="form-control" />
+                <span asp-validation-for="Degree" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Department" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Department" class="form-control" />
+                <span asp-validation-for="Department" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="EnglishName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="EnglishName" class="form-control" />
+                <span asp-validation-for="EnglishName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Fax" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Fax" class="form-control" />
+                <span asp-validation-for="Fax" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="GraduationYear" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="GraduationYear" class="form-control" />
+                <span asp-validation-for="GraduationYear" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="HomeTown" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="HomeTown" class="form-control" />
+                <span asp-validation-for="HomeTown" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MemberNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MemberNumber" class="form-control" />
+                <span asp-validation-for="MemberNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NormalizedName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="NormalizedName" class="form-control" />
+                <span asp-validation-for="NormalizedName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Occupation" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Occupation" class="form-control" />
+                <span asp-validation-for="Occupation" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Organization" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Organization" class="form-control" />
+                <span asp-validation-for="Organization" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Phone" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="QQ" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="QQ" class="form-control" />
+                <span asp-validation-for="QQ" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="RegisterDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="RegisterDate" class="form-control" />
+                <span asp-validation-for="RegisterDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Remarks" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="Renewed" />
+                    <label asp-for="Renewed"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Skype" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Skype" class="form-control" />
+                <span asp-validation-for="Skype" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="State" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="State" class="form-control" />
+                <span asp-validation-for="State" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Wechat" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Wechat" class="form-control" />
+                <span asp-validation-for="Wechat" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
