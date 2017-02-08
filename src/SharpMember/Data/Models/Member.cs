@@ -24,8 +24,9 @@ namespace SharpMember.Data.Models
         public string Fax { get; set; }
         public string Address { get; set; }
         public string Department { get; set; }
-        public string Degree { get; set; }
-        public int GraduationYear { get; set; }
+        public string EducationalLevel { get; set; }
+        public DateTime EnrollmentYear { get; set; }
+        public DateTime GraduationYear { get; set; }
         public string HomeTown { get; set; }
         public string Wechat { get; set; }
         public string QQ { get; set; }

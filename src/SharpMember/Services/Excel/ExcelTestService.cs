@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Business
+namespace SharpMember.Services.Excel
 {
     public class ExcelTestService
     {

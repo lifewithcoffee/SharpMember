@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SharpMember.Business;
+using SharpMember.Services.Excel;
 using SharpMember.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,8 +36,8 @@ namespace SharpMember.Controllers
         {
             ViewData["Message"] = "Your contact page.";
 
-            IMemberRepository memberSvc1 = _serviceProvider.GetService<IMemberRepository>();
-            IMemberRepository memberSvc2 = _serviceProvider.GetService<IMemberRepository>();
+            //IMemberRepository memberSvc1 = _serviceProvider.GetService<IMemberRepository>();
+            //IMemberRepository memberSvc2 = _serviceProvider.GetService<IMemberRepository>();
 
             return View();
         }

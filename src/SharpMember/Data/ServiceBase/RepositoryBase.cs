@@ -128,7 +128,7 @@ namespace SharpMember.Data.ServiceBase
     }
 
     /// <summary>
-    /// from:
+    /// originated from (but changed quite a lot):
     /// http://www.asp.net/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
     /// https://github.com/MarlabsInc/webapi-angularjs-spa/blob/28bea19b3267aeed1768920b0d77be329b0278a5/source/ResourceMetadata/ResourceMetadata.Data/Infrastructure/RepositoryBase.cs
     /// </summary>

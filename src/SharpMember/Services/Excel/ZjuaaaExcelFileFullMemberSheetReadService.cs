@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpMember.Business
+namespace SharpMember.Services.Excel
 {
     public interface IZjuaaaExcelFileMemberReadService
     {
