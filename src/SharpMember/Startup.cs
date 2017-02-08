@@ -61,9 +61,11 @@ namespace SharpMember
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            
+            // DbContext and UnitOfWork are declared as Transient for multithreading cases
+            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>(ServiceLifetime.Transient);   
+            services.AddTransient<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
 
-            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();
-            services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork>();
             services.AddScoped<IMemberService, MemberService>();
         }
 

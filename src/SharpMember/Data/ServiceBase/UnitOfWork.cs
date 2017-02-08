@@ -17,12 +17,12 @@ namespace SharpMember.Data.ServiceBase
         TDbContext Context { get; }
     }
 
-    public class UnitOfWork : IUnitOfWork<SqliteDbContext>
+    public class UnitOfWork<TUnitOfWork> : IUnitOfWork<TUnitOfWork> where TUnitOfWork : DbContext
     {
-        private SqliteDbContext _context;
-        private readonly ILogger<UnitOfWork> _logger;
+        private TUnitOfWork _context;
+        private readonly ILogger<TUnitOfWork> _logger;
 
-        public UnitOfWork(SqliteDbContext context, ILogger<UnitOfWork> logger)
+        public UnitOfWork(TUnitOfWork context, ILogger<TUnitOfWork> logger)
         {
             _context = context;
             _logger = logger;
@@ -46,7 +46,7 @@ namespace SharpMember.Data.ServiceBase
         //    _logger.LogTrace("Initializing UnitOfWork with connection string: {0}", connectionString);
         //}
 
-        public SqliteDbContext Context { get { return _context; } }
+        public TUnitOfWork Context { get { return _context; } }
 
         public async Task<bool> CommitAsync()
         {
