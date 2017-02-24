@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using SharpMember.Data;
 using SharpMember.Data.Models;
 using SharpMember.Services;
-using SharpMember.Data.ServiceBase;
+using SharpMember.Data.RepositoryBase;
 using SharpMember.Data.Repositories;
 using Npoi.Core.SS.UserModel;
 

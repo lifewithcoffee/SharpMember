@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SharpMember.Data.ServiceBase;
+using SharpMember.Data.RepositoryBase;
 using SharpMember.Data.Models;
 using SharpMember.Services.Excel;
 using System.IO;

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace SharpMember.Data.ServiceBase
+namespace SharpMember.Data.RepositoryBase
 {
     /// <summary>
     /// Make up the missing methods for EntityFramework Core DbSet object.
@@ -108,7 +108,7 @@ namespace SharpMember.Data.ServiceBase
         }
     }
 
-    public interface IRepositoryBase<TEntity, TDbContext> : ICommittable<TDbContext>
+    public interface IRepositoryBase<TEntity, TDbContext> : ICommittable
         where TEntity : class
         where TDbContext : DbContext
     {
@@ -133,7 +133,7 @@ namespace SharpMember.Data.ServiceBase
     /// https://github.com/MarlabsInc/webapi-angularjs-spa/blob/28bea19b3267aeed1768920b0d77be329b0278a5/source/ResourceMetadata/ResourceMetadata.Data/Infrastructure/RepositoryBase.cs
     /// </summary>
     abstract public class RepositoryBase<TEntity, TDbContext>
-        : CommittableBase<TDbContext>, IRepositoryBase<TEntity, TDbContext>, ICommittable<TDbContext>
+        : CommittableBase<TDbContext>, IRepositoryBase<TEntity, TDbContext>, ICommittable
         where TEntity : class 
         where TDbContext : DbContext
     {
@@ -142,7 +142,7 @@ namespace SharpMember.Data.ServiceBase
         private readonly DbSet<TEntity> _dbSet;
         private readonly ILogger _logger;
 
-        public RepositoryBase(TDbContext context, ILoggerFactory _loggerFactory) : base(context, _loggerFactory.CreateLogger<ICommittable<TDbContext>>())
+        public RepositoryBase(TDbContext context, ILoggerFactory _loggerFactory) : base(context, _loggerFactory.CreateLogger<ICommittable>())
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();

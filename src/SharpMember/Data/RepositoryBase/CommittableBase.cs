@@ -8,20 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpMember.Data.ServiceBase
+namespace SharpMember.Data.RepositoryBase
 {
-    public interface ICommittable<TDbContext> : IDisposable where TDbContext : DbContext
+    public interface ICommittable: IDisposable
     {
         bool Commit();
         Task<bool> CommitAsync();
     }
 
-    public class CommittableBase<TDbContext> : ICommittable<TDbContext> where TDbContext : DbContext
+    public class CommittableBase<TDbContext> : ICommittable where TDbContext : DbContext
     {
         private TDbContext _context;
         private readonly ILogger _logger;
 
-        public CommittableBase(TDbContext context, ILogger<ICommittable<TDbContext>> logger)
+        public CommittableBase(TDbContext context, ILogger<ICommittable> logger)
         {
             _context = context;
             _logger = logger;
