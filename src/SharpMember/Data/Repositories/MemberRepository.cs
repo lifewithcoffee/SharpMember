@@ -21,21 +21,18 @@ namespace SharpMember.Data.Repositories
 
     public class MemberRepository : RepositoryBase<Member, SqliteDbContext>, IMemberRepository
     {
-        private readonly ILogger _logger;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly IFullMemberSheetReadService _fullMemberSheetReadService;
 
-        public MemberRepository(
-            SqliteDbContext dbContext, 
-            ILogger<MemberRepository> logger, 
-            ILoggerFactory loggerFactory
-        ) : base(dbContext, loggerFactory) {
-            _logger = logger;
-            _loggerFactory = loggerFactory;
+        public MemberRepository( IUnitOfWork<SqliteDbContext> uow, ILogger<MemberRepository> logger, IFullMemberSheetReadService fullMemberSheetReadService, ILoggerFactory loggerFactory) : base(uow, logger)
+        {
+            this._loggerFactory = loggerFactory;
+            this._fullMemberSheetReadService = fullMemberSheetReadService;
         }
 
         public Member GetByMemberNumber(int memberNumber)
         {
-            return _context.Members.Single(i => i.MemberNumber == memberNumber);
+            return this._unitOfWork.Context.Members.Single(i => i.MemberNumber == memberNumber);
         }
 
         public void ImportFromExcel()
@@ -45,12 +42,7 @@ namespace SharpMember.Data.Repositories
 
             using (var fs = new FileStream(newFile, FileMode.Open, FileAccess.Read))
             {
-                IWorkbook workbook = new XSSFWorkbook(fs);  // NOTE the excel file MUST not contain comments, otherwise an exception will throw out
-
-                var members = new ZjuaaaExcelFileFullMemberSheetReadService(
-                    workbook, 
-                    _loggerFactory.CreateLogger<IFullMemberSheetReadService>()
-                ).ReadRow();
+                var member = this._fullMemberSheetReadService.ReadRow(new XSSFWorkbook(fs)); // NOTICE: the excel file MUST not contain comments, otherwise an exception will throw out
             }
         }
     }

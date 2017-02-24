@@ -133,30 +133,31 @@ namespace SharpMember.Data.RepositoryBase
     /// https://github.com/MarlabsInc/webapi-angularjs-spa/blob/28bea19b3267aeed1768920b0d77be329b0278a5/source/ResourceMetadata/ResourceMetadata.Data/Infrastructure/RepositoryBase.cs
     /// </summary>
     abstract public class RepositoryBase<TEntity, TDbContext>
-        : CommittableBase<TDbContext>, IRepositoryBase<TEntity, TDbContext>, ICommittable
+        : IRepositoryBase<TEntity, TDbContext>, ICommittable
         where TEntity : class 
         where TDbContext : DbContext
     {
-        //protected IUnitOfWork<TDbContext> UnitOfWork { get; set; }
-        protected readonly TDbContext _context;
-        private readonly DbSet<TEntity> _dbSet;
-        private readonly ILogger _logger;
+        protected readonly IUnitOfWork<TDbContext> _unitOfWork;
+        protected readonly ILogger _logger;
 
-        public RepositoryBase(TDbContext context, ILoggerFactory _loggerFactory) : base(context, _loggerFactory.CreateLogger<ICommittable>())
+        private readonly DbSet<TEntity> dbSet;
+
+        public RepositoryBase(IUnitOfWork<TDbContext> unitOfWork, ILogger logger)
         {
-            _context = context;
-            _dbSet = _context.Set<TEntity>();
-            _logger = _loggerFactory.CreateLogger<RepositoryBase<TEntity, TDbContext>>();
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+
+            dbSet = unitOfWork.Context.Set<TEntity>();
         }
 
         public bool Exist(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.Any<TEntity>(predicate);
+            return dbSet.Any<TEntity>(predicate);
         }
 
         public async Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.AnyAsync<TEntity>(predicate);
+            return await dbSet.AnyAsync<TEntity>(predicate);
         }
 
         public TEntity GetById(int? id)
@@ -167,7 +168,7 @@ namespace SharpMember.Data.RepositoryBase
             }
             else
             {
-                return _dbSet.Find(id); // Note: the Find() is an extension method on the top of this file.
+                return dbSet.Find(id); // Note: the Find() is an extension method on the top of this file.
             }
         }
 
@@ -179,7 +180,7 @@ namespace SharpMember.Data.RepositoryBase
             }
             else
             {
-                return await _dbSet.FindAsync(id);
+                return await dbSet.FindAsync(id);
             }
         }
 
@@ -196,24 +197,24 @@ namespace SharpMember.Data.RepositoryBase
         /// </summary>
         public virtual TEntity Add(TEntity entity)
         {
-            _dbSet.Add(entity);
+            dbSet.Add(entity);
             return entity;
         }
 
         public virtual void Update(TEntity entity)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            dbSet.Attach(entity);
+            _unitOfWork.Context.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual void Delete(TEntity entity)  // there is no DbSet.RemoveAsync() available
         {
-            _dbSet.Remove(entity);
+            dbSet.Remove(entity);
         }
 
         public virtual void Delete(Expression<Func<TEntity, bool>> where)
         {
-            IEnumerable<TEntity> objects = _dbSet.Where<TEntity>(where).AsEnumerable();
+            IEnumerable<TEntity> objects = dbSet.Where<TEntity>(where).AsEnumerable();
             foreach (TEntity obj in objects)
             {
                 this.Delete(obj);
@@ -223,7 +224,7 @@ namespace SharpMember.Data.RepositoryBase
         /// <returns>Return IQueryable to use QueryableExtensions methods like Load(), Include() etc. </returns>
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbSet;
+            return dbSet;
         }
 
         /// <returns>See the return comment of <see cref="GetAll()"/></returns>
@@ -231,7 +232,7 @@ namespace SharpMember.Data.RepositoryBase
         {
             // Don't use "where.Compile(), otherwise when do "ToList()", such an exception will throw out: 
             // "There is already an open DataReader associated with this Command which must be closed first"
-            return _dbSet.Where(where);
+            return dbSet.Where(where);
         }
 
         /// <summary>
@@ -248,7 +249,22 @@ namespace SharpMember.Data.RepositoryBase
         /// <returns>See the return comment of <see cref="GetAll()"/></returns>
         public virtual IQueryable<TEntity> GetManyLocalFirst(Expression<Func<TEntity, bool>> where)
         {
-            return _dbSet.FindPredicateFromLocalAndDb(where);
+            return dbSet.FindPredicateFromLocalAndDb(where);
+        }
+
+        public bool Commit()
+        {
+            return this._unitOfWork.Commit();
+        }
+
+        public async Task<bool> CommitAsync()
+        {
+            return await this._unitOfWork.CommitAsync();
+        }
+
+        public void Dispose()
+        {
+            this._unitOfWork.Dispose();
         }
     }
 }

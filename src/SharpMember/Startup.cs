@@ -15,6 +15,7 @@ using SharpMember.Services;
 using SharpMember.Data.RepositoryBase;
 using SharpMember.Data.Repositories;
 using Npoi.Core.SS.UserModel;
+using SharpMember.Services.Excel;
 
 namespace SharpMember
 {
@@ -61,8 +62,11 @@ namespace SharpMember
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             
-            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>(ServiceLifetime.Transient);   // NOTE: declared as Transient for multithreading cases
+            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();   // NOTE: declared as Transient for multithreading cases
+            services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
             services.AddScoped<IMemberRepository, MemberRepository>();
+
+            services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

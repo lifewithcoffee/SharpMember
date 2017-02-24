@@ -14,7 +14,7 @@ namespace SharpMember.Services.Excel
     {
         bool ValidateFile();
 
-        List<Member> ReadRow();
+        List<Member> ReadRow(IWorkbook workbook);
     }
 
     public interface IFullMemberSheetReadService : IZjuaaaExcelFileMemberReadService { }
@@ -22,7 +22,6 @@ namespace SharpMember.Services.Excel
     public class ZjuaaaExcelFileFullMemberSheetReadService : IFullMemberSheetReadService
     {
         ILogger _logger;
-        ISheet sheet;
 
         Dictionary<string, int> dict = new Dictionary<string, int> {
             { nameof(MemberEntity.MemberNumber) , 0 },
@@ -43,16 +42,16 @@ namespace SharpMember.Services.Excel
         int[] phoneColumns = new int[] { 7, 8 };
         int[] NormalizedNameColumns = new int[] { 1, 2 };   // column 1: Family Name; column 2: Given Name
 
-        public ZjuaaaExcelFileFullMemberSheetReadService(IWorkbook workbook, ILogger logger)
+        public ZjuaaaExcelFileFullMemberSheetReadService(ILogger<ZjuaaaExcelFileFullMemberSheetReadService> logger)
         {
             _logger = logger;
-            sheet = workbook.GetSheet("Full Member"); 
         }
 
-        public List<Member> ReadRow()
+        public List<Member> ReadRow(IWorkbook workbook)
         {
             List<Member> result = new List<Member>();
 
+            ISheet sheet = workbook.GetSheet("Full Member");
             int currentRowNumber = 0;
             try
             {

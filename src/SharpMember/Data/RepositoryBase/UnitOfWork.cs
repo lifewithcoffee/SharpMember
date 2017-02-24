@@ -16,12 +16,19 @@ namespace SharpMember.Data.RepositoryBase
         Task<bool> CommitAsync();
     }
 
-    public class CommittableBase<TDbContext> : ICommittable where TDbContext : DbContext
+    public interface IUnitOfWork<TDbContext>: ICommittable where TDbContext : DbContext
+    {
+        TDbContext Context { get; }
+    }
+
+    public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext> where TDbContext : DbContext
     {
         private TDbContext _context;
         private readonly ILogger _logger;
 
-        public CommittableBase(TDbContext context, ILogger<ICommittable> logger)
+        public TDbContext Context { get { return _context; } }
+
+        public UnitOfWork(TDbContext context, ILogger<ICommittable> logger)
         {
             _context = context;
             _logger = logger;
