@@ -21,12 +21,10 @@ namespace SharpMember.Data.Repositories
 
     public class MemberRepository : RepositoryBase<Member, SqliteDbContext>, IMemberRepository
     {
-        private readonly ILoggerFactory _loggerFactory;
         private readonly IFullMemberSheetReadService _fullMemberSheetReadService;
 
-        public MemberRepository( IUnitOfWork<SqliteDbContext> uow, ILogger<MemberRepository> logger, IFullMemberSheetReadService fullMemberSheetReadService, ILoggerFactory loggerFactory) : base(uow, logger)
+        public MemberRepository( IUnitOfWork<SqliteDbContext> uow, ILogger<MemberRepository> logger, IFullMemberSheetReadService fullMemberSheetReadService) : base(uow, logger)
         {
-            this._loggerFactory = loggerFactory;
             this._fullMemberSheetReadService = fullMemberSheetReadService;
         }
 
