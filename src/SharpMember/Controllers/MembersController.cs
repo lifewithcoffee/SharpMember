@@ -54,7 +54,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Address,CeaseDate,ChineseName,City,Degree,Department,Email,EnglishName,Fax,GraduationYear,HomeTown,MemberNumber,NormalizedName,Occupation,Organization,Phone,QQ,RegisterDate,Remarks,Renewed,Skype,State,Wechat")] Member member)
+        public async Task<IActionResult> Create(Member member)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Address,CeaseDate,ChineseName,City,Degree,Department,Email,EnglishName,Fax,GraduationYear,HomeTown,MemberNumber,NormalizedName,Occupation,Organization,Phone,QQ,RegisterDate,Remarks,Renewed,Skype,State,Wechat")] Member member)
+        public async Task<IActionResult> Edit(int id, Member member)
         {
             if (id != member.Id)
             {

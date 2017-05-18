@@ -25,9 +25,9 @@ namespace SharpMember.Data.Models
         public string Address { get; set; }
         public string Department { get; set; }
         public string EducationalLevel { get; set; }
-        public DateTime EnrollmentYear { get; set; }
-        public DateTime GraduationYear { get; set; }
-        public string HomeTown { get; set; }
+        public DateTime EnrollmentDate { get; set; }
+        public DateTime GraduationDate { get; set; }
+        public string Birthplace { get; set; }
         public string Wechat { get; set; }
         public string QQ { get; set; }
         public string Skype { get; set; }
