@@ -35,7 +35,6 @@ namespace SharpMember.Data.Repositories
         public List<Member2> GetByProfileItem(string itemName, string itemValue)
         {
             return _memberProfileItemRepository.GetMany(i => i.ItemName == itemName && i.ItemValue == itemValue).Select(i => i.Member2).ToList();
-            
         }
 
         public void ImportFromExcel()

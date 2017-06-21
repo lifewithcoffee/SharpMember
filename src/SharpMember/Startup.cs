@@ -16,6 +16,8 @@ using SharpMember.Data.RepositoryBase;
 using SharpMember.Data.Repositories;
 using Npoi.Core.SS.UserModel;
 using SharpMember.Services.Excel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace SharpMember
 {
@@ -31,7 +33,7 @@ namespace SharpMember
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                builder.AddUserSecrets<Startup>();
             }
 
             builder.AddEnvironmentVariables();
@@ -65,12 +67,13 @@ namespace SharpMember
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();   // NOTE: declared as Transient for multithreading cases
             services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
             services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) //, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
