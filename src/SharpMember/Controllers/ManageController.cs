@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SharpMember.Data.Models;
+using SharpMember.Core.Data.Models;
 using SharpMember.Models.ManageViewModels;
 using SharpMember.Services;
 

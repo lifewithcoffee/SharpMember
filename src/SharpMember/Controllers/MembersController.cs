@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SharpMember.Data;
-using SharpMember.Data.Models;
-using SharpMember.Data.Repositories;
+using SharpMember.Core.Data;
+using SharpMember.Core.Data.Models;
+using SharpMember.Core.Data.Repositories;
 
 namespace SharpMember.Controllers
 {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SharpMember.Data.Migrations
+namespace SharpMember.Core.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

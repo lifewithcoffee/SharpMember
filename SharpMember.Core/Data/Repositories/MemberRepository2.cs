@@ -1,12 +1,12 @@
-﻿using SharpMember.Data.Models;
-using SharpMember.Data.RepositoryBase;
+﻿using SharpMember.Core.Data.Models;
+using SharpMember.Core.Data.RepositoryBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace SharpMember.Data.Repositories
+namespace SharpMember.Core.Data.Repositories
 {
     public interface IMemberRepository2 : IRepositoryBase<Member2,SqliteDbContext>
     {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Data.Models
+namespace SharpMember.Core.Data.Models
 {
     /// <summary>
     /// If there are multiple items for Phone, Address etc., separate them by ';'.

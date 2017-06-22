@@ -9,15 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SharpMember.Data;
-using SharpMember.Data.Models;
+using SharpMember.Core.Data;
 using SharpMember.Services;
-using SharpMember.Data.RepositoryBase;
-using SharpMember.Data.Repositories;
+using SharpMember.Core.Data.RepositoryBase;
+using SharpMember.Core.Data.Repositories;
 using Npoi.Core.SS.UserModel;
 using SharpMember.Services.Excel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using SharpMember.Core.Data.Models;
 
 namespace SharpMember
 {

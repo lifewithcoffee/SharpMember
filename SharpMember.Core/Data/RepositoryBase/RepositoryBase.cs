@@ -9,7 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace SharpMember.Data.RepositoryBase
+namespace SharpMember.Core.Data.RepositoryBase
 {
     /// <summary>
     /// Make up the missing methods for EntityFramework Core DbSet object.

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Npoi.Core.SS.UserModel;
-using SharpMember.Data.Models;
+using SharpMember.Core.Data.Models;
 using SharpMember.Utils;
 using System;
 using System.Collections.Generic;

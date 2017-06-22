@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SharpMember.Data.Models;
+using SharpMember.Core.Data.Models;
 using SharpMember.Global;
 
-namespace SharpMember.Data
+namespace SharpMember.Core.Data
 {
 
     public class BaseDbContext : IdentityDbContext<ApplicationUser>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace SharpMember.Data.Models
+namespace SharpMember.Core.Data.Models
 {
     public class GlobalSettings
     {

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpMember.Data.RepositoryBase
+namespace SharpMember.Core.Data.RepositoryBase
 {
     public interface ICommittable: IDisposable
     {

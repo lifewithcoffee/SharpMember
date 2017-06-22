@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SharpMember.Data.RepositoryBase;
-using SharpMember.Data.Models;
+using SharpMember.Core.Data.RepositoryBase;
+using SharpMember.Core.Data.Models;
 using SharpMember.Services.Excel;
 using System.IO;
 using Npoi.Core.SS.UserModel;
 using Npoi.Core.XSSF.UserModel;
 using Microsoft.Extensions.Logging;
 
-namespace SharpMember.Data.Repositories
+namespace SharpMember.Core.Data.Repositories
 {
     public interface IMemberRepository : IRepositoryBase<Member,SqliteDbContext>
     {
