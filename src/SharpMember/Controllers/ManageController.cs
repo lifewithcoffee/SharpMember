@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data.Models;
 using SharpMember.Models.ManageViewModels;
-using SharpMember.Services;
+using SharpMember.Core.Services;
 
 namespace SharpMember.Controllers
 {

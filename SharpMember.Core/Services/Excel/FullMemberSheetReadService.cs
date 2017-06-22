@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpMember.Services.Excel
+namespace SharpMember.Core.Services.Excel
 {
     public interface IZjuaaaExcelFileMemberReadService
     {
@@ -19,7 +19,7 @@ namespace SharpMember.Services.Excel
 
     public interface IFullMemberSheetReadService : IZjuaaaExcelFileMemberReadService { }
 
-    public class ZjuaaaExcelFileFullMemberSheetReadService : IFullMemberSheetReadService
+    public class FullMemberSheetReadService : IFullMemberSheetReadService
     {
         ILogger _logger;
 
@@ -42,7 +42,7 @@ namespace SharpMember.Services.Excel
         int[] phoneColumns = new int[] { 7, 8 };
         int[] NormalizedNameColumns = new int[] { 1, 2 };   // column 1: Family Name; column 2: Given Name
 
-        public ZjuaaaExcelFileFullMemberSheetReadService(ILogger<ZjuaaaExcelFileFullMemberSheetReadService> logger)
+        public FullMemberSheetReadService(ILogger<FullMemberSheetReadService> logger)
         {
             _logger = logger;
         }

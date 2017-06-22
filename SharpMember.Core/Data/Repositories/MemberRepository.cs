@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharpMember.Core.Data.RepositoryBase;
 using SharpMember.Core.Data.Models;
-using SharpMember.Services.Excel;
+using SharpMember.Core.Services.Excel;
 using System.IO;
 using Npoi.Core.SS.UserModel;
 using Npoi.Core.XSSF.UserModel;

@@ -10,14 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data;
-using SharpMember.Services;
-using SharpMember.Core.Data.RepositoryBase;
-using SharpMember.Core.Data.Repositories;
-using Npoi.Core.SS.UserModel;
-using SharpMember.Services.Excel;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
 using SharpMember.Core.Data.Models;
+using SharpMember.Core;
 
 namespace SharpMember
 {
@@ -60,16 +54,8 @@ namespace SharpMember
 
             services.AddMvc();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-            
-            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();   // NOTE: declared as Transient for multithreading cases
-            services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
-            services.AddScoped<IMemberRepository, MemberRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-
-            services.AddTransient<IFullMemberSheetReadService, ZjuaaaExcelFileFullMemberSheetReadService>();
+            services.AddCore(); // Add application services.
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

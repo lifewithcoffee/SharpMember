@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data.Models;
 using SharpMember.Models.AccountViewModels;
-using SharpMember.Services;
+using SharpMember.Core.Services;
 
 namespace SharpMember.Controllers
 {
