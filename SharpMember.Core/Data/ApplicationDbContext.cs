@@ -22,9 +22,9 @@ namespace SharpMember.Core.Data
         public DbSet<Branch> Branches { get; set; }
     }
 
-    public class ApplicationDbContext : BaseDbContext
+    public class SqlServerDbContext : BaseDbContext // renamed from the auto-generated ApplicationDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public SqlServerDbContext(DbContextOptions<SqlServerDbContext> options) : base(options) { }
     }
 
     public class SqliteDbContext : BaseDbContext
