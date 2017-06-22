@@ -15,7 +15,10 @@ namespace SharpMember.Data
         public BaseDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
-        public DbSet<Member> Members { get; set; }
+        public DbSet<Member> Members { get; set; }  // TODO: need to be removed when member2 gets stabled
+        public DbSet<Member2> Members2 { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Branch> Branches { get; set; }
     }
 
     public class ApplicationDbContext : BaseDbContext

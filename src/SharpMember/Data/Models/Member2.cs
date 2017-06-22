@@ -19,6 +19,6 @@ namespace SharpMember.Data.Models
     public class Member2 : MemberEntity2
     {
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual List<MemberProfileItem> MemberProfileItems { get; set; }
+        public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
     }
 }
