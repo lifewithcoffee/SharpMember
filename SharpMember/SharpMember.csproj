@@ -63,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpMember.Core\SharpMember.Core.csproj" />
+    <ProjectReference Include="..\SharpMember.Core\SharpMember.Core.csproj" />
   </ItemGroup>
 
 </Project>
