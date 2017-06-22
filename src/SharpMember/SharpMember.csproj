@@ -8,7 +8,6 @@
     <OutputType>Exe</OutputType>
     <PackageId>SharpMember</PackageId>
     <UserSecretsId>aspnet-SharpMember-9d0a6b27-2903-48e2-b618-3f0c3ff5a953</UserSecretsId>
-    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
 
