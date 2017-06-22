@@ -1,7 +1,0 @@
-
---------
-.| Scope
---------
-
-- Member management
-- Forum
