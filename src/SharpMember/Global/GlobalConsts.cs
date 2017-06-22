@@ -9,8 +9,12 @@ namespace SharpMember.Global
     {
         public const string SqliteDbFileName = "Members.sqlite";
 
+        private const string AuthRoleOrganizationManagerOnly = "OrganizationManager";
+        private const string AuthRoleBranchManagerOnly = "BranchManager";
+
         public const string AuthRoleAdmin = "Admin";
-        public const string AuthRoleOrganizationManager = "OrganizationManager";
-        public const string AuthRoleBranchManager = "BranchManager";
+        public const string AuthRoleMemberOnly = "MemberOnly";
+        public const string AuthRoleOrganizationManager = AuthRoleAdmin + "," + AuthRoleOrganizationManagerOnly;
+        public const string AuthRoleBranchManager = AuthRoleAdmin + "," + AuthRoleOrganizationManagerOnly + "," + AuthRoleBranchManagerOnly;
     }
 }
