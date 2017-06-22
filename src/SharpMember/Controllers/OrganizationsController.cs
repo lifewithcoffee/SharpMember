@@ -5,15 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using SharpMember.Global;
 
 namespace SharpMember.Controllers
 {
-    [Authorize(Roles = GlobalConsts.AuthRoleOrganizationManager)]
     public class OrganizationsController : Controller
     {
         // GET: Organizations
-        [Authorize(Roles = GlobalConsts.AuthRoleAdmin)]
         public ActionResult Index()
         {
             return View();
