@@ -8,5 +8,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace SharpMember.Core.Data.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser { }
+    public class ApplicationUser : IdentityUser
+    {
+        public virtual List<MemberProfile> MemberProfiles { get; set; } = new List<MemberProfile>();
+    }
 }

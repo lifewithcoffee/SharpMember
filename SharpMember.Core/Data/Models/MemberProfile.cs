@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Data.Models
 {
-    public class MemberEntity2
+    public class MemberProfileEntity
     {
         public int Id { get; set; } // some members may not have been assigned a member number, so an Id field is still required
         public int MemberNumber { get; set; }
@@ -16,7 +16,7 @@ namespace SharpMember.Core.Data.Models
         public string Remarks { get; set; }
     }
 
-    public class Member2 : MemberEntity2
+    public class MemberProfile : MemberProfileEntity
     {
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
