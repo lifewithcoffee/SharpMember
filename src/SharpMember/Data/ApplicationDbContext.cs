@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Data.Models;
+using SharpMember.Global;
 
 namespace SharpMember.Data
 {
@@ -33,7 +34,7 @@ namespace SharpMember.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=Members.sqlite");
+            optionsBuilder.UseSqlite($"Filename={GlobalConsts.SqliteDbFileName}");
             base.OnConfiguring(optionsBuilder);
         }
     }
