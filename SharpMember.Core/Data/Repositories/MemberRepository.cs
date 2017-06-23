@@ -42,7 +42,7 @@ namespace SharpMember.Core.Data.Repositories
 
             using (var fs = new FileStream(newFile, FileMode.Open, FileAccess.Read))
             {
-                var member = this._fullMemberSheetReadService.ReadRow(new XSSFWorkbook(fs)); // NOTICE: the excel file MUST not contain comments, otherwise an exception will throw out
+                var member = this._fullMemberSheetReadService.ReadRows(new XSSFWorkbook(fs)); // NOTICE: the excel file MUST not contain comments, otherwise an exception will throw out
             }
         }
     }

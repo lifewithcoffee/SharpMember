@@ -28,9 +28,14 @@ namespace SharpMember.Core
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        static public void AddCore(this IServiceCollection services)
+        static public void AddSharpMemberCore(this IServiceCollection services)
         {
             services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();   // NOTE: declared as Transient for multithreading cases
+            using (var client = new SqliteDbContext())
+            {
+                client.Database.EnsureCreated();
+            }
+
             services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
 
             services.AddRepositories();

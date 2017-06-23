@@ -14,7 +14,7 @@ namespace SharpMember.Core.Services.Excel
     {
         bool ValidateFile();
 
-        List<Member> ReadRow(IWorkbook workbook);
+        List<Member> ReadRows(IWorkbook workbook);
     }
 
     public interface IFullMemberSheetReadService : IZjuaaaExcelFileMemberReadService { }
@@ -47,7 +47,7 @@ namespace SharpMember.Core.Services.Excel
             _logger = logger;
         }
 
-        public List<Member> ReadRow(IWorkbook workbook)
+        public List<Member> ReadRows(IWorkbook workbook)
         {
             List<Member> result = new List<Member>();
 
