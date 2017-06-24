@@ -8,6 +8,7 @@ using SharpMember.Core.Services;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.RepositoryBase;
 using SharpMember.Core.Global;
+using SharpMember.Global;
 
 namespace SharpMember.Core
 {
@@ -35,7 +36,7 @@ namespace SharpMember.Core
             {
                 case eDatabaseType.Sqlite:
                     services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>();   // NOTE: declared as Transient for multithreading cases
-                    using (var client = new ApplicationDbContext())
+                    using (var client = new ApplicationDbContext($"Filename={GlobalConsts.SqliteDbFileName}"))
                     {
                         client.Database.EnsureCreated();
                     }
