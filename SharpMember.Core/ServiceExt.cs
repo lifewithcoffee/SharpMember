@@ -10,6 +10,9 @@ using SharpMember.Core.Data.RepositoryBase;
 using SharpMember.Core.Global;
 using SharpMember.Global;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SharpMember.Core.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SharpMember.Core
 {
@@ -31,7 +34,7 @@ namespace SharpMember.Core
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
-        static public void AddSharpMemberCore(this IServiceCollection services)
+        static public void AddSharpMemberCore(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             switch (GlobalConfigs.DatabaseType)
             {
@@ -41,12 +44,17 @@ namespace SharpMember.Core
                     );
                     break;
                 case eDatabaseType.SqlServer:
-                    // Do nothing here, the relevant work is done in Startup.ConfigureServices().
-                    // To avoid adding SqlServer EF dependency in SharpMember.Core project, it's decided not to move the code here.
+                    services.AddDbContext<ApplicationDbContext>(
+                        options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                    );
                     break;
                 default:
                     throw new Exception("Unknown database type for DbContext dependency injection");
             }
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddScoped<IUnitOfWork<ApplicationDbContext>, UnitOfWork<ApplicationDbContext>>();
 
