@@ -7,13 +7,13 @@ using System.Text;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberProfileRepository : IRepositoryBase<MemberProfile, SqliteDbContext>
+    public interface IMemberProfileRepository : IRepositoryBase<MemberProfile, ApplicationDbContext>
     {
     }
 
-    public class MemberProfileRepository : RepositoryBase<MemberProfile, SqliteDbContext>, IMemberProfileRepository
+    public class MemberProfileRepository : RepositoryBase<MemberProfile, ApplicationDbContext>, IMemberProfileRepository
     {
-        public MemberProfileRepository(IUnitOfWork<SqliteDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public MemberProfileRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger)
         {
         }
     }

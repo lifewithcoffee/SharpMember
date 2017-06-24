@@ -8,19 +8,19 @@ using Microsoft.Extensions.Logging;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberRepository2 : IRepositoryBase<MemberProfile,SqliteDbContext>
+    public interface IMemberRepository2 : IRepositoryBase<MemberProfile,ApplicationDbContext>
     {
         MemberProfile GetByMemberNumber(int memberNumber);
         void ImportFromExcel();
         List<MemberProfile> GetByProfileItem(string itemName, string itemValue);
     }
 
-    public class MemberRepository2 : RepositoryBase<MemberProfile, SqliteDbContext>, IMemberRepository2
+    public class MemberRepository2 : RepositoryBase<MemberProfile, ApplicationDbContext>, IMemberRepository2
     {
         IMemberProfileItemRepository _memberProfileItemRepository;
 
         public MemberRepository2(
-            IUnitOfWork<SqliteDbContext> unitOfWork,
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
             ILogger logger,
             IMemberProfileItemRepository memberProfileItemRepository) : base(unitOfWork, logger)
         {

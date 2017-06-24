@@ -8,10 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberProfileItemRepository : IRepositoryBase<MemberProfileItem, SqliteDbContext> { }
+    public interface IMemberProfileItemRepository : IRepositoryBase<MemberProfileItem, ApplicationDbContext> { }
 
-    public class MemberProfileItemRepository : RepositoryBase<MemberProfileItem, SqliteDbContext>, IMemberProfileItemRepository
+    public class MemberProfileItemRepository : RepositoryBase<MemberProfileItem, ApplicationDbContext>, IMemberProfileItemRepository
     {
-        public MemberProfileItemRepository(IUnitOfWork<SqliteDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+        public MemberProfileItemRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
     }
 }

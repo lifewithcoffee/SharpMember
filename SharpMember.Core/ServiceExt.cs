@@ -7,6 +7,7 @@ using SharpMember.Core.Services.Excel;
 using SharpMember.Core.Services;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.RepositoryBase;
+using SharpMember.Core.Global;
 
 namespace SharpMember.Core
 {
@@ -30,13 +31,24 @@ namespace SharpMember.Core
 
         static public void AddSharpMemberCore(this IServiceCollection services)
         {
-            services.AddEntityFrameworkSqlite().AddDbContext<SqliteDbContext>();   // NOTE: declared as Transient for multithreading cases
-            using (var client = new SqliteDbContext())
+            switch (GlobalConfigs.DatabaseType)
             {
-                client.Database.EnsureCreated();
+                case eDatabaseType.Sqlite:
+                    services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>();   // NOTE: declared as Transient for multithreading cases
+                    using (var client = new ApplicationDbContext())
+                    {
+                        client.Database.EnsureCreated();
+                    }
+                    break;
+                case eDatabaseType.SqlServer:
+                    // Do nothing here, the relevant work is done in Startup.ConfigureServices().
+                    // To avoid adding SqlServer EF dependency in SharpMember.Core project, it's decided not to move the code here.
+                    break;
+                default:
+                    throw new Exception("Unknown database type for DbContext dependency injection");
             }
 
-            services.AddScoped<IUnitOfWork<SqliteDbContext>, UnitOfWork<SqliteDbContext>>();
+            services.AddScoped<IUnitOfWork<ApplicationDbContext>, UnitOfWork<ApplicationDbContext>>();
 
             services.AddRepositories();
             services.AddServices();

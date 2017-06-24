@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core;
+using SharpMember.Core.Global;
 
 namespace SharpMember
 {
@@ -39,16 +40,23 @@ namespace SharpMember
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddDbContext<SqlServerDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            if(GlobalConfigs.DatabaseType == eDatabaseType.SqlServer)
+            {
+                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+                using(var client = new ApplicationDbContext(Configuration.GetConnectionString("DefaultConnection")))
+                {
+                    client.Database.EnsureCreated();
+                }
+            }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<SqlServerDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
             services.AddSharpMemberCore();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

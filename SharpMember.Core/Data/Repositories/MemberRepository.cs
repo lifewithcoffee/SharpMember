@@ -12,18 +12,18 @@ using Microsoft.Extensions.Logging;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberRepository : IRepositoryBase<Member,SqliteDbContext>
+    public interface IMemberRepository : IRepositoryBase<Member,ApplicationDbContext>
     {
         Member GetByMemberNumber(int memberNumber);
         void ImportFromExcel();
     }
 
-    public class MemberRepository : RepositoryBase<Member, SqliteDbContext>, IMemberRepository
+    public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
     {
         private readonly IFullMemberSheetReadService _fullMemberSheetReadService;
 
         public MemberRepository(
-            IUnitOfWork<SqliteDbContext> unitOfWork, 
+            IUnitOfWork<ApplicationDbContext> unitOfWork, 
             ILogger<MemberRepository> logger, 
             IFullMemberSheetReadService fullMemberSheetReadService): base(unitOfWork, logger)
         {

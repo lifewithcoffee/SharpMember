@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data.Models;
 using SharpMember.Global;
+using System.Data.SqlClient;
+using SharpMember.Utils;
+using SharpMember.Core.Global;
 
 namespace SharpMember.Core.Data
 {
@@ -22,19 +25,41 @@ namespace SharpMember.Core.Data
         public DbSet<Branch> Branches { get; set; }
     }
 
-    public class SqlServerDbContext : BaseDbContext // renamed from the auto-generated ApplicationDbContext
-    {
-        public SqlServerDbContext(DbContextOptions<SqlServerDbContext> options) : base(options) { }
-    }
+    //public class SqlServerDbContext : BaseDbContext // renamed from the auto-generated ApplicationDbContext
+    //{
+    //    public SqlServerDbContext(string connectionString)
+    //    : this(new DbContextOptionsBuilder<SqlServerDbContext>().UseSqlServer(new SqlConnection(connectionString)).Options)
+    //    { }
 
-    public class SqliteDbContext : BaseDbContext
+    //    public SqlServerDbContext(DbContextOptions<SqlServerDbContext> options) : base(options) { }
+    //}
+
+    public class ApplicationDbContext : BaseDbContext
     {
-        public SqliteDbContext() { }
-        public SqliteDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext()
+        {
+            Ensure.IsTrue(GlobalConfigs.DatabaseType == eDatabaseType.Sqlite);  // if this constructor is called, the database type must be sqlite
+        }
+
+        //public ApplicationDbContext(DbContextOptions options) : base(options) { }
+
+        public ApplicationDbContext(string connectionString): this(
+            new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseSqlServer( new SqlConnection(connectionString) )
+            .Options )
+        {
+            Ensure.IsTrue(GlobalConfigs.DatabaseType == eDatabaseType.SqlServer);    // if this constructor is called, the database type must be sqlserver
+        }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={GlobalConsts.SqliteDbFileName}");
+            if(GlobalConfigs.DatabaseType == eDatabaseType.Sqlite)
+            {
+                optionsBuilder.UseSqlite($"Filename={GlobalConsts.SqliteDbFileName}");
+            }
+
             base.OnConfiguring(optionsBuilder);
         }
     }
