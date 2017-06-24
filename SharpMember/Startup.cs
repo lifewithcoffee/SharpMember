@@ -10,9 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data;
-using SharpMember.Core.Data.Models;
 using SharpMember.Core;
-using SharpMember.Core.Global;
 
 namespace SharpMember
 {
@@ -65,7 +63,7 @@ namespace SharpMember
 
             app.UseIdentity();
 
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {
