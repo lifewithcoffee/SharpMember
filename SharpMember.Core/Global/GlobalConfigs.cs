@@ -13,7 +13,6 @@ namespace SharpMember.Core.Global
 
     static public class GlobalConfigs
     {
-        //static public eDatabaseType DatabaseType { get; set; } = eDatabaseType.Sqlite;
-        static public eDatabaseType DatabaseType { get; set; } = eDatabaseType.SqlServer;
+        static public eDatabaseType DatabaseType { get; set; } = eDatabaseType.Sqlite;
     }
 }

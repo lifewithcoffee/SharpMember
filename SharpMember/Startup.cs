@@ -43,12 +43,9 @@ namespace SharpMember
 
             if(GlobalConfigs.DatabaseType == eDatabaseType.SqlServer)
             {
-                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-                using(var client = new ApplicationDbContext(Configuration.GetConnectionString("DefaultConnection")))
-                {
-                    client.Database.EnsureCreated();
-                }
+                services.AddDbContext<ApplicationDbContext>(
+                    options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                );
             }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -60,7 +57,7 @@ namespace SharpMember
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) //, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -88,6 +85,8 @@ namespace SharpMember
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
         }
     }
 }
