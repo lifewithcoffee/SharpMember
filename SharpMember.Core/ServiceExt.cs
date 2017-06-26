@@ -30,7 +30,10 @@ namespace SharpMember.Core
         
         static private void AddServices(this IServiceCollection services)
         {
+            services.AddTransient<IFullMemberPageReader, FullMemberPageReader>();
             services.AddTransient<IZjuaaaMemberExcelFileReadService, ZjuaaaMemberExcelFileReadService>();
+            services.AddTransient<IAssociatedMemberPageReader, AssociatedMemberPageReader>();
+
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
