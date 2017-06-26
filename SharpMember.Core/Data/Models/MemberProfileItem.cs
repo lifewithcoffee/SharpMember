@@ -16,6 +16,6 @@ namespace SharpMember.Core.Data.Models
 
     public class MemberProfileItem : MemberProfileItemEntity
     {
-        public virtual MemberProfile Member2 { get; set; }
+        public virtual MemberProfile MemberProfile { get; set; }
     }
 }
