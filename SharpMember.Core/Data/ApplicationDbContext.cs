@@ -17,6 +17,7 @@ namespace SharpMember.Core.Data
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
         public DbSet<Member> Members { get; set; }  // TODO: need to be removed when member2 gets stabled
         public DbSet<MemberProfile> MemberProfiles { get; set; }
+        public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Branch> Branches { get; set; }
 
