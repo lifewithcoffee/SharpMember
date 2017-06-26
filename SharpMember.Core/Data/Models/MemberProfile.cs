@@ -18,6 +18,7 @@ namespace SharpMember.Core.Data.Models
 
     public class MemberProfile : MemberProfileEntity
     {
+        public virtual Branch Branch { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
     }

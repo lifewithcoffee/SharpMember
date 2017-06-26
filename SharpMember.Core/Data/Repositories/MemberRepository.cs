@@ -14,7 +14,6 @@ namespace SharpMember.Core.Data.Repositories
 {
     public interface IMemberRepository : IRepositoryBase<Member,ApplicationDbContext>
     {
-        Member GetByMemberNumber(int memberNumber);
         void ImportFromExcel();
     }
 
@@ -28,11 +27,6 @@ namespace SharpMember.Core.Data.Repositories
             IFullMemberSheetReadService fullMemberSheetReadService): base(unitOfWork, logger)
         {
             this._fullMemberSheetReadService = fullMemberSheetReadService;
-        }
-
-        public Member GetByMemberNumber(int memberNumber)
-        {
-            return this._unitOfWork.Context.Members.Single(i => i.MemberNumber == memberNumber);
         }
 
         public void ImportFromExcel()

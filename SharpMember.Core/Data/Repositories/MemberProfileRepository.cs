@@ -11,20 +11,26 @@ namespace SharpMember.Core.Data.Repositories
 {
     public interface IMemberProfileRepository : IRepositoryBase<MemberProfile, ApplicationDbContext>
     {
+        MemberProfile GetOrganizationMemberByMemberNumber(int orgId, int memberNumber);
         IQueryable<MemberProfile> GetOrganizationMembers(int orgId, Expression<Func<MemberProfile, bool>> where);
-        IQueryable<MemberProfile> GetOrganizationMembersByItemValue(int orgId, string itemValue);
+        IQueryable<MemberProfile> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue);
     }
 
     public class MemberProfileRepository : RepositoryBase<MemberProfile, ApplicationDbContext>, IMemberProfileRepository
     {
         public MemberProfileRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
 
+        public MemberProfile GetOrganizationMemberByMemberNumber(int orgId, int memberNumber)
+        {
+            return this.GetMany(m => m.MemberNumber == memberNumber && m.Branch.Organization.Id == orgId).SingleOrDefault();
+        }
+
         public IQueryable<MemberProfile> GetOrganizationMembers(int orgId, Expression<Func<MemberProfile, bool>> where)
         {
             return this.UnitOfWork.Context.Branches.Where(b => b.Organization.Id == orgId).SelectMany(b => b.Members).Where(where);
         }
 
-        public IQueryable<MemberProfile> GetOrganizationMembersByItemValue(int orgId, string itemValue)
+        public IQueryable<MemberProfile> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue)
         {
             return from item in this.UnitOfWork.Context.MemberProfileItems
                    where item.ItemValue.Contains(itemValue)
