@@ -20,6 +20,7 @@ namespace SharpMember.Core.Data
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<CommunityEvent> CommunityEvent { get; set; }
 
         private static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
         {

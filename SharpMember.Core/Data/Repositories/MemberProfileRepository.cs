@@ -9,7 +9,11 @@ using System.Linq.Expressions;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberProfileRepository : IRepositoryBase<MemberProfile, ApplicationDbContext> { }
+    public interface IMemberProfileRepository : IRepositoryBase<MemberProfile, ApplicationDbContext>
+    {
+        IQueryable<MemberProfile> GetOrganizationMembers(int orgId, Expression<Func<MemberProfile, bool>> where);
+        IQueryable<MemberProfile> GetOrganizationMembersByItemValue(int orgId, string itemValue);
+    }
 
     public class MemberProfileRepository : RepositoryBase<MemberProfile, ApplicationDbContext>, IMemberProfileRepository
     {
