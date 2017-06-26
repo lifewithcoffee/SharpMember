@@ -137,10 +137,13 @@ namespace SharpMember.Core.Data.RepositoryBase
         where TEntity : class 
         where TDbContext : DbContext
     {
-        protected readonly IUnitOfWork<TDbContext> _unitOfWork;
-        protected readonly ILogger _logger;
-
+        private readonly IUnitOfWork<TDbContext> _unitOfWork;
+        private readonly ILogger _logger;
         private readonly DbSet<TEntity> dbSet;
+
+        protected IUnitOfWork<TDbContext> UnitOfWork { get { return _unitOfWork; } }
+        protected ILogger Logger { get { return _logger; } }
+        protected DbSet<TEntity> DbSet { get { return DbSet; } }
 
         public RepositoryBase(IUnitOfWork<TDbContext> unitOfWork, ILogger logger)
         {
