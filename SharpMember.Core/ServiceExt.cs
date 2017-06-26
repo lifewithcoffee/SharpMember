@@ -23,7 +23,6 @@ namespace SharpMember.Core
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
             services.AddScoped<IMemberProfileRepository, MemberProfileRepository>();
-            services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -31,7 +30,7 @@ namespace SharpMember.Core
         
         static private void AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IFullMemberSheetReadService, FullMemberSheetReadService>();
+            services.AddTransient<IZjuaaaMemberExcelFileReadService, ZjuaaaMemberExcelFileReadService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

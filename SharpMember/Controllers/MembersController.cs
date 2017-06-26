@@ -7,23 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models;
-using SharpMember.Core.Data.Repositories;
 
 namespace SharpMember.Controllers
 {
     public class MembersController : Controller
     {
-        private readonly IMemberRepository _memberRepoitory;
+        private readonly ApplicationDbContext _context;
 
-        public MembersController(IMemberRepository memberRepository)
+        public MembersController(ApplicationDbContext context)
         {
-            _memberRepoitory = memberRepository;
+            _context = context;    
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _memberRepoitory.GetAll().ToListAsync());
+            return View(await _context.MemberProfiles.ToListAsync());
         }
 
         // GET: Members/Details/5
@@ -34,13 +33,14 @@ namespace SharpMember.Controllers
                 return NotFound();
             }
 
-            var member = await _memberRepoitory.GetByIdAsync(id);
-            if (member == null)
+            var memberProfile = await _context.MemberProfiles
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (memberProfile == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(memberProfile);
         }
 
         // GET: Members/Create
@@ -54,16 +54,15 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Member member)
+        public async Task<IActionResult> Create([Bind("Id,MemberNumber,Renewed,RegisterDate,CeaseDate,Name,Remarks")] MemberProfile memberProfile)
         {
             if (ModelState.IsValid)
             {
-                _memberRepoitory.Add(member);
-                //await _context.SaveChangesAsync();
-                await _memberRepoitory.CommitAsync();
+                _context.Add(memberProfile);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(member);
+            return View(memberProfile);
         }
 
         // GET: Members/Edit/5
@@ -74,13 +73,12 @@ namespace SharpMember.Controllers
                 return NotFound();
             }
 
-            //var member = await _context.Members.SingleOrDefaultAsync(m => m.Id == id);
-            var member = await _memberRepoitory.GetByIdAsync(id);
-            if (member == null)
+            var memberProfile = await _context.MemberProfiles.SingleOrDefaultAsync(m => m.Id == id);
+            if (memberProfile == null)
             {
                 return NotFound();
             }
-            return View(member);
+            return View(memberProfile);
         }
 
         // POST: Members/Edit/5
@@ -88,9 +86,9 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MemberNumber,Renewed,RegisterDate,CeaseDate,Name,Remarks")] MemberProfile memberProfile)
         {
-            if (id != member.Id)
+            if (id != memberProfile.Id)
             {
                 return NotFound();
             }
@@ -99,14 +97,12 @@ namespace SharpMember.Controllers
             {
                 try
                 {
-                    //_context.Update(member);
-                    //await _context.SaveChangesAsync();
-                    _memberRepoitory.Update(member);
-                    await _memberRepoitory.CommitAsync();
+                    _context.Update(memberProfile);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _memberRepoitory.ExistAsync(e => e.Id == member.Id))
+                    if (!MemberProfileExists(memberProfile.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +113,7 @@ namespace SharpMember.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(member);
+            return View(memberProfile);
         }
 
         // GET: Members/Delete/5
@@ -128,14 +124,14 @@ namespace SharpMember.Controllers
                 return NotFound();
             }
 
-            //var member = await _context.Members.SingleOrDefaultAsync(m => m.Id == id);
-            var member = await _memberRepoitory.GetByIdAsync(id);
-            if (member == null)
+            var memberProfile = await _context.MemberProfiles
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (memberProfile == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(memberProfile);
         }
 
         // POST: Members/Delete/5
@@ -143,19 +139,15 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var member = await _context.Members.SingleOrDefaultAsync(m => m.Id == id);
-            //_context.Members.Remove(member);
-            //await _context.SaveChangesAsync();
-
-            var member = await _memberRepoitory.GetByIdAsync(id);
-            _memberRepoitory.Delete(member);
+            var memberProfile = await _context.MemberProfiles.SingleOrDefaultAsync(m => m.Id == id);
+            _context.MemberProfiles.Remove(memberProfile);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        //private async Task<bool> MemberExists(int id)
-        //{
-        //    //return _context.Members.Any(e => e.Id == id);
-        //    return await _memberRepoitory.ExistAsync(e => e.Id == id);
-        //}
+        private bool MemberProfileExists(int id)
+        {
+            return _context.MemberProfiles.Any(e => e.Id == id);
+        }
     }
 }

@@ -12,32 +12,32 @@ using Microsoft.Extensions.Logging;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberRepository : IRepositoryBase<Member,ApplicationDbContext>
-    {
-        void ImportFromExcel();
-    }
+    //public interface IMemberRepository : IRepositoryBase<Member,ApplicationDbContext>
+    //{
+    //    void ImportFromExcel();
+    //}
 
-    public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
-    {
-        private readonly IFullMemberSheetReadService _fullMemberSheetReadService;
+    //public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
+    //{
+    //    private readonly IFullMemberSheetReadService _fullMemberSheetReadService;
 
-        public MemberRepository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork, 
-            ILogger<MemberRepository> logger, 
-            IFullMemberSheetReadService fullMemberSheetReadService): base(unitOfWork, logger)
-        {
-            this._fullMemberSheetReadService = fullMemberSheetReadService;
-        }
+    //    public MemberRepository(
+    //        IUnitOfWork<ApplicationDbContext> unitOfWork, 
+    //        ILogger<MemberRepository> logger, 
+    //        IFullMemberSheetReadService fullMemberSheetReadService): base(unitOfWork, logger)
+    //    {
+    //        this._fullMemberSheetReadService = fullMemberSheetReadService;
+    //    }
 
-        public void ImportFromExcel()
-        {
-            //var newFile = @"C:\_temp\校友会机构会员注册清单 revision 2016-12-21.xlsx";
-            var newFile = @"C:\_temp\test.xlsx";
+    //    public void ImportFromExcel()
+    //    {
+    //        //var newFile = @"C:\_temp\校友会机构会员注册清单 revision 2016-12-21.xlsx";
+    //        var newFile = @"C:\_temp\test.xlsx";
 
-            using (var fs = new FileStream(newFile, FileMode.Open, FileAccess.Read))
-            {
-                var member = this._fullMemberSheetReadService.ReadRows(new XSSFWorkbook(fs)); // NOTICE: the excel file MUST not contain comments, otherwise an exception will throw out
-            }
-        }
-    }
+    //        using (var fs = new FileStream(newFile, FileMode.Open, FileAccess.Read))
+    //        {
+    //            var member = this._fullMemberSheetReadService.ReadFullMembers(new XSSFWorkbook(fs)); // NOTICE: the excel file MUST not contain comments, otherwise an exception will throw out
+    //        }
+    //    }
+    //}
 }

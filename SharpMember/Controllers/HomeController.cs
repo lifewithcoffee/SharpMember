@@ -23,11 +23,11 @@ namespace SharpMember.Controllers
             return View();
         }
 
-        public IActionResult About([FromServices] IMemberRepository memberService)
+        public IActionResult About([FromServices] IZjuaaaMemberExcelFileReadService excelReadService)
         {
             ViewData["Message"] = "Your application description page!";
 
-            memberService.ImportFromExcel();
+            excelReadService.ImportFromExcel(@"C:\_temp\test.xlsx");
 
             return View();
         }

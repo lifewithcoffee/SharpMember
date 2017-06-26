@@ -15,15 +15,17 @@ namespace SharpMember.Core.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
-        public DbSet<Member> Members { get; set; }  // TODO: need to be removed when member2 gets stabled
         public DbSet<MemberProfile> MemberProfiles { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Branch> Branches { get; set; }
-        public DbSet<CommunityEvent> CommunityEvent { get; set; }
+        public DbSet<CommunityEvent> CommunityEvents { get; set; }
+        public DbSet<Club> Clubs { get; set; }
 
         private static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
         {
+            if (string.IsNullOrWhiteSpace(connectionString)) connectionString = $"Filename={GlobalConsts.SqliteDbFileName}";
+
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
             if (GlobalConfigs.DatabaseType == eDatabaseType.Sqlite)
@@ -38,7 +40,11 @@ namespace SharpMember.Core.Data
             return optionsBuilder.Options;
         }
 
-        public ApplicationDbContext(string connectionString) : base(GetOptionsFromConnectionString(connectionString)) { }
+        /**
+         * The following constructor will cause mvc scaffolding to throw out exception of "Unable to resolve service for type 'System.String'"
+         * when choose "MVC Controller with read/write actions"
+         */
+        //public ApplicationDbContext(string connectionString) : base(GetOptionsFromConnectionString(connectionString)) { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }

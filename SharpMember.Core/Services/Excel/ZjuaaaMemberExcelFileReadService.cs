@@ -1,25 +1,23 @@
 ﻿using Microsoft.Extensions.Logging;
 using Npoi.Core.SS.UserModel;
+using Npoi.Core.XSSF.UserModel;
 using SharpMember.Core.Data.Models;
 using SharpMember.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SharpMember.Core.Services.Excel
 {
-    public interface IZjuaaaExcelFileMemberReadService
+    public interface IZjuaaaMemberExcelFileReadService
     {
-        bool ValidateFile();
-
-        List<Member> ReadRows(IWorkbook workbook);
+        void ImportFromExcel(string filePath);
     }
 
-    public interface IFullMemberSheetReadService : IZjuaaaExcelFileMemberReadService { }
-
-    public class FullMemberSheetReadService : IFullMemberSheetReadService
+    public class ZjuaaaMemberExcelFileReadService : IZjuaaaMemberExcelFileReadService
     {
         ILogger _logger;
 
@@ -42,12 +40,25 @@ namespace SharpMember.Core.Services.Excel
         int[] phoneColumns = new int[] { 7, 8 };
         int[] NormalizedNameColumns = new int[] { 1, 2 };   // column 1: Family Name; column 2: Given Name
 
-        public FullMemberSheetReadService(ILogger<FullMemberSheetReadService> logger)
+        public ZjuaaaMemberExcelFileReadService(ILogger<ZjuaaaMemberExcelFileReadService> logger)
         {
             _logger = logger;
         }
 
-        public List<Member> ReadRows(IWorkbook workbook)
+        public void ImportFromExcel(string filePath)
+        {
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                var member = this.ReadFullMembers(new XSSFWorkbook(fs)); // NOTICE: the excel file MUST not contain comments, otherwise an exception will throw out
+            }
+        }
+
+        private List<Member> ReadAssociatedMembers(IWorkbook workbook)
+        {
+            throw new NotImplementedException();
+        }
+
+        private List<Member> ReadFullMembers(IWorkbook workbook)
         {
             List<Member> result = new List<Member>();
 
