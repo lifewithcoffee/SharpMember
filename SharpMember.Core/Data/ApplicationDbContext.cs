@@ -47,5 +47,12 @@ namespace SharpMember.Core.Data
         //public ApplicationDbContext(string connectionString) : base(GetOptionsFromConnectionString(connectionString)) { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ClubMemberProfileRelation>().HasKey(c => new { c.ClubId, c.MemberProfileId });
+
+            base.OnModelCreating(builder);
+        }
     }
 }
