@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models
+namespace SharpMember.Core.Data.Models.MemberManagement
 {
-    public class MemberProfileItemEntity
+    public class ProfileItemEntity
     {
         [Key]
         public string ItemName { get; set; }
@@ -14,7 +14,7 @@ namespace SharpMember.Core.Data.Models
         public string ItemValue { get; set; }
     }
 
-    public class MemberProfileItem : MemberProfileItemEntity
+    public class ProfileItem : ProfileItemEntity
     {
         public virtual MemberProfile MemberProfile { get; set; }
     }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SharpMember.Core.Data.Models.MemberManagement;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models
+namespace SharpMember.Core.Data.Models.EventManagement
 {
-    public class CommunityEventEntity
+    public class ClubEventEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -12,7 +13,7 @@ namespace SharpMember.Core.Data.Models
         public string Address { get; set; }
     }
 
-    public class CommunityEvent : CommunityEventEntity
+    public class ClubEvent : ClubEventEntity
     {
         public virtual Organization Organization { get; set; }
         public virtual Branch Branch { get; set; }

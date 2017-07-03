@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SharpMember.Core.Data.Models.MemberManagement;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models
+namespace SharpMember.Core.Data.Models.EventManagement
 {
     public class ClubMemberProfileRelation
     {

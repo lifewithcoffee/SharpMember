@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models
+namespace SharpMember.Core.Data.Models.TaskManagement
 {
     public class CheckListItemEntity
     {

@@ -1,11 +1,11 @@
-﻿using SharpMember.Core.Data.Models;
-using SharpMember.Core.Data.RepositoryBase;
+﻿using SharpMember.Core.Data.RepositoryBase;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Linq.Expressions;
+using SharpMember.Core.Data.Models.MemberManagement;
 
 namespace SharpMember.Core.Data.Repositories
 {

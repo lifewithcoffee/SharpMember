@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models
+namespace SharpMember.Core.Data.Models.MemberManagement
 {
     public class OrganizationEntity
     {

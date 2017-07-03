@@ -1,17 +1,19 @@
-﻿using System;
+﻿using SharpMember.Core.Data.Models.TaskManagement;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models
+namespace SharpMember.Core.Data.Models.TaskManagement
 {
-    public class CommentEntity
+    public class TaskCommentEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public DateTime DateTime { get; set; }
     }
 
-    public class Comment : CommentEntity
+    public class TaskComment : TaskCommentEntity
     {
         public virtual WorkTask WorkTask { get; set; }
     }

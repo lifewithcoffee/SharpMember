@@ -9,6 +9,9 @@ using SharpMember.Global;
 using System.Data.SqlClient;
 using SharpMember.Utils;
 using SharpMember.Core.Global;
+using SharpMember.Core.Data.Models.MemberManagement;
+using SharpMember.Core.Data.Models.EventManagement;
+using SharpMember.Core.Data.Models.TaskManagement;
 
 namespace SharpMember.Core.Data
 {
@@ -16,10 +19,10 @@ namespace SharpMember.Core.Data
     {
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
         public DbSet<MemberProfile> MemberProfiles { get; set; }
-        public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
+        public DbSet<ProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Branch> Branches { get; set; }
-        public DbSet<CommunityEvent> CommunityEvents { get; set; }
+        public DbSet<ClubEvent> CommunityEvents { get; set; }
         public DbSet<Club> Clubs { get; set; }
 
         private static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
@@ -51,6 +54,7 @@ namespace SharpMember.Core.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ClubMemberProfileRelation>().HasKey(c => new { c.ClubId, c.MemberProfileId });
+            builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
 
             base.OnModelCreating(builder);
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models;
+using SharpMember.Core.Data.Models.MemberManagement;
 
 namespace SharpMember.Controllers
 {
