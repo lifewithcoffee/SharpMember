@@ -18,8 +18,8 @@ namespace SharpMember.Core.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
-        public DbSet<MemberProfile> MemberProfiles { get; set; }
-        public DbSet<ProfileItem> MemberProfileItems { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<ClubEvent> CommunityEvents { get; set; }
@@ -53,7 +53,7 @@ namespace SharpMember.Core.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ClubMemberProfileRelation>().HasKey(c => new { c.ClubId, c.MemberProfileId });
+            builder.Entity<ClubMemberRelation>().HasKey(c => new { c.ClubId, c.MemberId });
             builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
 
             base.OnModelCreating(builder);

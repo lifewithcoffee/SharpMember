@@ -16,6 +16,6 @@ namespace SharpMember.Core.Data.Models.EventManagement
     public class Club: ClubEntity
     {
         public virtual Branch Branch { get; set; }
-        public virtual List<ClubMemberProfileRelation> ClubMemberProfileRelations { get; set; } = new List<ClubMemberProfileRelation>();
+        public virtual List<ClubMemberRelation> ClubMemberRelations { get; set; } = new List<ClubMemberRelation>();
     }
 }

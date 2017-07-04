@@ -9,9 +9,9 @@ using SharpMember.Core.Data.Models.MemberManagement;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IMemberProfileItemRepository : IRepositoryBase<ProfileItem, ApplicationDbContext> { }
+    public interface IMemberProfileItemRepository : IRepositoryBase<MemberProfileItem, ApplicationDbContext> { }
 
-    public class MemberProfileItemRepository : RepositoryBase<ProfileItem, ApplicationDbContext>, IMemberProfileItemRepository
+    public class MemberProfileItemRepository : RepositoryBase<MemberProfileItem, ApplicationDbContext>, IMemberProfileItemRepository
     {
         public MemberProfileItemRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
     }

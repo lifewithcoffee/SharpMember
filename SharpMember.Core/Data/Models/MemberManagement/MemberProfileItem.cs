@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Data.Models.MemberManagement
 {
-    public class ProfileItemEntity
+    public class MemberProfileItemEntity
     {
         [Key]
         public string ItemName { get; set; }
@@ -14,8 +14,8 @@ namespace SharpMember.Core.Data.Models.MemberManagement
         public string ItemValue { get; set; }
     }
 
-    public class ProfileItem : ProfileItemEntity
+    public class MemberProfileItem : MemberProfileItemEntity
     {
-        public virtual MemberProfile MemberProfile { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

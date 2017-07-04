@@ -13,21 +13,21 @@ namespace SharpMember.Core.Services
 
     public class AccountService : IAccountService
     {
-        private readonly IMemberProfileRepository _memberProfileRepository;
+        private readonly IMemberRepository _memberRepository;
         private readonly IUserRepository _userRepository;
 
-        public AccountService(IMemberProfileRepository memberProfileRepository, IUserRepository userRepository)
+        public AccountService(IMemberRepository memberRepository, IUserRepository userRepository)
         {
-            this._memberProfileRepository = memberProfileRepository;
+            this._memberRepository = memberRepository;
             this._userRepository = userRepository;
         }
 
         public async Task AttachProfileToUserAsync(int userId, int profileId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            var profile = await _memberProfileRepository.GetByIdAsync(profileId);
+            var profile = await _memberRepository.GetByIdAsync(profileId);
 
-            user.MemberProfiles.Add(profile);
+            user.Members.Add(profile);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace SharpMember.Core
         {
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
-            services.AddScoped<IMemberProfileRepository, MemberProfileRepository>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 

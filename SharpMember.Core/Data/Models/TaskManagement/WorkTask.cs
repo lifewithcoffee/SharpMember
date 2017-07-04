@@ -23,8 +23,8 @@ namespace SharpMember.Core.Data.Models.TaskManagement
 
         public virtual List<WorkTaskLabelRelation> WorkTaskLabelRelations { get; set; } = new List<WorkTaskLabelRelation>();
 
-        public virtual MemberProfile WorkTaskCreator { get; set; }
-        public virtual MemberProfile WorkTaskOwner { get; set; }
+        public virtual Member WorkTaskCreator { get; set; }
+        public virtual Member WorkTaskOwner { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }    // for user's private tasks
 
         public virtual Milestone Milestone { get; set; }
