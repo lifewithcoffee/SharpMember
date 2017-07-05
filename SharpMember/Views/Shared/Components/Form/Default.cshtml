@@ -1,0 +1,67 @@
+@model SharpMember.ViewComponents.FormViewComponentModel
+
+@using System.Reflection;
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>MemberProfile</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @foreach (var item in Model.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            var typecode = Type.GetTypeCode(item.PropertyType);
+            switch (typecode)
+            {
+                case TypeCode.Boolean:
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                <input class="check-box" id="@item.Name" name="@item.Name" type="checkbox" />
+                                <label for="@item.Name">@item.Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    break;
+
+                case TypeCode.Object:
+                    if (item.PropertyType == typeof(DateTime?))
+                    {
+                        <div class="form-group">
+                            <label for="@item.Name" class="col-md-2 control-label">@item.Name</label>
+                            <div class="col-md-10">
+                                <input id="@item.Name" name="@item.Name" class="form-control" />
+                                <span asp-validation-for="@item.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                    break;
+
+                default:
+                    if (item.Name != "Id")
+                    {
+                        <div class="form-group">
+                            <label for="@item.Name" class="col-md-2 control-label">@item.Name</label>
+                            <div class="col-md-10">
+                                <input id="@item.Name" name="@item.Name" class="form-control" />
+                                <span asp-validation-for="@item.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                    break;
+            }
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

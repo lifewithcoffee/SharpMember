@@ -20,6 +20,11 @@ namespace SharpMember.Controllers
             _context = context;    
         }
 
+        public IActionResult Test()
+        {
+            return View();
+        }
+
         // GET: Members
         public async Task<IActionResult> Index()
         {

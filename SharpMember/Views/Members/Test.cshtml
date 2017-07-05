@@ -1,0 +1,11 @@
+@model SharpMember.Core.Data.Models.MemberManagement.Member
+
+@{
+    ViewData["Title"] = "Test";
+}
+
+@await Component.InvokeAsync(nameof(SharpMember.ViewComponents.Form), new { type = typeof(SharpMember.Core.Data.Models.MemberManagement.Member), IsCreate = true })
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

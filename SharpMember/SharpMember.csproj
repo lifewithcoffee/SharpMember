@@ -66,4 +66,8 @@
     <ProjectReference Include="..\SharpMember.Core\SharpMember.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\Form\" />
+  </ItemGroup>
+
 </Project>
