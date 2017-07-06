@@ -9,9 +9,9 @@ using SharpMember.Global;
 using System.Data.SqlClient;
 using SharpMember.Utils;
 using SharpMember.Core.Global;
-using SharpMember.Core.Data.Models.MemberManagement;
-using SharpMember.Core.Data.Models.EventManagement;
-using SharpMember.Core.Data.Models.TaskManagement;
+using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.ActivitySystem;
+using SharpMember.Core.Data.Models.TaskSystem;
 
 namespace SharpMember.Core.Data
 {

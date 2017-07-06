@@ -1,12 +1,12 @@
-﻿using SharpMember.Core.Data.Models.EventManagement;
-using SharpMember.Core.Data.Models.TaskManagement;
+﻿using SharpMember.Core.Data.Models.ActivitySystem;
+using SharpMember.Core.Data.Models.TaskSystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models.MemberManagement
+namespace SharpMember.Core.Data.Models.MemberSystem
 {
     public class MemberEntity
     {

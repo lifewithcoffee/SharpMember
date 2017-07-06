@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using SharpMember.Core.Data.Models.MemberManagement;
-using SharpMember.Core.Data.Models.TaskManagement;
+using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.TaskSystem;
 
 namespace SharpMember.Core.Data.Models
 {
@@ -12,6 +12,6 @@ namespace SharpMember.Core.Data.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual List<Member> Members { get; set; } = new List<Member>();
-        public virtual List<WorkTask> WorkTasks { get; set; } = new List<TaskManagement.WorkTask>();   // private tasks
+        public virtual List<WorkTask> WorkTasks { get; set; } = new List<TaskSystem.WorkTask>();   // private tasks
     }
 }

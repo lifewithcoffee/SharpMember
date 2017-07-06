@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.TaskManagement
+namespace SharpMember.Core.Data.Models.TaskSystem
 {
-    public class ProjectEntity
+    public class MilestoneEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public DateTime? DueTime { get; set; }
     }
 
-    public class Project : ProjectEntity
+    public class Milestone : MilestoneEntity
     {
-        public virtual List<Milestone> Milestones { get; set; }
+        public virtual Project Project {get;set;} 
         public virtual List<WorkTask> WorkTasks { get; set; }
     }
 }

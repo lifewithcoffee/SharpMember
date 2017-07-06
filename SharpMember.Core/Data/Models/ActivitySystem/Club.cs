@@ -1,9 +1,9 @@
-﻿using SharpMember.Core.Data.Models.MemberManagement;
+﻿using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.EventManagement
+namespace SharpMember.Core.Data.Models.ActivitySystem
 {
     public class ClubEntity
     {

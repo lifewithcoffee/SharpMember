@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using SharpMember.Core.Data.Models.MemberManagement;
+using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.Repositories
 {

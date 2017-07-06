@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.TaskManagement
+namespace SharpMember.Core.Data.Models.TaskSystem
 {
     public class TaskLabelEntity
     {

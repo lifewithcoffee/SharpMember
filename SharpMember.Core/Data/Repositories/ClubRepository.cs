@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using SharpMember.Core.Data.Models.EventManagement;
+using SharpMember.Core.Data.Models.ActivitySystem;
 
 namespace SharpMember.Core.Data.Repositories
 {

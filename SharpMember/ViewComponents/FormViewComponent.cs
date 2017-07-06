@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SharpMember.Core.Data.Models.MemberManagement;
+using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
