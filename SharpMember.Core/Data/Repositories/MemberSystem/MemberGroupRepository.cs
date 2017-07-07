@@ -27,6 +27,11 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             this._organizationRepository = organizationRepository;
         }
 
+        public override MemberGroup Add(MemberGroup entity)
+        {
+            throw new NotSupportedException("A MemberGroup must be added in an organization, use AddAsync(orgId, memberGroupName) instead.");
+        }
+
         /// <summary>
         /// Precondition:
         /// - the organization must exist
@@ -36,12 +41,12 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         {
             if (!await _organizationRepository.ExistAsync(o => o.Id == orgId))
             {
-                throw new OrganizationNotExistException();
+                throw new OrganizationNotExistException($"Organization with Id {orgId} does not exist.");
             }
 
             if (await this.ExistAsync(m => m.Name == memberGroupName))
             {
-                throw new MemberNameExistException();
+                throw new MemberNameExistException($"MemberGroup with name {memberGroupName} already exists.");
             }
 
             return base.Add(new MemberGroup { Name = memberGroupName });

@@ -197,6 +197,8 @@ namespace SharpMember.Core.Data.RepositoryBase
         /// to access the database asynchronously. For all other cases the non async method should
         /// be used.
         /// 
+        /// The same reason is also applied to Remove and Update methods.
+        /// 
         /// </summary>
         public virtual TEntity Add(TEntity entity)
         {
