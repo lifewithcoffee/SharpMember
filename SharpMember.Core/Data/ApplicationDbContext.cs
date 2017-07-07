@@ -21,7 +21,7 @@ namespace SharpMember.Core.Data
         public DbSet<Member> Members { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
-        public DbSet<Branch> Branches { get; set; }
+        public DbSet<MemberGroup> MemberGroups { get; set; }
         //public DbSet<ClubEvent> CommunityEvents { get; set; }
         //public DbSet<Club> Clubs { get; set; }
 

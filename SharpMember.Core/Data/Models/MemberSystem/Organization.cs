@@ -14,6 +14,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
     public class Organization : OrganizationEntity
     {
-        public virtual List<Branch> Branches { get; set; } = new List<Branch>();
+        public virtual List<MemberGroup> MemberGroups { get; set; } = new List<MemberGroup>();
     }
 }

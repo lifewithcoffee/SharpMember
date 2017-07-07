@@ -15,7 +15,7 @@ namespace SharpMember.Core.Data.Models.ActivitySystem
 
     public class Club: ClubEntity
     {
-        public virtual Branch Branch { get; set; }
+        public virtual MemberGroup MemberGroup { get; set; }
         public virtual List<ClubMemberRelation> ClubMemberRelations { get; set; } = new List<ClubMemberRelation>();
     }
 }

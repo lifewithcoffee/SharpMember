@@ -23,12 +23,12 @@ namespace SharpMember.Core.Data.Repositories
 
         public Member GetOrganizationMemberByMemberNumber(int orgId, int memberNumber)
         {
-            return this.GetMany(m => m.MemberNumber == memberNumber && m.Branch.Organization.Id == orgId).SingleOrDefault();
+            return this.GetMany(m => m.MemberNumber == memberNumber && m.MemberGroup.Organization.Id == orgId).SingleOrDefault();
         }
 
         public IQueryable<Member> GetOrganizationMembers(int orgId, Expression<Func<Member, bool>> where)
         {
-            return this.UnitOfWork.Context.Branches.Where(b => b.Organization.Id == orgId).SelectMany(b => b.Members).Where(where);
+            return this.UnitOfWork.Context.MemberGroups.Where(b => b.Organization.Id == orgId).SelectMany(b => b.Members).Where(where);
         }
 
         public IQueryable<Member> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue)
