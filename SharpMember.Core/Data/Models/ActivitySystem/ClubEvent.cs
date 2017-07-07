@@ -15,8 +15,6 @@ namespace SharpMember.Core.Data.Models.ActivitySystem
 
     public class ClubEvent : ClubEventEntity
     {
-        public virtual Organization Organization { get; set; }
-        public virtual MemberGroup MemberGroup { get; set; }
         public virtual Club Club { get; set; }
     }
 }

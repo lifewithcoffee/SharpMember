@@ -22,11 +22,9 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
     public class Member : MemberEntity
     {
-        public virtual MemberGroup MemberGroup { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-
-        //public virtual List<ClubMemberRelation> ClubMemberRelations { get; set; } = new List<ClubMemberRelation>();
-        //public virtual List<Club> Clubs { get; set; } = new List<Club>();
+        public virtual Organization Organization { get; set; }
+        public virtual List<MemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberGroupRelation>();
 
         //[InverseProperty(nameof(WorkTask.WorkTaskOwner))]
         //public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();
