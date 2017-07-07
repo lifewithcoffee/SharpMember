@@ -25,14 +25,13 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public virtual Branch Branch { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public virtual List<ClubMemberRelation> ClubMemberRelations { get; set; } = new List<ClubMemberRelation>();
+        //public virtual List<ClubMemberRelation> ClubMemberRelations { get; set; } = new List<ClubMemberRelation>();
+        //public virtual List<Club> Clubs { get; set; } = new List<Club>();
 
-        public virtual List<Club> Clubs { get; set; } = new List<Club>();
+        //[InverseProperty(nameof(WorkTask.WorkTaskOwner))]
+        //public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();
 
-        [InverseProperty(nameof(WorkTask.WorkTaskOwner))]
-        public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();
-
-        [InverseProperty(nameof(WorkTask.WorkTaskCreator))]
-        public virtual List<WorkTask> CreatedWorkTasks { get; set; } = new List<WorkTask>();
+        //[InverseProperty(nameof(WorkTask.WorkTaskCreator))]
+        //public virtual List<WorkTask> CreatedWorkTasks { get; set; } = new List<WorkTask>();
     }
 }

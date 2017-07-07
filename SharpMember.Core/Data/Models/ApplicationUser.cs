@@ -12,6 +12,6 @@ namespace SharpMember.Core.Data.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual List<Member> Members { get; set; } = new List<Member>();
-        public virtual List<WorkTask> WorkTasks { get; set; } = new List<TaskSystem.WorkTask>();   // private tasks
+        //public virtual List<WorkTask> WorkTasks { get; set; } = new List<TaskSystem.WorkTask>();   // private tasks
     }
 }
