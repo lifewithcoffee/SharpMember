@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data.Models.MemberSystem;
 
-namespace SharpMember.Core.Data.Repositories
+namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberGroupRepository : IRepositoryBase<MemberGroup, ApplicationDbContext> { }
 

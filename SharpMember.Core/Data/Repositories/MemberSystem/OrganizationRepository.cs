@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using SharpMember.Core.Data.Models.MemberSystem;
 
-namespace SharpMember.Core.Data.Repositories
+namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IOrganizationRepository : IRepositoryBase<Organization, ApplicationDbContext> { }
 

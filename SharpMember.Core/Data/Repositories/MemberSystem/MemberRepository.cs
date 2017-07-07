@@ -8,12 +8,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using SharpMember.Core.Data.Models.MemberSystem;
 
-namespace SharpMember.Core.Data.Repositories
+namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
     {
-        Member GetOrganizationMemberByMemberNumber(int orgId, int memberNumber);
-        IQueryable<Member> GetOrganizationMembers(int orgId, Expression<Func<Member, bool>> where);
+        Member GetMembersByMemberNumber(int orgId, int memberNumber);
+        IQueryable<Member> GetMembers(int orgId, Expression<Func<Member, bool>> where);
         IQueryable<Member> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue);
     }
 
@@ -21,21 +21,21 @@ namespace SharpMember.Core.Data.Repositories
     {
         public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
 
-        public Member GetOrganizationMemberByMemberNumber(int orgId, int memberNumber)
+        public Member GetMembersByMemberNumber(int orgId, int memberNumber)
         {
-            return this.GetMany(m => m.MemberNumber == memberNumber && m.MemberGroup.Organization.Id == orgId).SingleOrDefault();
+            return this.GetMany(m => m.MemberNumber == memberNumber && m.Organization.Id == orgId).SingleOrDefault();
         }
 
-        public IQueryable<Member> GetOrganizationMembers(int orgId, Expression<Func<Member, bool>> where)
+        public IQueryable<Member> GetMembers(int orgId, Expression<Func<Member, bool>> where)
         {
-            return this.UnitOfWork.Context.MemberGroups.Where(b => b.Organization.Id == orgId).SelectMany(b => b.Members).Where(where);
+            return this.GetMany(m => m.Organization.Id == orgId).Where(where);
         }
 
         public IQueryable<Member> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue)
         {
             return from item in this.UnitOfWork.Context.MemberProfileItems
                    where item.ItemValue.Contains(itemValue)
-                   join member in this.GetOrganizationMembers(orgId, m => true) on item.Member.Id equals member.Id
+                   join member in this.GetMembers(orgId, m => true) on item.Member.Id equals member.Id
                    select member;
         }
     }

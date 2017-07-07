@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SharpMember.Core.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SharpMember.Core.Data.Repositories.MemberSystem;
 
 namespace SharpMember.Core
 {
@@ -24,7 +25,7 @@ namespace SharpMember.Core
             services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 
         }
         

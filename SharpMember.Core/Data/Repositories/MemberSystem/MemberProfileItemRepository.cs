@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data.Models.MemberSystem;
 
-namespace SharpMember.Core.Data.Repositories
+namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberProfileItemRepository : IRepositoryBase<MemberProfileItem, ApplicationDbContext> { }
 

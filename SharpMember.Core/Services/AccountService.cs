@@ -1,4 +1,5 @@
 ﻿using SharpMember.Core.Data.Repositories;
+using SharpMember.Core.Data.Repositories.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,9 +15,9 @@ namespace SharpMember.Core.Services
     public class AccountService : IAccountService
     {
         private readonly IMemberRepository _memberRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IApplicationUserRepository _userRepository;
 
-        public AccountService(IMemberRepository memberRepository, IUserRepository userRepository)
+        public AccountService(IMemberRepository memberRepository, IApplicationUserRepository userRepository)
         {
             this._memberRepository = memberRepository;
             this._userRepository = userRepository;
