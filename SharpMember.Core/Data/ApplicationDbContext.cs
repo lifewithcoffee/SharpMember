@@ -55,6 +55,7 @@ namespace SharpMember.Core.Data
         {
             //builder.Entity<ClubMemberRelation>().HasKey(c => new { c.ClubId, c.MemberId });
             //builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
+            builder.Entity<MemberGroupRelation>().HasKey(m => new { m.MemberId, m.MemberGroupId });
 
             base.OnModelCreating(builder);
         }

@@ -25,6 +25,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual List<MemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberGroupRelation>();
+        public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
 
         //[InverseProperty(nameof(WorkTask.WorkTaskOwner))]
         //public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();

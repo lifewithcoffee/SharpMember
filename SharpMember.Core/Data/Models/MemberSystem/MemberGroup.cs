@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,8 +18,11 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     /// </summary>
     public class MemberGroup : MemberGroupEntity
     {
+        public int OrganizationId { get; set; }
+
+        [ForeignKey(nameof(OrganizationId))]
         public Organization Organization { get; set; }
+
         public virtual List<MemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberGroupRelation>();
-        public IEnumerable<object> Members { get; internal set; }
     }
 }
