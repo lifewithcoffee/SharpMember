@@ -14,5 +14,30 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     public class MemberProfileItemRepository : RepositoryBase<MemberProfileItem, ApplicationDbContext>, IMemberProfileItemRepository
     {
         public MemberProfileItemRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+
+        public class IdComparer : IEqualityComparer<MemberProfileItem>
+        {
+            public bool Equals(MemberProfileItem x, MemberProfileItem y)
+            {
+                if(x.Id == y.Id)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            public int GetHashCode(MemberProfileItem obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
+
+        public void UpdateProfile(int memberId, IList<MemberProfileItem> oldItems, IList<MemberProfileItem> newItems)
+        {
+            this.DeleteRange(oldItems.Except(newItems, new IdComparer()));
+            this.UpdateRange(newItems.Intersect(oldItems, new IdComparer()));
+            this.AddRange(newItems.Except(oldItems, new IdComparer()));
+        }
     }
 }

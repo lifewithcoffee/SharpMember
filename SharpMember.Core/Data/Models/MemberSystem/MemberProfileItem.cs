@@ -9,7 +9,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 {
     public class MemberProfileItemEntity
     {
-        [Key]
+        public int Id { get; set; }
         public string ItemName { get; set; }
         public string ItemType { get; set; }    // for validation, e.g. date, int, string
         public string ItemValue { get; set; }
