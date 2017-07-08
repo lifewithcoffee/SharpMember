@@ -23,7 +23,12 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     public class Member : MemberEntity
     {
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public int OrganizationId { get; set; }
+
+        [ForeignKey(nameof(OrganizationId))]
         public virtual Organization Organization { get; set; }
+
         public virtual List<MemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberGroupRelation>();
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
 

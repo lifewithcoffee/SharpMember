@@ -12,30 +12,30 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
     {
-        Member GetMembersByMemberNumber(int orgId, int memberNumber);
-        IQueryable<Member> GetMembers(int orgId, Expression<Func<Member, bool>> where);
-        IQueryable<Member> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue);
+        Member GetByMemberNumber(int orgId, int memberNumber);
+        IQueryable<Member> GetByOrganization(int orgId);
+        IQueryable<Member> GetByItemValue(int orgId, string itemValue);
     }
 
     public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
     {
         public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
 
-        public Member GetMembersByMemberNumber(int orgId, int memberNumber)
+        public Member GetByMemberNumber(int orgId, int memberNumber)
         {
-            return this.GetMany(m => m.MemberNumber == memberNumber && m.Organization.Id == orgId).SingleOrDefault();
+            return this.GetMany(m => m.MemberNumber == memberNumber && m.OrganizationId == orgId).SingleOrDefault();
         }
 
-        public IQueryable<Member> GetMembers(int orgId, Expression<Func<Member, bool>> where)
+        public IQueryable<Member> GetByOrganization(int orgId)
         {
-            return this.GetMany(m => m.Organization.Id == orgId).Where(where);
+            return this.GetMany(m => m.OrganizationId == orgId);
         }
 
-        public IQueryable<Member> GetOrganizationMembersByItemValueMatching(int orgId, string itemValue)
+        public IQueryable<Member> GetByItemValue(int orgId, string itemValue)
         {
             return from item in this.UnitOfWork.Context.MemberProfileItems
                    where item.ItemValue.Contains(itemValue)
-                   join member in this.GetMembers(orgId, m => true) on item.Member.Id equals member.Id
+                   join member in this.GetMany(m => m.OrganizationId == orgId) on item.MemberId equals member.Id
                    select member;
         }
     }
