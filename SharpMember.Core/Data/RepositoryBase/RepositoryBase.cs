@@ -206,10 +206,24 @@ namespace SharpMember.Core.Data.RepositoryBase
             return entity;
         }
 
+        public virtual void AddRange(IEnumerable<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
+        }
+
         public virtual void Update(TEntity entity)
         {
-            dbSet.Attach(entity);
-            _unitOfWork.Context.Entry(entity).State = EntityState.Modified;
+            // old impl in EF
+            //dbSet.Attach(entity);
+            //_unitOfWork.Context.Entry(entity).State = EntityState.Modified;
+
+            // new impl in EF core
+            dbSet.Update(entity);
+        }
+
+        public virtual void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            dbSet.UpdateRange(entities);
         }
 
         public virtual void Delete(TEntity entity)  // there is no DbSet.RemoveAsync() available
@@ -224,6 +238,11 @@ namespace SharpMember.Core.Data.RepositoryBase
             {
                 this.Delete(obj);
             }
+        }
+
+        public virtual void DeleteRange(IEnumerable<TEntity> entities)
+        {
+            dbSet.RemoveRange(entities);
         }
 
         /// <returns>Return IQueryable to use QueryableExtensions methods like Load(), Include() etc. </returns>
