@@ -15,11 +15,11 @@ namespace SharpMember.ViewComponents
     }
 
     [ViewComponent]
-    public class Form : ViewComponent
+    public class BootstrapForm : ViewComponent
     {
-        public Task<IViewComponentResult> InvokeAsync(Type type, bool IsCreate)
+        public Task<IViewComponentResult> InvokeAsync(Type type, bool isCreate)
         {
-            return Task.FromResult<IViewComponentResult>(View(new FormViewComponentModel { Type = type, IsCreate = IsCreate }));
+            return Task.FromResult<IViewComponentResult>(View(new FormViewComponentModel { Type = type, IsCreate = isCreate }));
         }
     }
 }

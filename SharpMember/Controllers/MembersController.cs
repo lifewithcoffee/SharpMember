@@ -17,7 +17,7 @@ namespace SharpMember.Controllers
 
         public MembersController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         public IActionResult Test()
@@ -31,27 +31,10 @@ namespace SharpMember.Controllers
             return View(await _context.Members.ToListAsync());
         }
 
-        // GET: Members/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var member = await _context.Members.SingleOrDefaultAsync(m => m.Id == id);
-            if (member == null)
-            {
-                return NotFound();
-            }
-
-            return View(member);
-        }
-
         // GET: Members/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new Member());
         }
 
         // POST: Members/Create
@@ -59,14 +42,14 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MemberNumber,Renewed,RegisterDate,CeaseDate,Name,Remarks")] Member member)
+        public async Task<IActionResult> Create(Member member)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    //_context.Add(member);
+            //    //await _context.SaveChangesAsync();
+            //    //return RedirectToAction("Index");
+            //}
             return View(member);
         }
 
@@ -91,7 +74,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MemberNumber,Renewed,RegisterDate,CeaseDate,Name,Remarks")] Member member)
+        public async Task<IActionResult> Edit(int id, Member member)
         {
             if (id != member.Id)
             {

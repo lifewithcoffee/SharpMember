@@ -1,70 +1,15 @@
-@model SharpMember.Core.Data.Models.MemberSystem.Member
+@using SharpMember.ViewComponents
+@using SharpMember.Core.Data.Models.MemberSystem
+
+@model Member
+
+@addTagHelper *,SharpMember
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
-
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>MemberProfile</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="MemberNumber" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="MemberNumber" class="form-control" />
-                <span asp-validation-for="MemberNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="Renewed" />
-                    <label asp-for="Renewed"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="RegisterDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="RegisterDate" class="form-control" />
-                <span asp-validation-for="RegisterDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="CeaseDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CeaseDate" class="form-control" />
-                <span asp-validation-for="CeaseDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Remarks" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Remarks" class="form-control" />
-                <span asp-validation-for="Remarks" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<vc:bootstrap-form type="@typeof(Member)" is-create="true" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

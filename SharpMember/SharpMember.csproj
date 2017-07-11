@@ -67,7 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\Components\Form\" />
+    <Folder Include="Views\Shared\Components\BootstrapForm\" />
   </ItemGroup>
 
 </Project>
