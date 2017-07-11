@@ -1,12 +1,13 @@
-@model Member
+@model Organization
 @addTagHelper *,SharpMember
 @using SharpMember.Core.Data.Models.MemberSystem
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "View";
 }
 
-<vc:bootstrap-form type="@typeof(Member)" is-create="true" />
+
+<vc:bootstrap-form type="@typeof(Organization)" is-create="true" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

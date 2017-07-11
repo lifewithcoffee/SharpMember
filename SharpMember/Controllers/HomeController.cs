@@ -25,7 +25,7 @@ namespace SharpMember.Controllers
 
         public IActionResult About([FromServices] IZjuaaaMemberExcelFileReadService excelReadService)
         {
-            ViewData["Message"] = "Your application description page!";
+            ViewData["Message"] = "Your application description page.";
 
             excelReadService.ImportFromExcel(@"C:\_temp\test.xlsx");
 
