@@ -20,9 +20,27 @@ namespace SharpMember.Controllers
             _context = context;
         }
 
-        public IActionResult Test()
+        public Task<IActionResult> ProfileItems()
         {
-            return View();
+            List<MemberProfileItem> model = new List<MemberProfileItem>();
+            for (int i = 0; i < 5; i++)
+            {
+                model.Add(new MemberProfileItem()); // add 5 empty item slots
+            }
+            return Task.FromResult<IActionResult>(View(model));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public Task<IActionResult> ProfileItems(List<MemberProfileItem> data)
+        {
+            List<MemberProfileItem> model = new List<MemberProfileItem>();
+            model.AddRange(data);
+            for (int i = 0; i < 5; i++)
+            {
+                model.Add(new MemberProfileItem()); // add 5 empty item slots
+            }
+            return Task.FromResult<IActionResult>(View(model));
         }
 
         // GET: Members

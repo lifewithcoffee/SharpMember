@@ -39,6 +39,7 @@ namespace SharpMember.Controllers
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
+
         //
         // GET: /Manage/Index
         [HttpGet]
@@ -340,7 +341,6 @@ namespace SharpMember.Controllers
             }
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }
-
         #region Helpers
 
         private void AddErrors(IdentityResult result)
