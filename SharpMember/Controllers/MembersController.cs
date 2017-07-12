@@ -56,7 +56,7 @@ namespace SharpMember.Controllers
             var model = new MemberCreateViewModel();
             for (int i = 0; i < 5; i++)
             {
-                model.MemberProfileItems.Add(new MemberProfileItem()); // add 5 empty item slots
+                model.MemberProfileItems.Add(new MemberProfileItem { ItemName = $"item {i}" }); // add 5 empty item slots
             }
             return View(model);
         }
