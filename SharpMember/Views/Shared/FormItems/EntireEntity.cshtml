@@ -1,0 +1,58 @@
+@model Type
+@using System.Reflection;
+
+@foreach (var item in Model.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+{
+    var typecode = Type.GetTypeCode(item.PropertyType);
+    switch (typecode)
+    {
+        case TypeCode.Int16:
+        case TypeCode.Int32:
+        case TypeCode.Int64:
+            if (item.Name != "Id")
+            {
+                <div class="form-group">
+                    @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBox(item.Name, value: null, htmlAttributes: new { @class = "form-control", type = "number" })
+                        @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            break;
+
+        case TypeCode.Boolean:
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        @Html.CheckBox(item.Name)
+                        @Html.Label(item.Name)
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case TypeCode.Object:
+            if (item.PropertyType == typeof(DateTime?))
+            {
+                <div class="form-group">
+                    @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBox(item.Name, value: null, htmlAttributes: new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            break;
+
+        default:
+            <div class="form-group">
+                @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBox(item.Name, value: null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+            break;
+    }
+}

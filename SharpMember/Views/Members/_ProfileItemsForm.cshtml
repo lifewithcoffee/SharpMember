@@ -1,0 +1,25 @@
+@model MemberCreateViewModel
+@using SharpMember.Core.Data.Models.MemberSystem
+@using SharpMember.Core.Views.MemberSystem
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@nameof(MemberProfileItem.ItemName)</th>
+            <th>@nameof(MemberProfileItem.ItemValue)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(int i = 0; i < Model.MemberProfileItems.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.MemberProfileItems[i].ItemName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => modelItem.MemberProfileItems[i].ItemValue)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

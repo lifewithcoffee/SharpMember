@@ -1,12 +1,32 @@
-@model Member
+@model MemberCreateViewModel
 @addTagHelper *,SharpMember
 @using SharpMember.Core.Data.Models.MemberSystem
+@using SharpMember.Core.Views.MemberSystem
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<vc:bootstrap-form type="@typeof(Member)" is-create="true" />
+@*<vc:bootstrap-form type="@typeof(Member)" is-create="true" />*@
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Member</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @Html.Partial("~/Views/Shared/FormItems/EntireEntity.cshtml", typeof(MemberCreateViewModel))
+        <hr />
+        @Html.Partial("_ProfileItemsForm") @* TODO: make a mcn note here, if need the partial view for posting, the partial view's model must be the same with its host view, otherwise it won't bind correctly *@
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

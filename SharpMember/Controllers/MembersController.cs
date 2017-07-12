@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Views.MemberSystem;
 
 namespace SharpMember.Controllers
 {
@@ -52,7 +53,12 @@ namespace SharpMember.Controllers
         // GET: Members/Create
         public IActionResult Create()
         {
-            return View(new Member());
+            var model = new MemberCreateViewModel();
+            for (int i = 0; i < 5; i++)
+            {
+                model.MemberProfileItems.Add(new MemberProfileItem()); // add 5 empty item slots
+            }
+            return View(model);
         }
 
         // POST: Members/Create
@@ -60,7 +66,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Member member)
+        public async Task<IActionResult> Create(MemberCreateViewModel member)
         {
             //if (ModelState.IsValid)
             //{
