@@ -10,11 +10,11 @@
         </tr>
     </thead>
     <tbody>
-        @for(int i = 0; i < Model.MemberProfileItems.Count; i++)
+        @for(int i = 0; i < Model.MemberProfile.MemberProfileItems.Count; i++)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => modelItem.MemberProfileItems[i].ItemName)</td>
-                <td>@Html.TextBoxFor(modelItem => modelItem.MemberProfileItems[i].ItemValue, new { @class = "form-control" })</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.MemberProfile.MemberProfileItems[i].ItemName)</td>
+                <td>@Html.TextBoxFor(modelItem => modelItem.MemberProfile.MemberProfileItems[i].ItemValue, new { @class = "form-control" })</td>
             </tr>
         }
     </tbody>

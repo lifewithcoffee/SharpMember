@@ -24,14 +24,15 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     {
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public int OrganizationId { get; set; }
-
         [ForeignKey(nameof(OrganizationId))]
         public virtual Organization Organization { get; set; }
+        public int OrganizationId { get; set; }
 
-        public virtual List<MemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberGroupRelation>();
-        public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
+        [ForeignKey(nameof(MemberProfileId))]
+        public virtual MemberProfile MemberProfile { get; set; }
+        public int MemberProfileId { get; set; }
 
+        public virtual List<MemberMemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
         //[InverseProperty(nameof(WorkTask.WorkTaskOwner))]
         //public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();
 

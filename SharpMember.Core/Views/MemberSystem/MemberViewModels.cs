@@ -11,6 +11,6 @@ namespace SharpMember.Core.Views.MemberSystem
 
     public class MemberCreateViewModel : MemberEntity
     {
-        public List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
+        public virtual MemberProfile MemberProfile { get; set; } = new MemberProfile();
     }
 }

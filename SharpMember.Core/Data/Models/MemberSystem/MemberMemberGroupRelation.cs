@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpMember.Core.Data.Models.MemberSystem
 {
-    public class MemberGroupRelation
+    public class MemberMemberGroupRelation
     {
         public int MemberId { get; set; }
 

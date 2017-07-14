@@ -19,6 +19,7 @@ namespace SharpMember.Core.Data
     {
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<MemberProfile> MemberProfiles { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<MemberGroup> MemberGroups { get; set; }
@@ -55,7 +56,7 @@ namespace SharpMember.Core.Data
         {
             //builder.Entity<ClubMemberRelation>().HasKey(c => new { c.ClubId, c.MemberId });
             //builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
-            builder.Entity<MemberGroupRelation>().HasKey(m => new { m.MemberId, m.MemberGroupId });
+            builder.Entity<MemberMemberGroupRelation>().HasKey(m => new { m.MemberId, m.MemberGroupId });
 
             base.OnModelCreating(builder);
         }
