@@ -19,9 +19,9 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         private readonly IOrganizationRepository _organizationRepository;
 
         public MemberGroupRepository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork
-            , ILogger logger
-            , IOrganizationRepository organizationRepository
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
+            ILogger logger,
+            IOrganizationRepository organizationRepository
         ) : base(unitOfWork, logger)
         {
             this._organizationRepository = organizationRepository;

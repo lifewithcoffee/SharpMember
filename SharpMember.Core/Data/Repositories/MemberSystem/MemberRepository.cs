@@ -34,8 +34,9 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         public IQueryable<Member> GetByItemValue(int orgId, string itemValue)
         {
             return from item in this.UnitOfWork.Context.MemberProfileItems
+                   join memberProfile in this.UnitOfWork.Context.MemberProfiles on item.MemberProfileId equals memberProfile.Id
+                   join member in this.GetMany(m => m.OrganizationId == orgId) on memberProfile.Id equals member.MemberProfileId
                    where item.ItemValue.Contains(itemValue)
-                   join member in this.GetMany(m => m.OrganizationId == orgId) on item.MemberId equals member.Id
                    select member;
         }
     }
