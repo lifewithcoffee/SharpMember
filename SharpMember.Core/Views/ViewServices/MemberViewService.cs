@@ -1,9 +1,10 @@
 ﻿using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Views.MemberSystem.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Views.MemberSystem
+namespace SharpMember.Core.Views.ViewServices
 {
     public class MemberViewService
     {
