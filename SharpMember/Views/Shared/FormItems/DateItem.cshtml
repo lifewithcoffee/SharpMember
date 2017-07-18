@@ -3,7 +3,7 @@
 <div class="form-group">
     @Html.Label(Model, Model, htmlAttributes: new { @class = "col-md-2 control-label" })
     <div class="col-md-10">
-        @Html.TextBox(Model, value: null, htmlAttributes: new { @class = "form-control", type = "date" })
+        @Html.TextBox(Model, value: "", htmlAttributes: new { @class = "form-control", type = "date" })
         @Html.ValidationMessage(Model, htmlAttributes: new { @class = "text-danger" })
     </div>
 </div>

@@ -1,5 +1,5 @@
 ﻿using SharpMember.Core.Data.Models.MemberSystem;
-using SharpMember.Core.Views.MemberSystem.ViewModels;
+using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

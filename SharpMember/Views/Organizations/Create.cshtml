@@ -1,13 +1,29 @@
-@model Organization
+@model OrganizationCreateViewModel
 @addTagHelper *,SharpMember
-@using SharpMember.Core.Data.Models.MemberSystem
+@using SharpMember.Core.Views.ViewModels
 
 @{
     ViewData["Title"] = "View";
 }
 
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Create New Organization</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<vc:bootstrap-form type="@typeof(Organization)" is-create="true" />
+        @Html.Partial("~/Views/Shared/FormItems/EntireEntity.cshtml", typeof(OrganizationCreateViewModel))
+        <hr />
+        @Html.Partial("_MemberProfileItemTemplateForm")
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

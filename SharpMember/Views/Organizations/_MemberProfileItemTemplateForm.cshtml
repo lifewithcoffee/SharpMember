@@ -1,0 +1,21 @@
+@model OrganizationCreateViewModel
+@using SharpMember.Core.Data.Models.MemberSystem
+@using SharpMember.Core.Views.ViewModels
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@nameof(MemberProfileItemTemplate.ItemName)</th>
+            <th>@nameof(MemberProfileItemTemplate.IsRequired)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(int i = 0; i < Model.MemberProfileItemTemplates.Count; i++)
+        {
+            <tr>
+                <td>@Html.TextBoxFor(modelItem => modelItem.MemberProfileItemTemplates[i].ItemName,new { @class = "form-control" })</td>
+                <td>@Html.CheckBoxFor(modelItem => modelItem.MemberProfileItemTemplates[i].IsRequired)</td>
+            </tr>
+        }
+    </tbody>
+</table>

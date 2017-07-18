@@ -1,7 +1,7 @@
 @model MemberCreateViewModel
 @addTagHelper *,SharpMember
 @using SharpMember.Core.Data.Models.MemberSystem
-@using SharpMember.Core.Views.MemberSystem
+@using SharpMember.Core.Views.ViewModels
 
 @{
     ViewData["Title"] = "Create";
@@ -11,7 +11,7 @@
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>Member</h4>
+        <h4>Create New Member</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

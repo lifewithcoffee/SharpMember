@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
-using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.Models.MemberSystem;
-using SharpMember.Core.Views.MemberSystem;
+using SharpMember.Core.Views.ViewModels;
 
 namespace SharpMember.Controllers
 {
@@ -53,11 +52,9 @@ namespace SharpMember.Controllers
         // GET: Members/Create
         public IActionResult Create()
         {
-            var model = new MemberCreateViewModel();
-            for (int i = 0; i < 5; i++)
-            {
-                model.MemberProfileItems.Add(new MemberProfileItem { ItemName = $"item {i}" }); // add 5 empty item slots
-            }
+            var model = new MemberCreateViewModel {
+                MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItem { ItemName = $"item {i}{i}" }).ToList()
+            };
             return View(model);
         }
 

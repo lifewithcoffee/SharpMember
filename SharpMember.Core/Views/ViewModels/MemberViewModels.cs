@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Views.MemberSystem.ViewModels
+namespace SharpMember.Core.Views.ViewModels
 {
     public class MemberIndexViewItemModel { }
 

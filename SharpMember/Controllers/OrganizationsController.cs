@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using SharpMember.Core.Views.ViewModels;
 
 namespace SharpMember.Controllers
 {
@@ -17,25 +18,30 @@ namespace SharpMember.Controllers
         }
 
         // GET: Organizations/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            OrganizationCreateViewModel model = new OrganizationCreateViewModel {
+                MemberProfileItemTemplates = Enumerable.Range(0,5).Select( i => new MemberProfileItemTemplate() ).ToList()
+            };
+            return View(model);
         }
 
         // POST: Organizations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(OrganizationCreateViewModel data)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return View(data);
             }
             catch
             {
-                return View();
+                return View(data);
             }
         }
 
