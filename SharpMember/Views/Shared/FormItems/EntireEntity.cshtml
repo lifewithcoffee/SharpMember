@@ -25,8 +25,9 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <div class="checkbox">
-                        @Html.CheckBox(item.Name)
-                        @Html.Label(item.Name)
+                        <label>
+                            @Html.CheckBox(item.Name) @item.Name
+                        </label>
                     </div>
                 </div>
             </div>

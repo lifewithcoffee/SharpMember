@@ -2,19 +2,13 @@
 @using SharpMember.Core.Data.Models.MemberSystem
 @using SharpMember.Core.Views.ViewModels
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@nameof(MemberProfileItem.ItemName)</th>
-            <th>@nameof(MemberProfileItem.ItemValue)</th>
-        </tr>
-    </thead>
+<table class="table" style="float:right">
     <tbody>
         @for(int i = 0; i < Model.MemberProfileItems.Count; i++)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => modelItem.MemberProfileItems[i].ItemName)</td>
-                <td>@Html.TextBoxFor(modelItem => modelItem.MemberProfileItems[i].ItemValue, new { @class = "form-control" })</td>
+            <tr class="table-row-for-list-info">
+                <td class="table-first-col"><label>@Html.DisplayFor(modelItem => modelItem.MemberProfileItems[i].ItemName)</label></td>
+                <td><div class="table-second-col-div">@Html.TextBoxFor(modelItem => modelItem.MemberProfileItems[i].ItemValue, new { @class = " form-control" })</div></td>
             </tr>
         }
     </tbody>

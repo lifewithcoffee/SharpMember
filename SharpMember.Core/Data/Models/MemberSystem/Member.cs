@@ -11,11 +11,11 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     public class MemberEntity
     {
         public int Id { get; set; } // some members may not have been assigned a member number, so an Id field is still required
-        public int MemberNumber { get; set; }
         public string Name { get; set; }
+        public int MemberNumber { get; set; }
         public bool Renewed { get; set; }
-        public DateTime? RegisterDate { get; set; }
-        public DateTime? CeaseDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
+        public DateTime? CancellationDate { get; set; }
         public int Level { get; set; }
         public string Remarks { get; set; }
     }
