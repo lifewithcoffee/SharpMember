@@ -19,7 +19,6 @@ namespace SharpMember.Core.Data
     {
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
         public DbSet<Member> Members { get; set; }
-        public DbSet<MemberProfile> MemberProfiles { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<MemberGroup> MemberGroups { get; set; }

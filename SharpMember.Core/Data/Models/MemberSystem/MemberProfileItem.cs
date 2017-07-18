@@ -11,14 +11,14 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     {
         public int Id { get; set; }
         public string ItemName { get; set; }
-        public string ItemType { get; set; }    // for validation, e.g. date, int, string
         public string ItemValue { get; set; }
+        public bool IsRequired { get; set; } = false;
     }
 
     public class MemberProfileItem : MemberProfileItemEntity
     {
-        [ForeignKey(nameof(MemberProfileId))]
-        public virtual MemberProfile MemberProfile { get; set; }
-        public int MemberProfileId { get; set; }
+        [ForeignKey(nameof(MemberId))]
+        public Member Member { get; set; }
+        public int MemberId { get; set; }
     }
 }
