@@ -1,0 +1,91 @@
+@model FormGroupsVcModel
+
+@using SharpMember.ViewComponents;
+@using System.Reflection;
+
+@foreach (var item in Model.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+{
+    bool is_readonly = Model.ReadonlyFields.Contains(item.Name.ToLower());
+    var typecode = Type.GetTypeCode(item.PropertyType);
+    switch (typecode)
+    {
+        case TypeCode.Int16:
+        case TypeCode.Int32:
+        case TypeCode.Int64:
+            if (item.Name != "Id")
+            {
+                <div class="form-group">
+                    @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @{ 
+                            object numberHtmlAttr = new { @class = "form-control", type = "number" };
+                            if (is_readonly)
+                            {
+                                numberHtmlAttr = new { @class = "form-control", type = "number", @readonly = "readonly" };
+                            }
+                        }
+                        @Html.TextBox(item.Name, value: "", htmlAttributes: numberHtmlAttr)
+                        @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            break;
+
+        case TypeCode.Boolean:
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox(item.Name) @item.Name
+                        </label>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case TypeCode.Object:
+            if (item.PropertyType == typeof(DateTime?))
+            {
+                <div class="form-group">
+                    @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @{ 
+                            object dateHtmlAttr = new { @class = "form-control", type = "date" };
+                            if (is_readonly)
+                            {
+                                dateHtmlAttr = new { @class = "form-control", type = "date", @readonly = "readonly" };
+                            }
+                        }
+                        @Html.TextBox(item.Name, value: "", htmlAttributes: dateHtmlAttr)
+                        @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            break;
+
+        default:
+            <div class="form-group">
+                @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @{
+                        object textHtmlAttr = new { @class = "form-control" };
+                        if (is_readonly)
+                        {
+                            textHtmlAttr = new { @class = "form-control", @readonly = "readonly" };
+                        }
+                    }
+
+                    @if(@Model.TextAreaFields.Contains(item.Name.ToLower()))
+                    {
+                        @Html.TextArea(item.Name, value: "", htmlAttributes: textHtmlAttr)
+                    }
+                    else
+                    {
+                        @Html.TextBox(item.Name, value: "", htmlAttributes: textHtmlAttr)
+                    }
+                    @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
+                </div>
+            </div>
+            break;
+    }
+}
