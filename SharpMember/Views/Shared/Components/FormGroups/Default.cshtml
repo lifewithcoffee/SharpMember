@@ -5,30 +5,29 @@
 
 @foreach (var item in Model.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
 {
+    if (Model.HidenFields.Contains(item.Name.ToLower())) { continue; }
+
     bool is_readonly = Model.ReadonlyFields.Contains(item.Name.ToLower());
-    var typecode = Type.GetTypeCode(item.PropertyType);
-    switch (typecode)
+
+    switch (Type.GetTypeCode(item.PropertyType))
     {
         case TypeCode.Int16:
         case TypeCode.Int32:
         case TypeCode.Int64:
-            if (item.Name != "Id")
-            {
-                <div class="form-group">
-                    @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @{ 
-                            object numberHtmlAttr = new { @class = "form-control", type = "number" };
-                            if (is_readonly)
-                            {
-                                numberHtmlAttr = new { @class = "form-control", type = "number", @readonly = "readonly" };
-                            }
+            <div class="form-group">
+                @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @{ 
+                        object numberHtmlAttr = new { @class = "form-control", type = "number" };
+                        if (is_readonly)
+                        {
+                            numberHtmlAttr = new { @class = "form-control", type = "number", @readonly = "readonly" };
                         }
-                        @Html.TextBox(item.Name, value: "", htmlAttributes: numberHtmlAttr)
-                        @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
-                    </div>
+                    }
+                    @Html.TextBox(item.Name, value: "", htmlAttributes: numberHtmlAttr)
+                    @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
                 </div>
-            }
+            </div>
             break;
 
         case TypeCode.Boolean:
