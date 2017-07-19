@@ -54,8 +54,8 @@ textarea {
     text-align:left;
 }
 
-.table-row-for-list-info td {
-    border-top: 0 solid gray !important;
+#table-for-list-info .table-row-for-list-info td {
+    border-top: 0 solid gray;
 }
 
 .table-second-col-div {
