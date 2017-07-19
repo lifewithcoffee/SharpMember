@@ -71,6 +71,11 @@ namespace SharpMember
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "short_organization_url",
+                    template: "o/{action=Index}/{id?}",
+                    defaults: new { Controller = "Organizations" });
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
