@@ -23,6 +23,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         [ForeignKey(nameof(OrganizationId))]
         public virtual Organization Organization { get; set; }
 
-        public virtual List<MemberMemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
+        public virtual List<MemberMemberGroupRelation> MemberMemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
     }
 }

@@ -30,7 +30,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public virtual Organization Organization { get; set; }
 
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
-        public virtual List<MemberMemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
+        public virtual List<MemberMemberGroupRelation> MemberMemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
         //[InverseProperty(nameof(WorkTask.WorkTaskOwner))]
         //public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();
 

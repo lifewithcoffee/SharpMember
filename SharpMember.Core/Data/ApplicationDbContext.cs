@@ -62,13 +62,13 @@ namespace SharpMember.Core.Data
             //builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
             builder.Entity<MemberMemberGroupRelation>().HasKey(m => new { m.MemberId, m.MemberGroupId });
 
-            builder.Entity<Member>().HasMany(m => m.MemberProfileItems).WithOne(m => m.Member).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Member>().HasMany(m => m.MemberGroupRelations).WithOne(m => m.Member).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<MemberGroup>().HasMany(m => m.MemberGroupRelations).WithOne(m => m.MemberGroup).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Organization>().HasMany(o => o.MemberGroups).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Organization>().HasMany(o => o.MemberProfileItemTemplates).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<MemberMemberGroupRelation>().HasOne(m => m.MemberGroup).WithMany(m => m.MemberGroupRelations).OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<MemberMemberGroupRelation>().HasOne(m => m.Member).WithMany(m => m.MemberGroupRelations).OnDelete(DeleteBehavior.Restrict);
+            //builder.Entity<Member>().HasMany(m => m.MemberProfileItems).WithOne(m => m.Member).OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<Member>().HasMany(m => m.MemberMemberGroupRelations).WithOne(m => m.Member).OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<MemberGroup>().HasMany(m => m.MemberMemberGroupRelations).WithOne(m => m.MemberGroup).OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<Organization>().HasMany(o => o.MemberGroups).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<Organization>().HasMany(o => o.MemberProfileItemTemplates).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<MemberMemberGroupRelation>().HasOne(m => m.MemberGroup).WithMany(m => m.MemberMemberGroupRelations).OnDelete(DeleteBehavior.Restrict); // make sure the MemberGroup specified by MemberGroupId will not be deleted
+            builder.Entity<MemberMemberGroupRelation>().HasOne(m => m.Member).WithMany(m => m.MemberMemberGroupRelations).OnDelete(DeleteBehavior.Restrict);    // make sure the member specified by MemberId will not be deleted
         }
     }
 }
