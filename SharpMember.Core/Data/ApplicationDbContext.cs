@@ -12,6 +12,7 @@ using SharpMember.Core.Global;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Models.ActivitySystem;
 using SharpMember.Core.Data.Models.TaskSystem;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SharpMember.Core.Data
 {
@@ -55,11 +56,19 @@ namespace SharpMember.Core.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             //builder.Entity<ClubMemberRelation>().HasKey(c => new { c.ClubId, c.MemberId });
             //builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
             builder.Entity<MemberMemberGroupRelation>().HasKey(m => new { m.MemberId, m.MemberGroupId });
 
-            base.OnModelCreating(builder);
+            builder.Entity<Member>().HasMany(m => m.MemberProfileItems).WithOne(m => m.Member).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Member>().HasMany(m => m.MemberGroupRelations).WithOne(m => m.Member).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<MemberGroup>().HasMany(m => m.MemberGroupRelations).WithOne(m => m.MemberGroup).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Organization>().HasMany(o => o.MemberGroups).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Organization>().HasMany(o => o.MemberProfileItemTemplates).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<MemberMemberGroupRelation>().HasOne(m => m.MemberGroup).WithMany(m => m.MemberGroupRelations).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<MemberMemberGroupRelation>().HasOne(m => m.Member).WithMany(m => m.MemberGroupRelations).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
