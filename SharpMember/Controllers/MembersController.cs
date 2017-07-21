@@ -20,40 +20,28 @@ namespace SharpMember.Controllers
             _context = context;
         }
 
-        public Task<IActionResult> ProfileItems()
+        // GET: Members
+        public Task<IActionResult> Index()
         {
-            List<MemberProfileItem> model = new List<MemberProfileItem>();
-            for (int i = 0; i < 5; i++)
-            {
-                model.Add(new MemberProfileItem()); // add 5 empty item slots
-            }
+            MemberIndexViewModel model = new MemberIndexViewModel();
+            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 1", MemberNumber = 432, Renewed = false });
+            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 2", MemberNumber = 231, Renewed = true });
+            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 3", MemberNumber = 818, Renewed = true });
             return Task.FromResult<IActionResult>(View(model));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> ProfileItems(List<MemberProfileItem> data)
+        public Task<IActionResult> Index(MemberIndexViewModel model)
         {
-            List<MemberProfileItem> model = new List<MemberProfileItem>();
-            model.AddRange(data);
-            for (int i = 0; i < 5; i++)
-            {
-                model.Add(new MemberProfileItem()); // add 5 empty item slots
-            }
             return Task.FromResult<IActionResult>(View(model));
-        }
-
-        // GET: Members
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Members.ToListAsync());
         }
 
         // GET: Members/Create
         public IActionResult Create()
         {
             var model = new MemberCreateViewModel {
-                MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItem { ItemName = $"item {i}{i}" }).ToList()
+                MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItemEntity { ItemName = $"item {i}{i}" }).ToList()
             };
             return View(model);
         }

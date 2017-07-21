@@ -9,6 +9,9 @@
     <UserSecretsId>aspnet-SharpMember-ca080801-db09-46b6-be04-3a5e51e4cb5b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Views\Members\Index.cshtml_old" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />

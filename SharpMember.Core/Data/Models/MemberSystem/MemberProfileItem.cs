@@ -13,12 +13,12 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string ItemName { get; set; }
         public string ItemValue { get; set; }
         public bool IsRequired { get; set; } = false;
+        public int MemberId { get; set; }
     }
 
     public class MemberProfileItem : MemberProfileItemEntity
     {
         [ForeignKey(nameof(MemberId))]
         public Member Member { get; set; }
-        public int MemberId { get; set; }
     }
 }

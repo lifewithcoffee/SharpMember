@@ -18,6 +18,8 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public DateTime? CancellationDate { get; set; }
         public int Level { get; set; }
         public string Remarks { get; set; }
+
+        public int OrganizationId { get; set; }
     }
 
     public class Member : MemberEntity
@@ -26,7 +28,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         [ForeignKey(nameof(OrganizationId))]
         public virtual Organization Organization { get; set; }
-        public int OrganizationId { get; set; }
 
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
         public virtual List<MemberMemberGroupRelation> MemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
