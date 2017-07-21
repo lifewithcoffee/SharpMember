@@ -1,0 +1,38 @@
+using System;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace SharpMember.XUnitTest
+{
+    public class UnitTest1
+    {
+        private readonly ITestOutputHelper output;
+        public UnitTest1(ITestOutputHelper output) { this.output = output; }
+
+        [Fact(DisplayName = "Index should return default view")]
+        public void Test1()
+        {
+        }
+
+        [Fact()]
+        public void Test2()
+        {
+            Console.WriteLine("Test console outout");
+        }
+
+        [Fact()]
+        public void Test3()
+        {
+            output.WriteLine("Test console outout");
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void ReturnFalseGivenValuesLessThan2(int value)
+        {
+            Assert.False(true, $"{value} should not be prime");
+        }
+    }
+}
