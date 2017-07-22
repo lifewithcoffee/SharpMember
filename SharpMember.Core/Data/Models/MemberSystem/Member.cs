@@ -20,10 +20,12 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string Remarks { get; set; }
 
         public int OrganizationId { get; set; }
+        public int ApplicationUserId { get; set; }
     }
 
     public class Member : MemberEntity
     {
+        [ForeignKey(nameof(ApplicationUserId))]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey(nameof(OrganizationId))]
