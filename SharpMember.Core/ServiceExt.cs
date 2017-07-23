@@ -21,7 +21,7 @@ namespace SharpMember.Core
     {
         static private void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IMemberGroupRepository, MemberGroupRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();

@@ -5,14 +5,14 @@ using System.Text;
 
 namespace SharpMember.Core.Data.Models.MemberSystem
 {
-    public class MemberMemberGroupRelation
+    public class GroupMemberRelation
     {
         [ForeignKey(nameof(MemberId))]
         public Member Member { get; set; }
         public int MemberId { get; set; }
 
         [ForeignKey(nameof(MemberGroupId))]
-        public MemberGroup MemberGroup { get; set; }
+        public Group MemberGroup { get; set; }
         public int MemberGroupId { get; set; }
     }
 }

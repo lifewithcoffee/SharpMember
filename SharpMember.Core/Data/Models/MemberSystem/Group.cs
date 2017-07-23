@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Data.Models.MemberSystem
 {
-    public class MemberGroupEntity
+    public class GroupEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Introduction { get; set; }
+        public string Announcement { get; set; }
     }
 
     /// <summary>
     /// The relationship between Member and MemberGroup is many-to-many.
     /// So MemberGroup is actuall a label system for members.
     /// </summary>
-    public class MemberGroup : MemberGroupEntity
+    public class Group : GroupEntity
     {
         public int OrganizationId { get; set; }
 
         [ForeignKey(nameof(OrganizationId))]
         public virtual Organization Organization { get; set; }
 
-        public virtual List<MemberMemberGroupRelation> MemberMemberGroupRelations { get; set; } = new List<MemberMemberGroupRelation>();
+        public virtual List<GroupMemberRelation> GroupMemberRelations { get; set; } = new List<GroupMemberRelation>();
     }
 }

@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IMemberGroupRepository : IRepositoryBase<MemberGroup, ApplicationDbContext>
+    public interface IGroupRepository : IRepositoryBase<Group, ApplicationDbContext>
     {
-        Task<MemberGroup> AddAsync(int orgId, string memberGroupName);
+        Task<Group> AddAsync(int orgId, string memberGroupName);
     }
 
-    public class MemberGroupRepository : RepositoryBase<MemberGroup, ApplicationDbContext>, IMemberGroupRepository
+    public class GroupRepository : RepositoryBase<Group, ApplicationDbContext>, IGroupRepository
     {
         private readonly IOrganizationRepository _organizationRepository;
 
-        public MemberGroupRepository(
+        public GroupRepository(
             IUnitOfWork<ApplicationDbContext> unitOfWork,
             ILogger logger,
             IOrganizationRepository organizationRepository
@@ -27,7 +27,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             this._organizationRepository = organizationRepository;
         }
 
-        public override MemberGroup Add(MemberGroup entity)
+        public override Group Add(Group entity)
         {
             throw new NotSupportedException("A MemberGroup must be added in an organization, use AddAsync(orgId, memberGroupName) instead.");
         }
@@ -37,7 +37,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// - the organization must exist
         /// - the MemberGroup with the specified name must NOT exist
         /// </summary>
-        public async Task<MemberGroup> AddAsync(int orgId, string memberGroupName)
+        public async Task<Group> AddAsync(int orgId, string memberGroupName)
         {
             if (!await _organizationRepository.ExistAsync(o => o.Id == orgId))
             {
@@ -49,7 +49,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 throw new MemberNameExistException($"MemberGroup with name {memberGroupName} already exists.");
             }
 
-            return base.Add(new MemberGroup { Name = memberGroupName });
+            return base.Add(new Group { Name = memberGroupName });
         }
     }
 }
