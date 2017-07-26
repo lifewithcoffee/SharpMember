@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using SharpMember.Core;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace U.DataRepositories
 {
@@ -57,16 +58,40 @@ namespace U.DataRepositories
             repo.Commit();
 
             // read
-            throw new NotImplementedException();
+            var repoOrg = this.serviceProvider.GetService<IOrganizationRepository>();
+            var readItemNames = repoOrg.GetMany(o => o.Id == existingOrgId)
+                .Include(o => o.MemberProfileItemTemplates)
+                .SelectMany(o => o.MemberProfileItemTemplates)
+                .Select(t => t.ItemName)
+                .ToList();
+
+            // verify add
+            Assert.Equal(2, readItemNames.Count);
+            foreach(var name in itemNames)
+            {
+                Assert.True(readItemNames.Contains(name));
+            }
+
+            // update
+            var repoUpdate = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            var updated = repoUpdate.GetMany(t => t.OrganizationId == existingOrgId).First();
+            string newItemName = $"updated-{Guid.NewGuid().ToString()}";
+            updated.ItemName = newItemName;
+            repoUpdate.Commit();
+
+            // verify upate
+            var repoRead = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            var updateItemNames = repoUpdate.GetMany(t => t.OrganizationId == existingOrgId).Select(t => t.ItemName).ToList();
+            Assert.True(updateItemNames.Contains(newItemName));
         }
 
         [Fact]
         public async Task TestAddTo_NonexitentOrganizationId_Should_ThrowsException()
         {
-            int nonExistingOrgId = this.util.GetNonexistentOrganizationId();
+            int nonExistentOrgId = this.util.GetNonexistentOrganizationId();
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            OrganizationNotExistsException ex = await Assert.ThrowsAsync<OrganizationNotExistsException>(() => repo.AddWithExceptionAsync(nonExistingOrgId, Guid.NewGuid().ToString()));
-            Assert.Equal($"The organization with Id {nonExistingOrgId} does not exist.", ex.Message);
+            OrganizationNotExistsException ex = await Assert.ThrowsAsync<OrganizationNotExistsException>(() => repo.AddWithExceptionAsync(nonExistentOrgId, Guid.NewGuid().ToString()));
+            Assert.Equal($"The organization with Id {nonExistentOrgId} does not exist.", ex.Message);
         }
     }
 }
