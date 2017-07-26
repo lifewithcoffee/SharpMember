@@ -4,13 +4,13 @@ using System.Text;
 
 namespace SharpMember.Core
 {
-    public class MemberNameExistException : Exception
+    public class MemberNameExistsException : Exception
     {
-        public MemberNameExistException(string message) : base(message) { }
+        public MemberNameExistsException(string message) : base(message) { }
     }
 
-    public class OrganizationNotExistException : Exception
+    public class OrganizationNotExistsException : Exception
     {
-        public OrganizationNotExistException(int invalidOrgId):base($"The organization with Id {invalidOrgId} does not exist.") { }
+        public OrganizationNotExistsException(int invalidOrgId):base($"The organization with Id {invalidOrgId} does not exist.") { }
     }
 }

@@ -20,7 +20,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         {
             if(null == await this.UnitOfWork.Context.Organizations.FindAsync(orgId))
             {
-                throw new OrganizationNotExistException(orgId);
+                throw new OrganizationNotExistsException(orgId);
             }
             return Add(new MemberProfileItemTemplate { OrganizationId = orgId, ItemName = itemName, IsRequired = isRequired });
         }

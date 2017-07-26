@@ -41,12 +41,12 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         {
             if (!await _organizationRepository.ExistAsync(o => o.Id == orgId))
             {
-                throw new OrganizationNotExistException(orgId);
+                throw new OrganizationNotExistsException(orgId);
             }
 
             if (await this.ExistAsync(m => m.Name == memberGroupName))
             {
-                throw new MemberNameExistException($"MemberGroup with name {memberGroupName} already exists.");
+                throw new MemberNameExistsException($"MemberGroup with name {memberGroupName} already exists.");
             }
 
             return base.Add(new Group { Name = memberGroupName });

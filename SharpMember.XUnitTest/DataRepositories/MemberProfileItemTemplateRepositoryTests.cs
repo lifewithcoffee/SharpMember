@@ -23,7 +23,7 @@ namespace U.DataRepositories
             return org.Id;
         }
 
-        public int GetNonExistingOrganizationId()
+        public int GetNonexistentOrganizationId()
         {
             var repo = this.serviceProvider.GetService<IOrganizationRepository>();
             var org = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
@@ -61,11 +61,11 @@ namespace U.DataRepositories
         }
 
         [Fact]
-        public async Task TestAddToNonExistOrganizationId()
+        public async Task TestAddTo_NonexitentOrganizationId_Should_ThrowsException()
         {
-            int nonExistingOrgId = this.util.GetNonExistingOrganizationId();
+            int nonExistingOrgId = this.util.GetNonexistentOrganizationId();
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            OrganizationNotExistException ex = await Assert.ThrowsAsync<OrganizationNotExistException>(() => repo.AddWithExceptionAsync(nonExistingOrgId, Guid.NewGuid().ToString()));
+            OrganizationNotExistsException ex = await Assert.ThrowsAsync<OrganizationNotExistsException>(() => repo.AddWithExceptionAsync(nonExistingOrgId, Guid.NewGuid().ToString()));
             Assert.Equal($"The organization with Id {nonExistingOrgId} does not exist.", ex.Message);
         }
     }
