@@ -44,11 +44,12 @@ namespace U.DataRepositories
         LocalUtil util = new LocalUtil();
 
         [Fact]
-        public void TestAddGetUpdateMemberProfileItemTemplate()
+        public void TestAdd_Update_Delete_MemberProfileItemTemplate()
         {
             int existingOrgId = this.util.GetExistingOrganizationId();
             string[] itemNames = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
+            // ======================================================================================
             // add
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             foreach(var name in itemNames)
@@ -57,7 +58,7 @@ namespace U.DataRepositories
             }
             repo.Commit();
 
-            // read
+            // verify add
             var repoOrg = this.serviceProvider.GetService<IOrganizationRepository>();
             var readItemNames = repoOrg.GetMany(o => o.Id == existingOrgId)
                 .Include(o => o.MemberProfileItemTemplates)
@@ -65,13 +66,13 @@ namespace U.DataRepositories
                 .Select(t => t.ItemName)
                 .ToList();
 
-            // verify add
             Assert.Equal(2, readItemNames.Count);
             foreach(var name in itemNames)
             {
                 Assert.True(readItemNames.Contains(name));
             }
 
+            // ======================================================================================
             // update
             var repoUpdate = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             var updated = repoUpdate.GetMany(t => t.OrganizationId == existingOrgId).First();
@@ -82,7 +83,20 @@ namespace U.DataRepositories
             // verify upate
             var repoRead = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             var updateItemNames = repoUpdate.GetMany(t => t.OrganizationId == existingOrgId).Select(t => t.ItemName).ToList();
+            Assert.Equal(2, updateItemNames.Count());
             Assert.True(updateItemNames.Contains(newItemName));
+
+            // ======================================================================================
+            // delete
+            var repoDelete = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            var deleteTarget = repoDelete.GetMany(t => t.OrganizationId == existingOrgId).Last();
+            repoDelete.Delete(deleteTarget);
+            repoDelete.Commit();
+
+            // verify delete
+            var repoRead2 = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            var remained = repoRead2.GetMany(t => t.OrganizationId == existingOrgId).ToList();
+            Assert.Equal(1, remained.Count());
         }
 
         [Fact]
