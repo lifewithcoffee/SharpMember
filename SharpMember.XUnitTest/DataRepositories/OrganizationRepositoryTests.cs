@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -17,28 +15,38 @@ using Xunit;
 
 namespace U.DataRepositories
 {
-    public class OrganizationTests
+    public class OrganizationTests: TestBase
     {
         [Fact]
-        public void TestAdd()
+        public void TestAddGetUpdateOrganization()
         {
-            string configureFileDir = $"TestGlobalSettings\\SharpMember";
-            IConfigurationRoot Configuration = new ConfigurationBuilder()
-                .SetBasePath(TestGlobalSettings.sharpMemberProjectPath)
-                .AddJsonFile(TestGlobalSettings.sharpMemberJsonSettingName)
-                .Build();
-
-            IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddSharpMemberCore(Configuration);
-            serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);   // TODO: make an MCN notes here
-
-            IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             IOrganizationRepository repo = serviceProvider.GetService<IOrganizationRepository>();
-
             Assert.NotNull(repo);
 
-            repo.Add(new Organization { Name = Guid.NewGuid().ToString()});
+            // add
+            var newOrganization = repo.Add(new Organization { Name = Guid.NewGuid().ToString()});
+            Assert.False(newOrganization.Id > 0);
+
             repo.Commit();
+            Assert.True(newOrganization.Id > 0);
+
+            // read to verify add
+            var readRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IOrganizationRepository>();
+            var readOrganization = readRepo.GetById(newOrganization.Id);
+            Assert.Equal(newOrganization.Name, readOrganization.Name);
+
+            // update
+            var updateRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IOrganizationRepository>();
+            var orgBeforeUpdate = updateRepo.GetById(newOrganization.Id);
+
+            string newOrganizationName = Guid.NewGuid().ToString();
+            orgBeforeUpdate.Name = newOrganizationName;
+            updateRepo.Commit();
+
+            // read to verify update
+            var readRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IOrganizationRepository>();
+            var orgAfterUpdate = readRepo2.GetById(newOrganization.Id);
+            Assert.Equal(newOrganizationName, orgAfterUpdate.Name);
         }
     }
 }

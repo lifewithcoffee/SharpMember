@@ -114,17 +114,22 @@ namespace SharpMember.Core.Data.RepositoryBase
     {
         TEntity GetById(int? id);
         Task<TEntity> GetByIdAsync(int? id);
-        bool Exist(Expression<Func<TEntity, bool>> predicate);
-        Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate);
-        TEntity Add(TEntity entity);
-        void Update(TEntity entity);
-        void Delete(TEntity entity);
-        void Delete(Expression<Func<TEntity, bool>> where);
         IQueryable<TEntity> GetAll();
         IQueryable<TEntity> GetMany(Expression<Func<TEntity, bool>> where);
         IQueryable<TEntity> GetManyLocalFirst(Expression<Func<TEntity, bool>> where);
 
-        
+        bool Exist(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate);
+
+        TEntity Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
+
+        void Update(TEntity entity);
+        void UpdateRange(IEnumerable<TEntity> entities);
+
+        void Delete(TEntity entity);
+        void Delete(Expression<Func<TEntity, bool>> where);
+        void DeleteRange(IEnumerable<TEntity> entities);
     }
 
     /// <summary>
