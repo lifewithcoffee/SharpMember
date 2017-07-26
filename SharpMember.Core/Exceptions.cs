@@ -11,6 +11,6 @@ namespace SharpMember.Core
 
     public class OrganizationNotExistException : Exception
     {
-        public OrganizationNotExistException(string message) : base(message) { }
+        public OrganizationNotExistException(int invalidOrgId):base($"The organization with Id {invalidOrgId} does not exist.") { }
     }
 }

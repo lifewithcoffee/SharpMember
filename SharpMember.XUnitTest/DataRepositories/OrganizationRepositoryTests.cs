@@ -15,12 +15,12 @@ using Xunit;
 
 namespace U.DataRepositories
 {
-    public class OrganizationTests: TestBase
+    public class OrganizationTests: DependencyEnabled
     {
         [Fact]
         public void TestAddGetUpdateOrganization()
         {
-            IOrganizationRepository repo = serviceProvider.GetService<IOrganizationRepository>();
+            IOrganizationRepository repo = this.serviceProvider.GetService<IOrganizationRepository>();
             Assert.NotNull(repo);
 
             // add

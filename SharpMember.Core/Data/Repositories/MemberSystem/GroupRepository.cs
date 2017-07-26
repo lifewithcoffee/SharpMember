@@ -11,7 +11,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IGroupRepository : IRepositoryBase<Group, ApplicationDbContext>
     {
-        Task<Group> AddAsync(int orgId, string memberGroupName);
+        Task<Group> AddWithExceptionAsync(int orgId, string memberGroupName);
     }
 
     public class GroupRepository : RepositoryBase<Group, ApplicationDbContext>, IGroupRepository
@@ -37,11 +37,11 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// - the organization must exist
         /// - the MemberGroup with the specified name must NOT exist
         /// </summary>
-        public async Task<Group> AddAsync(int orgId, string memberGroupName)
+        public async Task<Group> AddWithExceptionAsync(int orgId, string memberGroupName)
         {
             if (!await _organizationRepository.ExistAsync(o => o.Id == orgId))
             {
-                throw new OrganizationNotExistException($"Organization with Id {orgId} does not exist.");
+                throw new OrganizationNotExistException(orgId);
             }
 
             if (await this.ExistAsync(m => m.Name == memberGroupName))

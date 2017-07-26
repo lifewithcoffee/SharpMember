@@ -9,11 +9,11 @@ using System.Text;
 
 namespace U
 {
-    public class TestBase
+    public class DependencyEnabled
     {
         protected IServiceProvider serviceProvider;
 
-        public TestBase()
+        public DependencyEnabled()
         {
             IConfigurationRoot Configuration = new ConfigurationBuilder()
                 .SetBasePath(TestGlobalSettings.sharpMemberProjectPath)

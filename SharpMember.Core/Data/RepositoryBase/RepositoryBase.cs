@@ -197,6 +197,11 @@ namespace SharpMember.Core.Data.RepositoryBase
         /// According to: http://stackoverflow.com/questions/42034282/are-there-dbset-updateasync-and-removeasync-in-net-core
         /// DbSet.AddAsync() should not be used:
         /// 
+        /// AddAsync however, only begins tracking an entity but won't actually send any changes 
+        /// to the database until you call SaveChanges or SaveChangesAsync. You shouldn't really 
+        /// be using this method unless you know what you're doing. The reason the async version 
+        /// of this method exists is explained in the docs:
+        /// 
         /// This method is async only to allow special value generators, such as the one used by
         /// 'Microsoft.EntityFrameworkCore.Metadata.SqlServerValueGenerationStrategy.SequenceHiLo',
         /// to access the database asynchronously. For all other cases the non async method should
