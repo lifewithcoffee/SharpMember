@@ -14,34 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace U.DataRepositories
 {
-    class LocalUtil: DependencyEnabled
-    {
-        public int GetExistingOrganizationId()
-        {
-            var repo = this.serviceProvider.GetService<IOrganizationRepository>();
-            var org = repo.Add(Guid.NewGuid().ToString());
-            repo.Commit();
-            return org.Id;
-        }
-
-        public int GetNonexistentOrganizationId()
-        {
-            var repo = this.serviceProvider.GetService<IOrganizationRepository>();
-            var org = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
-            if(org == null)
-            {
-                return new Random().Next(); // return non-negative integer
-            }
-            else
-            {
-                return org.Id + new Random().Next();
-            }
-        }
-    }
-
     public class MemberProfileItemTemplateRepositoryTests: DependencyEnabled
     {
-        LocalUtil util = new LocalUtil();
+        TestUtil util = new TestUtil();
 
         [Fact]
         public void TestAdd_Update_Delete_MemberProfileItemTemplate()
@@ -54,7 +29,7 @@ namespace U.DataRepositories
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             foreach(var name in itemNames)
             {
-                repo.AddWithExceptionAsync(existingOrgId, name);
+                repo.AddTemplateAsync(existingOrgId, name);
             }
             repo.Commit();
 
@@ -104,7 +79,7 @@ namespace U.DataRepositories
         {
             int nonExistentOrgId = this.util.GetNonexistentOrganizationId();
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            OrganizationNotExistsException ex = await Assert.ThrowsAsync<OrganizationNotExistsException>(() => repo.AddWithExceptionAsync(nonExistentOrgId, Guid.NewGuid().ToString()));
+            OrganizationNotExistsException ex = await Assert.ThrowsAsync<OrganizationNotExistsException>(() => repo.AddTemplateAsync(nonExistentOrgId, Guid.NewGuid().ToString()));
             Assert.Equal($"The organization with Id {nonExistentOrgId} does not exist.", ex.Message);
         }
     }
