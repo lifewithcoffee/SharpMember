@@ -24,14 +24,31 @@ namespace U.DataRepositories
             await itemTemplateRepo.AddRquiredTemplatesAsync(existingOrgId, originalTemplats );
             await itemTemplateRepo.CommitAsync();
 
-            // Generate a new member
-            var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-            var newMember = await memberRepo.GenerateNewMemberAsync(existingOrgId);
-            Assert.Equal(0, newMember.MemberNumber);
-            Assert.Equal(originalTemplats.Length, newMember.MemberProfileItems.Count);
-            foreach(var item in newMember.MemberProfileItems)
+            // Generate & verify a new member
             {
-                Assert.True(originalTemplats.Contains(item.ItemName));
+                var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var newMember = await memberRepo.GenerateNewMemberAsync(existingOrgId);
+                Assert.Equal(0, newMember.MemberNumber);
+                Assert.Equal(originalTemplats.Length, newMember.MemberProfileItems.Count);
+                foreach (var item in newMember.MemberProfileItems)
+                {
+                    Assert.True(originalTemplats.Contains(item.ItemName));
+                }
+            }
+
+            // Delete one item template
+            {
+                var itemTemplateRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
+                var templateToBeDeleted = itemTemplateRepo2.GetByOrganizationId(existingOrgId).First();
+                itemTemplateRepo2.Delete(templateToBeDeleted);
+                await itemTemplateRepo2.CommitAsync();
+            }
+
+            // Generate & verify a new member after deletion
+            {
+                var memberRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var newMember2 = await memberRepo2.GenerateNewMemberAsync(existingOrgId);
+                Assert.Equal(1, newMember2.MemberProfileItems.Count);
             }
         }
     }
