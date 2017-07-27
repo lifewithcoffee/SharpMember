@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Xunit.Abstractions;
+using SharpMember.Core;
 
 namespace U.DataRepositories
 {
@@ -18,7 +19,10 @@ namespace U.DataRepositories
         [Fact]
         public void Add_with_invalide_organizationId_should_throw_exception()
         {
-            throw new NotImplementedException();
+            int nonexistentOrgId = util.GetNonexistentOrganizationId();
+
+            IMemberRepository repo = this.serviceProvider.GetService<IMemberRepository>();
+            Assert.Throws<OrganizationNotExistsException>(() => repo.Add(new Member { OrganizationId = nonexistentOrgId }));
         }
 
         [Fact]

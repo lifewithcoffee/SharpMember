@@ -16,7 +16,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     {
         int GetNextUnassignedMemberNumber(int orgId);
         Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId);
-        Member GetByMemberNumber(int orgId, int memberNumber);
+        IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
         IQueryable<Member> GetByOrganization(int orgId);
         IQueryable<Member> GetByItemValue(int orgId, string itemValue);
@@ -25,6 +25,15 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
     {
         public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+
+        public override Member Add(Member entity)
+        {
+            if (null == this.UnitOfWork.Context.Organizations.Find(entity.OrganizationId))
+            {
+                throw new OrganizationNotExistsException(entity.OrganizationId);
+            }
+            return base.Add(entity);
+        }
 
         public int GetNextUnassignedMemberNumber(int orgId)
         {
@@ -65,7 +74,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             await this.CommitAsync();
 
             // check if there is a duplication
-            while(this.GetByOrganization(member.OrganizationId).Where(m => m.MemberNumber == nextMemberNumber).Count() > 1)
+            while(this.GetByMemberNumber(member.OrganizationId, nextMemberNumber).Count() > 1)
             {
                 nextMemberNumber = await AssignMemberNubmerAsync(memberId, 0);
                 member.MemberNumber = nextMemberNumber;
@@ -92,9 +101,9 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return returned;
         }
 
-        public Member GetByMemberNumber(int orgId, int memberNumber)
+        public IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber)
         {
-            return this.GetMany(m => m.MemberNumber == memberNumber && m.OrganizationId == orgId).SingleOrDefault();
+            return this.GetMany(m => m.MemberNumber == memberNumber && m.OrganizationId == orgId);
         }
 
         public IQueryable<Member> GetByOrganization(int orgId)
