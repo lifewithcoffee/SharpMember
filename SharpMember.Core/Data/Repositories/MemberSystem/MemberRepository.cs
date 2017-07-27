@@ -14,9 +14,10 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
     {
-        Task<Member> GenerateNewMemberAsync(int orgId);
+        int GetNextUnassignedMemberNumber(int orgId);
+        Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId);
         Member GetByMemberNumber(int orgId, int memberNumber);
-        Task<int> AssignMemberNubmer(int memberId, int nextMemberNumber);
+        Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
         IQueryable<Member> GetByOrganization(int orgId);
         IQueryable<Member> GetByItemValue(int orgId, string itemValue);
     }
@@ -24,6 +25,17 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
     {
         public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+
+        public int GetNextUnassignedMemberNumber(int orgId)
+        {
+            int nextMemberNumber = 1;
+            var member = this.GetMany(m => m.OrganizationId == orgId).OrderBy(m => m.MemberNumber).LastOrDefault();
+            if(member != null)
+            {
+                nextMemberNumber = member.MemberNumber + 1;
+            }
+            return nextMemberNumber;
+        }
 
         /// <summary>
         /// Try to assign the <paramref name="nextMemberNumber"/> to the relevant member.
@@ -36,13 +48,13 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         ///       
         /// </summary>
         /// <returns>The successfully assigned member number.</returns>
-        public async Task<int> AssignMemberNubmer(int memberId, int nextMemberNumber)
+        public async Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber)
         {
             var member = this.GetById(memberId);
             
             if(nextMemberNumber <= 0)
             {
-                nextMemberNumber = this.GetMany(m => m.OrganizationId == member.OrganizationId).OrderBy(m => m.MemberNumber).Last().MemberNumber + 1;
+                nextMemberNumber = this.GetNextUnassignedMemberNumber(member.OrganizationId);
             }
             
             if(member.MemberNumber <= 0)
@@ -53,15 +65,17 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             await this.CommitAsync();
 
             // check if there is a duplication
-            while(this.GetMany(m => m.MemberNumber == nextMemberNumber).Count() > 1)
+            while(this.GetByOrganization(member.OrganizationId).Where(m => m.MemberNumber == nextMemberNumber).Count() > 1)
             {
-                nextMemberNumber = await AssignMemberNubmer(memberId, 0);
+                nextMemberNumber = await AssignMemberNubmerAsync(memberId, 0);
+                member.MemberNumber = nextMemberNumber;
+                await this.CommitAsync();
             }
 
             return nextMemberNumber;
         }
 
-        public async Task<Member> GenerateNewMemberAsync(int orgId)
+        public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId)
         {
             if (null == this.UnitOfWork.Context.Organizations.Find(orgId))
             {

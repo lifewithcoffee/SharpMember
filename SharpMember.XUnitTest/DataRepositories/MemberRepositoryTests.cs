@@ -6,17 +6,38 @@ using System.Text;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using SharpMember.Core.Data.Models.MemberSystem;
+using Xunit.Abstractions;
 
 namespace U.DataRepositories
 {
     public class MemberRepositoryTests: DependencyEnabled
     {
-        TestUtil util = new TestUtil();
+        private TestUtil util = new TestUtil();
 
         [Fact]
-        public void Test_AssignMemberNubmer()
+        public void Add_with_invalide_organizationId_should_throw_exception()
         {
             throw new NotImplementedException();
+        }
+
+        [Fact]
+        public async Task Test_AssignMemberNubmer()
+        {
+            int existingOrgId = util.GetExistingOrganizationId();
+
+            IMemberRepository repo = this.serviceProvider.GetService<IMemberRepository>();
+
+            var member1 = repo.Add(new Member { OrganizationId = existingOrgId });
+            var member2 = repo.Add(new Member { OrganizationId = existingOrgId });
+            await repo.CommitAsync();
+
+            int nextMemberNumber = repo.GetNextUnassignedMemberNumber(existingOrgId);
+            int result1 = await repo.AssignMemberNubmerAsync(member1.Id, nextMemberNumber);
+            Assert.Equal(nextMemberNumber, result1);
+
+            int result2 = await repo.AssignMemberNubmerAsync(member2.Id, nextMemberNumber);
+            Assert.True(result2 > nextMemberNumber);
         }
 
         [Fact]
@@ -33,7 +54,7 @@ namespace U.DataRepositories
             // Generate & verify a new member
             {
                 var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember = await memberRepo.GenerateNewMemberAsync(existingOrgId);
+                var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(originalTemplats.Length, newMember.MemberProfileItems.Count);
                 foreach (var item in newMember.MemberProfileItems)
@@ -53,7 +74,7 @@ namespace U.DataRepositories
             // Generate & verify a new member after deletion
             {
                 var memberRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember2 = await memberRepo2.GenerateNewMemberAsync(existingOrgId);
+                var newMember2 = await memberRepo2.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
                 Assert.Equal(1, newMember2.MemberProfileItems.Count);
             }
         }
