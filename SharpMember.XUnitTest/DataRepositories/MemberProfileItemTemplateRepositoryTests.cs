@@ -19,7 +19,7 @@ namespace U.DataRepositories
         TestUtil util = new TestUtil();
 
         [Fact]
-        public void TestAdd_Update_Delete_MemberProfileItemTemplate()
+        public async Task TestAdd_Update_Delete_MemberProfileItemTemplate()
         {
             int existingOrgId = this.util.GetExistingOrganizationId();
             string[] itemNames = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
@@ -29,9 +29,9 @@ namespace U.DataRepositories
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             foreach(var name in itemNames)
             {
-                repo.AddTemplateAsync(existingOrgId, name);
+                await repo.AddTemplateAsync(existingOrgId, name);
             }
-            repo.Commit();
+            await repo.CommitAsync();
 
             // verify add
             var repoOrg = this.serviceProvider.GetService<IOrganizationRepository>();

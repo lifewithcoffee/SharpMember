@@ -14,7 +14,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
     {
-        Member GenerateNewMember(int orgId);
+        Task<Member> GenerateNewMemberAsync(int orgId);
         Member GetByMemberNumber(int orgId, int memberNumber);
         Task<int> AssignMemberNubmer(int memberId, int nextMemberNumber);
         IQueryable<Member> GetByOrganization(int orgId);
@@ -61,17 +61,17 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return nextMemberNumber;
         }
 
-        public Member GenerateNewMember(int orgId)
+        public async Task<Member> GenerateNewMemberAsync(int orgId)
         {
             if (null == this.UnitOfWork.Context.Organizations.Find(orgId))
             {
                 throw new OrganizationNotExistsException(orgId);
             }
 
-            var memberProfileItems = this.UnitOfWork.Context.MemberProfileItemTemplates
+            var memberProfileItems = await this.UnitOfWork.Context.MemberProfileItemTemplates
                 .Where(t => t.OrganizationId == orgId)
                 .Select(t => new MemberProfileItem { ItemName = t.ItemName })
-                .ToList();
+                .ToListAsync();
 
             Member returned = new Member { MemberProfileItems = memberProfileItems };
 
