@@ -14,7 +14,13 @@ namespace U.DataRepositories
         TestUtil util = new TestUtil();
 
         [Fact]
-        public async Task TestOrganization_MemberProfileItemTemplate_change_should_cause_new_member_profile_item_change()
+        public void Test_AssignMemberNubmer()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Fact]
+        public async Task Organization_MemberProfileItemTemplate_change_should_cause_new_member_profile_item_change()
         {
             // create an organization and the relevant member item templates
             int existingOrgId = util.GetExistingOrganizationId();

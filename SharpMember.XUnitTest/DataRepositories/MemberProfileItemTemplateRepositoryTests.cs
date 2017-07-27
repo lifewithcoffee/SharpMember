@@ -19,7 +19,7 @@ namespace U.DataRepositories
         TestUtil util = new TestUtil();
 
         [Fact]
-        public async Task TestAdd_Update_Delete_MemberProfileItemTemplate()
+        public async Task Test_add_update_delete_MemberProfileItemTemplate()
         {
             int existingOrgId = this.util.GetExistingOrganizationId();
             string[] itemNames = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
@@ -75,7 +75,7 @@ namespace U.DataRepositories
         }
 
         [Fact]
-        public async Task TestAddTo_NonexitentOrganizationId_Should_ThrowsException()
+        public async Task Add_with_nonexitent_OrganizationId_should_throw_exception()
         {
             int nonExistentOrgId = this.util.GetNonexistentOrganizationId();
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
