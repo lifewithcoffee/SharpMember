@@ -17,6 +17,26 @@ namespace U.DataRepositories
         private TestUtil util = new TestUtil();
 
         [Fact]
+        public async Task Test_GetByItemValue()
+        {
+            // create an organization and the relevant member item templates
+            int existingOrgId = util.GetExistingOrganizationId();
+            string[] originalTemplats = { "Item1", "Item2" };
+
+            var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            await itemTemplateRepo.AddRquiredTemplatesAsync(existingOrgId, originalTemplats );
+            await itemTemplateRepo.CommitAsync();
+
+            // create members
+            var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+            var newMember1 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
+            var newMember2 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
+
+            // populate member profiles
+            throw new NotImplementedException();
+        }
+
+        [Fact]
         public void Add_with_invalide_organizationId_should_throw_exception()
         {
             int nonexistentOrgId = util.GetNonexistentOrganizationId();

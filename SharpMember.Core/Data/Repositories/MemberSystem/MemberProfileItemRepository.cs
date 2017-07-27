@@ -9,7 +9,10 @@ using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IMemberProfileItemRepository : IRepositoryBase<MemberProfileItem, ApplicationDbContext> { }
+    public interface IMemberProfileItemRepository : IRepositoryBase<MemberProfileItem, ApplicationDbContext>
+    {
+        void UpdateProfile(int memberId, IList<MemberProfileItem> newItems);
+    }
 
     public class MemberProfileItemRepository : RepositoryBase<MemberProfileItem, ApplicationDbContext>, IMemberProfileItemRepository
     {
@@ -33,8 +36,16 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             }
         }
 
-        public void UpdateProfile(int memberId, IList<MemberProfileItem> oldItems, IList<MemberProfileItem> newItems)
+        public void UpdateProfile(int memberId, IList<MemberProfileItem> newItems)
         {
+            var member = this.UnitOfWork.Context.Members.Find(memberId);
+            if(null == member)
+            {
+                throw new MemberNotExistsException(memberId);
+            }
+
+            IList<MemberProfileItem> oldItems = member.MemberProfileItems;
+
             this.DeleteRange(oldItems.Except(newItems, new IdComparer()));
             this.UpdateRange(newItems.Intersect(oldItems, new IdComparer()));
             this.AddRange(newItems.Except(oldItems, new IdComparer()));
