@@ -6,6 +6,7 @@ using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Data.Models.MemberSystem;
+using System.Threading.Tasks;
 
 namespace U.DataRepositories
 {
@@ -94,6 +95,63 @@ namespace U.DataRepositories
                 var item5 = profile.Where(i => i.ItemName == "name5").Single(); // unchanged
                 Assert.Equal(false, item5.IsRequired);
                 Assert.Equal("value5", item5.ItemValue);
+            }
+        }
+
+
+        [Fact]
+        public async Task Test_GetByItemValue()
+        {
+            // create an organization and the relevant member item templates
+            int existingOrgId = util.GetExistingOrganizationId();
+            string[] originalTemplats = { "Item1", "Item2" };
+
+            var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            await itemTemplateRepo.AddRquiredTemplatesAsync(existingOrgId, originalTemplats);
+            await itemTemplateRepo.CommitAsync();
+
+            // create members with profile
+            int memberId1, memberId2;
+            {
+                var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var newMember1 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
+                var newMember2 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
+
+                newMember1.MemberProfileItems = new List<MemberProfileItem> {
+                    new MemberProfileItem { ItemName = "name1", ItemValue = "value1" },
+                    new MemberProfileItem { ItemName = "name2", ItemValue = "value2" },
+                };
+
+                newMember2.MemberProfileItems = new List<MemberProfileItem> {
+                    new MemberProfileItem { ItemName = "name2", ItemValue = "value2" },
+                    new MemberProfileItem { ItemName = "name3", ItemValue = "value3" },
+                    new MemberProfileItem { ItemName = "name4", ItemValue = "value4" },
+                };
+
+                memberRepo.Add(newMember1);
+                memberRepo.Add(newMember2);
+
+                await memberRepo.CommitAsync();
+
+                memberId1 = newMember1.Id;
+                memberId2 = newMember2.Id;
+            }
+
+            // verify member creation
+            {
+                var memberProfileItemRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemRepository>();
+                Assert.Equal(2, memberProfileItemRepo.GetByMemberId(memberId1).Count());
+                Assert.Equal(3, memberProfileItemRepo.GetByMemberId(memberId2).Count());
+            }
+
+            // Test GetByItemValue() method
+            {
+                var repo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemRepository>();
+                Assert.Equal(1, repo.GetByItemValueContains(existingOrgId, "value1").ToList().Count());
+                Assert.Equal(2, repo.GetByItemValueContains(existingOrgId, "value2").ToList().Count());
+                Assert.Equal(1, repo.GetByItemValueContains(existingOrgId, "value3").ToList().Count());
+                Assert.Equal(1, repo.GetByItemValueContains(existingOrgId, "value4").ToList().Count());
+                Assert.Equal(5, repo.GetByItemValueContains(existingOrgId, "value").ToList().Count());    // partial value
             }
         }
     }

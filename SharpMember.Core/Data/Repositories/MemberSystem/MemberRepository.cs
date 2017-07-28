@@ -17,7 +17,6 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         int GetNextUnassignedMemberNumber(int orgId);
         IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber);
         IQueryable<Member> GetByOrganization(int orgId);
-        IQueryable<Member> GetByItemValue(int orgId, string itemValue);
         Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
     }
@@ -96,7 +95,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 .Select(t => new MemberProfileItem { ItemName = t.ItemName })
                 .ToListAsync();
 
-            Member returned = new Member { MemberProfileItems = memberProfileItems };
+            Member returned = new Member { MemberProfileItems = memberProfileItems, OrganizationId = orgId};
 
             return returned;
         }
@@ -111,12 +110,6 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return this.GetMany(m => m.OrganizationId == orgId);
         }
 
-        public IQueryable<Member> GetByItemValue(int orgId, string itemValue)
-        {
-            return from item in this.UnitOfWork.Context.MemberProfileItems
-                   join member in this.GetMany(m => m.OrganizationId == orgId) on item.MemberId equals member.Id
-                   where item.ItemValue.Contains(itemValue)
-                   select member;
-        }
+       
     }
 }
