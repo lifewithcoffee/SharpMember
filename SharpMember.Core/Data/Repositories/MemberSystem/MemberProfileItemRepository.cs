@@ -44,6 +44,14 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 throw new MemberNotExistsException(memberId);
             }
 
+            foreach(var item in newItems)
+            {
+                if(item.MemberId != memberId)
+                {
+                    throw new MemberIdMismatchesException(memberId, item.MemberId);
+                }
+            }
+
             IList<MemberProfileItem> oldItems = member.MemberProfileItems;
 
             this.DeleteRange(oldItems.Except(newItems, new IdComparer()));

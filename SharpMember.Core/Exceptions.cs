@@ -15,6 +15,13 @@ namespace SharpMember.Core
         public MemberNotExistsException(int invalidMemberId):base($"The member with Id {invalidMemberId} does not exist.") { }
     }
 
+    public class MemberIdMismatchesException : Exception
+    {
+        public MemberIdMismatchesException(int expected, int actual)
+        : base($"A member ID of {expected} is expected, but the actual value of {actual} was passed in.")
+        { }
+    }
+
     public class OrganizationNotExistsException : Exception
     {
         public OrganizationNotExistsException(int invalidOrgId):base($"The organization with Id {invalidOrgId} does not exist.") { }

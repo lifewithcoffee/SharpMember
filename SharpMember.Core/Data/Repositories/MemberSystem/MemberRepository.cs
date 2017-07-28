@@ -15,11 +15,11 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
     {
         int GetNextUnassignedMemberNumber(int orgId);
-        Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId);
         IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber);
-        Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
         IQueryable<Member> GetByOrganization(int orgId);
         IQueryable<Member> GetByItemValue(int orgId, string itemValue);
+        Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId);
+        Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
     }
 
     public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
