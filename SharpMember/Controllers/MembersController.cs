@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using SharpMember.Authorization;
 
 namespace SharpMember.Controllers
 {
+    [Authorize(Policy = "require role of OrganizationOwner")]
     public class MembersController : Controller
     {
         private readonly ApplicationDbContext _context;

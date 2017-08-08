@@ -14,6 +14,11 @@ using SharpMember.Models;
 using SharpMember.Core.Services;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using SharpMember.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace SharpMember
 {
@@ -43,6 +48,15 @@ namespace SharpMember
         {
             services.AddSharpMemberCore(Configuration);
             services.AddMvc();
+            services.AddAuthorization(options => {
+                options.AddPolicy("require role of OrganizationOwner",
+                    policy => {
+                        policy.Requirements.Add(new MemberRolesRequirement("OrganizationOwner"));
+                        policy.RequireAuthenticatedUser();
+                    }
+                );
+            });
+            services.AddTransient<IAuthorizationHandler, MemberRolesHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
