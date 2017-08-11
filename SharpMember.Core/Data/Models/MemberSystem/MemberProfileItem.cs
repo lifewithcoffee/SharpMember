@@ -19,6 +19,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     public class MemberProfileItem : MemberProfileItemEntity
     {
         [ForeignKey(nameof(MemberId))]
-        public Member Member { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

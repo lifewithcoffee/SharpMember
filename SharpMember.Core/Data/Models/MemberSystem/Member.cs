@@ -1,4 +1,5 @@
 ﻿using SharpMember.Core.Data.Models.ActivitySystem;
+using SharpMember.Core.Data.Models.AuthorizationSystem;
 using SharpMember.Core.Data.Models.TaskSystem;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         public int OrganizationId { get; set; }
         public string ApplicationUserId { get; set; }
+        public int? MemberRoleId { get; set; }
     }
 
     public class Member : MemberEntity
@@ -31,8 +33,12 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         [ForeignKey(nameof(OrganizationId))]
         public virtual Organization Organization { get; set; }
 
+        [ForeignKey(nameof(MemberRoleId))]
+        public virtual MemberRole MemberRole { get; set; }
+
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
         public virtual List<GroupMemberRelation> GroupMemberRelations { get; set; } = new List<GroupMemberRelation>();
+
         //[InverseProperty(nameof(WorkTask.WorkTaskOwner))]
         //public virtual List<WorkTask> OwnedWorkTasks { get; set; } = new List<WorkTask>();
 

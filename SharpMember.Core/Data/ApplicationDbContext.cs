@@ -20,13 +20,11 @@ namespace SharpMember.Core.Data
     {
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
         public DbSet<Member> Members { get; set; }
-        public DbSet<Group> MemberGroups { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMemberRelation> GroupMemberRelations { get; set; }
         public DbSet<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
-        //public DbSet<ClubEvent> ClubEvent { get; set; }
-        //public DbSet<Club> Clubs { get; set; }
 
         private static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
         {
