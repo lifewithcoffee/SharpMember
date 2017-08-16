@@ -8,11 +8,22 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Authorization
 {
-    public enum AuthPolicies
+    public class AuthPolicy
     {
-        RequireRoleOf_OrganizationOwner,
-        RequireRoleOf_GroupManager,
-        RequireRoleOf_GroupAssistantManager
+        public string RequireRoleOf_OrganizationOwner = nameof(RequireRoleOf_OrganizationOwner);
+        public string RequireRoleOf_OrganizationManager = nameof(RequireRoleOf_OrganizationManager);
+
+        public string RequireRoleOf_GroupOwner = nameof(RequireRoleOf_GroupOwner);
+        public string RequireRoleOf_GroupManager = nameof(RequireRoleOf_GroupManager);
+    }
+
+    public class RoleName
+    {
+        public string OrganizationOwner = nameof(OrganizationOwner);
+        public string OrganizationManager = nameof(OrganizationManager);
+
+        public string GroupOwner = nameof(GroupOwner);
+        public string GroupManager = nameof(GroupManager);
     }
 
     public class MemberRolesRequirement : IAuthorizationRequirement
