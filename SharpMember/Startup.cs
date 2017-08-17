@@ -49,14 +49,39 @@ namespace SharpMember
             services.AddSharpMemberCore(Configuration);
             services.AddMvc();
             services.AddAuthorization(options => {
-                options.AddPolicy("require role of OrganizationOwner",
-                    policy => {
-                        policy.Requirements.Add(new MemberRolesRequirement("OrganizationOwner"));
+                options.AddPolicy(PolicyName.RequireRoleOf_OrganizationOwner,
+                    policy =>
+                    {
+                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.OrganizationOwner));
+                        policy.RequireAuthenticatedUser();
+                    }
+                );
+                
+                options.AddPolicy(PolicyName.RequireRoleOf_OrganizationManager,
+                    policy =>
+                    {
+                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.OrganizationManager));
+                        policy.RequireAuthenticatedUser();
+                    }
+                );
+
+                options.AddPolicy(PolicyName.RequireRoleOf_GroupOwner,
+                    policy =>
+                    {
+                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.GroupOwner));
+                        policy.RequireAuthenticatedUser();
+                    }
+                );
+
+                options.AddPolicy(PolicyName.RequireRoleOf_GroupManager,
+                    policy =>
+                    {
+                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.GroupManager));
                         policy.RequireAuthenticatedUser();
                     }
                 );
             });
-            services.AddTransient<IAuthorizationHandler, MemberRolesHandler>();
+            services.AddTransient<IAuthorizationHandler, GroupRoleHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

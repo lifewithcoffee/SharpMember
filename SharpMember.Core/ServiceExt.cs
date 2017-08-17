@@ -27,6 +27,7 @@ namespace SharpMember.Core
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
+            services.AddScoped<IMemberGroupRoleRelationRepository, MemberGroupRoleRelationRepository>();
         }
         
         static private void AddServices(this IServiceCollection services)
@@ -34,10 +35,10 @@ namespace SharpMember.Core
             services.AddTransient<IFullMemberPageReader, FullMemberPageReader>();
             services.AddTransient<IZjuaaaMemberExcelFileReadService, ZjuaaaMemberExcelFileReadService>();
             services.AddTransient<IAssociatedMemberPageReader, AssociatedMemberPageReader>();
-
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfigurationRoot Configuration)

@@ -10,7 +10,10 @@ namespace SharpMember.Core.Services
 {
     public interface IAuthorizationService
     {
-       
+        void UpdateOrganizationRole(int memberId, string roleName);
+        void RemoveOrganizationRole(int memberId);
+        void UpdateGroupRole(int memberId, int groupId, string roleName);
+        void RemoveGroupRole(int memberId, int groupId);
     }
 
     public class AuthorizationService : IAuthorizationService
