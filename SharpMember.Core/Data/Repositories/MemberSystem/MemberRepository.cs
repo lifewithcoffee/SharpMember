@@ -23,7 +23,8 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
     {
-        public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+        public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberRepository> logger) : base(unitOfWork, logger)
+        { }
 
         public override Member Add(Member entity)
         {

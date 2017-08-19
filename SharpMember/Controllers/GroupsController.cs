@@ -8,19 +8,21 @@ using Microsoft.AspNetCore.Authorization;
 using SharpMember.Authorization;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
+using Microsoft.Extensions.Logging;
 
 namespace SharpMember.Controllers
 {
     public class GroupsController : Controller
     {
         IAuthorizationService _authorizationService;
+        ILogger<GroupsController> _logger;
 
         public GroupsController(IAuthorizationService authorizationService)
         {
             this._authorizationService = authorizationService;
         }
 
-        //public GroupsController(IMemberRepository memberRepo)
+        //public GroupsController(ILogger<GroupsController> logger)
         //{
         //}
 

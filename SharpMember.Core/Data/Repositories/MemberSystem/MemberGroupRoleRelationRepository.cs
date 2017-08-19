@@ -14,7 +14,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberGroupRoleRelationRepository : RepositoryBase<MemberGroupRoleRelation, ApplicationDbContext>, IMemberGroupRoleRelationRepository
     {
-        public MemberGroupRoleRelationRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public MemberGroupRoleRelationRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberGroupRoleRelationRepository> logger) : base(unitOfWork, logger)
         {
         }
     }

@@ -18,7 +18,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberProfileItemTemplateRepository : RepositoryBase<MemberProfileItemTemplate, ApplicationDbContext>, IMemberProfileItemTemplateRepository
     {
-        public MemberProfileItemTemplateRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+        public MemberProfileItemTemplateRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberProfileItemTemplateRepository> logger) : base(unitOfWork, logger) { }
 
         public IQueryable<MemberProfileItemTemplate> GetByOrganizationId(int orgId)
         {

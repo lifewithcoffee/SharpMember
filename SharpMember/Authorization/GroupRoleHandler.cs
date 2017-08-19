@@ -35,7 +35,10 @@ namespace SharpMember.Authorization
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, GroupRoleRequirement requirement, Group group)
         {
-            var userId = _userManager.GetUserId(context.User);
+            //var user = await _userManager.GetUserAsync(context.User);
+            //string userId = user.Id;
+
+            string userId = _userManager.GetUserId(context.User);
 
             Member member = this._memberRepo.GetMany(m => m.ApplicationUserId == userId).SingleOrDefault();
             if (!string.IsNullOrWhiteSpace(member?.OrganizationRole))
@@ -49,7 +52,7 @@ namespace SharpMember.Authorization
                 context.Succeed(requirement);
             }
 
-            return Task.CompletedTask;            
+            return Task.CompletedTask;
         }
     }
 }

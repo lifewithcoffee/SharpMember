@@ -20,7 +20,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public GroupRepository(
             IUnitOfWork<ApplicationDbContext> unitOfWork,
-            ILogger logger,
+            ILogger<GroupRepository> logger,
             IOrganizationRepository organizationRepository
         ) : base(unitOfWork, logger)
         {

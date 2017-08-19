@@ -18,7 +18,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberProfileItemRepository : RepositoryBase<MemberProfileItem, ApplicationDbContext>, IMemberProfileItemRepository
     {
-        public MemberProfileItemRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+        public MemberProfileItemRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberProfileItemRepository> logger) : base(unitOfWork, logger) { }
 
         public class IdComparer : IEqualityComparer<MemberProfileItem>
         {

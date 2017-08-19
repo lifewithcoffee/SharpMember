@@ -26,7 +26,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public OrganizationRepository(
             IUnitOfWork<ApplicationDbContext> unitOfWork
-            , ILogger logger
+            , ILogger<OrganizationRepository> logger
             , UserManager<ApplicationUser> userManager
         ) : base(unitOfWork, logger)
         {

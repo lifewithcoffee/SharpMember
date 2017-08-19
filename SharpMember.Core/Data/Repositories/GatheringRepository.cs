@@ -12,7 +12,7 @@ namespace SharpMember.Core.Data.Repositories
 
     public class GatheringRepository : RepositoryBase<Gathering, ApplicationDbContext>, IGatheringRepository
     {
-        public GatheringRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger)
+        public GatheringRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<GatheringRepository> logger) : base(unitOfWork, logger)
         {
         }
     }
