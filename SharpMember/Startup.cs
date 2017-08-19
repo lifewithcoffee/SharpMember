@@ -52,7 +52,7 @@ namespace SharpMember
                 options.AddPolicy(PolicyName.RequireRoleOf_OrganizationOwner,
                     policy =>
                     {
-                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.OrganizationOwner));
+                        policy.Requirements.Add(new OrganizationRoleRequirement(RoleName.OrganizationOwner));
                         policy.RequireAuthenticatedUser();
                     }
                 );
@@ -60,7 +60,7 @@ namespace SharpMember
                 options.AddPolicy(PolicyName.RequireRoleOf_OrganizationManager,
                     policy =>
                     {
-                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.OrganizationManager));
+                        policy.Requirements.Add(new OrganizationRoleRequirement(RoleName.OrganizationManager));
                         policy.RequireAuthenticatedUser();
                     }
                 );
@@ -82,6 +82,7 @@ namespace SharpMember
                 );
             });
             services.AddTransient<IAuthorizationHandler, GroupRoleHandler>();
+            services.AddTransient<IAuthorizationHandler, OrganizationRoleHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

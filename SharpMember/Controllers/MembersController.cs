@@ -13,7 +13,6 @@ using SharpMember.Authorization;
 
 namespace SharpMember.Controllers
 {
-    [Authorize(Policy = "require role of OrganizationOwner")]
     public class MembersController : Controller
     {
         private readonly ApplicationDbContext _context;
