@@ -43,12 +43,6 @@ namespace SharpMember.Core
             services.AddTransient<IAuthorizationService, AuthorizationService>();
         }
 
-        static private void AddViewServices(this IServiceCollection services)
-        {
-            services.AddTransient<IViewService<MemberIndexVM>, MemberIndexViewService>();
-            services.AddTransient<IViewService<MemberCreateVM>, MemberCreateViewService>();
-        }
-
         static public void AddSharpMemberCore(this IServiceCollection services, IConfigurationRoot Configuration)
         {
             switch (GlobalConfigs.DatabaseType)
@@ -75,7 +69,6 @@ namespace SharpMember.Core
 
             services.AddRepositories();
             services.AddServices();
-            services.AddViewServices();
         }
     }
 }

@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices
 {
-    public class MemberIndexViewService : IViewService<MemberIndexVM>
+    public class MemberIndexViewService
     {
-        public Task<MemberIndexVM> GetAsync()
+        public MemberIndexVM Get()
         {
             MemberIndexVM model = new MemberIndexVM();
-            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 1", MemberNumber = 432, Renewed = false });
-            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 2", MemberNumber = 231, Renewed = true });
-            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 3", MemberNumber = 818, Renewed = true });
+            model.ItemViewModels.Add(new MemberIndexItemVM { Name = "Test Name 1", MemberNumber = 432, Renewed = false });
+            model.ItemViewModels.Add(new MemberIndexItemVM { Name = "Test Name 2", MemberNumber = 231, Renewed = true });
+            model.ItemViewModels.Add(new MemberIndexItemVM { Name = "Test Name 3", MemberNumber = 818, Renewed = true });
 
-            return Task.FromResult(model);
+            return model;
         }
 
-        public Task PostAsync(MemberIndexVM data)
+        public void PostAsync(MemberIndexVM data)
         {
             throw new NotImplementedException();
         }
     }
 
-    public class MemberCreateViewService : IViewService<MemberCreateVM>
+    public class MemberCreateViewService
     {
         public Task<MemberCreateVM> GetAsync()
         {

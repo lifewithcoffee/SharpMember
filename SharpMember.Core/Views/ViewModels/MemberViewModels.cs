@@ -5,14 +5,14 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
 {
-    public class MemberIndexItemViewModel : MemberEntity
+    public class MemberIndexItemVM : MemberEntity
     {
         public bool Selected { get; set; }
     }
 
     public class MemberIndexVM
     {
-        public List<MemberIndexItemViewModel> ItemViewModels { get; set; } = new List<MemberIndexItemViewModel>();
+        public List<MemberIndexItemVM> ItemViewModels { get; set; } = new List<MemberIndexItemVM>();
     }
 
     public class MemberCreateVM : MemberEntity

@@ -15,37 +15,29 @@ namespace SharpMember.Controllers
     {
         readonly ApplicationDbContext _context;
 
-        readonly IViewService<MemberIndexVM> _indexVS;
-        readonly IViewService<MemberCreateVM> _createVS;
-
-        public MembersController(
-            ApplicationDbContext context,
-            IViewService<MemberIndexVM> memberIndexViewService,
-            IViewService<MemberCreateVM> memberCreateViewService
-        ){
+        public MembersController(ApplicationDbContext context)
+        {
             this._context = context;
-            this._indexVS = memberIndexViewService;
-            this._createVS = memberCreateViewService;
         }
 
         // GET: Members
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int orgId)
         {
-            return View(await this._indexVS.GetAsync());
+            return View(new MemberIndexViewService().Get());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(MemberIndexVM model)
+        public IActionResult Index(MemberIndexVM model, int orgId)
         {
-            await _indexVS.PostAsync(model);
+            new MemberIndexViewService().PostAsync(model);
             return View(model);
         }
 
         // GET: Members/Create
         public async Task<IActionResult> Create()
         {
-            return View(await this._createVS.GetAsync());
+            return View(await new MemberCreateViewService().GetAsync());
         }
 
         [HttpPost]
@@ -54,7 +46,7 @@ namespace SharpMember.Controllers
         {
             if (ModelState.IsValid)
             {
-                await this._createVS.PostAsync(data);
+                await new MemberCreateViewService().PostAsync(data);
                 //return RedirectToAction("Index");
             }
             return View(data);

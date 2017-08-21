@@ -1,4 +1,4 @@
-@model MemberIndexVM
+@model OrganizationIndexVM
 
 @using SharpMember.Core.Views.ViewModels
 
@@ -15,10 +15,8 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th width="100px">@nameof(MemberIndexItemVM.Selected)</th>
-                    <th width="150px">@nameof(MemberIndexItemVM.MemberNumber)</th>
-                    <th width="120px">@nameof(MemberIndexItemVM.Renewed)</th>
-                    <th>@nameof(MemberIndexItemVM.Name)</th>
+                    <th width="100px">@nameof(OrganizationIndexItemVM.Selected)</th>
+                    <th>@nameof(OrganizationIndexItemVM.Name)</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +24,6 @@
                 {
                     <tr>
                         <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
-                        <td>@Html.DisplayFor(m => m.ItemViewModels[i].MemberNumber)</td>
-                        <td>@Html.DisplayFor(m => m.ItemViewModels[i].Renewed)</td>
                         <td><a asp-action="Edit" asp-route-id="@Model.ItemViewModels[i].Id">@Model.ItemViewModels[i].Name</a></td>
                     </tr>
                 }

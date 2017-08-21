@@ -21,7 +21,7 @@ namespace SharpMember.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            OrganizationCreateViewModel model = new OrganizationCreateViewModel {
+            OrganizationCreateVM model = new OrganizationCreateVM {
                 MemberProfileItemTemplates = Enumerable.Range(0,5).Select( i => new MemberProfileItemTemplate() ).ToList()
             };
             return View(model);
@@ -30,7 +30,7 @@ namespace SharpMember.Controllers
         // POST: Organizations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(OrganizationCreateViewModel data)
+        public ActionResult Create(OrganizationCreateVM data)
         {
             try
             {
