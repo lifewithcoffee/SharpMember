@@ -5,26 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using SharpMember.Authorization;
 using SharpMember.Core.Data.Models.MemberSystem;
-using SharpMember.Core.Data.Repositories.MemberSystem;
 using Microsoft.Extensions.Logging;
+using SharpMember.Core.Global;
 
 namespace SharpMember.Controllers
 {
     public class GroupsController : Controller
     {
         IAuthorizationService _authorizationService;
-        ILogger<GroupsController> _logger;
 
         public GroupsController(IAuthorizationService authorizationService)
         {
             this._authorizationService = authorizationService;
         }
-
-        //public GroupsController(ILogger<GroupsController> logger)
-        //{
-        //}
 
         // GET: Groups
         public ActionResult Index()

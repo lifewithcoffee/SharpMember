@@ -9,28 +9,28 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using SharpMember.Core.Global;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IOrganizationRepository : IRepositoryBase<Organization, ApplicationDbContext>
     {
         Organization Add(string name);
-        Task<Organization> CreateAsync(string appUserId, string name);
-        Member RegisterMember(string appUserId);
+        Task<Organization> CreateCommittedAsync(string appUserId, string name);
         void CancelMember(string appUserId);
     }
 
     public class OrganizationRepository : RepositoryBase<Organization, ApplicationDbContext>, IOrganizationRepository
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        IMemberRepository _memberRepository;
 
         public OrganizationRepository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork
-            , ILogger<OrganizationRepository> logger
-            , UserManager<ApplicationUser> userManager
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
+            ILogger<OrganizationRepository> logger,
+            IMemberRepository memberRepository
         ) : base(unitOfWork, logger)
         {
-            this._userManager = userManager;
+            this._memberRepository = memberRepository;
         }
 
         public Organization Add(string name)
@@ -38,19 +38,17 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return this.Add(new Organization { Name = name });
         }
 
-        public async Task<Organization> CreateAsync(string appUserId, string name)
+        public async Task<Organization> CreateCommittedAsync(string appUserId, string name)
         {
-            ApplicationUser appUser = await this._userManager.FindByIdAsync(appUserId);
-            Member newMember = this.RegisterMember(appUserId);
             Organization org = new Organization { Name = name };
+            this.Add(org);
+            await this.CommitAsync();
 
-            org.Members.Add(newMember);
-            throw new NotImplementedException();
-        }
+            Member newMember = await this._memberRepository.GenerateNewMemberWithProfileItemsAsync(org.Id, appUserId);
+            newMember.OrganizationRole = RoleName.OrganizationOwner;
+            await this.CommitAsync();
 
-        public Member RegisterMember(string appUserId)
-        {
-            throw new NotImplementedException();
+            return org;
         }
 
         public void CancelMember(string appUserId)

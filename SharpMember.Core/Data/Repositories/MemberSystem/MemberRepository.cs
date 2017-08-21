@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using SharpMember.Core.Global;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
@@ -17,7 +18,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         int GetNextUnassignedMemberNumber(int orgId);
         IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber);
         IQueryable<Member> GetByOrganization(int orgId);
-        Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId);
+        Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId, string appUserId);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
     }
 
@@ -84,7 +85,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return nextMemberNumber;
         }
 
-        public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId)
+        public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId, string appUserId)
         {
             if (null == this.UnitOfWork.Context.Organizations.Find(orgId))
             {

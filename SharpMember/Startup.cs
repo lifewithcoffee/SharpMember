@@ -4,21 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data;
-using SharpMember.Models;
-using SharpMember.Core.Services;
-using SharpMember.Core.Data.Models;
 using SharpMember.Core;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using SharpMember.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using SharpMember.Core.Global;
 
 namespace SharpMember
 {

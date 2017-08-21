@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core
+namespace SharpMember.Core.Global
 {
     public class MemberNameExistsException : Exception
     {
