@@ -13,11 +13,18 @@ namespace SharpMember.Controllers
 {
     public class MembersController : Controller
     {
-        readonly ApplicationDbContext _context;
+        ApplicationDbContext _context;
+        IMemberIndexViewService _memberIndexViewService;
+        IMemberCreateViewService _memberCreateViewService;
 
-        public MembersController(ApplicationDbContext context)
-        {
+        public MembersController(
+            ApplicationDbContext context,
+            IMemberIndexViewService memberIndexViewService,
+            IMemberCreateViewService memberCreateViewService
+        ){
             this._context = context;
+            this._memberIndexViewService = memberIndexViewService;
+            this._memberCreateViewService = memberCreateViewService;
         }
 
         // GET: Members
@@ -30,23 +37,23 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(MemberIndexVM model, int orgId)
         {
-            new MemberIndexViewService().PostAsync(model);
+            new MemberIndexViewService().Post(model);
             return View(model);
         }
 
         // GET: Members/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            return View(await new MemberCreateViewService().GetAsync());
+            return View(this._memberCreateViewService.Get());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MemberCreateVM data)
+        public IActionResult Create(MemberCreateVM data)
         {
             if (ModelState.IsValid)
             {
-                await new MemberCreateViewService().PostAsync(data);
+                this._memberCreateViewService.Post(data);
                 //return RedirectToAction("Index");
             }
             return View(data);
