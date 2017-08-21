@@ -97,7 +97,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 .Select(t => new MemberProfileItem { ItemName = t.ItemName })
                 .ToListAsync();
 
-            Member returned = new Member { MemberProfileItems = memberProfileItems, OrganizationId = orgId};
+            Member returned = new Member { MemberProfileItems = memberProfileItems, OrganizationId = orgId, ApplicationUserId = appUserId};
 
             return returned;
         }

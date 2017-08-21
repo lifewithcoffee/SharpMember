@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using SharpMember.Core.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Views.ViewServices;
+using SharpMember.Core.Views.ViewModels;
 
 namespace SharpMember.Core
 {
@@ -39,6 +41,12 @@ namespace SharpMember.Core
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IAuthorizationService, AuthorizationService>();
+        }
+
+        static private void AddViewServices(this IServiceCollection services)
+        {
+            services.AddTransient<IViewService<MemberIndexVM>, MemberIndexViewService>();
+            services.AddTransient<IViewService<MemberCreateVM>, MemberCreateViewService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfigurationRoot Configuration)
@@ -67,6 +75,7 @@ namespace SharpMember.Core
 
             services.AddRepositories();
             services.AddServices();
+            services.AddViewServices();
         }
     }
 }

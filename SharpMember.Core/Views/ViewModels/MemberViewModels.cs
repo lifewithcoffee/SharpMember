@@ -10,12 +10,12 @@ namespace SharpMember.Core.Views.ViewModels
         public bool Selected { get; set; }
     }
 
-    public class MemberIndexViewModel
+    public class MemberIndexVM
     {
         public List<MemberIndexItemViewModel> ItemViewModels { get; set; } = new List<MemberIndexItemViewModel>();
     }
 
-    public class MemberCreateViewModel : MemberEntity
+    public class MemberCreateVM : MemberEntity
     {
         public List<MemberProfileItemEntity> MemberProfileItems { get; set; } = new List<MemberProfileItemEntity>();
     }

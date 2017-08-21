@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Xunit.Abstractions;
 using SharpMember.Core;
+using SharpMember.Core.Global;
 
 namespace U.DataRepositories
 {
@@ -58,7 +59,7 @@ namespace U.DataRepositories
             // Generate & verify a new member
             {
                 var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
+                var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(originalTemplats.Length, newMember.MemberProfileItems.Count);
                 foreach (var item in newMember.MemberProfileItems)
@@ -78,7 +79,7 @@ namespace U.DataRepositories
             // Generate & verify a new member after deletion
             {
                 var memberRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember2 = await memberRepo2.GenerateNewMemberWithProfileItemsAsync(existingOrgId);
+                var newMember2 = await memberRepo2.GenerateNewMemberWithProfileItemsAsync(existingOrgId, Guid.NewGuid().ToString());
                 Assert.Equal(1, newMember2.MemberProfileItems.Count);
             }
         }

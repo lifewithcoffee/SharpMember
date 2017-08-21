@@ -10,50 +10,50 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Authorization;
+using SharpMember.Core.Views.ViewServices;
 
 namespace SharpMember.Controllers
 {
     public class MembersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        readonly ApplicationDbContext _context;
 
-        public MembersController(ApplicationDbContext context)
-        {
-            _context = context;
+        readonly IViewService<MemberIndexVM> _indexVS;
+        readonly IViewService<MemberCreateVM> _createVS;
+
+        public MembersController(
+            ApplicationDbContext context,
+            IViewService<MemberIndexVM> memberIndexViewService,
+            IViewService<MemberCreateVM> memberCreateViewService
+        ){
+            this._context = context;
+            this._indexVS = memberIndexViewService;
+            this._createVS = memberCreateViewService;
         }
 
         // GET: Members
-        public Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            MemberIndexViewModel model = new MemberIndexViewModel();
-            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 1", MemberNumber = 432, Renewed = false });
-            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 2", MemberNumber = 231, Renewed = true });
-            model.ItemViewModels.Add(new MemberIndexItemViewModel { Name = "Test Name 3", MemberNumber = 818, Renewed = true });
-            return Task.FromResult<IActionResult>(View(model));
+            return View(await this._indexVS.GetAsync());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public Task<IActionResult> Index(MemberIndexViewModel model)
+        public async Task<IActionResult> Index(MemberIndexVM model)
         {
-            return Task.FromResult<IActionResult>(View(model));
-        }
-
-        // GET: Members/Create
-        public IActionResult Create()
-        {
-            var model = new MemberCreateViewModel {
-                MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItemEntity { ItemName = $"item {i}{i}" }).ToList()
-            };
+            await _indexVS.PostAsync(model);
             return View(model);
         }
 
-        // POST: Members/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // GET: Members/Create
+        public async Task<IActionResult> Create()
+        {
+            return View(await this._createVS.GetAsync());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MemberCreateViewModel member)
+        public async Task<IActionResult> Create(MemberCreateVM member)
         {
             //if (ModelState.IsValid)
             //{

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
+using SharpMember.Core.Global;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
