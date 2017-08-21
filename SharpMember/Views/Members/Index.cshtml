@@ -1,18 +1,24 @@
-@model MemberIndexViewModel
+@model MemberIndexVM
 
 @using SharpMember.Core.Views.ViewModels
 
 <form asp-action="Index">
+    <h2>Members</h2>
     <div class="form-horizontal">
+        <input type="submit" value="Delete Selected" class="btn btn-default" />
+        <a asp-action="Create" class="btn btn-default">Create New Member</a>
+
+        <br />
+        <br />
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <table class="table">
             <thead>
                 <tr>
-                    <th>@nameof(MemberIndexItemViewModel.Selected)</th>
-                    <th>@nameof(MemberIndexItemViewModel.MemberNumber)</th>
+                    <th width="100px">@nameof(MemberIndexItemViewModel.Selected)</th>
+                    <th width="150px">@nameof(MemberIndexItemViewModel.MemberNumber)</th>
+                    <th width="120px">@nameof(MemberIndexItemViewModel.Renewed)</th>
                     <th>@nameof(MemberIndexItemViewModel.Name)</th>
-                    <th>@nameof(MemberIndexItemViewModel.Renewed)</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,22 +27,11 @@
                     <tr>
                         <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
                         <td>@Html.DisplayFor(m => m.ItemViewModels[i].MemberNumber)</td>
-                        <td>@Html.DisplayFor(m => m.ItemViewModels[i].Name)</td>
                         <td>@Html.DisplayFor(m => m.ItemViewModels[i].Renewed)</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@Model.ItemViewModels[i].Id">Edit</a> |
-                            <a asp-action="Delete" asp-route-id="@Model.ItemViewModels[i].Id">Delete</a>
-                        </td>
+                        <td><a asp-action="Edit" asp-route-id="@Model.ItemViewModels[i].Id">@Model.ItemViewModels[i].Name</a></td>
                     </tr>
                 }
             </tbody>
         </table>
-
-        <hr />
-        <div class="form-group">
-            <div class="col-md-offset-5 col-md-7">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
 </form>

@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using SharpMember.Authorization;
 using SharpMember.Core.Views.ViewServices;
 
 namespace SharpMember.Controllers
@@ -53,15 +50,14 @@ namespace SharpMember.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MemberCreateVM member)
+        public async Task<IActionResult> Create(MemberCreateVM data)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    //_context.Add(member);
-            //    //await _context.SaveChangesAsync();
-            //    //return RedirectToAction("Index");
-            //}
-            return View(member);
+            if (ModelState.IsValid)
+            {
+                await this._createVS.PostAsync(data);
+                //return RedirectToAction("Index");
+            }
+            return View(data);
         }
 
         // GET: Members/Edit/5
