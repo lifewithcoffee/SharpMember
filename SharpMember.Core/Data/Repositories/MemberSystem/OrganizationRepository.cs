@@ -16,7 +16,6 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     public interface IOrganizationRepository : IRepositoryBase<Organization, ApplicationDbContext>
     {
         Organization Add(string name);
-        Task<Organization> CreateCommittedAsync(string appUserId, string name);
         void CancelMember(string appUserId);
     }
 
@@ -36,19 +35,6 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         public Organization Add(string name)
         {
             return this.Add(new Organization { Name = name });
-        }
-
-        public async Task<Organization> CreateCommittedAsync(string appUserId, string name)
-        {
-            Organization org = new Organization { Name = name };
-            this.Add(org);
-            await this.CommitAsync();
-
-            Member newMember = await this._memberRepository.GenerateNewMemberWithProfileItemsAsync(org.Id, appUserId);
-            newMember.OrganizationRole = RoleName.OrganizationOwner;
-            await this.CommitAsync();
-
-            return org;
         }
 
         public void CancelMember(string appUserId)

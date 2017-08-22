@@ -19,12 +19,15 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public int Level { get; set; }
         public string Remarks { get; set; }
         public string OrganizationRole { get; set; }
+    }
 
+    public class MemberWithFK : MemberEntity
+    {
         public int OrganizationId { get; set; }
         public string ApplicationUserId { get; set; }
     }
 
-    public class Member : MemberEntity
+    public class Member : MemberWithFK
     {
         [ForeignKey(nameof(ApplicationUserId))]
         public virtual ApplicationUser ApplicationUser { get; set; }

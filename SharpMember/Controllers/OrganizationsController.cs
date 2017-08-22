@@ -13,10 +13,14 @@ namespace SharpMember.Controllers
     public class OrganizationsController : Controller
     {
         IOrganizationIndexViewService _organizationIndexViewService;
+        IOrganizationCreateViewService _organizationCreateViewService;
 
-        public OrganizationsController(IOrganizationIndexViewService organizationIndexViewService)
-        {
+        public OrganizationsController(
+            IOrganizationIndexViewService organizationIndexViewService,
+            IOrganizationCreateViewService organizationCreateViewService
+        ){
             _organizationIndexViewService = organizationIndexViewService;
+            _organizationCreateViewService = organizationCreateViewService;
         }
 
         // GET: Organizations
@@ -29,10 +33,7 @@ namespace SharpMember.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            OrganizationCreateVM model = new OrganizationCreateVM {
-                MemberProfileItemTemplates = Enumerable.Range(0,5).Select( i => new MemberProfileItemTemplate() ).ToList()
-            };
-            return View(model);
+            return View(_organizationCreateViewService.Get());
         }
 
         // POST: Organizations/Create
