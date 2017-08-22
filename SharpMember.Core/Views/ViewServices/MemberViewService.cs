@@ -1,4 +1,5 @@
 ﻿using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,27 @@ namespace SharpMember.Core.Views.ViewServices
 {
     public interface IMemberIndexViewService
     {
-        MemberIndexVM Get();
+        MemberIndexVM Get(int orgId);
         void Post(MemberIndexVM data);
     }
 
     public class MemberIndexViewService : IMemberIndexViewService
     {
-        public MemberIndexVM Get()
-        {
-            MemberIndexVM model = new MemberIndexVM();
-            model.ItemViewModels.Add(new MemberIndexItemVM { Name = "Test Name 1", MemberNumber = 432, Renewed = false });
-            model.ItemViewModels.Add(new MemberIndexItemVM { Name = "Test Name 2", MemberNumber = 231, Renewed = true });
-            model.ItemViewModels.Add(new MemberIndexItemVM { Name = "Test Name 3", MemberNumber = 818, Renewed = true });
+        IMemberRepository _memberRepo;
 
-            return model;
+        public MemberIndexViewService(IMemberRepository memberRepo)
+        {
+            _memberRepo = memberRepo;
+        }
+
+        public MemberIndexVM Get(int orgId)
+        {
+            var items = _memberRepo
+                .GetMany(m => m.OrganizationId == orgId)
+                .Select(m => new MemberIndexItemVM { Id = m.Id, Name = m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed})
+                .ToList();
+
+            return new MemberIndexVM { ItemViewModels = items };
         }
 
         public void Post(MemberIndexVM data)

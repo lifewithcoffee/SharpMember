@@ -30,14 +30,14 @@ namespace SharpMember.Controllers
         // GET: Members
         public IActionResult Index(int orgId)
         {
-            return View(new MemberIndexViewService().Get());
+            return View(_memberIndexViewService.Get(orgId));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(MemberIndexVM model, int orgId)
         {
-            new MemberIndexViewService().Post(model);
+            _memberIndexViewService.Post(model);
             return View(model);
         }
 
