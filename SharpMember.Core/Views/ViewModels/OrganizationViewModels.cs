@@ -7,7 +7,7 @@ namespace SharpMember.Core.Views.ViewModels
 {
     public class OrganizationIndexItemVM : OrganizationEntity
     {
-        public bool Selected { get; set; }
+        public bool Selected { get; set; } = false;
     }
 
     public class OrganizationIndexVM

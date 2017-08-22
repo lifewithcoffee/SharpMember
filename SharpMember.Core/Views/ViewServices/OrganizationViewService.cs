@@ -1,19 +1,35 @@
-﻿using SharpMember.Core.Views.ViewModels;
+﻿using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Views.ViewModels;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices
 {
-    public class OrganizationIndexViewService
+    public interface IOrganizationIndexViewService
     {
-        public Task<OrganizationIndexVM> GetAsync()
+        OrganizationIndexVM Get();
+        void Post(OrganizationIndexVM data);
+    }
+
+    public class OrganizationIndexViewService : IOrganizationIndexViewService
+    {
+        IOrganizationRepository _organizationRepository;
+
+        public OrganizationIndexViewService(IOrganizationRepository organizationRepository)
         {
-            throw new NotImplementedException();
+            _organizationRepository = organizationRepository;
         }
 
-        public Task PostAsync(OrganizationIndexVM data)
+        public OrganizationIndexVM Get()
+        {
+            var orgItems = _organizationRepository.GetAll().Select(o => new OrganizationIndexItemVM { Name = o.Name, Id = o.Id }).ToList();
+            return  new OrganizationIndexVM { ItemViewModels = orgItems };
+        }
+
+        public void Post(OrganizationIndexVM data)
         {
             throw new NotImplementedException();
         }

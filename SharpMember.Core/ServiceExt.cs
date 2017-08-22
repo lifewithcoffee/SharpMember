@@ -47,6 +47,7 @@ namespace SharpMember.Core
         {
             services.AddTransient<IMemberIndexViewService, MemberIndexViewService>();
             services.AddTransient<IMemberCreateViewService, MemberCreateViewService>();
+            services.AddTransient<IOrganizationIndexViewService, OrganizationIndexViewService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfigurationRoot Configuration)

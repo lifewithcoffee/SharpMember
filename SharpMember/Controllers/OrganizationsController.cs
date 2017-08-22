@@ -6,15 +6,23 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Views.ViewModels;
+using SharpMember.Core.Views.ViewServices;
 
 namespace SharpMember.Controllers
 {
     public class OrganizationsController : Controller
     {
+        IOrganizationIndexViewService _organizationIndexViewService;
+
+        public OrganizationsController(IOrganizationIndexViewService organizationIndexViewService)
+        {
+            _organizationIndexViewService = organizationIndexViewService;
+        }
+
         // GET: Organizations
         public ActionResult Index()
         {
-            return View();
+            return View(_organizationIndexViewService.Get());
         }
 
         // GET: Organizations/Create
