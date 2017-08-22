@@ -7,18 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Core.Views.ViewServices;
+using Microsoft.AspNetCore.Identity;
+using SharpMember.Core.Data.Models;
 
 namespace SharpMember.Controllers
 {
     public class OrganizationsController : Controller
     {
+        UserManager<ApplicationUser> _userManager;
         IOrganizationIndexViewService _organizationIndexViewService;
         IOrganizationCreateViewService _organizationCreateViewService;
 
         public OrganizationsController(
+            UserManager<ApplicationUser> userManager,
             IOrganizationIndexViewService organizationIndexViewService,
             IOrganizationCreateViewService organizationCreateViewService
         ){
+            _userManager = userManager;
             _organizationIndexViewService = organizationIndexViewService;
             _organizationCreateViewService = organizationCreateViewService;
         }
@@ -39,13 +44,16 @@ namespace SharpMember.Controllers
         // POST: Organizations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(OrganizationCreateVM data)
+        public async Task<ActionResult> Create(OrganizationCreateVM data)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                //return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
+                    await _organizationCreateViewService.Post(appUserId, data);
+                    return RedirectToAction("Index");
+                }
                 return View(data);
             }
             catch
