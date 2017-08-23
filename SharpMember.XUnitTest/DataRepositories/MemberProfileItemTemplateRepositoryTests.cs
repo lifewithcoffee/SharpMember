@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 using SharpMember.Core;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 
 namespace U.DataRepositories
 {

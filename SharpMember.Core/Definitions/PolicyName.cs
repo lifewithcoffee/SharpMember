@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Global
+namespace SharpMember.Core.Definitions
 {
     public class PolicyName
     {

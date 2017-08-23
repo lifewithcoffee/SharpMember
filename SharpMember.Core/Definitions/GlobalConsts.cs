@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Global
+namespace SharpMember.Core.Definitions
 {
     static public class GlobalConsts
     {

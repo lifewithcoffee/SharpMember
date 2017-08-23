@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Microsoft.Extensions.Logging;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 
 namespace SharpMember.Controllers
 {

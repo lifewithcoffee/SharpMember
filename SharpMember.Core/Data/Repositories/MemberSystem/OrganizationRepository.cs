@@ -9,7 +9,7 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {

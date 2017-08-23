@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Xunit.Abstractions;
 using SharpMember.Core;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 
 namespace U.DataRepositories
 {

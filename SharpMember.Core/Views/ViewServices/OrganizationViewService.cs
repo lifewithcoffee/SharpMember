@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using SharpMember.Core.Data.Models.MemberSystem;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data.RepositoryBase;
 using SharpMember.Core.Data;

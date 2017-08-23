@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {

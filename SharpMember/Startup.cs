@@ -11,7 +11,7 @@ using SharpMember.Core.Data;
 using SharpMember.Core;
 using SharpMember.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using SharpMember.Core.Global;
+using SharpMember.Core.Definitions;
 
 namespace SharpMember
 {
