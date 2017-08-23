@@ -47,6 +47,8 @@ namespace SharpMember.Core
         {
             services.AddTransient<IMemberIndexViewService, MemberIndexViewService>();
             services.AddTransient<IMemberCreateViewService, MemberCreateViewService>();
+            services.AddTransient<IMemberEditViewService, MemberEditViewService>();
+
             services.AddTransient<IOrganizationIndexViewService, OrganizationIndexViewService>();
             services.AddTransient<IOrganizationCreateViewService, OrganizationCreateViewService>();
             services.AddTransient<IOrganizationEditViewService, OrganizationEditViewService>();

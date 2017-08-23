@@ -8,23 +8,32 @@ using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Core.Views.ViewServices;
+using Microsoft.AspNetCore.Identity;
+using SharpMember.Core.Data.Models;
+using System.Security.Claims;
 
 namespace SharpMember.Controllers
 {
     public class MembersController : Controller
     {
         ApplicationDbContext _context;
+        UserManager<ApplicationUser> _userManager;
         IMemberIndexViewService _memberIndexViewService;
         IMemberCreateViewService _memberCreateViewService;
+        IMemberEditViewService _memberEditViewService;
 
         public MembersController(
             ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
             IMemberIndexViewService memberIndexViewService,
-            IMemberCreateViewService memberCreateViewService
+            IMemberCreateViewService memberCreateViewService,
+            IMemberEditViewService memberEditViewService
         ){
-            this._context = context;
-            this._memberIndexViewService = memberIndexViewService;
-            this._memberCreateViewService = memberCreateViewService;
+            _context = context;
+            _userManager = userManager;
+            _memberIndexViewService = memberIndexViewService;
+            _memberCreateViewService = memberCreateViewService;
+            _memberEditViewService = memberEditViewService;
         }
 
         // GET: Members
@@ -42,19 +51,20 @@ namespace SharpMember.Controllers
         }
 
         // GET: Members/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int orgId)
         {
-            return View(this._memberCreateViewService.Get());
+            string appUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(await this._memberCreateViewService.GetAsync(orgId, appUserId));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MemberCreateVM data)
+        public IActionResult Create(MemberUpdateVM data)
         {
             if (ModelState.IsValid)
             {
-                this._memberCreateViewService.Post(data);
-                //return RedirectToAction("Index");
+                int id = this._memberCreateViewService.Post(data);
+                return RedirectToAction(nameof(Edit), new { id = id });
             }
             return View(data);
         }

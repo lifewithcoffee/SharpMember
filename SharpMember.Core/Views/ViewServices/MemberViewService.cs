@@ -42,23 +42,53 @@ namespace SharpMember.Core.Views.ViewServices
 
     public interface IMemberCreateViewService
     {
-        MemberCreateVM Get();
-        void Post(MemberCreateVM data);
+        Task<MemberUpdateVM> GetAsync(int orgId, string appUserId);
+        int Post(MemberUpdateVM data);
     }
 
     public class MemberCreateViewService : IMemberCreateViewService
     {
-        public MemberCreateVM Get()
-        {
-            var model = new MemberCreateVM
-            {
-                MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItemEntity { ItemName = $"item {i}{i}" }).ToList()
-            };
+        IMemberRepository _memberRepo;
 
-            return model;
+        public MemberCreateViewService(IMemberRepository memberRepo)
+        {
+            _memberRepo = memberRepo;
         }
 
-        public void Post(MemberCreateVM data)
+        public async Task<MemberUpdateVM> GetAsync(int orgId, string appUserId)
+        {
+            //var model = new MemberUpdateVM
+            //{
+            //    MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItemEntity { ItemName = $"item {i}{i}" }).ToList()
+            //};
+
+            var member = await _memberRepo.GenerateNewMemberWithProfileItemsAsync(orgId, appUserId);
+
+            MemberUpdateVM result = new MemberUpdateVM(member);
+            return result;
+        }
+
+        public int Post(MemberUpdateVM data)
+        {
+            _memberRepo.Add(data);
+            throw new NotImplementedException();
+        }
+    }
+
+    public interface IMemberEditViewService
+    {
+        MemberUpdateVM Get();
+        void Post(MemberUpdateVM data);
+    }
+
+    public class MemberEditViewService : IMemberEditViewService
+    {
+        public MemberUpdateVM Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Post(MemberUpdateVM data)
         {
             throw new NotImplementedException();
         }

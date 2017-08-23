@@ -13,10 +13,24 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string ItemName { get; set; }
         public string ItemValue { get; set; }
         public bool IsRequired { get; set; } = false;
+
+        public MemberProfileItemEntity() { }
+
+        public MemberProfileItemEntity(MemberProfileItem item)
+        {
+            this.Id = item.Id;
+            this.ItemName = item.ItemName;
+            this.ItemValue = item.ItemValue;
+            this.IsRequired = item.IsRequired;
+        }
+    }
+
+    public class MemberProfileItemWithFK : MemberProfileItemEntity
+    { 
         public int MemberId { get; set; }
     }
 
-    public class MemberProfileItem : MemberProfileItemEntity
+    public class MemberProfileItem : MemberProfileItemWithFK
     {
         [ForeignKey(nameof(MemberId))]
         public virtual Member Member { get; set; }
