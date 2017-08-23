@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SharpMember.Core.Services.Excel;
 using SharpMember.Core.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using SharpMember.Models;
 
 namespace SharpMember.Controllers
 {
@@ -36,15 +38,12 @@ namespace SharpMember.Controllers
         {
             ViewData["Message"] = "Your contact page.";
 
-            //IMemberRepository memberSvc1 = _serviceProvider.GetService<IMemberRepository>();
-            //IMemberRepository memberSvc2 = _serviceProvider.GetService<IMemberRepository>();
-
             return View();
         }
 
         public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
