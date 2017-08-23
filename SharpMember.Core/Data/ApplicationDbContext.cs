@@ -25,7 +25,7 @@ namespace SharpMember.Core.Data
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
 
-        private static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
+        public static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
         {
             if (string.IsNullOrWhiteSpace(connectionString)) connectionString = $"Filename={GlobalConsts.SqliteDbFileName}";
 

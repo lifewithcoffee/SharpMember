@@ -113,9 +113,10 @@ namespace U.DataRepositories
             // create members with profile
             int memberId1, memberId2;
             {
+                string appUserId = await util.GetExistingAppUserId(this.serviceProvider);
                 var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember1 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId, Guid.NewGuid().ToString());
-                var newMember2 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId, Guid.NewGuid().ToString());
+                var newMember1 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId, appUserId);
+                var newMember2 = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId, appUserId);
 
                 newMember1.MemberProfileItems = new List<MemberProfileItem> {
                     new MemberProfileItem { ItemName = "name1", ItemValue = "value1" },
