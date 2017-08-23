@@ -23,24 +23,5 @@ namespace SharpMember.Core.Views.ViewModels
     public class MemberUpdateVM : MemberEntity
     {
         public List<MemberProfileItemEntity> MemberProfileItems { get; set; } = new List<MemberProfileItemEntity>();
-
-        public MemberUpdateVM() { }
-
-        public MemberUpdateVM(Member member)
-        {
-            this.CancellationDate = member.CancellationDate;
-            this.Id = member.Id;
-            this.Level = member.Level;
-            this.MemberNumber = member.MemberNumber;
-            this.Name = member.Name;
-            this.OrganizationRole = member.OrganizationRole;
-            this.RegistrationDate = member.RegistrationDate;
-            this.Remarks = member.Remarks;
-            this.Renewed = member.Renewed;
-
-            this.MemberProfileItems = member.MemberProfileItems.Select(p => new MemberProfileItemEntity(p)).ToList();
-        }
-
-        Member
     }
 }

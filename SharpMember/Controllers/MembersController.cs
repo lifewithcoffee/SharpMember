@@ -59,11 +59,11 @@ namespace SharpMember.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(MemberUpdateVM data)
+        public async Task<IActionResult> Create(MemberUpdateVM data)
         {
             if (ModelState.IsValid)
             {
-                int id = this._memberCreateViewService.Post(data);
+                int id = await this._memberCreateViewService.Post(data);
                 return RedirectToAction(nameof(Edit), new { id = id });
             }
             return View(data);

@@ -1,5 +1,6 @@
 ﻿using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Mappers;
 using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace SharpMember.Core.Views.ViewServices
     public interface IMemberCreateViewService
     {
         Task<MemberUpdateVM> GetAsync(int orgId, string appUserId);
-        int Post(MemberUpdateVM data);
+        Task<int> Post(MemberUpdateVM data);
     }
 
     public class MemberCreateViewService : IMemberCreateViewService
@@ -57,21 +58,16 @@ namespace SharpMember.Core.Views.ViewServices
 
         public async Task<MemberUpdateVM> GetAsync(int orgId, string appUserId)
         {
-            //var model = new MemberUpdateVM
-            //{
-            //    MemberProfileItems = Enumerable.Range(0, 5).Select(i => new MemberProfileItemEntity { ItemName = $"item {i}{i}" }).ToList()
-            //};
-
             var member = await _memberRepo.GenerateNewMemberWithProfileItemsAsync(orgId, appUserId);
-
-            MemberUpdateVM result = new MemberUpdateVM(member);
-            return result;
+            return MemberMapper<Member,MemberUpdateVM>.Cast(member);
         }
 
-        public int Post(MemberUpdateVM data)
+        public async Task<int> Post(MemberUpdateVM data)
         {
-            _memberRepo.Add(data);
-            throw new NotImplementedException();
+            Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
+            _memberRepo.Add(member);
+            await _memberRepo.CommitAsync();
+            return member.Id;
         }
     }
 
