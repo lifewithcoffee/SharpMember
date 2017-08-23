@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Models.TaskSystem;
+using Microsoft.AspNetCore.Identity;
 
 namespace SharpMember.Core.Data.Models
 {
