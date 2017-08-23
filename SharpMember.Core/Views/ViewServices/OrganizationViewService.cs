@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Global;
 using Microsoft.EntityFrameworkCore;
+using SharpMember.Core.Data.RepositoryBase;
+using SharpMember.Core.Data;
 
 namespace SharpMember.Core.Views.ViewServices
 {
@@ -40,8 +42,8 @@ namespace SharpMember.Core.Views.ViewServices
 
     public interface IOrganizationCreateViewService
     {
-        OrganizationCreateVM Get();
-        Task Post(string appUserId, OrganizationCreateVM data);
+        OrganizationUpdateVM Get();
+        Task<int> Post(string appUserId, OrganizationUpdateVM data);
     }
 
     public class OrganizationCreateViewService : IOrganizationCreateViewService
@@ -60,9 +62,9 @@ namespace SharpMember.Core.Views.ViewServices
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public OrganizationCreateVM Get()
+        public OrganizationUpdateVM Get()
         {
-            OrganizationCreateVM model = new OrganizationCreateVM
+            OrganizationUpdateVM model = new OrganizationUpdateVM
             {
                 MemberProfileItemTemplates = Enumerable.Range(0, 5).Select(i => new MemberProfileItemTemplate()).ToList()
             };
@@ -70,7 +72,7 @@ namespace SharpMember.Core.Views.ViewServices
             return model;
         }
 
-        public async Task Post(string appUserId, OrganizationCreateVM data)
+        public async Task<int> Post(string appUserId, OrganizationUpdateVM data)
         {
             Organization org = new Organization { Name = data.Name };
             _organizationRepository.Add(org);
@@ -87,46 +89,57 @@ namespace SharpMember.Core.Views.ViewServices
             await _memberProfileItemTemplateRepository.AddOptionalTemplatesAsync(org.Id, optional);
 
             await _memberProfileItemTemplateRepository.CommitAsync();
+
+            return org.Id;
         }
     }
 
 
     public interface IOrganizationEditViewService
     {
-        OrganizationEditVM Get(int orgId);
-        Task Post(string appUserId, OrganizationEditVM data);
+        OrganizationUpdateVM Get(int orgId);
+        Task Post(string appUserId, OrganizationUpdateVM data);
     }
 
     public class OrganizationEditViewService : IOrganizationEditViewService
     {
         IOrganizationRepository _organizationRepository;
-        //IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
         public OrganizationEditViewService(
-           IOrganizationRepository orgRepo,
-           IMemberRepository memberRepository,
-           IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
-       )
-        {
+            IOrganizationRepository orgRepo,
+            IMemberRepository memberRepository,
+            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+        ){
             _organizationRepository = orgRepo;
-            //_memberRepository = memberRepository;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public OrganizationEditVM Get(int orgId)
+        public OrganizationUpdateVM Get(int orgId)
         {
             var org = _organizationRepository.GetMany(o => o.Id == orgId).Include(o => o.MemberProfileItemTemplates).Single();
 
-            OrganizationEditVM result = new OrganizationEditVM { Id = org.Id, Name = org.Name};
+            OrganizationUpdateVM result = new OrganizationUpdateVM { Id = org.Id, Name = org.Name};
             result.MemberProfileItemTemplates = org.MemberProfileItemTemplates;
 
             return result;
         }
 
-        public Task Post(string appUserId, OrganizationEditVM data)
+        public async Task Post(string appUserId, OrganizationUpdateVM data)
         {
-            throw new NotImplementedException();
+            var org = _organizationRepository.GetById(data.Id);
+            org.Name = data.Name;
+            await _organizationRepository.CommitAsync();
+
+            _memberProfileItemTemplateRepository.Delete(t => t.OrganizationId == org.Id);
+
+            var required = data.MemberProfileItemTemplates.Where(t => t.IsRequired).Select(t => t.ItemName);
+            await _memberProfileItemTemplateRepository.AddRquiredTemplatesAsync(org.Id, required);
+
+            var optional = data.MemberProfileItemTemplates.Where(t => !t.IsRequired).Select(t => t.ItemName);
+            await _memberProfileItemTemplateRepository.AddOptionalTemplatesAsync(org.Id, optional);
+
+            await _organizationRepository.CommitAsync();
         }
     }
 }

@@ -15,12 +15,7 @@ namespace SharpMember.Core.Views.ViewModels
         public List<OrganizationIndexItemVM> ItemViewModels { get; set; } = new List<OrganizationIndexItemVM>();
     }
     
-    public class OrganizationCreateVM : OrganizationEntity
-    {
-        public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
-    }
-
-    public class OrganizationEditVM : OrganizationEntity
+    public class OrganizationUpdateVM : OrganizationEntity
     {
         public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
     }

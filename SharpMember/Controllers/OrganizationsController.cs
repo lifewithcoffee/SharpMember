@@ -17,15 +17,18 @@ namespace SharpMember.Controllers
         UserManager<ApplicationUser> _userManager;
         IOrganizationIndexViewService _organizationIndexViewService;
         IOrganizationCreateViewService _organizationCreateViewService;
+        IOrganizationEditViewService _organizationEditViewService;
 
         public OrganizationsController(
             UserManager<ApplicationUser> userManager,
             IOrganizationIndexViewService organizationIndexViewService,
-            IOrganizationCreateViewService organizationCreateViewService
+            IOrganizationCreateViewService organizationCreateViewService,
+            IOrganizationEditViewService organizationEditViewService
         ){
             _userManager = userManager;
             _organizationIndexViewService = organizationIndexViewService;
             _organizationCreateViewService = organizationCreateViewService;
+            _organizationEditViewService = organizationEditViewService;
         }
 
         // GET: Organizations
@@ -44,15 +47,15 @@ namespace SharpMember.Controllers
         // POST: Organizations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(OrganizationCreateVM data)
+        public async Task<ActionResult> Create(OrganizationUpdateVM data)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                    await _organizationCreateViewService.Post(appUserId, data);
-                    return RedirectToAction("Index");
+                    int returnedOrgId = await _organizationCreateViewService.Post(appUserId, data);
+                    return RedirectToAction(nameof(Edit), new { id = returnedOrgId });
                 }
                 return View(data);
             }
@@ -65,23 +68,31 @@ namespace SharpMember.Controllers
         // GET: Organizations/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                return View(_organizationEditViewService.Get(id));
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         // POST: Organizations/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, OrganizationUpdateVM data)
         {
             try
             {
-                // TODO: Add update logic here
+                string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
+                await _organizationEditViewService.Post(appUserId, data);
 
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Edit), new { id = id });
             }
             catch
             {
-                return View();
+                return View(data);
             }
         }
 
