@@ -54,7 +54,7 @@ namespace SharpMember.Core
             services.AddTransient<IOrganizationEditViewService, OrganizationEditViewService>();
         }
 
-        static public void AddSharpMemberCore(this IServiceCollection services, IConfigurationRoot Configuration)
+        static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)
         {
             switch (GlobalConfigs.DatabaseType)
             {
