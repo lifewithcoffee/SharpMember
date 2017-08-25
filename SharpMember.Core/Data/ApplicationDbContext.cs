@@ -20,7 +20,6 @@ namespace SharpMember.Core.Data
         public DbSet<GlobalSettings> GlobalSettings { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<GroupMemberRelation> GroupMemberRelations { get; set; }
         public DbSet<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Organization> Organizations { get; set; }
@@ -58,7 +57,7 @@ namespace SharpMember.Core.Data
             //builder.Entity<ClubMemberRelation>().HasKey(c => new { c.ClubId, c.MemberId });
             //builder.Entity<WorkTaskLabelRelation>().HasKey(w => new { w.TaskLabelId, w.WorkTaskId });
             builder.Entity<GroupMemberRelation>().HasKey(m => new { m.MemberId, m.GroupId });
-            builder.Entity<MemberGroupRoleRelation>().HasKey(m => new { m.MemberId, m.GroupId });
+            builder.Entity<GroupMemberRelation>().HasKey(m => new { m.MemberId, m.GroupId });
 
             /**
              * Disable cascade deletion for Organization -> GroupMemberRelation, otherwise there will be 2 cascade deletion path to MemberMemberGroupRelation:

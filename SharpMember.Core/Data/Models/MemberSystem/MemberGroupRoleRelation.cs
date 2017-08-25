@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpMember.Core.Data.Models.MemberSystem
 {
-    public class MemberGroupRoleRelation
+    public class GroupMemberRelation
     {
         [ForeignKey(nameof(MemberId))]
         public virtual Member Member { get; set; }

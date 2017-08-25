@@ -19,9 +19,9 @@ namespace SharpMember.Core.Services
     public class AuthorizationService : IAuthorizationService
     {
         IMemberRepository _memberRepo;
-        IMemberGroupRoleRelationRepository _memberGroupRoleRelationRepository;
+        IGroupMemberRelationRepository _memberGroupRoleRelationRepository;
 
-        public AuthorizationService(IMemberRepository memberRepo, IMemberGroupRoleRelationRepository memberGroupRoleRelationRepository)
+        public AuthorizationService(IMemberRepository memberRepo, IGroupMemberRelationRepository memberGroupRoleRelationRepository)
         {
             this._memberRepo = memberRepo;
             this._memberGroupRoleRelationRepository = memberGroupRoleRelationRepository;
@@ -47,7 +47,7 @@ namespace SharpMember.Core.Services
             }
             else
             {
-                _memberGroupRoleRelationRepository.Add(new MemberGroupRoleRelation { MemberId = memberId, GroupId = groupId, GroupRole = roleName });
+                _memberGroupRoleRelationRepository.Add(new GroupMemberRelation { MemberId = memberId, GroupId = groupId, GroupRole = roleName });
             }
         }
 

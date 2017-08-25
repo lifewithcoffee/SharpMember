@@ -29,7 +29,7 @@ namespace SharpMember.Core
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
-            services.AddScoped<IMemberGroupRoleRelationRepository, MemberGroupRoleRelationRepository>();
+            services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
         }
         
         static private void AddServices(this IServiceCollection services)

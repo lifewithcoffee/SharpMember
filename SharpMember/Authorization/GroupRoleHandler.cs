@@ -24,9 +24,9 @@ namespace SharpMember.Authorization
     {
         UserManager<ApplicationUser> _userManager;
         IMemberRepository _memberRepo;
-        IMemberGroupRoleRelationRepository _memberGroupRoleRelationRepo;
+        IGroupMemberRelationRepository _memberGroupRoleRelationRepo;
 
-        public GroupRoleHandler(UserManager<ApplicationUser> userManager, IMemberRepository memberRepo, IMemberGroupRoleRelationRepository memberGroupRoleRelationRepo)
+        public GroupRoleHandler(UserManager<ApplicationUser> userManager, IMemberRepository memberRepo, IGroupMemberRelationRepository memberGroupRoleRelationRepo)
         {
             this._userManager = userManager;
             this._memberRepo = memberRepo;
