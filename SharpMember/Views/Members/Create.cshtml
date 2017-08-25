@@ -8,17 +8,17 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form asp-action="Create">
             <h4>Create New Member</h4>
+
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <vc:form-groups entity-type=@Model.GetType() hidden-fields="id" readonly-fields="" text-area-fields="remarks"></vc:form-groups>
-            <br />
-                    <h4>Additional Profile Information</h4>
-                    <br />
-                    @Html.Partial("_ProfileItemsForm") @* TODO: make a mcn note here, if need the partial view for posting, the partial view's model must be the same with its host view, otherwise it won't bind correctly *@
+
+            <hr />
+            @Html.Partial("_ProfileItemsForm") @* TODO: make a mcn note here, if need the partial view for posting, the partial view's model must be the same with its host view, otherwise it won't bind correctly *@
+
             <hr />
             <div class="form-group">
                 <div class="col-md-offset-5 col-md-7">
