@@ -34,16 +34,10 @@
     }
 }
 
-.table-first-col { width: 80px; text-align:left; }
-.table-second-col-div { padding-left: 0; }
-
 #table-for-list-info .table-row-for-list-info td { border: 0 solid gray; }
 
 @media (min-width: 992px) {
-    .table-first-col { width: 135px; text-align: right; }
-    .table-second-col-div { padding-left: 20px; }
 }
 
 @media (min-width: 1200px) {
-    .table-first-col { width: 165px; }
 }

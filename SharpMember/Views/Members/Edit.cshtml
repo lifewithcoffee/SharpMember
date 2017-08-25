@@ -1,4 +1,5 @@
-@model SharpMember.Core.Data.Models.MemberSystem.Member
+@model MemberUpdateVM
+@using SharpMember.Core.Views.ViewModels
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,13 +15,9 @@
 
         <vc:form-groups entity-type=@Model.GetType() hidden-fields="" readonly-fields="id" text-area-fields="remarks"></vc:form-groups>
         <br />
-        <div class="row">
-            <div class="col-md-offset-0 col-md-6">
-                <h4>Additional Profile Information</h4>
-                <br />
-                @Html.Partial("_ProfileItemsForm")
-            </div>
-        </div>
+            <h4>Additional Profile Information</h4>
+            <br />
+            @Html.Partial("_ProfileItemsForm")
         <hr />
         <div class="form-group">
             <div class="col-md-offset-5 col-md-7">

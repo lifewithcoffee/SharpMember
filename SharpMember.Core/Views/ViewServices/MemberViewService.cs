@@ -59,7 +59,9 @@ namespace SharpMember.Core.Views.ViewServices
         public async Task<MemberUpdateVM> GetAsync(int orgId, string appUserId)
         {
             var member = await _memberRepo.GenerateNewMemberWithProfileItemsAsync(orgId, appUserId);
-            return MemberMapper<Member,MemberUpdateVM>.Cast(member);
+            var result = MemberMapper<Member,MemberUpdateVM>.Cast(member);
+            result.MemberProfileItems = member.MemberProfileItems.Select(i => MemberProfileItemMapper<MemberProfileItem, MemberProfileItemEntity>.Cast(i) ).ToList();
+            return result;
         }
 
         public async Task<int> Post(MemberUpdateVM data)
