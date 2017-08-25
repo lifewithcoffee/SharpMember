@@ -13,58 +13,58 @@ using SharpMember.Core.Data;
 
 namespace SharpMember.Core.Views.ViewServices
 {
-    public interface IOrganizationIndexViewService
+    public interface ICommunityIndexViewService
     {
-        OrganizationIndexVM Get();
-        void Post(OrganizationIndexVM data);
+        CommunityIndexVM Get();
+        void Post(CommunityIndexVM data);
     }
 
-    public class OrganizationIndexViewService : IOrganizationIndexViewService
+    public class CommunityIndexViewService : ICommunityIndexViewService
     {
-        IOrganizationRepository _organizationRepository;
+        ICommunityRepository _communityRepository;
 
-        public OrganizationIndexViewService(IOrganizationRepository organizationRepository)
+        public CommunityIndexViewService(ICommunityRepository communityRepository)
         {
-            _organizationRepository = organizationRepository;
+            _communityRepository = communityRepository;
         }
 
-        public OrganizationIndexVM Get()
+        public CommunityIndexVM Get()
         {
-            var orgItems = _organizationRepository.GetAll().Select(o => new OrganizationIndexItemVM { Name = o.Name, Id = o.Id }).ToList();
-            return  new OrganizationIndexVM { ItemViewModels = orgItems };
+            var commItems = _communityRepository.GetAll().Select(o => new CommunityIndexItemVM { Name = o.Name, Id = o.Id }).ToList();
+            return  new CommunityIndexVM { ItemViewModels = commItems };
         }
 
-        public void Post(OrganizationIndexVM data)
+        public void Post(CommunityIndexVM data)
         {
             throw new NotImplementedException();
         }
     }
 
-    public interface IOrganizationCreateViewService
+    public interface ICommunityCreateViewService
     {
-        OrganizationUpdateVM Get();
-        Task<int> Post(string appUserId, OrganizationUpdateVM data);
+        CommunityUpdateVM Get();
+        Task<int> Post(string appUserId, CommunityUpdateVM data);
     }
 
-    public class OrganizationCreateViewService : IOrganizationCreateViewService
+    public class CommunityCreateViewService : ICommunityCreateViewService
     {
-        IOrganizationRepository _organizationRepository;
+        ICommunityRepository _communityRepository;
         IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
-        public OrganizationCreateViewService(
-            IOrganizationRepository orgRepo, 
+        public CommunityCreateViewService(
+            ICommunityRepository orgRepo, 
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
         ){
-            _organizationRepository = orgRepo;
+            _communityRepository = orgRepo;
             _memberRepository = memberRepository;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public OrganizationUpdateVM Get()
+        public CommunityUpdateVM Get()
         {
-            OrganizationUpdateVM model = new OrganizationUpdateVM
+            CommunityUpdateVM model = new CommunityUpdateVM
             {
                 MemberProfileItemTemplates = Enumerable.Range(0, 5).Select(i => new MemberProfileItemTemplate()).ToList()
             };
@@ -72,14 +72,14 @@ namespace SharpMember.Core.Views.ViewServices
             return model;
         }
 
-        public async Task<int> Post(string appUserId, OrganizationUpdateVM data)
+        public async Task<int> Post(string appUserId, CommunityUpdateVM data)
         {
-            Organization org = new Organization { Name = data.Name };
-            _organizationRepository.Add(org);
-            await _organizationRepository.CommitAsync();
+            Community org = new Community { Name = data.Name };
+            _communityRepository.Add(org);
+            await _communityRepository.CommitAsync();
 
             Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(org.Id, appUserId);
-            newMember.OrganizationRole = RoleName.OrganizationOwner;
+            newMember.CommunityRole = RoleName.CommunityOwner;
             await _memberRepository.CommitAsync();
 
             var required = data.MemberProfileItemTemplates.Where(p => p.IsRequired == true).Select(p => p.ItemName);
@@ -95,43 +95,43 @@ namespace SharpMember.Core.Views.ViewServices
     }
 
 
-    public interface IOrganizationEditViewService
+    public interface ICommunityEditViewService
     {
-        OrganizationUpdateVM Get(int orgId);
-        Task Post(string appUserId, OrganizationUpdateVM data);
+        CommunityUpdateVM Get(int orgId);
+        Task Post(string appUserId, CommunityUpdateVM data);
     }
 
-    public class OrganizationEditViewService : IOrganizationEditViewService
+    public class CommunityEditViewService : ICommunityEditViewService
     {
-        IOrganizationRepository _organizationRepository;
+        ICommunityRepository _communityRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
-        public OrganizationEditViewService(
-            IOrganizationRepository orgRepo,
+        public CommunityEditViewService(
+            ICommunityRepository orgRepo,
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
         ){
-            _organizationRepository = orgRepo;
+            _communityRepository = orgRepo;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public OrganizationUpdateVM Get(int orgId)
+        public CommunityUpdateVM Get(int orgId)
         {
-            var org = _organizationRepository.GetMany(o => o.Id == orgId).Include(o => o.MemberProfileItemTemplates).Single();
+            var org = _communityRepository.GetMany(o => o.Id == orgId).Include(o => o.MemberProfileItemTemplates).Single();
 
-            OrganizationUpdateVM result = new OrganizationUpdateVM { Id = org.Id, Name = org.Name};
+            CommunityUpdateVM result = new CommunityUpdateVM { Id = org.Id, Name = org.Name};
             result.MemberProfileItemTemplates = org.MemberProfileItemTemplates;
 
             return result;
         }
 
-        public async Task Post(string appUserId, OrganizationUpdateVM data)
+        public async Task Post(string appUserId, CommunityUpdateVM data)
         {
-            var org = _organizationRepository.GetById(data.Id);
+            var org = _communityRepository.GetById(data.Id);
             org.Name = data.Name;
-            await _organizationRepository.CommitAsync();
+            await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.Delete(t => t.OrganizationId == org.Id);
+            _memberProfileItemTemplateRepository.Delete(t => t.CommunityId == org.Id);
 
             var required = data.MemberProfileItemTemplates.Where(t => t.IsRequired).Select(t => t.ItemName);
             await _memberProfileItemTemplateRepository.AddRquiredTemplatesAsync(org.Id, required);
@@ -139,7 +139,7 @@ namespace SharpMember.Core.Views.ViewServices
             var optional = data.MemberProfileItemTemplates.Where(t => !t.IsRequired).Select(t => t.ItemName);
             await _memberProfileItemTemplateRepository.AddOptionalTemplatesAsync(org.Id, optional);
 
-            await _organizationRepository.CommitAsync();
+            await _communityRepository.CommitAsync();
         }
     }
 }

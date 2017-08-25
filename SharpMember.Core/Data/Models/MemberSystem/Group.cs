@@ -20,10 +20,10 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     /// </summary>
     public class Group : GroupEntity
     {
-        public int OrganizationId { get; set; }
+        public int CommunityId { get; set; }
 
-        [ForeignKey(nameof(OrganizationId))]
-        public virtual Organization Organization { get; set; }
+        [ForeignKey(nameof(CommunityId))]
+        public virtual Community Community { get; set; }
 
         public virtual List<GroupMemberRelation> GroupMemberRelations { get; set; } = new List<GroupMemberRelation>();
     }

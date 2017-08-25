@@ -17,7 +17,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     {
         int GetNextUnassignedMemberNumber(int orgId);
         IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber);
-        IQueryable<Member> GetByOrganization(int orgId);
+        IQueryable<Member> GetByCommunity(int orgId);
         Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId, string appUserId);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
     }
@@ -29,9 +29,9 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public override Member Add(Member entity)
         {
-            if (null == this.UnitOfWork.Context.Organizations.Find(entity.OrganizationId))
+            if (null == this.UnitOfWork.Context.Communities.Find(entity.CommunityId))
             {
-                throw new OrganizationNotExistsException(entity.OrganizationId);
+                throw new CommunityNotExistsException(entity.CommunityId);
             }
             return base.Add(entity);
         }
@@ -39,7 +39,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         public int GetNextUnassignedMemberNumber(int orgId)
         {
             int nextMemberNumber = 1;
-            var member = this.GetMany(m => m.OrganizationId == orgId).OrderBy(m => m.MemberNumber).LastOrDefault();
+            var member = this.GetMany(m => m.CommunityId == orgId).OrderBy(m => m.MemberNumber).LastOrDefault();
             if(member != null)
             {
                 nextMemberNumber = member.MemberNumber + 1;
@@ -64,7 +64,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             
             if(nextMemberNumber <= 0)
             {
-                nextMemberNumber = this.GetNextUnassignedMemberNumber(member.OrganizationId);
+                nextMemberNumber = this.GetNextUnassignedMemberNumber(member.CommunityId);
             }
             
             if(member.MemberNumber <= 0)
@@ -75,7 +75,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             await this.CommitAsync();
 
             // check if there is a duplication
-            while(this.GetByMemberNumber(member.OrganizationId, nextMemberNumber).Count() > 1)
+            while(this.GetByMemberNumber(member.CommunityId, nextMemberNumber).Count() > 1)
             {
                 nextMemberNumber = await AssignMemberNubmerAsync(memberId, 0);
                 member.MemberNumber = nextMemberNumber;
@@ -87,29 +87,29 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId, string appUserId)
         {
-            if (null == this.UnitOfWork.Context.Organizations.Find(orgId))
+            if (null == this.UnitOfWork.Context.Communities.Find(orgId))
             {
-                throw new OrganizationNotExistsException(orgId);
+                throw new CommunityNotExistsException(orgId);
             }
 
             var memberProfileItems = await this.UnitOfWork.Context.MemberProfileItemTemplates
-                .Where(t => t.OrganizationId == orgId)
+                .Where(t => t.CommunityId == orgId)
                 .Select(t => new MemberProfileItem { ItemName = t.ItemName })
                 .ToListAsync();
 
-            Member returned = new Member { MemberProfileItems = memberProfileItems, OrganizationId = orgId, ApplicationUserId = appUserId};
+            Member returned = new Member { MemberProfileItems = memberProfileItems, CommunityId = orgId, ApplicationUserId = appUserId};
 
             return returned;
         }
 
         public IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber)
         {
-            return this.GetMany(m => m.MemberNumber == memberNumber && m.OrganizationId == orgId);
+            return this.GetMany(m => m.MemberNumber == memberNumber && m.CommunityId == orgId);
         }
 
-        public IQueryable<Member> GetByOrganization(int orgId)
+        public IQueryable<Member> GetByCommunity(int commId)
         {
-            return this.GetMany(m => m.OrganizationId == orgId);
+            return this.GetMany(m => m.CommunityId == commId);
         }
 
        

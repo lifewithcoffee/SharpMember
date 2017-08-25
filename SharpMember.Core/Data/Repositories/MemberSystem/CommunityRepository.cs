@@ -13,28 +13,28 @@ using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IOrganizationRepository : IRepositoryBase<Organization, ApplicationDbContext>
+    public interface ICommunityRepository : IRepositoryBase<Community, ApplicationDbContext>
     {
-        Organization Add(string name);
+        Community Add(string name);
         void CancelMember(string appUserId);
     }
 
-    public class OrganizationRepository : RepositoryBase<Organization, ApplicationDbContext>, IOrganizationRepository
+    public class CommunityRepository : RepositoryBase<Community, ApplicationDbContext>, ICommunityRepository
     {
         IMemberRepository _memberRepository;
 
-        public OrganizationRepository(
+        public CommunityRepository(
             IUnitOfWork<ApplicationDbContext> unitOfWork,
-            ILogger<OrganizationRepository> logger,
+            ILogger<CommunityRepository> logger,
             IMemberRepository memberRepository
         ) : base(unitOfWork, logger)
         {
             this._memberRepository = memberRepository;
         }
 
-        public Organization Add(string name)
+        public Community Add(string name)
         {
-            return this.Add(new Organization { Name = name });
+            return this.Add(new Community { Name = name });
         }
 
         public void CancelMember(string appUserId)

@@ -22,8 +22,8 @@ namespace SharpMember.Core.Definitions
         { }
     }
 
-    public class OrganizationNotExistsException : Exception
+    public class CommunityNotExistsException : Exception
     {
-        public OrganizationNotExistsException(int invalidOrgId):base($"The organization with Id {invalidOrgId} does not exist.") { }
+        public CommunityNotExistsException(int invalidOrgId):base($"The community with Id {invalidOrgId} does not exist.") { }
     }
 }

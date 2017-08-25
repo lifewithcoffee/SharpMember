@@ -10,8 +10,8 @@ namespace SharpMember.Core.Services
 {
     public interface IAuthorizationService
     {
-        void UpdateOrganizationRole(int memberId, string roleName);
-        void RemoveOrganizationRole(int memberId);
+        void UpdateCommunityRole(int memberId, string roleName);
+        void RemoveCommunityRole(int memberId);
         void UpdateGroupRole(int memberId, int groupId, string roleName);
         void RemoveGroupRole(int memberId, int groupId);
     }
@@ -27,14 +27,14 @@ namespace SharpMember.Core.Services
             this._memberGroupRoleRelationRepository = memberGroupRoleRelationRepository;
         }
 
-        public void UpdateOrganizationRole(int memberId, string roleName)
+        public void UpdateCommunityRole(int memberId, string roleName)
         {
-            _memberRepo.GetById(memberId).OrganizationRole = roleName;
+            _memberRepo.GetById(memberId).CommunityRole = roleName;
         }
 
-        public void RemoveOrganizationRole(int memberId)
+        public void RemoveCommunityRole(int memberId)
         {
-            _memberRepo.GetById(memberId).OrganizationRole = "";
+            _memberRepo.GetById(memberId).CommunityRole = "";
         }
 
         public void UpdateGroupRole(int memberId, int groupId, string roleName)

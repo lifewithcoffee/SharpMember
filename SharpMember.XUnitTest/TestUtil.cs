@@ -15,17 +15,17 @@ namespace U
 {
     class TestUtil : DependencyEnabled
     {
-        public int GetExistingOrganizationId()
+        public int GetExistingCommunityId()
         {
-            var repo = this.serviceProvider.GetService<IOrganizationRepository>();
+            var repo = this.serviceProvider.GetService<ICommunityRepository>();
             var org = repo.Add(Guid.NewGuid().ToString());
             repo.Commit();
             return org.Id;
         }
 
-        public int GetNonexistentOrganizationId()
+        public int GetNonexistentCommunityId()
         {
-            var repo = this.serviceProvider.GetService<IOrganizationRepository>();
+            var repo = this.serviceProvider.GetService<ICommunityRepository>();
             var org = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
             if (null == org)
             {
@@ -39,9 +39,9 @@ namespace U
 
         public int GetExistingMemberId()
         {
-            int existingOrgId = this.GetExistingOrganizationId();
+            int existingOrgId = this.GetExistingCommunityId();
             var repo = this.serviceProvider.GetService<IMemberRepository>();
-            var member = repo.Add(new Member { OrganizationId = existingOrgId });
+            var member = repo.Add(new Member { CommunityId = existingOrgId });
             repo.Commit();
             return member.Id;
         }

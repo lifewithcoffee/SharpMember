@@ -18,7 +18,7 @@ namespace SharpMember.Core.Mappers
             result.Level = source.Level;
             result.MemberNumber = source.MemberNumber;
             result.Name = source.Name;
-            result.OrganizationRole = source.OrganizationRole;
+            result.CommunityRole = source.CommunityRole;
             result.RegistrationDate = source.RegistrationDate;
             result.Remarks = source.Remarks;
             result.Renewed = source.Renewed;

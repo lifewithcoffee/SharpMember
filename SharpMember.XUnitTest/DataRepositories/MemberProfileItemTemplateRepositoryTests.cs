@@ -22,7 +22,7 @@ namespace U.DataRepositories
         [Fact]
         public async Task Test_add_update_delete_MemberProfileItemTemplate()
         {
-            int existingOrgId = this.util.GetExistingOrganizationId();
+            int existingOrgId = this.util.GetExistingCommunityId();
             string[] itemNames = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
             // ======================================================================================
@@ -35,7 +35,7 @@ namespace U.DataRepositories
             await repo.CommitAsync();
 
             // verify add
-            var repoOrg = this.serviceProvider.GetService<IOrganizationRepository>();
+            var repoOrg = this.serviceProvider.GetService<ICommunityRepository>();
             var readItemNames = repoOrg.GetMany(o => o.Id == existingOrgId)
                 .Include(o => o.MemberProfileItemTemplates)
                 .SelectMany(o => o.MemberProfileItemTemplates)
@@ -51,37 +51,37 @@ namespace U.DataRepositories
             // ======================================================================================
             // update
             var repoUpdate = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            var updated = repoUpdate.GetMany(t => t.OrganizationId == existingOrgId).First();
+            var updated = repoUpdate.GetMany(t => t.CommunityId == existingOrgId).First();
             string newItemName = $"updated-{Guid.NewGuid().ToString()}";
             updated.ItemName = newItemName;
             repoUpdate.Commit();
 
             // verify upate
             var repoRead = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            var updateItemNames = repoUpdate.GetMany(t => t.OrganizationId == existingOrgId).Select(t => t.ItemName).ToList();
+            var updateItemNames = repoUpdate.GetMany(t => t.CommunityId == existingOrgId).Select(t => t.ItemName).ToList();
             Assert.Equal(2, updateItemNames.Count());
             Assert.True(updateItemNames.Contains(newItemName));
 
             // ======================================================================================
             // delete
             var repoDelete = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            var deleteTarget = repoDelete.GetMany(t => t.OrganizationId == existingOrgId).Last();
+            var deleteTarget = repoDelete.GetMany(t => t.CommunityId == existingOrgId).Last();
             repoDelete.Delete(deleteTarget);
             repoDelete.Commit();
 
             // verify delete
             var repoRead2 = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            var remained = repoRead2.GetMany(t => t.OrganizationId == existingOrgId).ToList();
+            var remained = repoRead2.GetMany(t => t.CommunityId == existingOrgId).ToList();
             Assert.Equal(1, remained.Count());
         }
 
         [Fact]
-        public async Task Add_with_nonexitent_OrganizationId_should_throw_exception()
+        public async Task Add_with_nonexitent_CommunityId_should_throw_exception()
         {
-            int nonExistentOrgId = this.util.GetNonexistentOrganizationId();
+            int nonExistentOrgId = this.util.GetNonexistentCommunityId();
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            OrganizationNotExistsException ex = await Assert.ThrowsAsync<OrganizationNotExistsException>(() => repo.AddTemplateAsync(nonExistentOrgId, Guid.NewGuid().ToString()));
-            Assert.Equal($"The organization with Id {nonExistentOrgId} does not exist.", ex.Message);
+            CommunityNotExistsException ex = await Assert.ThrowsAsync<CommunityNotExistsException>(() => repo.AddTemplateAsync(nonExistentOrgId, Guid.NewGuid().ToString()));
+            Assert.Equal($"The community with Id {nonExistentOrgId} does not exist.", ex.Message);
         }
     }
 }

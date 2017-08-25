@@ -26,7 +26,7 @@ namespace SharpMember.Core
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
-            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+            services.AddScoped<ICommunityRepository, CommunityRepository>();
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
             services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
@@ -49,9 +49,9 @@ namespace SharpMember.Core
             services.AddTransient<IMemberCreateViewService, MemberCreateViewService>();
             services.AddTransient<IMemberEditViewService, MemberEditViewService>();
 
-            services.AddTransient<IOrganizationIndexViewService, OrganizationIndexViewService>();
-            services.AddTransient<IOrganizationCreateViewService, OrganizationCreateViewService>();
-            services.AddTransient<IOrganizationEditViewService, OrganizationEditViewService>();
+            services.AddTransient<ICommunityIndexViewService, CommunityIndexViewService>();
+            services.AddTransient<ICommunityCreateViewService, CommunityCreateViewService>();
+            services.AddTransient<ICommunityEditViewService, CommunityEditViewService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)

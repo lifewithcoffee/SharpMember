@@ -18,12 +18,12 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public DateTime? CancellationDate { get; set; }
         public int Level { get; set; }
         public string Remarks { get; set; }
-        public string OrganizationRole { get; set; }
+        public string CommunityRole { get; set; }
     }
 
     public class MemberWithFK : MemberEntity
     {
-        public int OrganizationId { get; set; }
+        public int CommunityId { get; set; }
         public string ApplicationUserId { get; set; }
     }
 
@@ -32,8 +32,8 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         [ForeignKey(nameof(ApplicationUserId))]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey(nameof(OrganizationId))]
-        public virtual Organization Organization { get; set; }
+        [ForeignKey(nameof(CommunityId))]
+        public virtual Community Community { get; set; }
 
         public virtual List<MemberProfileItem> MemberProfileItems { get; set; } = new List<MemberProfileItem>();
         public virtual List<GroupMemberRelation> GroupMemberRelations { get; set; } = new List<GroupMemberRelation>();

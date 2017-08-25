@@ -34,18 +34,18 @@ namespace SharpMember
             services.AddSharpMemberCore(Configuration);
             services.AddMvc();
             services.AddAuthorization(options => {
-                options.AddPolicy(PolicyName.RequireRoleOf_OrganizationOwner,
+                options.AddPolicy(PolicyName.RequireRoleOf_CommunityOwner,
                     policy =>
                     {
-                        policy.Requirements.Add(new OrganizationRoleRequirement(RoleName.OrganizationOwner));
+                        policy.Requirements.Add(new CommunityRoleRequirement(RoleName.CommunityOwner));
                         policy.RequireAuthenticatedUser();
                     }
                 );
                 
-                options.AddPolicy(PolicyName.RequireRoleOf_OrganizationManager,
+                options.AddPolicy(PolicyName.RequireRoleOf_CommunityManager,
                     policy =>
                     {
-                        policy.Requirements.Add(new OrganizationRoleRequirement(RoleName.OrganizationManager));
+                        policy.Requirements.Add(new CommunityRoleRequirement(RoleName.CommunityManager));
                         policy.RequireAuthenticatedUser();
                     }
                 );
@@ -67,7 +67,7 @@ namespace SharpMember
                 );
             });
             services.AddTransient<IAuthorizationHandler, GroupRoleHandler>();
-            services.AddTransient<IAuthorizationHandler, OrganizationRoleHandler>();
+            services.AddTransient<IAuthorizationHandler, CommunityRoleHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,9 +94,9 @@ namespace SharpMember
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "short_organization_url",
-                    template: "o/{action=Index}/{id?}",
-                    defaults: new { Controller = "Organizations" });
+                    name: "short_community_url",
+                    template: "c/{action=Index}/{id?}",
+                    defaults: new { Controller = "Communities" });
 
                 routes.MapRoute(
                     name: "default",

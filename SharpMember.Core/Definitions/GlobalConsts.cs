@@ -9,10 +9,10 @@ namespace SharpMember.Core.Definitions
     {
         public const string SqliteDbFileName = "Members.sqlite";
 
-        private const string AuthRoleOrganizationManagerOnly = "OrganizationManager";
+        private const string AuthRoleCommunityManagerOnly = "CommunityManager";
 
         public const string AuthRoleAdmin = "Admin";
         public const string AuthRoleMemberOnly = "MemberOnly";
-        public const string AuthRoleOrganizationManager = AuthRoleAdmin + "," + AuthRoleOrganizationManagerOnly;
+        public const string AuthRoleCommunityManager = AuthRoleAdmin + "," + AuthRoleCommunityManagerOnly;
     }
 }

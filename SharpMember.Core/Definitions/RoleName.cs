@@ -7,8 +7,8 @@ namespace SharpMember.Core.Definitions
 {
     public class RoleName
     {
-        public static string OrganizationOwner = nameof(OrganizationOwner);
-        public static string OrganizationManager = nameof(OrganizationManager);
+        public static string CommunityOwner = nameof(CommunityOwner);
+        public static string CommunityManager = nameof(CommunityManager);
 
         public static string GroupOwner = nameof(GroupOwner);
         public static string GroupManager = nameof(GroupManager);

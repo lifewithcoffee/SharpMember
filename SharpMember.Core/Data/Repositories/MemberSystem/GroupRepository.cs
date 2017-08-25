@@ -17,32 +17,32 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class GroupRepository : RepositoryBase<Group, ApplicationDbContext>, IGroupRepository
     {
-        private readonly IOrganizationRepository _organizationRepository;
+        private readonly ICommunityRepository _communityRepository;
 
         public GroupRepository(
             IUnitOfWork<ApplicationDbContext> unitOfWork,
             ILogger<GroupRepository> logger,
-            IOrganizationRepository organizationRepository
+            ICommunityRepository communityRepository
         ) : base(unitOfWork, logger)
         {
-            this._organizationRepository = organizationRepository;
+            this._communityRepository = communityRepository;
         }
 
         public override Group Add(Group entity)
         {
-            throw new NotSupportedException("A MemberGroup must be added in an organization, use AddAsync(orgId, memberGroupName) instead.");
+            throw new NotSupportedException("A MemberGroup must be added in a community, use AddAsync(orgId, memberGroupName) instead.");
         }
 
         /// <summary>
         /// Precondition:
-        /// - the organization must exist
+        /// - the community must exist
         /// - the MemberGroup with the specified name must NOT exist
         /// </summary>
-        public async Task<Group> AddWithExceptionAsync(int orgId, string memberGroupName)
+        public async Task<Group> AddWithExceptionAsync(int commId, string memberGroupName)
         {
-            if (!await _organizationRepository.ExistAsync(o => o.Id == orgId))
+            if (!await _communityRepository.ExistAsync(o => o.Id == commId))
             {
-                throw new OrganizationNotExistsException(orgId);
+                throw new CommunityNotExistsException(commId);
             }
 
             if (await this.ExistAsync(m => m.Name == memberGroupName))

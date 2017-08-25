@@ -79,7 +79,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         public IQueryable<MemberProfileItem> GetByItemValueContains(int orgId, string itemValue)
         {
             return from item in this.UnitOfWork.Context.MemberProfileItems
-                   join member in this.UnitOfWork.Context.Members.Where(m => m.OrganizationId == orgId) on item.MemberId equals member.Id
+                   join member in this.UnitOfWork.Context.Members.Where(m => m.CommunityId == orgId) on item.MemberId equals member.Id
                    where item.ItemValue.Contains(itemValue)
                    select item;
         }

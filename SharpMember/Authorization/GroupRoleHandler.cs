@@ -41,7 +41,7 @@ namespace SharpMember.Authorization
             string userId = _userManager.GetUserId(context.User);
 
             Member member = this._memberRepo.GetMany(m => m.ApplicationUserId == userId).SingleOrDefault();
-            if (!string.IsNullOrWhiteSpace(member?.OrganizationRole))
+            if (!string.IsNullOrWhiteSpace(member?.CommunityRole))
             {
                 context.Succeed(requirement);
             }

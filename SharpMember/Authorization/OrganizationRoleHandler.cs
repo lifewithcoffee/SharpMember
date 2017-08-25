@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Authorization
 {
-    public class OrganizationRoleRequirement : IAuthorizationRequirement
+    public class CommunityRoleRequirement : IAuthorizationRequirement
     {
-        public string OrganizationRole { get; set; }
+        public string CommunityRole { get; set; }
 
-        public OrganizationRoleRequirement(string organizationRole)
+        public CommunityRoleRequirement(string communityRole)
         {
-            this.OrganizationRole = organizationRole;
+            this.CommunityRole = communityRole;
         }
     }
 
-    public class OrganizationRoleHandler : AuthorizationHandler<OrganizationRoleRequirement>
+    public class CommunityRoleHandler : AuthorizationHandler<CommunityRoleRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OrganizationRoleRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CommunityRoleRequirement requirement)
         {
             throw new NotImplementedException();
         }

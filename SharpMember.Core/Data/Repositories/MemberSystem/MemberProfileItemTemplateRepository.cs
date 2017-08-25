@@ -11,7 +11,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberProfileItemTemplateRepository : IRepositoryBase<MemberProfileItemTemplate, ApplicationDbContext>
     {
-        IQueryable<MemberProfileItemTemplate> GetByOrganizationId(int orgId);
+        IQueryable<MemberProfileItemTemplate> GetByCommunityId(int orgId);
         Task<MemberProfileItemTemplate> AddTemplateAsync(int orgId, string itemName, bool isRequired = false);
         Task AddRquiredTemplatesAsync(int orgId, IEnumerable<string> itemNames);
         Task AddOptionalTemplatesAsync(int orgId, IEnumerable<string> itemNames);
@@ -21,18 +21,18 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     {
         public MemberProfileItemTemplateRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberProfileItemTemplateRepository> logger) : base(unitOfWork, logger) { }
 
-        public IQueryable<MemberProfileItemTemplate> GetByOrganizationId(int orgId)
+        public IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId)
         {
-            return this.GetMany(t => t.OrganizationId == orgId);
+            return this.GetMany(t => t.CommunityId == commId);
         }
 
         public async Task<MemberProfileItemTemplate> AddTemplateAsync(int orgId, string itemName, bool isRequired = false)
         {
-            if(null == await this.UnitOfWork.Context.Organizations.FindAsync(orgId))
+            if(null == await this.UnitOfWork.Context.Communities.FindAsync(orgId))
             {
-                throw new OrganizationNotExistsException(orgId);
+                throw new CommunityNotExistsException(orgId);
             }
-            return Add(new MemberProfileItemTemplate { OrganizationId = orgId, ItemName = itemName, IsRequired = isRequired });
+            return Add(new MemberProfileItemTemplate { CommunityId = orgId, ItemName = itemName, IsRequired = isRequired });
         }
 
         public async Task AddRquiredTemplatesAsync(int orgId, IEnumerable<string> itemNames)

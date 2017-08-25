@@ -18,23 +18,23 @@ namespace U.DataRepositories
         private TestUtil util = new TestUtil();
 
         [Fact]
-        public void Add_with_invalide_organizationId_should_throw_exception()
+        public void Add_with_invalide_communityId_should_throw_exception()
         {
-            int nonexistentOrgId = util.GetNonexistentOrganizationId();
+            int nonexistentOrgId = util.GetNonexistentCommunityId();
 
             IMemberRepository repo = this.serviceProvider.GetService<IMemberRepository>();
-            Assert.Throws<OrganizationNotExistsException>(() => repo.Add(new Member { OrganizationId = nonexistentOrgId }));
+            Assert.Throws<CommunityNotExistsException>(() => repo.Add(new Member { CommunityId = nonexistentOrgId }));
         }
 
         [Fact]
         public async Task Test_AssignMemberNubmer()
         {
-            int existingOrgId = util.GetExistingOrganizationId();
+            int existingOrgId = util.GetExistingCommunityId();
 
             IMemberRepository repo = this.serviceProvider.GetService<IMemberRepository>();
 
-            var member1 = repo.Add(new Member { OrganizationId = existingOrgId });
-            var member2 = repo.Add(new Member { OrganizationId = existingOrgId });
+            var member1 = repo.Add(new Member { CommunityId = existingOrgId });
+            var member2 = repo.Add(new Member { CommunityId = existingOrgId });
             await repo.CommitAsync();
 
             int nextMemberNumber = repo.GetNextUnassignedMemberNumber(existingOrgId);
@@ -46,20 +46,20 @@ namespace U.DataRepositories
         }
 
         [Fact]
-        public async Task Organization_MemberProfileItemTemplate_change_should_cause_new_member_profile_item_change()
+        public async Task Community_MemberProfileItemTemplate_change_should_cause_new_member_profile_item_change()
         {
-            // create an organization and the relevant member item templates
-            int existingOrgId = util.GetExistingOrganizationId();
+            // create an community and the relevant member item templates
+            int existingCommunityId = util.GetExistingCommunityId();
             string[] originalTemplats = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
             var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            await itemTemplateRepo.AddRquiredTemplatesAsync(existingOrgId, originalTemplats );
+            await itemTemplateRepo.AddRquiredTemplatesAsync(existingCommunityId, originalTemplats );
             await itemTemplateRepo.CommitAsync();
 
             // Generate & verify a new member
             {
                 var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingOrgId, Guid.NewGuid().ToString());
+                var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(originalTemplats.Length, newMember.MemberProfileItems.Count);
                 foreach (var item in newMember.MemberProfileItems)
@@ -71,7 +71,7 @@ namespace U.DataRepositories
             // Delete one item template
             {
                 var itemTemplateRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
-                var templateToBeDeleted = itemTemplateRepo2.GetByOrganizationId(existingOrgId).First();
+                var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
                 itemTemplateRepo2.Delete(templateToBeDeleted);
                 await itemTemplateRepo2.CommitAsync();
             }
@@ -79,7 +79,7 @@ namespace U.DataRepositories
             // Generate & verify a new member after deletion
             {
                 var memberRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember2 = await memberRepo2.GenerateNewMemberWithProfileItemsAsync(existingOrgId, Guid.NewGuid().ToString());
+                var newMember2 = await memberRepo2.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(1, newMember2.MemberProfileItems.Count);
             }
         }

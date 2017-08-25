@@ -22,7 +22,7 @@ namespace SharpMember.Core.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; }
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
-        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Community> Communities { get; set; }
 
         public static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
         {
@@ -60,12 +60,12 @@ namespace SharpMember.Core.Data
             builder.Entity<GroupMemberRelation>().HasKey(m => new { m.MemberId, m.GroupId });
 
             /**
-             * Disable cascade deletion for Organization -> GroupMemberRelation, otherwise there will be 2 cascade deletion path to MemberMemberGroupRelation:
-             *     Organization -> MemberGroups -> GroupMemberRelation
-             *     Organization -> Member -> GroupMemberRelation
+             * Disable cascade deletion for Community -> GroupMemberRelation, otherwise there will be 2 cascade deletion path to MemberMemberGroupRelation:
+             *     Community -> MemberGroups -> GroupMemberRelation
+             *     Community -> Member -> GroupMemberRelation
              * which will cause an exception on update-database in the DB migration.
              */
-            builder.Entity<Organization>().HasMany(o => o.MemberGroups).WithOne(m => m.Organization).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Community>().HasMany(o => o.MemberGroups).WithOne(m => m.Community).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

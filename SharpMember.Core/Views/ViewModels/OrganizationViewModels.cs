@@ -5,17 +5,17 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
 {
-    public class OrganizationIndexItemVM : OrganizationEntity
+    public class CommunityIndexItemVM : CommunityEntity
     {
         public bool Selected { get; set; } = false;
     }
 
-    public class OrganizationIndexVM
+    public class CommunityIndexVM
     {
-        public List<OrganizationIndexItemVM> ItemViewModels { get; set; } = new List<OrganizationIndexItemVM>();
+        public List<CommunityIndexItemVM> ItemViewModels { get; set; } = new List<CommunityIndexItemVM>();
     }
     
-    public class OrganizationUpdateVM : OrganizationEntity
+    public class CommunityUpdateVM : CommunityEntity
     {
         public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
     }

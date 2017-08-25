@@ -28,7 +28,7 @@ namespace SharpMember.Core.Views.ViewServices
         public MemberIndexVM Get(int orgId)
         {
             var items = _memberRepo
-                .GetMany(m => m.OrganizationId == orgId)
+                .GetMany(m => m.CommunityId == orgId)
                 .Select(m => new MemberIndexItemVM { Id = m.Id, Name = m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed})
                 .ToList();
 

@@ -102,8 +102,8 @@ namespace U.DataRepositories
         [Fact]
         public async Task Test_GetByItemValue()
         {
-            // create an organization and the relevant member item templates
-            int existingOrgId = util.GetExistingOrganizationId();
+            // create a community and the relevant member item templates
+            int existingOrgId = util.GetExistingCommunityId();
             string[] originalTemplats = { "Item1", "Item2" };
 
             var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
