@@ -130,9 +130,9 @@ namespace SharpMember.Controllers
 
         [HttpPost("/[controller]/{commId}/members")]
         [ValidateAntiForgeryToken]
-        public IActionResult Members(CommunityMembersVM model, int commId)
+        public async Task<IActionResult> Members(CommunityMembersVM model, int commId)
         {
-            _memberIndexViewService.Post(model);
+            await _memberIndexViewService.PostToDeleteSelected(model);
             return View(model);
         }
     }

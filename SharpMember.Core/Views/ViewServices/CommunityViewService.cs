@@ -43,7 +43,7 @@ namespace SharpMember.Core.Views.ViewServices
     public interface ICommunityMembersViewService
     {
         CommunityMembersVM Get(int orgId);
-        void Post(CommunityMembersVM data);
+        Task PostToDeleteSelected(CommunityMembersVM data);
     }
 
     public class CommunityMembersViewService : ICommunityMembersViewService
@@ -62,12 +62,13 @@ namespace SharpMember.Core.Views.ViewServices
                 .Select(m => new CommunityMemberItemVM { Id = m.Id, Name = m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed })
                 .ToList();
 
-            return new CommunityMembersVM { ItemViewModels = items };
+            return new CommunityMembersVM { CommunityId = commId, ItemViewModels = items };
         }
 
-        public void Post(CommunityMembersVM data)
+        public async Task PostToDeleteSelected(CommunityMembersVM data)
         {
-            throw new NotImplementedException();
+            data.ItemViewModels.ForEach(i => _memberRepo.Delete(m => m.Id == i.Id));
+            await _memberRepo.CommitAsync();
         }
     }
 

@@ -26,6 +26,7 @@ namespace SharpMember.Core.Views.ViewModels
 
     public class CommunityMembersVM
     {
+        public int CommunityId { get; set; }
         public List<CommunityMemberItemVM> ItemViewModels { get; set; } = new List<CommunityMemberItemVM>();
     }
     
