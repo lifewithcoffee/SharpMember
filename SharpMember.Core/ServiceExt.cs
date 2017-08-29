@@ -11,7 +11,6 @@ using SharpMember.Core.Definitions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SharpMember.Core.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewServices;
 using SharpMember.Core.Views.ViewModels;

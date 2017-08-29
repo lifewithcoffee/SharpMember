@@ -7,7 +7,6 @@ using System.Linq;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SharpMember.Core.Data;
 using System.Threading.Tasks;
 
