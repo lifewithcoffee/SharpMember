@@ -94,8 +94,13 @@ namespace SharpMember
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "short_community_url",
-                    template: "c/{id?}",
+                    name: "short_community_url_index",
+                    template: "c",
+                    defaults: new { Controller = "Communities", Action = "Index" });
+
+                routes.MapRoute(
+                    name: "short_community_url_edit",
+                    template: "c/{id}",
                     defaults: new { Controller = "Communities", Action = "Edit" });
 
                 routes.MapRoute(
