@@ -14,29 +14,29 @@
     </div>
 </div>
 
-<div class="row">
-    <form asp-action="Create">
+<form asp-action="Create">
+    <div class="row">
         <div class="col-md-5">
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <vc:form-groups entity-type=@Model.GetType() hidden-fields="id" readonly-fields="" text-area-fields="remarks"></vc:form-groups>
+            <vc:form-groups entity-type=@Model.GetType() instance=@Model hidden-fields="id,CommunityId,ApplicationUserId" readonly-fields="" text-area-fields="remarks"></vc:form-groups>
         </div>
 
         <div class="col-md-5">
             <hr />
             @Html.Partial("_ProfileItemsForm") @* TODO: make a mcn note here, if need the partial view for posting, the partial view's model must be the same with its host view, otherwise it won't bind correctly *@
         </div>
-    </form>
-</div>
+    </div>
 
-<div class="row">
-    <div class="col-md-10">
-        <hr />
-        <div class="form-group" style="float: right;">
-            <input type="submit" value="Create" class="btn btn-default" />
+    <div class="row">
+        <div class="col-md-10">
+            <hr />
+            <div class="form-group" style="float: right;">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

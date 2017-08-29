@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
 {
-    public class MemberUpdateVM : MemberEntity
+    public class MemberUpdateVM : MemberWithFK
     {
         public List<MemberProfileItemEntity> MemberProfileItems { get; set; } = new List<MemberProfileItemEntity>();
     }

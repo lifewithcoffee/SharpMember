@@ -6,7 +6,7 @@
     <h2>Members</h2>
     <div class="form-horizontal">
         <input type="submit" value="Delete Selected" class="btn btn-default" />
-        <a asp-action="Create" class="btn btn-default">Create New Member</a>
+        <a asp-action="Create" asp-controller="Members" asp-route-commId="@Model.CommunityId" class="btn btn-default">Create New Member</a>
 
         <br />
         <br />

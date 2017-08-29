@@ -13,7 +13,8 @@
         <hr />
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <vc:form-groups entity-type=@Model.GetType() hidden-fields="" readonly-fields="id" text-area-fields="remarks"></vc:form-groups>
+        <vc:form-groups entity-type=@Model.GetType() instance=@Model hidden-fields="CommunityId,ApplicationUserId" readonly-fields="id" text-area-fields="remarks"></vc:form-groups>
+
         @Html.Partial("_ProfileItemsForm")
 
         <hr />

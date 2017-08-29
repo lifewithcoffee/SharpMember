@@ -11,9 +11,11 @@ using SharpMember.Core.Views.ViewServices;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SharpMember.Controllers
 {
+    [Authorize]
     public class MembersController : Controller
     {
         ApplicationDbContext _context;
@@ -35,10 +37,10 @@ namespace SharpMember.Controllers
         }
 
         // GET: Members/Create
-        public async Task<IActionResult> Create(int orgId)
+        public async Task<IActionResult> Create(int commId)
         {
             string appUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return View(await this._memberCreateViewService.GetAsync(orgId, appUserId));
+            return View(await this._memberCreateViewService.GetAsync(commId, appUserId));
         }
 
         [HttpPost]
@@ -61,6 +63,7 @@ namespace SharpMember.Controllers
                 return NotFound();
             }
 
+            //var model = _memberEditViewService.Get();
             var member = await _context.Members.SingleOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
