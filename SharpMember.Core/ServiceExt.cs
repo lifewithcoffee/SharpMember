@@ -64,7 +64,18 @@ namespace SharpMember.Core
                     break;
                 case eDatabaseType.SqlServer:
                     services.AddDbContext<ApplicationDbContext>(
-                        options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                        options =>
+                        {
+                            bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled"); // this setting should be from secrets.json
+                            if ( config_UnitTestConnectionEnabled == true)
+                            {
+                                options.UseSqlServer(Configuration.GetConnectionString("UnitTestConnection"));
+                            }
+                            else
+                            {
+                                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                            }
+                        }
                     );
                     break;
                 default:
