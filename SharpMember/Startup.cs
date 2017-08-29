@@ -95,15 +95,13 @@ namespace SharpMember
             {
                 routes.MapRoute(
                     name: "short_community_url",
-                    template: "c/{action=Index}/{id?}",
-                    defaults: new { Controller = "Communities" });
+                    template: "c/{id?}",
+                    defaults: new { Controller = "Communities", Action = "Edit" });
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            //serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
         }
     }
 }

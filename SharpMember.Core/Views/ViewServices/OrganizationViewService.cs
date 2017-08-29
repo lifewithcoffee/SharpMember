@@ -40,6 +40,37 @@ namespace SharpMember.Core.Views.ViewServices
         }
     }
 
+    public interface ICommunityMembersViewService
+    {
+        CommunityMembersVM Get(int orgId);
+        void Post(CommunityMembersVM data);
+    }
+
+    public class CommunityMembersViewService : ICommunityMembersViewService
+    {
+        IMemberRepository _memberRepo;
+
+        public CommunityMembersViewService(IMemberRepository memberRepo)
+        {
+            _memberRepo = memberRepo;
+        }
+
+        public CommunityMembersVM Get(int commId)
+        {
+            var items = _memberRepo
+                .GetMany(m => m.CommunityId == commId)
+                .Select(m => new CommunityMemberItemVM { Id = m.Id, Name = m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed })
+                .ToList();
+
+            return new CommunityMembersVM { ItemViewModels = items };
+        }
+
+        public void Post(CommunityMembersVM data)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public interface ICommunityCreateViewService
     {
         CommunityUpdateVM Get();

@@ -6,20 +6,6 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
 {
-    public class MemberIndexItemVM 
-    {
-        public bool Selected { get; set; }
-        public int Id { get; internal set; }
-        public string Name { get; internal set; }
-        public int MemberNumber { get; internal set; }
-        public bool Renewed { get; internal set; }
-    }
-
-    public class MemberIndexVM
-    {
-        public List<MemberIndexItemVM> ItemViewModels { get; set; } = new List<MemberIndexItemVM>();
-    }
-
     public class MemberUpdateVM : MemberEntity
     {
         public List<MemberProfileItemEntity> MemberProfileItems { get; set; } = new List<MemberProfileItemEntity>();

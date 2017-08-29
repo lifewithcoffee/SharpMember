@@ -18,17 +18,20 @@ namespace SharpMember.Controllers
         ICommunityIndexViewService _communityIndexViewService;
         ICommunityCreateViewService _communityCreateViewService;
         ICommunityEditViewService _communityEditViewService;
+        ICommunityMembersViewService _memberIndexViewService;
 
         public CommunitiesController(
             UserManager<ApplicationUser> userManager,
             ICommunityIndexViewService communityIndexViewService,
             ICommunityCreateViewService communityCreateViewService,
-            ICommunityEditViewService communityEditViewService
+            ICommunityEditViewService communityEditViewService,
+            ICommunityMembersViewService memberIndexViewService
         ){
             _userManager = userManager;
             _communityIndexViewService = communityIndexViewService;
             _communityCreateViewService = communityCreateViewService;
             _communityEditViewService = communityEditViewService;
+            _memberIndexViewService = memberIndexViewService;
         }
 
         // GET: Communities
@@ -117,6 +120,20 @@ namespace SharpMember.Controllers
             {
                 return View();
             }
+        }
+
+        [Route("/[controller]/{commId}/members")]
+        public ActionResult Members(int commId)
+        {
+            return View(_memberIndexViewService.Get(commId));
+        }
+
+        [HttpPost("/[controller]/{commId}/members")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Members(CommunityMembersVM model, int commId)
+        {
+            _memberIndexViewService.Post(model);
+            return View(model);
         }
     }
 }

@@ -1,8 +1,8 @@
-@model MemberIndexVM
+@model CommunityMembersVM
 
 @using SharpMember.Core.Views.ViewModels
 
-<form asp-action="Index">
+<form asp-action="Members">
     <h2>Members</h2>
     <div class="form-horizontal">
         <input type="submit" value="Delete Selected" class="btn btn-default" />
@@ -16,9 +16,9 @@
             <thead>
                 <tr>
                     <th width="100px">Selected</th>
-                    <th width="150px">@nameof(MemberIndexItemVM.MemberNumber)</th>
-                    <th width="120px">@nameof(MemberIndexItemVM.Renewed)</th>
-                    <th>@nameof(MemberIndexItemVM.Name)</th>
+                    <th width="150px">@nameof(CommunityMemberItemVM.MemberNumber)</th>
+                    <th width="120px">@nameof(CommunityMemberItemVM.Renewed)</th>
+                    <th>@nameof(CommunityMemberItemVM.Name)</th>
                 </tr>
             </thead>
             <tbody>

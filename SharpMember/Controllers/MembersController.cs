@@ -18,36 +18,20 @@ namespace SharpMember.Controllers
     {
         ApplicationDbContext _context;
         UserManager<ApplicationUser> _userManager;
-        IMemberIndexViewService _memberIndexViewService;
         IMemberCreateViewService _memberCreateViewService;
         IMemberEditViewService _memberEditViewService;
 
         public MembersController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            IMemberIndexViewService memberIndexViewService,
+            ICommunityMembersViewService memberIndexViewService,
             IMemberCreateViewService memberCreateViewService,
             IMemberEditViewService memberEditViewService
         ){
             _context = context;
             _userManager = userManager;
-            _memberIndexViewService = memberIndexViewService;
             _memberCreateViewService = memberCreateViewService;
             _memberEditViewService = memberEditViewService;
-        }
-
-        // GET: Members
-        public IActionResult Index(int orgId)
-        {
-            return View(_memberIndexViewService.Get(orgId));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Index(MemberIndexVM model, int orgId)
-        {
-            _memberIndexViewService.Post(model);
-            return View(model);
         }
 
         // GET: Members/Create
