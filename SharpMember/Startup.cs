@@ -103,7 +103,7 @@ namespace SharpMember
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
+            //serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
         }
     }
 }
