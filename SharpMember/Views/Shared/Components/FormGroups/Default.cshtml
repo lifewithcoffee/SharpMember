@@ -23,7 +23,7 @@
                         numberHtmlAttr = new { @class = "form-control", type = "number", @readonly = "readonly" };
                     }
                 }
-                @Html.TextBox(item.Name, value: "", htmlAttributes: numberHtmlAttr)
+                @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: numberHtmlAttr)
                 @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
             </div>
             break;
@@ -32,7 +32,7 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        @Html.CheckBox(item.Name) @item.Name
+                        @Html.CheckBox(item.Name, (bool)item.GetValue(Model.Instance)) @item.Name
                     </label>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                             dateHtmlAttr = new { @class = "form-control", type = "date", @readonly = "readonly" };
                         }
                     }
-                    @Html.TextBox(item.Name, value: "", htmlAttributes: dateHtmlAttr)
+                    @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: dateHtmlAttr)
                     @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
                 </div>
             }
@@ -69,11 +69,11 @@
 
                 @if(@Model.TextAreaFields.Contains(item.Name.ToLower()))
                 {
-                    @Html.TextArea(item.Name, value: "", htmlAttributes: textHtmlAttr)
+                    @Html.TextArea(item.Name, value: (string)item.GetValue(Model.Instance), htmlAttributes: textHtmlAttr)
                 }
                 else
                 {
-                    @Html.TextBox(item.Name, value: "", htmlAttributes: textHtmlAttr)
+                    @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: textHtmlAttr)
                 }
                 @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
             </div>
