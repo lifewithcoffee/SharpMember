@@ -75,7 +75,7 @@ namespace SharpMember.Core.Views.ViewServices
     public interface ICommunityCreateViewService
     {
         CommunityUpdateVM Get();
-        Task<int> Post(string appUserId, CommunityUpdateVM data);
+        Task<int> PostAsync(string appUserId, CommunityUpdateVM data);
     }
 
     public class CommunityCreateViewService : ICommunityCreateViewService
@@ -104,33 +104,33 @@ namespace SharpMember.Core.Views.ViewServices
             return model;
         }
 
-        public async Task<int> Post(string appUserId, CommunityUpdateVM data)
+        public async Task<int> PostAsync(string appUserId, CommunityUpdateVM data)
         {
-            Community org = new Community { Name = data.Name };
-            _communityRepository.Add(org);
+            Community community = new Community { Name = data.Name };
+            _communityRepository.Add(community);
             await _communityRepository.CommitAsync();
 
-            Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(org.Id, appUserId);
+            Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(community.Id, appUserId);
             newMember.CommunityRole = RoleName.CommunityOwner;
             await _memberRepository.CommitAsync();
 
             var required = data.MemberProfileItemTemplates.Where(p => p.IsRequired == true).Select(p => p.ItemName);
-            await _memberProfileItemTemplateRepository.AddRquiredTemplatesAsync(org.Id, required);
+            await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, required, true);
 
             var optional = data.MemberProfileItemTemplates.Where(p => p.IsRequired == false).Select(p => p.ItemName);
-            await _memberProfileItemTemplateRepository.AddOptionalTemplatesAsync(org.Id, optional);
+            await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, optional, false);
 
             await _memberProfileItemTemplateRepository.CommitAsync();
 
-            return org.Id;
+            return community.Id;
         }
     }
 
 
     public interface ICommunityEditViewService
     {
-        CommunityUpdateVM Get(int orgId);
-        Task Post(string appUserId, CommunityUpdateVM data);
+        CommunityUpdateVM Get(int commId);
+        Task PostAsync(CommunityUpdateVM data);
     }
 
     public class CommunityEditViewService : ICommunityEditViewService
@@ -147,9 +147,9 @@ namespace SharpMember.Core.Views.ViewServices
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public CommunityUpdateVM Get(int orgId)
+        public CommunityUpdateVM Get(int commId)
         {
-            var org = _communityRepository.GetMany(o => o.Id == orgId).Include(o => o.MemberProfileItemTemplates).Single();
+            var org = _communityRepository.GetMany(o => o.Id == commId).Include(o => o.MemberProfileItemTemplates).Single();
 
             CommunityUpdateVM result = new CommunityUpdateVM { Id = org.Id, Name = org.Name};
             result.MemberProfileItemTemplates = org.MemberProfileItemTemplates;
@@ -157,20 +157,13 @@ namespace SharpMember.Core.Views.ViewServices
             return result;
         }
 
-        public async Task Post(string appUserId, CommunityUpdateVM data)
+        public async Task PostAsync(CommunityUpdateVM data)
         {
-            var org = _communityRepository.GetById(data.Id);
-            org.Name = data.Name;
+            var community = _communityRepository.GetById(data.Id);
+            community.Name = data.Name;
             await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.Delete(t => t.CommunityId == org.Id);
-
-            var required = data.MemberProfileItemTemplates.Where(t => t.IsRequired).Select(t => t.ItemName);
-            await _memberProfileItemTemplateRepository.AddRquiredTemplatesAsync(org.Id, required);
-
-            var optional = data.MemberProfileItemTemplates.Where(t => !t.IsRequired).Select(t => t.ItemName);
-            await _memberProfileItemTemplateRepository.AddOptionalTemplatesAsync(org.Id, optional);
-
+            _memberProfileItemTemplateRepository.UpdateItemTemplates(data.Id, data.MemberProfileItemTemplates);
             await _communityRepository.CommitAsync();
         }
     }

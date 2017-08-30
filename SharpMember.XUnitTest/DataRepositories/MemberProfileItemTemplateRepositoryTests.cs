@@ -30,7 +30,7 @@ namespace U.DataRepositories
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             foreach(var name in itemNames)
             {
-                await repo.AddTemplateAsync(existingOrgId, name);
+                await repo.AddTemplateAsync(existingOrgId, name, false);
             }
             await repo.CommitAsync();
 
@@ -80,7 +80,7 @@ namespace U.DataRepositories
         {
             int nonExistentOrgId = this.util.GetNonexistentCommunityId();
             var repo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            CommunityNotExistsException ex = await Assert.ThrowsAsync<CommunityNotExistsException>(() => repo.AddTemplateAsync(nonExistentOrgId, Guid.NewGuid().ToString()));
+            CommunityNotExistsException ex = await Assert.ThrowsAsync<CommunityNotExistsException>(() => repo.AddTemplateAsync(nonExistentOrgId, Guid.NewGuid().ToString(), false));
             Assert.Equal($"The community with Id {nonExistentOrgId} does not exist.", ex.Message);
         }
     }

@@ -21,7 +21,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     {
         public MemberProfileItemRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberProfileItemRepository> logger) : base(unitOfWork, logger) { }
 
-        public class IdComparer : IEqualityComparer<MemberProfileItem>
+        public class MemberProfileItemIdComparer : IEqualityComparer<MemberProfileItem>
         {
             public bool Equals(MemberProfileItem x, MemberProfileItem y)
             {
@@ -71,9 +71,9 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
             IList<MemberProfileItem> oldItems = member.MemberProfileItems;
 
-            this.DeleteRange(oldItems.Except(newItems, new IdComparer()));
-            this.UpdateRange(newItems.Intersect(oldItems, new IdComparer()));
-            this.AddRange(newItems.Except(oldItems, new IdComparer()));
+            this.DeleteRange(oldItems.Except(newItems, new MemberProfileItemIdComparer()));
+            this.UpdateRange(newItems.Intersect(oldItems, new MemberProfileItemIdComparer()));
+            this.AddRange(newItems.Except(oldItems, new MemberProfileItemIdComparer()));
         }
 
         public IQueryable<MemberProfileItem> GetByItemValueContains(int orgId, string itemValue)

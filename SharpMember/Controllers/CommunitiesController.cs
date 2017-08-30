@@ -57,7 +57,7 @@ namespace SharpMember.Controllers
                 if (ModelState.IsValid)
                 {
                     string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                    int returnedOrgId = await _communityCreateViewService.Post(appUserId, data);
+                    int returnedOrgId = await _communityCreateViewService.PostAsync(appUserId, data);
                     return RedirectToAction(nameof(Edit), new { id = returnedOrgId });
                 }
                 return View(data);
@@ -88,8 +88,8 @@ namespace SharpMember.Controllers
         {
             try
             {
-                string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                await _communityEditViewService.Post(appUserId, data);
+                //string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
+                await _communityEditViewService.PostAsync(data);
 
                 return RedirectToAction(nameof(Edit), new { id = id });
             }

@@ -53,7 +53,7 @@ namespace U.DataRepositories
             string[] originalTemplats = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
             var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            await itemTemplateRepo.AddRquiredTemplatesAsync(existingCommunityId, originalTemplats );
+            await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
             await itemTemplateRepo.CommitAsync();
 
             // Generate & verify a new member

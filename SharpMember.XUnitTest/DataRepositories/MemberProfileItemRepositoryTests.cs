@@ -107,7 +107,7 @@ namespace U.DataRepositories
             string[] originalTemplats = { "Item1", "Item2" };
 
             var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
-            await itemTemplateRepo.AddRquiredTemplatesAsync(existingOrgId, originalTemplats);
+            await itemTemplateRepo.AddTemplatesAsync(existingOrgId, originalTemplats, true);
             await itemTemplateRepo.CommitAsync();
 
             // create members with profile
