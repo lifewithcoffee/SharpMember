@@ -13,14 +13,12 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string ItemName { get; set; }
         public string ItemValue { get; set; }
         public bool IsRequired { get; set; } = false;
-    }
 
-    public class MemberProfileItemWithFK : MemberProfileItemEntity
-    { 
+        // FK
         public int MemberId { get; set; }
     }
 
-    public class MemberProfileItem : MemberProfileItemWithFK
+    public class MemberProfileItem : MemberProfileItemEntity
     {
         [ForeignKey(nameof(MemberId))]
         public virtual Member Member { get; set; }

@@ -63,13 +63,14 @@ namespace SharpMember.Controllers
                 return NotFound();
             }
 
-            //var model = _memberEditViewService.Get();
-            var member = await _context.Members.SingleOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var model = await _memberEditViewService.GetAsync(id.Value);
+
+            if (model == null)
             {
                 return NotFound();
             }
-            return View(member);
+
+            return View(model);
         }
 
         // POST: Members/Edit/5
@@ -77,9 +78,9 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Member member)
+        public async Task<IActionResult> Edit(int id, MemberUpdateVM data)
         {
-            if (id != member.Id)
+            if (id != data.Id)
             {
                 return NotFound();
             }
@@ -88,12 +89,11 @@ namespace SharpMember.Controllers
             {
                 try
                 {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
+                    await _memberEditViewService.PostAsync(data);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.Id))
+                    if (!MemberExists(data.Id))
                     {
                         return NotFound();
                     }
@@ -104,7 +104,7 @@ namespace SharpMember.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(member);
+            return View(data);
         }
 
         // GET: Members/Delete/5

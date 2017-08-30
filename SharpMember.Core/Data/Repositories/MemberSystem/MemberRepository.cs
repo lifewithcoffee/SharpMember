@@ -15,10 +15,10 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
     public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
     {
-        int GetNextUnassignedMemberNumber(int orgId);
-        IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber);
-        IQueryable<Member> GetByCommunity(int orgId);
-        Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId, string appUserId);
+        int GetNextUnassignedMemberNumber(int commId);
+        IQueryable<Member> GetByMemberNumber(int commId, int memberNumber);
+        IQueryable<Member> GetByCommunity(int commId);
+        Task<Member> GenerateNewMemberWithProfileItemsAsync(int commId, string appUserId);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
     }
 
@@ -36,10 +36,10 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return base.Add(entity);
         }
 
-        public int GetNextUnassignedMemberNumber(int orgId)
+        public int GetNextUnassignedMemberNumber(int commId)
         {
             int nextMemberNumber = 1;
-            var member = this.GetMany(m => m.CommunityId == orgId).OrderBy(m => m.MemberNumber).LastOrDefault();
+            var member = this.GetMany(m => m.CommunityId == commId).OrderBy(m => m.MemberNumber).LastOrDefault();
             if(member != null)
             {
                 nextMemberNumber = member.MemberNumber + 1;
@@ -85,19 +85,19 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             return nextMemberNumber;
         }
 
-        public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int orgId, string appUserId)
+        public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int commId, string appUserId)
         {
-            if (null == this.UnitOfWork.Context.Communities.Find(orgId))
+            if (null == this.UnitOfWork.Context.Communities.Find(commId))
             {
-                throw new CommunityNotExistsException(orgId);
+                throw new CommunityNotExistsException(commId);
             }
 
             var memberProfileItems = await this.UnitOfWork.Context.MemberProfileItemTemplates
-                .Where(t => t.CommunityId == orgId)
+                .Where(t => t.CommunityId == commId)
                 .Select(t => new MemberProfileItem { ItemName = t.ItemName })
                 .ToListAsync();
 
-            Member returned = new Member { MemberProfileItems = memberProfileItems, CommunityId = orgId, ApplicationUserId = appUserId};
+            Member returned = new Member { MemberProfileItems = memberProfileItems, CommunityId = commId, ApplicationUserId = appUserId};
 
             return returned;
         }

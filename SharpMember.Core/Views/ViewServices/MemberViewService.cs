@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SharpMember.Utils;
 
 namespace SharpMember.Core.Views.ViewServices
 {
@@ -38,7 +40,7 @@ namespace SharpMember.Core.Views.ViewServices
         public async Task<int> Post(MemberUpdateVM data)
         {
             Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
-            member.CommunityId = data.CommunityId;
+            member.MemberProfileItems = data.MemberProfileItems.Select(i => MemberProfileItemMapper<MemberProfileItemEntity, MemberProfileItem>.Cast(i)).ToList();
             _memberRepo.Add(member);
             await _memberRepo.CommitAsync();
             return member.Id;
@@ -47,20 +49,43 @@ namespace SharpMember.Core.Views.ViewServices
 
     public interface IMemberEditViewService
     {
-        MemberUpdateVM Get();
-        void Post(MemberUpdateVM data);
+        Task<MemberUpdateVM> GetAsync(int id);
+        Task PostAsync(MemberUpdateVM data);
     }
 
     public class MemberEditViewService : IMemberEditViewService
     {
-        public MemberUpdateVM Get()
+        IMemberRepository _memberRepo;
+
+        public MemberEditViewService(IMemberRepository memberRepo)
         {
-            throw new NotImplementedException();
+            _memberRepo = memberRepo;
         }
 
-        public void Post(MemberUpdateVM data)
+        public async Task<MemberUpdateVM> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            MemberUpdateVM result = null;
+
+            var member = await _memberRepo.GetMany(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
+            if(member != null)
+            {
+                MemberUpdateVM model = MemberMapper<Member, MemberUpdateVM>.Cast(member);
+                model.MemberProfileItems = member.MemberProfileItems.Select( i => MemberProfileItemMapper<MemberProfileItem, MemberProfileItemEntity>.Cast(i) ).ToList();
+
+                result = model;
+            }
+
+            return result;
+        }
+
+        public async Task PostAsync(MemberUpdateVM data)
+        {
+            Ensure.IsTrue(data.Id > 0, $"Invalid value: MemberUpdateVM.Id = {data.Id}");
+
+            Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
+            _memberRepo.Update(member);
+            await _memberRepo.CommitAsync();
+            //return member.Id;
         }
     }
 }

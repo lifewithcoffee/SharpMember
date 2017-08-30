@@ -22,6 +22,8 @@ namespace SharpMember.Core.Mappers
             result.RegistrationDate = source.RegistrationDate;
             result.Remarks = source.Remarks;
             result.Renewed = source.Renewed;
+            result.CommunityId = source.CommunityId;
+            result.ApplicationUserId = source.ApplicationUserId;
 
             return result;
         }
