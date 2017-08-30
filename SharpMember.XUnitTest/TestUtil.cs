@@ -17,22 +17,22 @@ namespace U
         public int GetExistingCommunityId()
         {
             var repo = this.serviceProvider.GetService<ICommunityRepository>();
-            var org = repo.Add(Guid.NewGuid().ToString());
+            var community = repo.Add(Guid.NewGuid().ToString());
             repo.Commit();
-            return org.Id;
+            return community.Id;
         }
 
         public int GetNonexistentCommunityId()
         {
             var repo = this.serviceProvider.GetService<ICommunityRepository>();
-            var org = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
-            if (null == org)
+            var community = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
+            if (null == community)
             {
                 return 1;
             }
             else
             {
-                return org.Id + 1;
+                return community.Id + 100;
             }
         }
 
