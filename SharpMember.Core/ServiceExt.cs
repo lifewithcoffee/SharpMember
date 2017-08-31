@@ -15,11 +15,26 @@ using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewServices;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core
 {
     public static class ServiceExt
     {
+        static private void AutoMapperConfiguration()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Member, MemberUpdateVM>();
+                cfg.CreateMap<MemberUpdateVM, Member>();
+
+                cfg.CreateMap<MemberProfileItem, MemberProfileItemEntity>();
+                cfg.CreateMap<MemberProfileItemEntity, MemberProfileItem>();
+            });
+
+        }
+
         static private void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IGroupRepository, GroupRepository>();
@@ -55,6 +70,8 @@ namespace SharpMember.Core
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)
         {
+            AutoMapperConfiguration();
+
             switch (GlobalConfigs.DatabaseType)
             {
                 case eDatabaseType.Sqlite:

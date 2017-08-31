@@ -5,7 +5,13 @@
 
 @foreach (var item in Model.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
 {
-    if (Model.HidenFields.Contains(item.Name.ToLower())) { continue; }
+    if (Model.HidenFields.Contains(item.Name.ToLower()))
+    {
+        <div class="form-group">
+            @Html.Hidden(item.Name, value: item.GetValue(Model.Instance))
+        </div>
+        continue;
+    }
 
     bool is_readonly = Model.ReadonlyFields.Contains(item.Name.ToLower());
 

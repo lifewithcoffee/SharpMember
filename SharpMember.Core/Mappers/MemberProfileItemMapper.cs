@@ -1,4 +1,5 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using AutoMapper;
+using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,14 +12,7 @@ namespace SharpMember.Core.Mappers
     {
         public static TTarget Cast(TSource source)
         {
-            TTarget result = new TTarget();
-
-            result.Id = source.Id;
-            result.IsRequired = source.IsRequired;
-            result.ItemName = source.ItemName;
-            result.ItemValue = source.ItemValue;
-
-            return result;
+            return Mapper.Map<TSource, TTarget>(source);
         }
     }
 }

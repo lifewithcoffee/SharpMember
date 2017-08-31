@@ -19,6 +19,7 @@
         <div class="col-md-5">
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<vc:form-groups entity-type=@Model.GetType() instance=@Model hidden-fields="id,CommunityId,ApplicationUserId" readonly-fields="" text-area-fields="remarks"></vc:form-groups>*@
             <vc:form-groups entity-type=@Model.GetType() instance=@Model hidden-fields="id,CommunityId,ApplicationUserId" readonly-fields="" text-area-fields="remarks"></vc:form-groups>
         </div>
 
