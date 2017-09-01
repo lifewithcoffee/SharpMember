@@ -13,7 +13,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public int Id { get; set; } // some members may not have been assigned a member number, so an Id field is still required
         public string Name { get; set; }
         public string CommunityRole { get; set; }
-        //public string Email { get; set; }   // for auto-connecting a member to an ApplicationUser
+        public string Email { get; set; }   // for auto-connecting a member to an ApplicationUser
         public int MemberNumber { get; set; } = 0;
         public bool Renewed { get; set; }
         public DateTime? RegistrationDate { get; set; }

@@ -36,11 +36,14 @@ namespace U
             }
         }
 
-        public int GetExistingMemberId()
+        public int GetExistingMemberId(int? existingCommunityId = null)
         {
-            int existingOrgId = this.GetExistingCommunityId();
+            if(existingCommunityId == null)
+            {
+                existingCommunityId = this.GetExistingCommunityId();
+            }
             var repo = this.serviceProvider.GetService<IMemberRepository>();
-            var member = repo.Add(new Member { CommunityId = existingOrgId });
+            var member = repo.Add(new Member { CommunityId = existingCommunityId.Value });
             repo.Commit();
             return member.Id;
         }

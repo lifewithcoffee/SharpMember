@@ -11,7 +11,7 @@ using System;
 namespace SharpMember.Core.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170829065031_add_member_system")]
+    [Migration("20170901100714_add_member_system")]
     partial class add_member_system
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -269,6 +269,8 @@ namespace SharpMember.Core.Data.Migrations
                     b.Property<int>("CommunityId");
 
                     b.Property<string>("CommunityRole");
+
+                    b.Property<string>("Email");
 
                     b.Property<int>("Level");
 

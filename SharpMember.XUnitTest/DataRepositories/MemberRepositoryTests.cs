@@ -61,11 +61,7 @@ namespace U.DataRepositories
                 var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
-                Assert.Equal(originalTemplats.Length, newMember.MemberProfileItems.Count);
-                foreach (var item in newMember.MemberProfileItems)
-                {
-                    Assert.True(originalTemplats.Contains(item.ItemName));
-                }
+                Assert.Equal(2, newMember.MemberProfileItems.Count);
             }
 
             // Delete one item template
@@ -78,9 +74,9 @@ namespace U.DataRepositories
 
             // Generate & verify a new member after deletion
             {
-                var memberRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
-                var newMember2 = await memberRepo2.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
-                Assert.Equal(1, newMember2.MemberProfileItems.Count);
+                var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
+                Assert.Equal(1, newMember.MemberProfileItems.Count);
             }
         }
     }

@@ -269,6 +269,8 @@ namespace SharpMember.Core.Data.Migrations
 
                     b.Property<string>("CommunityRole");
 
+                    b.Property<string>("Email");
+
                     b.Property<int>("Level");
 
                     b.Property<int>("MemberNumber");

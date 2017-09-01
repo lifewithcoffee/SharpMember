@@ -94,7 +94,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
             var memberProfileItems = await this.UnitOfWork.Context.MemberProfileItemTemplates
                 .Where(t => t.CommunityId == commId)
-                .Select(t => new MemberProfileItem { ItemName = t.ItemName })
+                .Select(t => new MemberProfileItem { MemberProfileItemTemplateId = t.Id })
                 .ToListAsync();
 
             Member returned = new Member { MemberProfileItems = memberProfileItems, CommunityId = commId, ApplicationUserId = appUserId};

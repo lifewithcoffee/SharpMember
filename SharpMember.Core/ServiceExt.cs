@@ -28,9 +28,6 @@ namespace SharpMember.Core
             {
                 cfg.CreateMap<Member, MemberUpdateVM>();
                 cfg.CreateMap<MemberUpdateVM, Member>();
-
-                cfg.CreateMap<MemberProfileItem, MemberProfileItemEntity>();
-                cfg.CreateMap<MemberProfileItemEntity, MemberProfileItem>();
             });
 
         }

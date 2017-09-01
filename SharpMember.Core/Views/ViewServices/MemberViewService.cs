@@ -20,29 +20,38 @@ namespace SharpMember.Core.Views.ViewServices
 
     public class MemberCreateViewService : IMemberCreateViewService
     {
-        IMemberRepository _memberRepo;
+        IMemberRepository _memberRepository;
+        IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
-        public MemberCreateViewService(IMemberRepository memberRepo)
-        {
-            _memberRepo = memberRepo;
+        public MemberCreateViewService(
+            IMemberRepository memberRepo,
+            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+        ){
+            _memberRepository = memberRepo;
+            _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
         public async Task<MemberUpdateVM> GetAsync(int commId, string appUserId)
         {
-            var member = await _memberRepo.GenerateNewMemberWithProfileItemsAsync(commId, appUserId);
+            var member = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(commId, appUserId);
             var result = MemberMapper<Member,MemberUpdateVM>.Cast(member);
-            result.MemberProfileItems = member.MemberProfileItems.Select(i => MemberProfileItemMapper<MemberProfileItem, MemberProfileItemEntity>.Cast(i) ).ToList();
-            result.CommunityId = commId;
-            result.ApplicationUserId = appUserId;
+            result.MemberProfileItems = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
             return result;
         }
 
         public async Task<int> Post(MemberUpdateVM data)
         {
             Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
-            member.MemberProfileItems = data.MemberProfileItems.Select(i => MemberProfileItemMapper<MemberProfileItemEntity, MemberProfileItem>.Cast(i)).ToList();
-            _memberRepo.Add(member);
-            await _memberRepo.CommitAsync();
+
+            foreach (var item in data.MemberProfileItems)
+            {
+                var template = await _memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
+                string itemName = template.ItemName;
+                member.MemberProfileItems.Add(new MemberProfileItem(item));
+            }
+
+            _memberRepository.Add(member);
+            await _memberRepository.CommitAsync();
             return member.Id;
         }
     }
@@ -55,24 +64,26 @@ namespace SharpMember.Core.Views.ViewServices
 
     public class MemberEditViewService : IMemberEditViewService
     {
-        IMemberRepository _memberRepo;
+        IMemberRepository _memberRepository;
+        IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
-        public MemberEditViewService(IMemberRepository memberRepo)
-        {
-            _memberRepo = memberRepo;
+        public MemberEditViewService(
+            IMemberRepository memberRepo,
+            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+        ){
+            _memberRepository = memberRepo;
+            _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
         public async Task<MemberUpdateVM> GetAsync(int id)
         {
             MemberUpdateVM result = null;
 
-            var member = await _memberRepo.GetMany(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
-            if(member != null)
+            var member = await _memberRepository.GetMany(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
+            if (member != null)
             {
-                MemberUpdateVM model = MemberMapper<Member, MemberUpdateVM>.Cast(member);
-                model.MemberProfileItems = member.MemberProfileItems.Select( i => MemberProfileItemMapper<MemberProfileItem, MemberProfileItemEntity>.Cast(i) ).ToList();
-
-                result = model;
+                result = MemberMapper<Member, MemberUpdateVM>.Cast(member);
+                result.MemberProfileItems = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
             }
 
             return result;
@@ -83,9 +94,8 @@ namespace SharpMember.Core.Views.ViewServices
             Ensure.IsTrue(data.Id > 0, $"Invalid value: MemberUpdateVM.Id = {data.Id}");
 
             Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
-            _memberRepo.Update(member);
-            await _memberRepo.CommitAsync();
-            //return member.Id;
+            _memberRepository.Update(member);
+            await _memberRepository.CommitAsync();
         }
     }
 }

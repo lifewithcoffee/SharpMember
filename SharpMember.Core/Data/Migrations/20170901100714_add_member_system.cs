@@ -99,6 +99,7 @@ namespace SharpMember.Core.Data.Migrations
                     CancellationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CommunityId = table.Column<int>(type: "int", nullable: false),
                     CommunityRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Level = table.Column<int>(type: "int", nullable: false),
                     MemberNumber = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
