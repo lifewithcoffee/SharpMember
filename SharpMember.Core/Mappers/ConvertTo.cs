@@ -10,8 +10,10 @@ namespace SharpMember.Core.Mappers
 {
     static public class ConvertTo
     {
-        static public async Task<List<MemberProfileItemVM>> MemberProfileItemVMList(IList<MemberProfileItem> items, IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository)
-        {
+        static public async Task<List<MemberProfileItemVM>> MemberProfileItemVMList(
+            IList<MemberProfileItem> items, 
+            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+        ) {
             List<MemberProfileItemVM> result = new List<MemberProfileItemVM>();
 
             foreach (var item in items)

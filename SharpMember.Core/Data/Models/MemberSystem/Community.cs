@@ -15,7 +15,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     public class Community : CommunityEntity
     {
         public virtual List<Member> Members { get; set; } = new List<Member>();
-        public virtual List<Group> MemberGroups { get; set; } = new List<Group>();
+        public virtual List<Group> Groups { get; set; } = new List<Group>();
         public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
     }
 }

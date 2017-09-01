@@ -27,6 +27,6 @@ namespace SharpMember.Core.Views.ViewModels
 
     public class MemberUpdateVM : MemberEntity
     {
-        public List<MemberProfileItemVM> MemberProfileItems { get; set; } = new List<MemberProfileItemVM>();
+        public List<MemberProfileItemVM> ProfileItemViewModels { get; set; } = new List<MemberProfileItemVM>();
     }
 }

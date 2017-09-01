@@ -35,7 +35,7 @@ namespace SharpMember.Core.Views.ViewServices
         {
             var member = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(commId, appUserId);
             var result = MemberMapper<Member,MemberUpdateVM>.Cast(member);
-            result.MemberProfileItems = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
+            result.ProfileItemViewModels = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
             return result;
         }
 
@@ -43,7 +43,7 @@ namespace SharpMember.Core.Views.ViewServices
         {
             Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
 
-            foreach (var item in data.MemberProfileItems)
+            foreach (var item in data.ProfileItemViewModels)
             {
                 var template = await _memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
                 string itemName = template.ItemName;
@@ -83,7 +83,7 @@ namespace SharpMember.Core.Views.ViewServices
             if (member != null)
             {
                 result = MemberMapper<Member, MemberUpdateVM>.Cast(member);
-                result.MemberProfileItems = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
+                result.ProfileItemViewModels = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
             }
 
             return result;

@@ -65,7 +65,7 @@ namespace SharpMember.Core.Data.Migrations
                         column: x => x.CommunityId,
                         principalTable: "Communities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,7 +121,7 @@ namespace SharpMember.Core.Data.Migrations
                         column: x => x.CommunityId,
                         principalTable: "Communities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,10 +155,9 @@ namespace SharpMember.Core.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsRequired = table.Column<bool>(type: "bit", nullable: false),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ItemValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MemberId = table.Column<int>(type: "int", nullable: false)
+                    MemberId = table.Column<int>(type: "int", nullable: false),
+                    MemberProfileItemTemplateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,6 +166,12 @@ namespace SharpMember.Core.Data.Migrations
                         name: "FK_MemberProfileItems_Members_MemberId",
                         column: x => x.MemberId,
                         principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MemberProfileItems_MemberProfileItemTemplates_MemberProfileItemTemplateId",
+                        column: x => x.MemberProfileItemTemplateId,
+                        principalTable: "MemberProfileItemTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -199,6 +204,11 @@ namespace SharpMember.Core.Data.Migrations
                 name: "IX_MemberProfileItems_MemberId",
                 table: "MemberProfileItems",
                 column: "MemberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemberProfileItems_MemberProfileItemTemplateId",
+                table: "MemberProfileItems",
+                column: "MemberProfileItemTemplateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MemberProfileItemTemplates_CommunityId",
@@ -240,13 +250,13 @@ namespace SharpMember.Core.Data.Migrations
                 name: "MemberProfileItems");
 
             migrationBuilder.DropTable(
-                name: "MemberProfileItemTemplates");
-
-            migrationBuilder.DropTable(
                 name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Members");
+
+            migrationBuilder.DropTable(
+                name: "MemberProfileItemTemplates");
 
             migrationBuilder.DropTable(
                 name: "Communities");

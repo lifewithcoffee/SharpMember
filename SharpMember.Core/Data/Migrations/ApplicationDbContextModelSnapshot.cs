@@ -297,17 +297,17 @@ namespace SharpMember.Core.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsRequired");
-
-                    b.Property<string>("ItemName");
-
                     b.Property<string>("ItemValue");
 
                     b.Property<int>("MemberId");
 
+                    b.Property<int>("MemberProfileItemTemplateId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MemberId");
+
+                    b.HasIndex("MemberProfileItemTemplateId");
 
                     b.ToTable("MemberProfileItems");
                 });
@@ -368,9 +368,9 @@ namespace SharpMember.Core.Data.Migrations
             modelBuilder.Entity("SharpMember.Core.Data.Models.MemberSystem.Group", b =>
                 {
                     b.HasOne("SharpMember.Core.Data.Models.MemberSystem.Community", "Community")
-                        .WithMany("MemberGroups")
+                        .WithMany("Groups")
                         .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SharpMember.Core.Data.Models.MemberSystem.GroupMemberRelation", b =>
@@ -395,7 +395,7 @@ namespace SharpMember.Core.Data.Migrations
                     b.HasOne("SharpMember.Core.Data.Models.MemberSystem.Community", "Community")
                         .WithMany("Members")
                         .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SharpMember.Core.Data.Models.MemberSystem.MemberProfileItem", b =>
@@ -403,6 +403,11 @@ namespace SharpMember.Core.Data.Migrations
                     b.HasOne("SharpMember.Core.Data.Models.MemberSystem.Member", "Member")
                         .WithMany("MemberProfileItems")
                         .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MemberProfileItemTemplate", "MemberProfileItemTemplate")
+                        .WithMany()
+                        .HasForeignKey("MemberProfileItemTemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

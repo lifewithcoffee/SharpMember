@@ -60,12 +60,19 @@ namespace SharpMember.Core.Data
             builder.Entity<GroupMemberRelation>().HasKey(m => new { m.MemberId, m.GroupId });
 
             /**
-             * Disable cascade deletion for Community -> GroupMemberRelation, otherwise there will be 2 cascade deletion path to MemberMemberGroupRelation:
-             *     Community -> MemberGroups -> GroupMemberRelation
+             * Disable cascade deletion to avoid 2 cascade deletion pathes, for:
+             * 
+             *     Community -> Groups -> GroupMemberRelation
              *     Community -> Member -> GroupMemberRelation
+             *     
+             * and:
+             * 
+             *      Community -> Member -> MemberProfileItem
+             *      Community -> MemberProfileItemTemplate -> MemberProfileItem
+             *      
              * which will cause an exception on update-database in the DB migration.
              */
-            builder.Entity<Community>().HasMany(o => o.MemberGroups).WithOne(m => m.Community).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Community>().HasMany(c => c.Members).WithOne(m => m.Community).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
