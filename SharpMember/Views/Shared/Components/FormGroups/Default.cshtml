@@ -56,7 +56,7 @@
                             dateHtmlAttr = new { @class = "form-control", type = "date", @readonly = "readonly" };
                         }
                     }
-                    @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: dateHtmlAttr)
+                    @Html.TextBox(item.Name, value: ((DateTime)item.GetValue(Model.Instance)).ToString("yyyy-MM-dd"), htmlAttributes: dateHtmlAttr)
                     @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
                 </div>
             }
