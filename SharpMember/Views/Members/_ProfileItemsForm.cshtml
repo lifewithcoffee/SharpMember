@@ -5,7 +5,11 @@
 @for (int i = 0; i < Model.MemberProfileItems.Count; i++)
 {
     <div class="form-group">
+        <input asp-for="MemberProfileItems[i].Id" type="hidden" />
+
         <label>@Model.MemberProfileItems[i].ItemName</label>
+        <input asp-for="MemberProfileItems[i].ItemName" type="hidden" />
+
         <input asp-for="MemberProfileItems[i].ItemValue" class="form-control" />
     </div>
 }
