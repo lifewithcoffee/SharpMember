@@ -12,6 +12,7 @@ using SharpMember.Core.Data.Models;
 
 namespace SharpMember.Controllers
 {
+    [Authorize]
     public class CommunitiesController : Controller
     {
         UserManager<ApplicationUser> _userManager;
