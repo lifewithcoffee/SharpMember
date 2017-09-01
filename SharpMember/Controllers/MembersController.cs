@@ -102,7 +102,7 @@ namespace SharpMember.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = id });
             }
             return View(data);
         }
