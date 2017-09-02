@@ -42,16 +42,11 @@ namespace SharpMember.Core.Views.ViewServices
         public async Task<int> Post(MemberUpdateVM data)
         {
             Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
-
-            foreach (var item in data.ProfileItemViewModels)
-            {
-                var template = await _memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
-                string itemName = template.ItemName;
-                member.MemberProfileItems.Add(new MemberProfileItem(item));
-            }
+            member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
 
             _memberRepository.Add(member);
             await _memberRepository.CommitAsync();
+
             return member.Id;
         }
     }
@@ -94,6 +89,7 @@ namespace SharpMember.Core.Views.ViewServices
             Ensure.IsTrue(data.Id > 0, $"Invalid value: MemberUpdateVM.Id = {data.Id}");
 
             Member member = MemberMapper<MemberUpdateVM,Member>.Cast(data);
+            member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
             _memberRepository.Update(member);
             await _memberRepository.CommitAsync();
         }

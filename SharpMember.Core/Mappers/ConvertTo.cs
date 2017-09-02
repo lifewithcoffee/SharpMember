@@ -13,7 +13,7 @@ namespace SharpMember.Core.Mappers
         static public async Task<List<MemberProfileItemVM>> MemberProfileItemVMList(
             IList<MemberProfileItem> items, 
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
-        ) {
+        ){
             List<MemberProfileItemVM> result = new List<MemberProfileItemVM>();
 
             foreach (var item in items)
@@ -21,6 +21,22 @@ namespace SharpMember.Core.Mappers
                 var template = await memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
                 string itemName = template.ItemName;
                 result.Add(new MemberProfileItemVM(item, itemName));
+            }
+
+            return result;
+        }
+
+        static public async Task<List<MemberProfileItem>> MemberProfileItemList(
+            IList<MemberProfileItemVM> items,
+            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+        ){
+            List<MemberProfileItem> result = new List<MemberProfileItem>();
+
+            foreach(var item in items)
+            {
+                var template = await memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
+                string itemName = template.ItemName;
+                result.Add(new MemberProfileItem(item));
             }
 
             return result;
