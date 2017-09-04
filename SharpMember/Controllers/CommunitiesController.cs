@@ -141,5 +141,18 @@ namespace SharpMember.Controllers
             await _memberIndexViewService.PostToDeleteSelected(model);
             return View(model);
         }
+
+        [Route("/[controller]/{commId}/groups")]
+        public ActionResult Groups(int commId)
+        {
+            return View();
+        }
+
+        [HttpPost("/[controller]/{commId}/groups")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Groups(object model, int commId)
+        {
+            return View();
+        }
     }
 }
