@@ -34,7 +34,15 @@
     }
 }
 
-#table-for-list-info .table-row-for-list-info td { border: 0 solid gray; }
+#table_for_list_info .table_row_for_list_info .td_input {
+    border: 0px solid gray;
+}
+
+#table_for_list_info .td_checkbox {
+    border: 0px solid gray;
+    text-align: center;
+    vertical-align: middle;
+}
 
 @media (min-width: 992px) {
 }
