@@ -1,105 +1,168 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Definitions;
 
 namespace SharpMember.Controllers
 {
     public class GroupsController : Controller
     {
+        private readonly ApplicationDbContext _context;
         IAuthorizationService _authorizationService;
 
-        public GroupsController(IAuthorizationService authorizationService)
-        {
-            this._authorizationService = authorizationService;
+        public GroupsController(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService
+        ){
+            _context = context;
+            _authorizationService = authorizationService;
         }
 
         // GET: Groups
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var applicationDbContext = _context.Groups.Include(_ => _.Community);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Groups/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @group = await _context.Groups
+                .Include(_ => _.Community)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (@group == null)
+            {
+                return NotFound();
+            }
+
+            return View(@group);
         }
 
         // GET: Groups/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
+            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id");
             return View();
         }
 
         // POST: Groups/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("CommunityId,Id,Name,Introduction,Announcement")] Group @group)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                _context.Add(@group);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id", @group.CommunityId);
+            return View(@group);
         }
 
         // GET: Groups/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            await this._authorizationService.AuthorizeAsync(User, new Group(), PolicyName.RequireRoleOf_GroupOwner);
-            return View();
+            //await this._authorizationService.AuthorizeAsync(User, new Group(), PolicyName.RequireRoleOf_GroupOwner);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            if (@group == null)
+            {
+                return NotFound();
+            }
+            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id", @group.CommunityId);
+            return View(@group);
         }
 
         // POST: Groups/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("CommunityId,Id,Name,Introduction,Announcement")] Group @group)
         {
-            try
+            if (id != @group.Id)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    _context.Update(@group);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GroupExists(@group.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id", @group.CommunityId);
+            return View(@group);
         }
 
         // GET: Groups/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var @group = await _context.Groups
+                .Include(_ => _.Community)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (@group == null)
+            {
+                return NotFound();
+            }
+
+            return View(@group);
         }
 
         // POST: Groups/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Groups.Remove(@group);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+        private bool GroupExists(int id)
+        {
+            return _context.Groups.Any(e => e.Id == id);
         }
     }
 }
