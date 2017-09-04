@@ -163,7 +163,7 @@ namespace SharpMember.Core.Views.ViewServices
             community.Name = data.Name;
             await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.UpdateItemTemplates(data.Id, data.MemberProfileItemTemplates);
+            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.MemberProfileItemTemplates);
             await _communityRepository.CommitAsync();
         }
     }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
 using SharpMember.Core.Definitions;
+using AutoMapper;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
@@ -14,7 +15,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId);
         Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired);
         Task AddTemplatesAsync(int orgId, IEnumerable<string> itemNames, bool isRequired);
-        void UpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates);
+        void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates);
     }
 
     public class MemberProfileItemTemplateRepository : RepositoryBase<MemberProfileItemTemplate, ApplicationDbContext>, IMemberProfileItemTemplateRepository
@@ -62,7 +63,12 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             }
         }
 
-        public void UpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates)
+        /// <summary>
+        /// MemberProfileItemTemplate items in <paramref name="newTemplates"/> with:
+        ///     * Valid Id values will be updated
+        ///     * Invalid Id values will be added
+        /// </summary>
+        public void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates)
         {
             var community = this.UnitOfWork.Context.Communities.Find(commId);
             if(null == community)
@@ -82,11 +88,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 }
             }
 
-            IList<MemberProfileItemTemplate> oldTemplates = community.MemberProfileItemTemplates;
-
-            this.DeleteRange(oldTemplates.Except(newTemplates, new MemberProfileItemTemplateIdComparer()));
-            this.UpdateRange(newTemplates.Intersect(oldTemplates, new MemberProfileItemTemplateIdComparer()));
-            this.AddRange(newTemplates.Except(oldTemplates, new MemberProfileItemTemplateIdComparer()));
+            this.UpdateRange(newTemplates);
         }
     }
 }

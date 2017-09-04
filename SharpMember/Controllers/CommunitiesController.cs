@@ -9,12 +9,14 @@ using SharpMember.Core.Views.ViewModels;
 using SharpMember.Core.Views.ViewServices;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SharpMember.Controllers
 {
     [Authorize]
     public class CommunitiesController : Controller
     {
+        ILogger<CommunitiesController> _logger;
         UserManager<ApplicationUser> _userManager;
         ICommunityIndexViewService _communityIndexViewService;
         ICommunityCreateViewService _communityCreateViewService;
@@ -22,12 +24,14 @@ namespace SharpMember.Controllers
         ICommunityMembersViewService _memberIndexViewService;
 
         public CommunitiesController(
+            ILogger<CommunitiesController> logger,
             UserManager<ApplicationUser> userManager,
             ICommunityIndexViewService communityIndexViewService,
             ICommunityCreateViewService communityCreateViewService,
             ICommunityEditViewService communityEditViewService,
             ICommunityMembersViewService memberIndexViewService
         ){
+            _logger = logger;
             _userManager = userManager;
             _communityIndexViewService = communityIndexViewService;
             _communityCreateViewService = communityCreateViewService;
@@ -94,8 +98,9 @@ namespace SharpMember.Controllers
 
                 return RedirectToAction(nameof(Edit), new { id = id });
             }
-            catch
+            catch(Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return View(data);
             }
         }
