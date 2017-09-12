@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data;
-using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
-using SharpMember.Core.Views.ViewServices;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using SharpMember.Core.Views.ViewServices.MemberViewServices;
+using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace SharpMember.Controllers
 {

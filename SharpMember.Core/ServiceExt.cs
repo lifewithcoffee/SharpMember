@@ -18,6 +18,7 @@ using AutoMapper;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
+using SharpMember.Core.Views.ViewServices.GroupViewServices;
 
 namespace SharpMember.Core
 {
@@ -56,14 +57,18 @@ namespace SharpMember.Core
 
         static private void AddViewServices(this IServiceCollection services)
         {
-            services.AddTransient<ICommunityMembersViewService, CommunityMembersViewService>();
             services.AddTransient<IMemberCreateViewService, MemberCreateViewService>();
             services.AddTransient<IMemberEditViewService, MemberEditViewService>();
 
             services.AddTransient<ICommunityIndexViewService, CommunityIndexViewService>();
             services.AddTransient<ICommunityCreateViewService, CommunityCreateViewService>();
             services.AddTransient<ICommunityEditViewService, CommunityEditViewService>();
+
+            services.AddTransient<ICommunityMembersViewService, CommunityMembersViewService>();
             services.AddTransient<ICommunityGroupsViewService, CommunityGroupsViewService>();
+
+            services.AddTransient<IGroupCreateViewService, GroupCreateViewService>();
+            services.AddTransient<IGroupEditViewService, GroupEditViewService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)

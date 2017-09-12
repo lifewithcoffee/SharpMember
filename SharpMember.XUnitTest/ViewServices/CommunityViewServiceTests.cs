@@ -1,11 +1,11 @@
-﻿using SharpMember.Core.Views.ViewServices;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using SharpMember.Core.Views.ViewModels;
 using System.Threading.Tasks;
+using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace U.ViewServices
 {

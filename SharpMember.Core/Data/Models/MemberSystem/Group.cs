@@ -12,6 +12,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string Name { get; set; }
         public string Introduction { get; set; }
         public string Announcement { get; set; }
+        public int CommunityId { get; set; }
     }
 
     /// <summary>
@@ -20,8 +21,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     /// </summary>
     public class Group : GroupEntity
     {
-        public int CommunityId { get; set; }
-
         [ForeignKey(nameof(CommunityId))]
         public virtual Community Community { get; set; }
 
