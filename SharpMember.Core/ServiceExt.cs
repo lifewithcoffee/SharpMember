@@ -12,12 +12,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.Repositories.MemberSystem;
-using SharpMember.Core.Views.ViewServices;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
+using SharpMember.Core.Views.ViewServices.MemberViewServices;
 
 namespace SharpMember.Core
 {
@@ -30,7 +30,6 @@ namespace SharpMember.Core
                 cfg.CreateMap<Member, MemberUpdateVM>();
                 cfg.CreateMap<MemberUpdateVM, Member>();
             });
-
         }
 
         static private void AddRepositories(this IServiceCollection services)
