@@ -32,25 +32,6 @@ namespace SharpMember.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Groups/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @group = await _context.Groups
-                .Include(_ => _.Community)
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            return View(@group);
-        }
-
         // GET: Groups/Create
         public IActionResult Create()
         {

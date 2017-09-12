@@ -17,6 +17,7 @@ using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace SharpMember.Core
 {
@@ -63,6 +64,7 @@ namespace SharpMember.Core
             services.AddTransient<ICommunityIndexViewService, CommunityIndexViewService>();
             services.AddTransient<ICommunityCreateViewService, CommunityCreateViewService>();
             services.AddTransient<ICommunityEditViewService, CommunityEditViewService>();
+            services.AddTransient<ICommunityGroupsViewService, CommunityGroupsViewService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)

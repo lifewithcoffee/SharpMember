@@ -10,6 +10,7 @@ using SharpMember.Core.Views.ViewServices;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
 using Microsoft.Extensions.Logging;
+using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace SharpMember.Controllers
 {
@@ -22,6 +23,7 @@ namespace SharpMember.Controllers
         ICommunityCreateViewService _communityCreateViewService;
         ICommunityEditViewService _communityEditViewService;
         ICommunityMembersViewService _memberIndexViewService;
+        ICommunityGroupsViewService _communityGroupsViewService;
 
         public CommunitiesController(
             ILogger<CommunitiesController> logger,
