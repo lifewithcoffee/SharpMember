@@ -9,6 +9,7 @@ using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Definitions;
+using SharpMember.Core.Views.ViewServices.GroupViewServices;
 
 namespace SharpMember.Controllers
 {
@@ -16,13 +17,19 @@ namespace SharpMember.Controllers
     {
         private readonly ApplicationDbContext _context;
         IAuthorizationService _authorizationService;
+        IGroupCreateViewService _groupCreateViewService;
+        IGroupEditViewService _groupEditViewService;
 
         public GroupsController(
             ApplicationDbContext context,
-            IAuthorizationService authorizationService
+            IAuthorizationService authorizationService,
+            IGroupCreateViewService groupCreateViewService,
+            IGroupEditViewService groupEditViewService
         ){
             _context = context;
             _authorizationService = authorizationService;
+            _groupCreateViewService = groupCreateViewService;
+            _groupEditViewService = groupEditViewService;
         }
 
         // GET: Groups
