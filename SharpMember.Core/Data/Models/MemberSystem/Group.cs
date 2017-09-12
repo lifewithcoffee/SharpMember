@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using SharpMember.Core.Views.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -25,5 +27,10 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public virtual Community Community { get; set; }
 
         public virtual List<GroupMemberRelation> GroupMemberRelations { get; set; } = new List<GroupMemberRelation>();
+
+        public GroupUpdateVM ConvertToGroupUpdateVM()
+        {
+            return Mapper.Map<Group, GroupUpdateVM>(this);
+        }
     }
 }

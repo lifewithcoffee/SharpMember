@@ -1,4 +1,7 @@
-﻿using SharpMember.Core.Views.ViewModels;
+﻿using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Mappers;
+using SharpMember.Core.Views.ViewModels;
+using SharpMember.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,20 +11,28 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
     public interface IGroupCreateViewService
     {
-        Task<GroupUpdateVM> GetAsync(int orgId, string appUserId);
-        Task<int> Post(MemberUpdateVM data);
+        GroupUpdateVM GetAsync(int commId);
+        int Post(GroupUpdateVM data);
     }
 
     public class GroupCreateViewService : IGroupCreateViewService
     {
-        public Task<GroupUpdateVM> GetAsync(int orgId, string appUserId)
+        IGroupRepository _groupRepository;
+
+        public GroupCreateViewService(IGroupRepository groupRepository)
         {
-            throw new NotImplementedException();
+            _groupRepository = groupRepository;
         }
 
-        public Task<int> Post(MemberUpdateVM data)
+        public GroupUpdateVM GetAsync(int commId)
         {
-            throw new NotImplementedException();
+            return new GroupUpdateVM { CommunityId = commId };
+        }
+
+        public int Post(GroupUpdateVM data)
+        {
+            Ensure.IsTrue(data.CommunityId > 0);
+            return _groupRepository.Add(data.ConvertToGroup()).Id;
         }
     }
 }
