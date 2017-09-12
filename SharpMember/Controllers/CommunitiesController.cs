@@ -31,7 +31,8 @@ namespace SharpMember.Controllers
             ICommunityIndexViewService communityIndexViewService,
             ICommunityCreateViewService communityCreateViewService,
             ICommunityEditViewService communityEditViewService,
-            ICommunityMembersViewService memberIndexViewService
+            ICommunityMembersViewService memberIndexViewService,
+            ICommunityGroupsViewService communityGroupsViewService
         ){
             _logger = logger;
             _userManager = userManager;
@@ -39,6 +40,7 @@ namespace SharpMember.Controllers
             _communityCreateViewService = communityCreateViewService;
             _communityEditViewService = communityEditViewService;
             _memberIndexViewService = memberIndexViewService;
+            _communityGroupsViewService = communityGroupsViewService;
         }
 
         // GET: Communities
@@ -147,7 +149,7 @@ namespace SharpMember.Controllers
         [Route("/[controller]/{commId}/groups")]
         public ActionResult Groups(int commId)
         {
-            return View();
+            return View(_communityGroupsViewService.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/groups")]

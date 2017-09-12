@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SharpMember.Core.Data.Models.MemberSystem.Group>
+﻿@model CommunityGroupsVM
+@using SharpMember.Core.Views.ViewModels
 
 @{
     ViewData["Title"] = "Groups";
@@ -12,42 +13,17 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Introduction)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Announcement)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Community)
-            </th>
-            <th></th>
+            <th>Select</th>
+            <th>Name</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Introduction)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Announcement)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Community.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @for (int i = 0; i < Model.ItemViewModels.Count; i++)
+        {
+            <tr>
+                <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
+                <td><a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.ItemViewModels[i].Id">@Model.ItemViewModels[i].Name</a></td>
+            </tr>
+        }
     </tbody>
 </table>

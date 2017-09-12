@@ -18,16 +18,29 @@ namespace SharpMember.Core.Views.ViewModels
     public class CommunityMemberItemVM
     {
         public bool Selected { get; set; }
-        public int Id { get; internal set; }
-        public string Name { get; internal set; }
-        public int MemberNumber { get; internal set; }
-        public bool Renewed { get; internal set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int MemberNumber { get; set; }
+        public bool Renewed { get; set; }
     }
 
     public class CommunityMembersVM
     {
         public int CommunityId { get; set; }
         public List<CommunityMemberItemVM> ItemViewModels { get; set; } = new List<CommunityMemberItemVM>();
+    }
+
+    public class CommunityGroupItemVM
+    {
+        public bool Selected { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class CommunityGroupsVM
+    {
+        public int CommunityId { get; set; }
+        public List<CommunityGroupItemVM> ItemViewModels { get; set; } = new List<CommunityGroupItemVM>();
     }
     
     public class CommunityUpdateVM : CommunityEntity

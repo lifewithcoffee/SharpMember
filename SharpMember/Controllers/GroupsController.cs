@@ -73,13 +73,12 @@ namespace SharpMember.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
-            if (@group == null)
+            var model = _groupEditViewService.Get(id.Value);
+            if (model == null)
             {
                 return NotFound();
             }
-            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id", @group.CommunityId);
-            return View(@group);
+            return View(model);
         }
 
         // POST: Groups/Edit/5

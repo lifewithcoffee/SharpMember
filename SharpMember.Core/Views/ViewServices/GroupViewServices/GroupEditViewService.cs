@@ -11,7 +11,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
     public interface IGroupEditViewService
     {
-        GroupUpdateVM GetAsync(int id);
+        GroupUpdateVM Get(int id);
         void PostAsync(GroupUpdateVM data);
     }
 
@@ -24,7 +24,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             _groupRepository = groupRepository;
         }
 
-        public GroupUpdateVM GetAsync(int id)
+        public GroupUpdateVM Get(int id)
         {
             return _groupRepository.GetById(id).ConvertToGroupUpdateVM();
         }
