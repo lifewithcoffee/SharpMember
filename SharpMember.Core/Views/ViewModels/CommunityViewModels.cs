@@ -1,4 +1,5 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using AutoMapper;
+using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,5 +47,10 @@ namespace SharpMember.Core.Views.ViewModels
     public class CommunityUpdateVM : CommunityEntity
     {
         public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
+        
+        public Community ConvertToCommunity()
+        {
+            return Mapper.Map<CommunityUpdateVM, Community>(this);
+        }
     }
 }

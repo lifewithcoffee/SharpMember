@@ -32,18 +32,17 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
         public CommunityUpdateVM Get(int commId)
         {
-            var org = _communityRepository.GetMany(o => o.Id == commId).Include(o => o.MemberProfileItemTemplates).Single();
+            var community = _communityRepository.GetMany(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
 
-            CommunityUpdateVM result = new CommunityUpdateVM { Id = org.Id, Name = org.Name };
-            result.MemberProfileItemTemplates = org.MemberProfileItemTemplates;
+            CommunityUpdateVM result = community.ConvertToCommunityUpdateVM();
+            result.MemberProfileItemTemplates = community.MemberProfileItemTemplates;
 
             return result;
         }
 
         public async Task PostAsync(CommunityUpdateVM data)
         {
-            var community = _communityRepository.GetById(data.Id);
-            community.Name = data.Name;
+            _communityRepository.Update(data.ConvertToCommunity());
             await _communityRepository.CommitAsync();
 
             _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.MemberProfileItemTemplates);

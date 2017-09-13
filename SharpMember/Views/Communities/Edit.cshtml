@@ -17,21 +17,24 @@
     <div class="col-md-5">
 
         <form asp-action="Edit">
-            <div class="form">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label asp-for="Name">Community Name</label>
-                    <input asp-for="Name" class="form-control" />
-                </div>
-                <hr />
-                @Html.Partial("_MemberProfileItemTemplateForm")
+            <div style="padding-left: 5px;">
 
-                <hr />
-                <div class="form-group" style="float: right;">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
+                <vc:form-groups entity-type=@Model.GetType()
+                                instance=@Model
+                                hidden-fields="id"
+                                readonly-fields=""
+                                text-area-fields="Introduction,Announcement" />
+            </div>
+
+            <hr />
+            @Html.Partial("_MemberProfileItemTemplateForm")
+
+            <hr />
+            <div class="form-group" style="float: right;">
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>

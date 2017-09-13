@@ -214,6 +214,10 @@ namespace SharpMember.Core.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Announcement");
+
+                    b.Property<string>("Introduction");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");

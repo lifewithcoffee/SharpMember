@@ -73,20 +73,22 @@
             <div class="form-group">
                 @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "control-label" })
                 @{
-                    object textHtmlAttr = new { @class = "form-control" };
+                    object textAreaHtmlAttr = new { @class = "form-control", style = "height: 200px;"};
+                    object textBoxHtmlAttr = new { @class = "form-control" };
                     if (is_readonly)
                     {
-                        textHtmlAttr = new { @class = "form-control", @readonly = "readonly" };
+                        textAreaHtmlAttr = new { @class = "form-control", @readonly = "readonly", style = "height: 200px" };
+                        textBoxHtmlAttr = new { @class = "form-control", @readonly = "readonly" };
                     }
                 }
 
                 @if(@Model.TextAreaFields.Contains(item.Name.ToLower()))
                 {
-                    @Html.TextArea(item.Name, value: (string)item.GetValue(Model.Instance), htmlAttributes: textHtmlAttr)
+                    @Html.TextArea(item.Name, value: (string)item.GetValue(Model.Instance), htmlAttributes: textAreaHtmlAttr)
                 }
                 else
                 {
-                    @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: textHtmlAttr)
+                    @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: textBoxHtmlAttr)
                 }
                 @Html.ValidationMessage(item.Name, htmlAttributes: new { @class = "text-danger" })
             </div>

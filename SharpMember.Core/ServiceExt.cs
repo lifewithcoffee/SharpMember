@@ -33,6 +33,9 @@ namespace SharpMember.Core
 
                 cfg.CreateMap<GroupUpdateVM, Group>();
                 cfg.CreateMap<Group, GroupUpdateVM>();
+
+                cfg.CreateMap<CommunityUpdateVM, Community>();
+                cfg.CreateMap<Community, CommunityUpdateVM>();
             });
         }
 

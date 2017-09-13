@@ -23,7 +23,7 @@
         {
             <tr>
                 <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
-                <td><a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.ItemViewModels[i].Id">@Model.ItemViewModels[i].Name</a></td>
+                <td><a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
             </tr>
         }
     </tbody>

@@ -29,7 +29,7 @@
                         <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
                         <td>@Html.DisplayFor(m => m.ItemViewModels[i].MemberNumber)</td>
                         <td>@Html.DisplayFor(m => m.ItemViewModels[i].Renewed)</td>
-                        <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.ItemViewModels[i].Id">@Model.ItemViewModels[i].Name</a></td>
+                        <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
                     </tr>
                 }
             </tbody>

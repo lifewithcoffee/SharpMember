@@ -11,7 +11,7 @@ using System;
 namespace SharpMember.Core.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170901150920_add_member_system")]
+    [Migration("20170913071516_add_member_system")]
     partial class add_member_system
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,6 +214,10 @@ namespace SharpMember.Core.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Announcement");
+
+                    b.Property<string>("Introduction");
 
                     b.Property<string>("Name");
 
