@@ -40,13 +40,10 @@
     </div>
     <div class="col-md-2">
         <hr />
-        <div><a asp-action="Members" asp-route-commId="@Model.Id">Member List</a></div>
-        <div><a asp-action="Groups" asp-route-commId="@Model.Id">Group List</a></div>
+        <a asp-action="Index"><div>Back to Community List</div></a>
+        <a asp-action="Members" asp-route-commId="@Model.Id"><div>Members</div></a>
+        <a asp-action="Groups" asp-route-commId="@Model.Id"><div>Groups</div></a>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

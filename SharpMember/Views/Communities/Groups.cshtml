@@ -15,7 +15,8 @@
     <thead>
         <tr>
             <th width="100px">Select</th>
-            <th>Name</th>
+            <th width="200px">Name</th>
+            <th>Introduction</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
             <tr>
                 <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
                 <td><a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
+                <td>@Model.ItemViewModels[i].Introduction</td>
             </tr>
         }
     </tbody>

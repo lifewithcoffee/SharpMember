@@ -26,8 +26,21 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         {
             var items = _groupRepository
                 .GetMany(g => g.CommunityId == commId)
-                .Select(g => new CommunityGroupItemVM { Id = g.Id, Name = g.Name })
-                .ToList();
+                .ToList()
+                .Select(g => {
+                    string trim = g.Introduction.Trim();
+                    string intro;
+                    if (trim.Length > 150)
+                    {
+                        intro = trim + " ...";
+                    }
+                    else
+                    {
+                        intro = trim;
+                    }
+
+                    return new CommunityGroupItemVM { Id = g.Id, Name = g.Name, Introduction = intro };
+                }).ToList();
 
             return new CommunityGroupsVM { CommunityId = commId, ItemViewModels = items };
         }

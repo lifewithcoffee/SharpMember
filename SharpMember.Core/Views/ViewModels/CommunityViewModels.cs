@@ -36,6 +36,7 @@ namespace SharpMember.Core.Views.ViewModels
         public bool Selected { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Introduction { get; set; }
     }
 
     public class CommunityGroupsVM
