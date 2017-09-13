@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Definitions
 {
-    public class RoleName
+    public class RoleNames
     {
         public static string CommunityOwner = nameof(CommunityOwner);
         public static string CommunityManager = nameof(CommunityManager);

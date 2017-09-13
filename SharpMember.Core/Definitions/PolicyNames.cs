@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Definitions
 {
-    public class PolicyName
+    public class PolicyNames
     {
         public static string RequireRoleOf_CommunityOwner = nameof(RequireRoleOf_CommunityOwner);
         public static string RequireRoleOf_CommunityManager = nameof(RequireRoleOf_CommunityManager);

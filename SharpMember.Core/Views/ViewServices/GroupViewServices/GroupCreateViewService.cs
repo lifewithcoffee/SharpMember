@@ -12,7 +12,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
     public interface IGroupCreateViewService
     {
         GroupUpdateVM GetAsync(int commId);
-        int Post(GroupUpdateVM data);
+        Task<int> Post(GroupUpdateVM data);
     }
 
     public class GroupCreateViewService : IGroupCreateViewService
@@ -29,10 +29,11 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             return new GroupUpdateVM { CommunityId = commId };
         }
 
-        public int Post(GroupUpdateVM data)
+        public async Task<int> Post(GroupUpdateVM data)
         {
-            Ensure.IsTrue(data.CommunityId > 0);
-            return _groupRepository.Add(data.ConvertToGroup()).Id;
+            var newGroup = _groupRepository.Add(data.ConvertToGroup());
+            await _groupRepository.CommitAsync();
+            return newGroup.Id;
         }
     }
 }

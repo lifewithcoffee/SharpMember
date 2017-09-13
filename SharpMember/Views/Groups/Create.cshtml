@@ -1,4 +1,5 @@
 ﻿@model GroupUpdateVM
+@addTagHelper *,SharpMember
 @using SharpMember.Core.Views.ViewModels
 
 @{
@@ -13,25 +14,11 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CommunityId" class="control-label"></label>
-                <select asp-for="CommunityId" class ="form-control" asp-items="ViewBag.CommunityId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Introduction" class="control-label"></label>
-                <input asp-for="Introduction" class="form-control" />
-                <span asp-validation-for="Introduction" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Announcement" class="control-label"></label>
-                <input asp-for="Announcement" class="form-control" />
-                <span asp-validation-for="Announcement" class="text-danger"></span>
-            </div>
+            <vc:form-groups entity-type=@Model.GetType()
+                            instance=@Model
+                            hidden-fields="id,CommunityId"
+                            readonly-fields=""
+                            text-area-fields="Introduction,Announcement" /> 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

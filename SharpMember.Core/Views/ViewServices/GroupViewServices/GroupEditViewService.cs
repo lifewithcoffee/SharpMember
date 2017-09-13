@@ -12,7 +12,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
     public interface IGroupEditViewService
     {
         GroupUpdateVM Get(int id);
-        void PostAsync(GroupUpdateVM data);
+        Task PostAsync(GroupUpdateVM data);
     }
 
     public class GroupEditViewService : IGroupEditViewService
@@ -29,10 +29,11 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             return _groupRepository.GetById(id).ConvertToGroupUpdateVM();
         }
 
-        public void PostAsync(GroupUpdateVM data)
+        public async Task PostAsync(GroupUpdateVM data)
         {
             Ensure.IsTrue(data.Id > 0);
             _groupRepository.Update(data.ConvertToGroup());
+            await _groupRepository.CommitAsync();
         }
     }
 }

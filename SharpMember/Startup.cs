@@ -34,34 +34,34 @@ namespace SharpMember
             services.AddSharpMemberCore(Configuration);
             services.AddMvc();
             services.AddAuthorization(options => {
-                options.AddPolicy(PolicyName.RequireRoleOf_CommunityOwner,
+                options.AddPolicy(PolicyNames.RequireRoleOf_CommunityOwner,
                     policy =>
                     {
-                        policy.Requirements.Add(new CommunityRoleRequirement(RoleName.CommunityOwner));
+                        policy.Requirements.Add(new CommunityRoleRequirement(RoleNames.CommunityOwner));
                         policy.RequireAuthenticatedUser();
                     }
                 );
                 
-                options.AddPolicy(PolicyName.RequireRoleOf_CommunityManager,
+                options.AddPolicy(PolicyNames.RequireRoleOf_CommunityManager,
                     policy =>
                     {
-                        policy.Requirements.Add(new CommunityRoleRequirement(RoleName.CommunityManager));
+                        policy.Requirements.Add(new CommunityRoleRequirement(RoleNames.CommunityManager));
                         policy.RequireAuthenticatedUser();
                     }
                 );
 
-                options.AddPolicy(PolicyName.RequireRoleOf_GroupOwner,
+                options.AddPolicy(PolicyNames.RequireRoleOf_GroupOwner,
                     policy =>
                     {
-                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.GroupOwner));
+                        policy.Requirements.Add(new GroupRoleRequirement(RoleNames.GroupOwner));
                         policy.RequireAuthenticatedUser();
                     }
                 );
 
-                options.AddPolicy(PolicyName.RequireRoleOf_GroupManager,
+                options.AddPolicy(PolicyNames.RequireRoleOf_GroupManager,
                     policy =>
                     {
-                        policy.Requirements.Add(new GroupRoleRequirement(RoleName.GroupManager));
+                        policy.Requirements.Add(new GroupRoleRequirement(RoleNames.GroupManager));
                         policy.RequireAuthenticatedUser();
                     }
                 );

@@ -26,17 +26,17 @@ namespace SharpMember.ViewComponents
 
             if (hiddenFields != null)
             {
-                model.HidenFields = hiddenFields.ToLower().Split(',');
+                model.HidenFields = hiddenFields.ToLower().Split(',').Select(t => t.Trim()).ToArray();
             }
 
             if (readonlyFields != null)
             {
-                model.ReadonlyFields = readonlyFields.ToLower().Split(',');
+                model.ReadonlyFields = readonlyFields.ToLower().Split(',').Select(t => t.Trim()).ToArray();
             }
 
             if (textAreaFields != null)
             {
-                model.TextAreaFields = textAreaFields.ToLower().Split(',');
+                model.TextAreaFields = textAreaFields.ToLower().Split(',').Select(t => t.Trim()).ToArray();
             }
 
             return Task.FromResult<IViewComponentResult>(View(model));

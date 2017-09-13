@@ -50,7 +50,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             await _communityRepository.CommitAsync();
 
             Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(community.Id, appUserId);
-            newMember.CommunityRole = RoleName.CommunityOwner;
+            newMember.CommunityRole = RoleNames.CommunityOwner;
             await _memberRepository.CommitAsync();
 
             var required = data.MemberProfileItemTemplates.Where(p => p.IsRequired == true).Select(p => p.ItemName);

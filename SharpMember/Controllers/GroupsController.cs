@@ -10,6 +10,8 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Definitions;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;
+using SharpMember.Core.Views.ViewModels;
+using SharpMember.Definitions;
 
 namespace SharpMember.Controllers
 {
@@ -32,18 +34,10 @@ namespace SharpMember.Controllers
             _groupEditViewService = groupEditViewService;
         }
 
-        // GET: Groups
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Groups.Include(_ => _.Community);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
         // GET: Groups/Create
-        public IActionResult Create()
+        public IActionResult Create(int commId)
         {
-            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id");
-            return View();
+            return View(_groupCreateViewService.GetAsync(commId));
         }
 
         // POST: Groups/Create
@@ -51,20 +45,18 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommunityId,Id,Name,Introduction,Announcement")] Group @group)
+        public async Task<IActionResult> Create(GroupUpdateVM group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                int newGroupId = await _groupCreateViewService.Post(group);
+                return RedirectToAction(nameof(Edit), new { Id = newGroupId });
             }
-            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id", @group.CommunityId);
-            return View(@group);
+            return View(group);
         }
 
         // GET: Groups/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             //await this._authorizationService.AuthorizeAsync(User, new Group(), PolicyName.RequireRoleOf_GroupOwner);
 
@@ -86,9 +78,9 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CommunityId,Id,Name,Introduction,Announcement")] Group @group)
+        public async Task<IActionResult> Edit(int id, GroupUpdateVM group)
         {
-            if (id != @group.Id)
+            if (id != group.Id)
             {
                 return NotFound();
             }
@@ -97,8 +89,7 @@ namespace SharpMember.Controllers
             {
                 try
                 {
-                    _context.Update(@group);
-                    await _context.SaveChangesAsync();
+                    await _groupEditViewService.PostAsync(group);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,10 +102,9 @@ namespace SharpMember.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Edit", new { id = id });
             }
-            ViewData["CommunityId"] = new SelectList(_context.Communities, "Id", "Id", @group.CommunityId);
-            return View(@group);
+            return View(group);
         }
 
         // GET: Groups/Delete/5
@@ -142,9 +132,10 @@ namespace SharpMember.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            int commId = group.CommunityId;
             _context.Groups.Remove(@group);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(CommunitiesController.Groups), ControllerNames.Communities, new { commId = commId });
         }
 
         private bool GroupExists(int id)
