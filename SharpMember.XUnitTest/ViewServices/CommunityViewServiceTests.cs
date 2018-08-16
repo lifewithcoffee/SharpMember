@@ -96,13 +96,16 @@ namespace U.ViewServices
 
             // update item templates
             {
-                var editViewService = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
-                var model = editViewService.Get(commId);
+                // read and change
+                var editViewService_read = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                var model = editViewService_read.Get(commId);
 
                 model.MemberProfileItemTemplates[1].ItemName = updatedItem;
                 model.MemberProfileItemTemplates.Add(new MemberProfileItemTemplate { ItemName = appendedItem });
 
-                await editViewService.PostAsync(model);
+                // write changes
+                var editViewService_write = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                await editViewService_write.PostAsync(model);
             }
 
             // get the updated community to verify
