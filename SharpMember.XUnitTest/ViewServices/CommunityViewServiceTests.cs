@@ -96,14 +96,36 @@ namespace U.ViewServices
 
             // update item templates
             {
-                // read and change
+                /**
+                 * read and do changes
+                 */
                 var editViewService_read = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
                 var model = editViewService_read.Get(commId);
 
                 model.MemberProfileItemTemplates[1].ItemName = updatedItem;
                 model.MemberProfileItemTemplates.Add(new MemberProfileItemTemplate { ItemName = appendedItem });
 
-                // write changes
+                /**
+                 * write changes
+                 * 
+                 * Note:
+                 * 
+                 *  if reuse the 'editViewService_read' above to do PostAsync(), the following exception
+                 *  will be thrown:
+                 *  
+                 *      The instance of entity type … cannot be tracked because another instance of this
+                 *      type with the same key is already being tracked
+                 *      
+                 *  The reason is that the change is not applied directly to the retrieved data entity but 
+                 *  a converted view model object. Then the view model object is converted back to a new
+                 *  data entity, which has the same ID with the one retrieved before.
+                 *  
+                 *  However, when the new data entity is posted, the previous one is still tracked by the
+                 *  same DbContext. That's why the above exception is thrown.
+                 *  
+                 *  The workaround is simple -- post using a different DbContext. That's why the creating
+                 *  a new scope to get a ICommunityEditViewService instance can fix this problem.
+                 */
                 var editViewService_write = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
                 await editViewService_write.PostAsync(model);
             }
