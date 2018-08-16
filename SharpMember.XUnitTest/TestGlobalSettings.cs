@@ -6,7 +6,7 @@ namespace U
 {
     public class TestGlobalSettings
     {
-        public static string solutionRoot = @"F:\rp\git\working\SharpMember";
+        public static string solutionRoot = @"e:\rp\git\SharpMember";
         public static string sharpMemberProjectPath = $@"{solutionRoot}\SharpMember";
         public static string sharpMemberJsonSettingName = "appsettings.json";
     }

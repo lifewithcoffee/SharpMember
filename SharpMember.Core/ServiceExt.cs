@@ -24,19 +24,31 @@ namespace SharpMember.Core
 {
     public static class ServiceExt
     {
+        static private bool automapper_initialized = false;
+        static private readonly object locker = new object();
         static private void AutoMapperConfiguration()
         {
-            Mapper.Initialize(cfg =>
+            /* Add thread locking to prevent this exception in xunit for the latest AutoMapper:
+             * Mapper already initialized. You must call Initialize once per application domain/process
+             */
+            lock (locker)
             {
-                cfg.CreateMap<Member, MemberUpdateVM>();
-                cfg.CreateMap<MemberUpdateVM, Member>();
+                if (!automapper_initialized)
+                {
+                    Mapper.Initialize(cfg =>
+                    {
+                        cfg.CreateMap<Member, MemberUpdateVM>();
+                        cfg.CreateMap<MemberUpdateVM, Member>();
 
-                cfg.CreateMap<GroupUpdateVM, Group>();
-                cfg.CreateMap<Group, GroupUpdateVM>();
+                        cfg.CreateMap<GroupUpdateVM, Group>();
+                        cfg.CreateMap<Group, GroupUpdateVM>();
 
-                cfg.CreateMap<CommunityUpdateVM, Community>();
-                cfg.CreateMap<Community, CommunityUpdateVM>();
-            });
+                        cfg.CreateMap<CommunityUpdateVM, Community>();
+                        cfg.CreateMap<Community, CommunityUpdateVM>();
+                    });
+                    automapper_initialized = true;
+                }
+            }
         }
 
         static private void AddRepositories(this IServiceCollection services)
