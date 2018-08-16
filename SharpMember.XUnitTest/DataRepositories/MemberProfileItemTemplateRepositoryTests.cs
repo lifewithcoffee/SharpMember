@@ -45,7 +45,7 @@ namespace U.DataRepositories
             Assert.Equal(2, readItemNames.Count);
             foreach(var name in itemNames)
             {
-                Assert.True(readItemNames.Contains(name));
+                Assert.Contains(name, readItemNames);
             }
 
             // ======================================================================================
@@ -60,7 +60,7 @@ namespace U.DataRepositories
             var repoRead = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             var updateItemNames = repoUpdate.GetMany(t => t.CommunityId == existingOrgId).Select(t => t.ItemName).ToList();
             Assert.Equal(2, updateItemNames.Count());
-            Assert.True(updateItemNames.Contains(newItemName));
+            Assert.Contains(newItemName, updateItemNames);
 
             // ======================================================================================
             // delete
@@ -72,7 +72,7 @@ namespace U.DataRepositories
             // verify delete
             var repoRead2 = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
             var remained = repoRead2.GetMany(t => t.CommunityId == existingOrgId).ToList();
-            Assert.Equal(1, remained.Count());
+            Assert.Single(remained);
         }
 
         [Fact]

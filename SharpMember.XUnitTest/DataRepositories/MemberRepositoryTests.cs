@@ -76,7 +76,7 @@ namespace U.DataRepositories
             {
                 var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
-                Assert.Equal(1, newMember.MemberProfileItems.Count);
+                Assert.Single(newMember.MemberProfileItems);
             }
         }
     }

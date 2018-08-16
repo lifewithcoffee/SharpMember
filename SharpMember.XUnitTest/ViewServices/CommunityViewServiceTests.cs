@@ -57,10 +57,10 @@ namespace U.ViewServices
                 Assert.Equal(2, model.MemberProfileItemTemplates.Count);
 
                 Assert.Equal(commId, model.MemberProfileItemTemplates[0].CommunityId);
-                Assert.Equal(true, model.MemberProfileItemTemplates[0].IsRequired);
+                Assert.True(model.MemberProfileItemTemplates[0].IsRequired);
 
                 Assert.Equal(commId, model.MemberProfileItemTemplates[1].CommunityId);
-                Assert.Equal(false, model.MemberProfileItemTemplates[1].IsRequired);
+                Assert.False(model.MemberProfileItemTemplates[1].IsRequired);
 
                 Assert.True(model.MemberProfileItemTemplates[0].Id > 0);
                 Assert.True(model.MemberProfileItemTemplates[1].Id > 0);
