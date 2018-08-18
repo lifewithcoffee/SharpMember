@@ -26,16 +26,12 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         {
             var commItems = _communityRepository.GetAll().ToList().Select(o => {
 
-                string trim = o.Introduction.Trim();
+                string trim = o.Introduction != null? o.Introduction.Trim() : "";
                 string intro;
                 if(trim.Length > 150)
-                {
                     intro = trim + " ...";
-                }
                 else
-                {
                     intro = trim;
-                }
 
                 return new CommunityIndexItemVM { Name = o.Name, Id = o.Id, Introduction = intro };
             }).ToList();
