@@ -6,7 +6,7 @@ using SharpMember.Core.Data.Repositories;
 using SharpMember.Core.Services.Excel;
 using SharpMember.Core.Services;
 using SharpMember.Core.Data;
-using SharpMember.Core.Data.RepositoryBase;
+using NetCoreUtils.Database;
 using SharpMember.Core.Definitions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

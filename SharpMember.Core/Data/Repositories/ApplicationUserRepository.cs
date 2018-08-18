@@ -1,5 +1,5 @@
 ﻿using SharpMember.Core.Data.Models;
-using SharpMember.Core.Data.RepositoryBase;
+using NetCoreUtils.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;

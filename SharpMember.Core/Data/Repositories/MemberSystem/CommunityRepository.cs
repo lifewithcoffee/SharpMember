@@ -1,5 +1,4 @@
-﻿using SharpMember.Core.Data.RepositoryBase;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,7 @@ using SharpMember.Core.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using SharpMember.Core.Definitions;
+using NetCoreUtils.Database;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
