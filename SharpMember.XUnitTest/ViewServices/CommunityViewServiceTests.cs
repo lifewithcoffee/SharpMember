@@ -105,8 +105,7 @@ namespace U.ViewServices
                 model.MemberProfileItemTemplates[1].ItemName = updatedItem;
                 model.MemberProfileItemTemplates.Add(new MemberProfileItemTemplate { ItemName = appendedItem });
 
-                /**
-                 * write changes
+                /** write changes
                  * 
                  * Note:
                  * 
