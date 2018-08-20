@@ -104,7 +104,7 @@ namespace SharpMember.Core
                     services.AddDbContext<ApplicationDbContext>(
                         options =>
                         {
-                            bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled"); // this setting should be from secrets.json
+                            bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
                             if ( config_UnitTestConnectionEnabled == true)
                                 options.UseSqlServer(Configuration.GetConnectionString("UnitTestConnection"));
                             else
