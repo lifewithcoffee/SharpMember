@@ -6,7 +6,6 @@ using SharpMember.Core;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
-using SharpMember.Core.Data.RepositoryBase;
 using System;
 using System.Collections.Generic;
 using System.IO;

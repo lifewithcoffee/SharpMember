@@ -96,7 +96,7 @@ namespace SharpMember.Core
             switch (GlobalConfigs.DatabaseType)
             {
                 case eDatabaseType.Sqlite:
-                    services.AddEntityFrameworkSqlite().AddDbContext<ApplicationDbContext>( 
+                    services.AddDbContext<ApplicationDbContext>(
                         options => options.UseSqlite($"Filename={GlobalConsts.SqliteDbFileName}")
                     );
                     break;
@@ -106,13 +106,9 @@ namespace SharpMember.Core
                         {
                             bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled"); // this setting should be from secrets.json
                             if ( config_UnitTestConnectionEnabled == true)
-                            {
                                 options.UseSqlServer(Configuration.GetConnectionString("UnitTestConnection"));
-                            }
                             else
-                            {
                                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                            }
                         }
                     );
                     break;

@@ -24,31 +24,17 @@ namespace SharpMember.Core.Data
         public DbSet<MemberProfileItem> MemberProfileItems { get; set; }
         public DbSet<Community> Communities { get; set; }
 
-        public static DbContextOptions<ApplicationDbContext> GetOptionsFromConnectionString(string connectionString)
-        {
-            if (string.IsNullOrWhiteSpace(connectionString)) connectionString = $"Filename={GlobalConsts.SqliteDbFileName}";
-
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-
-            if (GlobalConfigs.DatabaseType == eDatabaseType.Sqlite)
-            {
-                optionsBuilder.UseSqlite(connectionString);
-            }
-            else if (GlobalConfigs.DatabaseType == eDatabaseType.SqlServer)
-            {
-                optionsBuilder.UseSqlServer(new SqlConnection(connectionString));
-            }
-
-            return optionsBuilder.Options;
-        }
-
-        /**
-         * The following constructor will cause mvc scaffolding to throw out exception of "Unable to resolve service for type 'System.String'"
+        /** The following constructor will cause mvc scaffolding to throw out an exception of
+         *      Unable to resolve service for type 'System.String'
          * when choose "MVC Controller with read/write actions"
          */
         //public ApplicationDbContext(string connectionString) : base(GetOptionsFromConnectionString(connectionString)) { }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            if (GlobalConfigs.DatabaseType == eDatabaseType.Sqlite)
+                Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
