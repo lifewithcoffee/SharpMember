@@ -17,7 +17,8 @@ namespace U
         {
             IConfigurationRoot Configuration = new ConfigurationBuilder()
                 .SetBasePath(TestGlobalSettings.sharpMemberProjectPath)
-                .AddJsonFile(TestGlobalSettings.sharpMemberJsonSettingName)
+                .AddJsonFile(TestGlobalSettings.sharpMemberJsonSettingName, optional: true, reloadOnChange: true)
+                .AddUserSecrets(userSecretsId: "aspnet-SharpMember-4C3332C6-4145-4408-BDD4-63A97039ED0D") // use project SharpMember's secret id
                 .Build();
 
             IServiceCollection serviceCollection = new ServiceCollection();
