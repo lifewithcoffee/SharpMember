@@ -1,13 +1,39 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace SharpMember.XUnitTest
 {
-    public class UnitTest1
+    public class TestsFixture : IDisposable
+    {
+        public TestsFixture()
+        {
+            // Do "global" initialization here; Only called once.
+        }
+
+        public void Dispose()
+        {
+            // Do "global" teardown here; Only called once.
+        }
+    }
+
+    public class UnitTest1 : IClassFixture<TestsFixture>, IDisposable
     {
         private readonly ITestOutputHelper output;
-        public UnitTest1(ITestOutputHelper output) { this.output = output; }
+
+		// called before each test method (marked with [Fact()])
+		public UnitTest1(TestsFixture data, ITestOutputHelper output)
+        {
+			this.output = output;
+        }
+
+		// called after each test method (marked with [Fact()])
+        public void Dispose()
+        {
+        }
+
 
         [Fact(DisplayName = "Index should return default view")]
         public void Test1()
