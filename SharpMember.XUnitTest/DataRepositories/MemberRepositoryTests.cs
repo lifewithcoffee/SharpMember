@@ -13,16 +13,23 @@ using SharpMember.Core.Definitions;
 
 namespace U.DataRepositories
 {
-    public class MemberRepositoryTests: DependencyEnabled
+    [Collection(nameof(ServiceProviderCollection))]
+    public class MemberRepositoryTests
     {
         private TestUtil util = new TestUtil();
+        ServiceProviderFixture _serviceProviderFixture;
+
+        public MemberRepositoryTests(ServiceProviderFixture serviceProviderFixture)
+        {
+            _serviceProviderFixture = serviceProviderFixture;
+        }
 
         [Fact]
         public void Add_with_invalide_communityId_should_throw_exception()
         {
             int nonexistentOrgId = util.GetNonexistentCommunityId();
 
-            IMemberRepository repo = this.ServiceProvider.GetService<IMemberRepository>();
+            IMemberRepository repo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
             Assert.Throws<CommunityNotExistsException>(() => repo.Add(new Member { CommunityId = nonexistentOrgId }));
         }
 
@@ -31,7 +38,7 @@ namespace U.DataRepositories
         {
             int existingOrgId = util.GetExistingCommunityId();
 
-            IMemberRepository repo = this.ServiceProvider.GetService<IMemberRepository>();
+            IMemberRepository repo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
 
             var member1 = repo.Add(new Member { CommunityId = existingOrgId });
             var member2 = repo.Add(new Member { CommunityId = existingOrgId });
@@ -52,13 +59,13 @@ namespace U.DataRepositories
             int existingCommunityId = util.GetExistingCommunityId();
             string[] originalTemplats = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
-            var itemTemplateRepo = this.ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            var itemTemplateRepo = _serviceProviderFixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
             await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
             await itemTemplateRepo.CommitAsync();
 
             // Generate & verify a new member
             {
-                var memberRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var memberRepo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(2, newMember.MemberProfileItems.Count);
@@ -66,7 +73,7 @@ namespace U.DataRepositories
 
             // Delete one item template
             {
-                var itemTemplateRepo2 = this.ServiceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
+                var itemTemplateRepo2 = _serviceProviderFixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
                 itemTemplateRepo2.Delete(templateToBeDeleted);
                 await itemTemplateRepo2.CommitAsync();
@@ -74,7 +81,7 @@ namespace U.DataRepositories
 
             // Generate & verify a new member after deletion
             {
-                var memberRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var memberRepo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Single(newMember.MemberProfileItems);
             }

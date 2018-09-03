@@ -14,12 +14,20 @@ using Xunit;
 
 namespace U.DataRepositories
 {
-    public class CommunityTests: DependencyEnabled
+    [Collection(nameof(ServiceProviderCollection))]
+    public class CommunityTests
     {
+        ServiceProviderFixture _serviceProviderFixture;
+
+        public CommunityTests(ServiceProviderFixture serviceProviderFixture)
+        {
+            _serviceProviderFixture = serviceProviderFixture;
+        }
+
         [Fact]
         public void TestAddGetUpdateCommunity()
         {
-            ICommunityRepository repo = this.ServiceProvider.GetService<ICommunityRepository>();
+            ICommunityRepository repo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
             Assert.NotNull(repo);
 
             // add
@@ -30,12 +38,12 @@ namespace U.DataRepositories
             Assert.True(newCommunity.Id > 0);
 
             // read to verify add
-            var readRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
+            var readRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
             var readCommunity = readRepo.GetById(newCommunity.Id);
             Assert.Equal(newCommunity.Name, readCommunity.Name);
 
             // update
-            var updateRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
+            var updateRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
             var orgBeforeUpdate = updateRepo.GetById(newCommunity.Id);
 
             string newCommunityName = Guid.NewGuid().ToString();
@@ -43,7 +51,7 @@ namespace U.DataRepositories
             updateRepo.Commit();
 
             // read to verify update
-            var readRepo2 = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
+            var readRepo2 = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
             var orgAfterUpdate = readRepo2.GetById(newCommunity.Id);
             Assert.Equal(newCommunityName, orgAfterUpdate.Name);
         }

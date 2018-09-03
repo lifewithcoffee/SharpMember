@@ -10,7 +10,7 @@ using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 namespace U.ViewServices
 {
     [Collection(nameof(ServiceProviderCollection))]
-    public class CommunityViewServiceTests// : DependencyEnabled
+    public class CommunityViewServiceTests
     {
         TestUtil util = new TestUtil();
 
@@ -32,7 +32,6 @@ namespace U.ViewServices
 
             // post to create a new community
             {
-                //var createViewService = this.ServiceProvider.GetService<ICommunityCreateViewService>();
                 var createViewService = _serviceProviderFixture.GetServiceNewScope<ICommunityCreateViewService>();
 
                 // get a new model
@@ -58,7 +57,6 @@ namespace U.ViewServices
 
             // get the newly created community to verify
             {
-                //var editViewService = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
                 var editViewService = _serviceProviderFixture.GetServiceNewScope<ICommunityEditViewService>();
 
                 var model = editViewService.Get(commId);
