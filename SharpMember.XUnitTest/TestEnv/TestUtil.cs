@@ -10,13 +10,20 @@ using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data;
 using System.Threading.Tasks;
 
-namespace U
+namespace U.TestEnv
 {
-    class TestUtil : DependencyEnabled
+    class TestUtil
     {
+        IServiceProvider _serviceProvider;
+
+        public TestUtil(IServiceProvider serviceProvider)
+        {
+            this._serviceProvider = serviceProvider;
+        }
+
         public int GetExistingCommunityId()
         {
-            var repo = this.ServiceProvider.GetService<ICommunityRepository>();
+            var repo = this._serviceProvider.GetService<ICommunityRepository>();
             var community = repo.Add(Guid.NewGuid().ToString());
             repo.Commit();
             return community.Id;
@@ -24,7 +31,7 @@ namespace U
 
         public int GetNonexistentCommunityId()
         {
-            var repo = this.ServiceProvider.GetService<ICommunityRepository>();
+            var repo = this._serviceProvider.GetService<ICommunityRepository>();
             var community = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
             if (null == community)
             {
@@ -42,7 +49,7 @@ namespace U
             {
                 existingCommunityId = this.GetExistingCommunityId();
             }
-            var repo = this.ServiceProvider.GetService<IMemberRepository>();
+            var repo = this._serviceProvider.GetService<IMemberRepository>();
             var member = repo.Add(new Member { CommunityId = existingCommunityId.Value });
             repo.Commit();
             return member.Id;
@@ -50,7 +57,7 @@ namespace U
 
         public int GetNonexistentMemberId()
         {
-            var memberRepo = this.ServiceProvider.GetService<IMemberRepository>();
+            var memberRepo = this._serviceProvider.GetService<IMemberRepository>();
             var member = memberRepo.GetAll().OrderBy(m => m.Id).LastOrDefault();
             if(null == member)
             {

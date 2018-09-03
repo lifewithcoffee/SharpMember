@@ -10,18 +10,20 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using Xunit.Abstractions;
 using SharpMember.Core;
 using SharpMember.Core.Definitions;
+using U.TestEnv;
 
 namespace U.DataRepositories
 {
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberRepositoryTests
     {
-        private TestUtil util = new TestUtil();
+        TestUtil util;
         ServiceProviderFixture _serviceProviderFixture;
 
         public MemberRepositoryTests(ServiceProviderFixture serviceProviderFixture)
         {
             _serviceProviderFixture = serviceProviderFixture;
+            util = new TestUtil(serviceProviderFixture.ServiceProvider);
         }
 
         [Fact]

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace U
+namespace U.TestEnv
 {
     public class TestGlobalSettings
     {

@@ -12,18 +12,20 @@ using SharpMember.Core;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Definitions;
+using U.TestEnv;
 
 namespace U.DataRepositories
 {
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberProfileItemTemplateRepositoryTests
     {
-        TestUtil util = new TestUtil();
+        TestUtil util;
         ServiceProviderFixture _serviceProviderFixture;
 
         public MemberProfileItemTemplateRepositoryTests(ServiceProviderFixture serviceProviderFixture)
         {
             _serviceProviderFixture = serviceProviderFixture;
+            util = new TestUtil(serviceProviderFixture.ServiceProvider);
         }
 
         [Fact]

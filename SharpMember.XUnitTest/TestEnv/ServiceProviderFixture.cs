@@ -9,47 +9,8 @@ using System.IO;
 using System.Text;
 using Xunit;
 
-namespace U
+namespace U.TestEnv
 {
-    public class DependencyEnabled
-    {
-        IServiceProvider _serviceProvider = null;
-        protected IServiceProvider ServiceProvider
-        {
-            get {
-                if(_serviceProvider == null)
-                {
-                    IServiceCollection serviceCollection = new ServiceCollection();
-                    serviceCollection.AddSharpMemberCore(GetConfig());
-                    serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
-
-                    _serviceProvider = serviceCollection.BuildServiceProvider();
-                }
-
-                return _serviceProvider;
-            }
-        }
-
-        static IConfigurationRoot configuration = null;
-
-        IConfigurationRoot GetConfig()
-        {
-            if(configuration == null)
-            {
-                string projectDir = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin"));
-                string sharpMemberDir = Path.Combine(projectDir, "../SharpMember");
-
-                configuration = new ConfigurationBuilder()
-                    .SetBasePath(sharpMemberDir)
-                    .AddJsonFile(TestGlobalSettings.sharpMemberJsonSettingName, optional: true, reloadOnChange: true)
-                    .AddUserSecrets(userSecretsId: "aspnet-SharpMember-4C3332C6-4145-4408-BDD4-63A97039ED0D") // use project SharpMember's secret id
-                    .Build();
-            }
-
-            return configuration;
-        }
-    }
-
     public class ServiceProviderFixture : IDisposable
     {
 

@@ -6,19 +6,20 @@ using Xunit;
 using SharpMember.Core.Views.ViewModels;
 using System.Threading.Tasks;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
+using U.TestEnv;
 
 namespace U.ViewServices
 {
     [Collection(nameof(ServiceProviderCollection))]
     public class CommunityViewServiceTests
     {
-        TestUtil util = new TestUtil();
-
+        TestUtil util;
         ServiceProviderFixture _serviceProviderFixture;
 
         public CommunityViewServiceTests(ServiceProviderFixture serviceProviderFixture)
         {
             this._serviceProviderFixture = serviceProviderFixture;
+            util = new TestUtil(serviceProviderFixture.ServiceProvider);
         }
 
         [Fact]
