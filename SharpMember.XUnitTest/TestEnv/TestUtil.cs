@@ -18,12 +18,12 @@ namespace U.TestEnv
 
         public TestUtil(IServiceProvider serviceProvider)
         {
-            this._serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider;
         }
 
         public int GetExistingCommunityId()
         {
-            var repo = this._serviceProvider.GetService<ICommunityRepository>();
+            var repo = _serviceProvider.GetService<ICommunityRepository>();
             var community = repo.Add(Guid.NewGuid().ToString());
             repo.Commit();
             return community.Id;
@@ -31,25 +31,20 @@ namespace U.TestEnv
 
         public int GetNonexistentCommunityId()
         {
-            var repo = this._serviceProvider.GetService<ICommunityRepository>();
+            var repo = _serviceProvider.GetService<ICommunityRepository>();
             var community = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
             if (null == community)
-            {
                 return 1;
-            }
             else
-            {
                 return community.Id + 100;
-            }
         }
 
         public int GetExistingMemberId(int? existingCommunityId = null)
         {
             if(existingCommunityId == null)
-            {
                 existingCommunityId = this.GetExistingCommunityId();
-            }
-            var repo = this._serviceProvider.GetService<IMemberRepository>();
+
+            var repo = _serviceProvider.GetService<IMemberRepository>();
             var member = repo.Add(new Member { CommunityId = existingCommunityId.Value });
             repo.Commit();
             return member.Id;
@@ -57,21 +52,17 @@ namespace U.TestEnv
 
         public int GetNonexistentMemberId()
         {
-            var memberRepo = this._serviceProvider.GetService<IMemberRepository>();
+            var memberRepo = _serviceProvider.GetService<IMemberRepository>();
             var member = memberRepo.GetAll().OrderBy(m => m.Id).LastOrDefault();
             if(null == member)
-            {
                 return 1;
-            }
             else
-            {
                 return member.Id + 1;
-            }
         }
 
-        public async Task<string> GetExistingAppUserId(IServiceProvider serviceProvider)
+        public async Task<string> GetExistingAppUserId()
         {
-            UserManager<ApplicationUser> userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+            UserManager<ApplicationUser> userManager = _serviceProvider.GetService<UserManager<ApplicationUser>>();
 
             var appUser = new ApplicationUser { UserName = Guid.NewGuid().ToString() };
             IdentityResult identityResult = await userManager.CreateAsync(appUser);

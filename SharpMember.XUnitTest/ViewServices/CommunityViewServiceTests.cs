@@ -25,7 +25,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Test_CreateViewService()
         {
-            string appUserId = await util.GetExistingAppUserId(_serviceProviderFixture.ServiceProvider);
+            string appUserId = await util.GetExistingAppUserId();
             string newCommunityName = Guid.NewGuid().ToString();
             string itemName1 = nameof(itemName1) + ' ' + Guid.NewGuid().ToString();
             string itemName2 = nameof(itemName2) + ' ' + Guid.NewGuid().ToString();
@@ -84,7 +84,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Test_EditViewService()
         { 
-            string appUserId = await util.GetExistingAppUserId(_serviceProviderFixture.ServiceProvider);
+            string appUserId = await util.GetExistingAppUserId();
             string itemName1 = nameof(itemName1) + ' ' + Guid.NewGuid().ToString();
             int commId = 0;
 

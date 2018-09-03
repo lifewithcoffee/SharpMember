@@ -13,13 +13,11 @@ namespace U.TestEnv
 {
     public class ServiceProviderFixture : IDisposable
     {
-
-        IServiceProvider _serviceProvider = null;
-        public IServiceProvider ServiceProvider { get { return _serviceProvider.CreateScope().ServiceProvider; } }
+        public IServiceProvider ServiceProvider { get; private set; }
 
         public T GetServiceNewScope<T>()
         {
-            return _serviceProvider.CreateScope().ServiceProvider.GetService<T>();
+            return this.ServiceProvider.CreateScope().ServiceProvider.GetService<T>();
         }
 
         public ServiceProviderFixture()
@@ -36,7 +34,7 @@ namespace U.TestEnv
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddSharpMemberCore(configuration);
             serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            this.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         public void Dispose() { }
