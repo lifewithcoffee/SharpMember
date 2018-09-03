@@ -22,7 +22,7 @@ namespace U.DataRepositories
         {
             int nonexistentOrgId = util.GetNonexistentCommunityId();
 
-            IMemberRepository repo = this.serviceProvider.GetService<IMemberRepository>();
+            IMemberRepository repo = this.ServiceProvider.GetService<IMemberRepository>();
             Assert.Throws<CommunityNotExistsException>(() => repo.Add(new Member { CommunityId = nonexistentOrgId }));
         }
 
@@ -31,7 +31,7 @@ namespace U.DataRepositories
         {
             int existingOrgId = util.GetExistingCommunityId();
 
-            IMemberRepository repo = this.serviceProvider.GetService<IMemberRepository>();
+            IMemberRepository repo = this.ServiceProvider.GetService<IMemberRepository>();
 
             var member1 = repo.Add(new Member { CommunityId = existingOrgId });
             var member2 = repo.Add(new Member { CommunityId = existingOrgId });
@@ -52,13 +52,13 @@ namespace U.DataRepositories
             int existingCommunityId = util.GetExistingCommunityId();
             string[] originalTemplats = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
-            var itemTemplateRepo = this.serviceProvider.GetService<IMemberProfileItemTemplateRepository>();
+            var itemTemplateRepo = this.ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
             await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
             await itemTemplateRepo.CommitAsync();
 
             // Generate & verify a new member
             {
-                var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var memberRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(2, newMember.MemberProfileItems.Count);
@@ -66,7 +66,7 @@ namespace U.DataRepositories
 
             // Delete one item template
             {
-                var itemTemplateRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
+                var itemTemplateRepo2 = this.ServiceProvider.CreateScope().ServiceProvider.GetService<IMemberProfileItemTemplateRepository>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
                 itemTemplateRepo2.Delete(templateToBeDeleted);
                 await itemTemplateRepo2.CommitAsync();
@@ -74,7 +74,7 @@ namespace U.DataRepositories
 
             // Generate & verify a new member after deletion
             {
-                var memberRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
+                var memberRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Single(newMember.MemberProfileItems);
             }

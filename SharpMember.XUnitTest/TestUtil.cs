@@ -16,7 +16,7 @@ namespace U
     {
         public int GetExistingCommunityId()
         {
-            var repo = this.serviceProvider.GetService<ICommunityRepository>();
+            var repo = this.ServiceProvider.GetService<ICommunityRepository>();
             var community = repo.Add(Guid.NewGuid().ToString());
             repo.Commit();
             return community.Id;
@@ -24,7 +24,7 @@ namespace U
 
         public int GetNonexistentCommunityId()
         {
-            var repo = this.serviceProvider.GetService<ICommunityRepository>();
+            var repo = this.ServiceProvider.GetService<ICommunityRepository>();
             var community = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
             if (null == community)
             {
@@ -42,7 +42,7 @@ namespace U
             {
                 existingCommunityId = this.GetExistingCommunityId();
             }
-            var repo = this.serviceProvider.GetService<IMemberRepository>();
+            var repo = this.ServiceProvider.GetService<IMemberRepository>();
             var member = repo.Add(new Member { CommunityId = existingCommunityId.Value });
             repo.Commit();
             return member.Id;
@@ -50,7 +50,7 @@ namespace U
 
         public int GetNonexistentMemberId()
         {
-            var memberRepo = this.serviceProvider.GetService<IMemberRepository>();
+            var memberRepo = this.ServiceProvider.GetService<IMemberRepository>();
             var member = memberRepo.GetAll().OrderBy(m => m.Id).LastOrDefault();
             if(null == member)
             {

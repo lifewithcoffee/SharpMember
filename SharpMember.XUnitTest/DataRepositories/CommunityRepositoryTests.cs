@@ -19,7 +19,7 @@ namespace U.DataRepositories
         [Fact]
         public void TestAddGetUpdateCommunity()
         {
-            ICommunityRepository repo = this.serviceProvider.GetService<ICommunityRepository>();
+            ICommunityRepository repo = this.ServiceProvider.GetService<ICommunityRepository>();
             Assert.NotNull(repo);
 
             // add
@@ -30,12 +30,12 @@ namespace U.DataRepositories
             Assert.True(newCommunity.Id > 0);
 
             // read to verify add
-            var readRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
+            var readRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
             var readCommunity = readRepo.GetById(newCommunity.Id);
             Assert.Equal(newCommunity.Name, readCommunity.Name);
 
             // update
-            var updateRepo = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
+            var updateRepo = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
             var orgBeforeUpdate = updateRepo.GetById(newCommunity.Id);
 
             string newCommunityName = Guid.NewGuid().ToString();
@@ -43,7 +43,7 @@ namespace U.DataRepositories
             updateRepo.Commit();
 
             // read to verify update
-            var readRepo2 = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
+            var readRepo2 = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityRepository>();
             var orgAfterUpdate = readRepo2.GetById(newCommunity.Id);
             Assert.Equal(newCommunityName, orgAfterUpdate.Name);
         }

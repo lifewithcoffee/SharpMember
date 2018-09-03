@@ -9,14 +9,22 @@ using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace U.ViewServices
 {
-    public class CommunityViewServiceTests : DependencyEnabled
+    [Collection(nameof(ServiceProviderCollection))]
+    public class CommunityViewServiceTests// : DependencyEnabled
     {
         TestUtil util = new TestUtil();
+
+        ServiceProviderFixture _serviceProviderFixture;
+
+        public CommunityViewServiceTests(ServiceProviderFixture serviceProviderFixture)
+        {
+            this._serviceProviderFixture = serviceProviderFixture;
+        }
 
         [Fact]
         public async Task Test_CreateViewService()
         {
-            string appUserId = await util.GetExistingAppUserId(this.serviceProvider);
+            string appUserId = await util.GetExistingAppUserId(_serviceProviderFixture.ServiceProvider);
             string newCommunityName = Guid.NewGuid().ToString();
             string itemName1 = nameof(itemName1) + ' ' + Guid.NewGuid().ToString();
             string itemName2 = nameof(itemName2) + ' ' + Guid.NewGuid().ToString();
@@ -24,7 +32,8 @@ namespace U.ViewServices
 
             // post to create a new community
             {
-                var createViewService = this.serviceProvider.GetService<ICommunityCreateViewService>();
+                //var createViewService = this.ServiceProvider.GetService<ICommunityCreateViewService>();
+                var createViewService = _serviceProviderFixture.GetServiceNewScope<ICommunityCreateViewService>();
 
                 // get a new model
                 CommunityUpdateVM model = createViewService.Get();
@@ -49,7 +58,9 @@ namespace U.ViewServices
 
             // get the newly created community to verify
             {
-                var editViewService = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                //var editViewService = this.ServiceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                var editViewService = _serviceProviderFixture.GetServiceNewScope<ICommunityEditViewService>();
+
                 var model = editViewService.Get(commId);
                 Assert.Equal(commId, model.Id);
                 Assert.Equal(newCommunityName, model.Name);
@@ -74,13 +85,13 @@ namespace U.ViewServices
         [Fact]
         public async Task Test_EditViewService()
         { 
-            string appUserId = await util.GetExistingAppUserId(this.serviceProvider);
+            string appUserId = await util.GetExistingAppUserId(_serviceProviderFixture.ServiceProvider);
             string itemName1 = nameof(itemName1) + ' ' + Guid.NewGuid().ToString();
             int commId = 0;
 
             // prepare to create an existing community
             {
-                var createViewService = this.serviceProvider.GetService<ICommunityCreateViewService>();
+                var createViewService = _serviceProviderFixture.GetServiceNewScope<ICommunityCreateViewService>();
                 CommunityUpdateVM model = createViewService.Get();
 
                 model.Name = Guid.NewGuid().ToString();
@@ -99,7 +110,7 @@ namespace U.ViewServices
                 /**
                  * read and do changes
                  */
-                var editViewService_read = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                var editViewService_read = _serviceProviderFixture.GetServiceNewScope<ICommunityEditViewService>();
                 var model = editViewService_read.Get(commId);
 
                 model.MemberProfileItemTemplates[1].ItemName = updatedItem;
@@ -125,13 +136,13 @@ namespace U.ViewServices
                  *  The workaround is simple -- post using a different DbContext. That's why the creating
                  *  a new scope to get a ICommunityEditViewService instance can fix this problem.
                  */
-                var editViewService_write = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                var editViewService_write = _serviceProviderFixture.GetServiceNewScope<ICommunityEditViewService>();
                 await editViewService_write.PostAsync(model);
             }
 
             // get the updated community to verify
             {
-                var editViewService = this.serviceProvider.CreateScope().ServiceProvider.GetService<ICommunityEditViewService>();
+                var editViewService = _serviceProviderFixture.GetServiceNewScope<ICommunityEditViewService>();
                 var model = editViewService.Get(commId);
 
                 Assert.Equal(3, model.MemberProfileItemTemplates.Count);
