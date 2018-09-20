@@ -35,7 +35,10 @@ namespace U.TestEnv
             serviceCollection.AddSharpMemberCore(configuration);
             serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
             this.ServiceProvider = serviceCollection.BuildServiceProvider();
+            this.Util = new TestUtil(this.ServiceProvider);
         }
+
+        public TestUtil Util { get; private set; }
 
         public void Dispose() { }
     }

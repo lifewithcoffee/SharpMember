@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data;
 using System.Threading.Tasks;
+using NetCoreUtils.String;
 
 namespace U.TestEnv
 {
-    class TestUtil
+    public class TestUtil
     {
         IServiceProvider _serviceProvider;
 
@@ -24,7 +25,7 @@ namespace U.TestEnv
         public int GetExistingCommunityId()
         {
             var repo = _serviceProvider.GetService<ICommunityRepository>();
-            var community = repo.Add(Guid.NewGuid().ToString());
+            var community = repo.Add(ShortGuid.NewGuid());
             repo.Commit();
             return community.Id;
         }
