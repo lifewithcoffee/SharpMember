@@ -17,30 +17,28 @@ namespace U.DataRepositories
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberRepositoryTests
     {
-        TestUtil util;
-        ServiceProviderFixture _serviceProviderFixture;
+        ServiceProviderFixture _fixture;
 
         public MemberRepositoryTests(ServiceProviderFixture serviceProviderFixture)
         {
-            _serviceProviderFixture = serviceProviderFixture;
-            util = new TestUtil(serviceProviderFixture.ServiceProvider);
+            _fixture = serviceProviderFixture;
         }
 
         [Fact]
         public void Add_with_invalide_communityId_should_throw_exception()
         {
-            int nonexistentOrgId = util.GetNonexistentCommunityId();
+            int nonexistentOrgId = _fixture.Util.GetNonexistentCommunityId();
 
-            IMemberRepository repo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
+            IMemberRepository repo = _fixture.GetServiceNewScope<IMemberRepository>();
             Assert.Throws<CommunityNotExistsException>(() => repo.Add(new Member { CommunityId = nonexistentOrgId }));
         }
 
         [Fact]
         public async Task Test_AssignMemberNubmer()
         {
-            int existingOrgId = util.GetExistingCommunityId();
+            int existingOrgId = _fixture.Util.GetExistingCommunityId();
 
-            IMemberRepository repo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
+            IMemberRepository repo = _fixture.GetServiceNewScope<IMemberRepository>();
 
             var member1 = repo.Add(new Member { CommunityId = existingOrgId });
             var member2 = repo.Add(new Member { CommunityId = existingOrgId });
@@ -58,16 +56,16 @@ namespace U.DataRepositories
         public async Task Community_MemberProfileItemTemplate_change_should_cause_new_member_profile_item_change()
         {
             // create an community and the relevant member item templates
-            int existingCommunityId = util.GetExistingCommunityId();
+            int existingCommunityId = _fixture.Util.GetExistingCommunityId();
             string[] originalTemplats = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
-            var itemTemplateRepo = _serviceProviderFixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
+            var itemTemplateRepo = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
             await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
             await itemTemplateRepo.CommitAsync();
 
             // Generate & verify a new member
             {
-                var memberRepo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
+                var memberRepo = _fixture.GetServiceNewScope<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(2, newMember.MemberProfileItems.Count);
@@ -75,7 +73,7 @@ namespace U.DataRepositories
 
             // Delete one item template
             {
-                var itemTemplateRepo2 = _serviceProviderFixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
+                var itemTemplateRepo2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
                 itemTemplateRepo2.Delete(templateToBeDeleted);
                 await itemTemplateRepo2.CommitAsync();
@@ -83,7 +81,7 @@ namespace U.DataRepositories
 
             // Generate & verify a new member after deletion
             {
-                var memberRepo = _serviceProviderFixture.GetServiceNewScope<IMemberRepository>();
+                var memberRepo = _fixture.GetServiceNewScope<IMemberRepository>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Single(newMember.MemberProfileItems);
             }
