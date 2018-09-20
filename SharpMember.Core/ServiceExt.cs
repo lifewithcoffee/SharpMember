@@ -71,6 +71,7 @@ namespace SharpMember.Core
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IAuthorizationService, AuthorizationService>();
+            services.AddTransient<ICommunityService, CommunityService>();
         }
 
         static private void AddViewServices(this IServiceCollection services)
