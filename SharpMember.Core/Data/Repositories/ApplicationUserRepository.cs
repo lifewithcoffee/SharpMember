@@ -16,6 +16,6 @@ namespace SharpMember.Core.Data.Repositories
 
     public class ApplicationUserRepository : RepositoryBase<ApplicationUser, ApplicationDbContext>, IApplicationUserRepository
     {
-        public ApplicationUserRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger logger) : base(unitOfWork, logger) { }
+        public ApplicationUserRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<ApplicationUserRepository> logger) : base(unitOfWork, logger) { }
     }
 }

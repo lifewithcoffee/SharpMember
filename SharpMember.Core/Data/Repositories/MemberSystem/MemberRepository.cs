@@ -29,7 +29,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public override Member Add(Member entity)
         {
-            if (null == this.UnitOfWork.Context.Communities.Find(entity.CommunityId))
+            if (null == this.Context.Communities.Find(entity.CommunityId))
             {
                 throw new CommunityNotExistsException(entity.CommunityId);
             }
@@ -87,7 +87,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int commId, string appUserId)
         {
-            if (null == this.UnitOfWork.Context.Communities.Find(commId))
+            if (null == this.Context.Communities.Find(commId))
             {
                 throw new CommunityNotExistsException(commId);
             }
