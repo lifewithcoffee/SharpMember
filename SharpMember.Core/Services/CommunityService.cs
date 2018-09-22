@@ -51,6 +51,7 @@ namespace SharpMember.Core.Services
             newMember.Name = name;
             newMember.Email = email;
             newMember.CommunityRole = role;
+            _memberRepository.Add(newMember);
         }
 
         public async Task AddMemberProfileTemplateAsync(string itemName, bool required)
