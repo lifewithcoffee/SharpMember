@@ -15,9 +15,18 @@ namespace U.TestEnv
     {
         public IServiceProvider ServiceProvider { get; private set; }
 
+        public T GetService<T>()
+        {
+            return this.GetService<T>();
+        }
+
+        /// <summary>
+        /// This method will update ServiceProvide as well.
+        /// </summary>
         public T GetServiceNewScope<T>()
         {
-            return this.ServiceProvider.CreateScope().ServiceProvider.GetService<T>();
+            this.ServiceProvider = this.ServiceProvider.CreateScope().ServiceProvider;
+            return this.ServiceProvider.GetService<T>();
         }
 
         public ServiceProviderFixture()
@@ -33,7 +42,8 @@ namespace U.TestEnv
 
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddSharpMemberCore(configuration);
-            serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
+            serviceCollection.AddLogging(c => c.AddDebug());
+            //serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
             this.ServiceProvider = serviceCollection.BuildServiceProvider();
             this.Util = new TestUtil(this.ServiceProvider);
         }
