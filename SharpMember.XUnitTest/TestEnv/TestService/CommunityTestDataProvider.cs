@@ -15,7 +15,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace U.TestEnv.TestService
 {
-    class CommunityTestDataProvider
+    interface ICommunityTestDataProvider
+    {
+        Task<Community> CreateTestCommunity();
+    }
+
+    class CommunityTestDataProvider : ICommunityTestDataProvider
     {
         TestUtil util;
         IServiceProvider _serviceProvider;
@@ -45,20 +50,9 @@ namespace U.TestEnv.TestService
                 await _communityService.AddMemberProfileTemplateAsync(ShortGuid.NewGuid(), false);
 
             await _communityService.CommitAsync();
-            //_serviceProvider.GetService<IUnitOfWork<ApplicationDbContext>>().Commit();
 
             return _communityService.Community;
         }
-
-        //public async Task<Community> CreateTestCommunity()
-        //{
-        //    string appUserId = await util.GetExistingAppUserId();
-        //    string newCommunityName = ShortGuid.NewGuid();
-        //    string itemName1 = nameof(itemName1) + ' ' + ShortGuid.NewGuid();
-        //    string itemName2 = nameof(itemName2) + ' ' + ShortGuid.NewGuid();
-
-        //    return null;
-        //}
     }
 
     [Collection(nameof(ServiceProviderCollection))]
@@ -74,7 +68,7 @@ namespace U.TestEnv.TestService
         [Fact]
         public async Task Create_test_community()
         {
-            var communityTestDataProvider = new CommunityTestDataProvider(_fixture.ServiceProvider);
+            var communityTestDataProvider = _fixture.GetService<ICommunityTestDataProvider>();
             var community = await communityTestDataProvider.CreateTestCommunity();
 
             community = _fixture.GetServiceNewScope<ICommunityRepository>()

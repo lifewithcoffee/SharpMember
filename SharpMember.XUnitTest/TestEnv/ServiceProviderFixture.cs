@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using U.TestEnv.TestService;
 using Xunit;
 
 namespace U.TestEnv
@@ -17,7 +18,7 @@ namespace U.TestEnv
 
         public T GetService<T>()
         {
-            return this.GetService<T>();
+            return this.ServiceProvider.GetService<T>();
         }
 
         /// <summary>
@@ -41,9 +42,10 @@ namespace U.TestEnv
                 .Build();
 
             IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(c => c.AddDebug()); // or use mock: serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
             serviceCollection.AddSharpMemberCore(configuration);
-            serviceCollection.AddLogging(c => c.AddDebug());
-            //serviceCollection.AddTransient<ILogger>(f => new Mock<ILogger>().Object);
+            serviceCollection.AddTransient<ICommunityTestDataProvider, CommunityTestDataProvider>();
+
             this.ServiceProvider = serviceCollection.BuildServiceProvider();
             this.Util = new TestUtil(this.ServiceProvider);
         }
