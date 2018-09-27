@@ -21,7 +21,7 @@ namespace U.ViewServices
         }
 
         [Fact]
-        public async Task Test_CreateViewService()
+        public async Task Community_create_view_service()
         {
             string appUserId = await _fixture.Util.GetExistingAppUserId();
             string newCommunityName = Guid.NewGuid().ToString();
@@ -80,7 +80,7 @@ namespace U.ViewServices
         }
 
         [Fact]
-        public async Task Test_EditViewService()
+        public async Task Community_edit_view_service()
         { 
             string appUserId = await _fixture.Util.GetExistingAppUserId();
             string itemName1 = nameof(itemName1) + ' ' + Guid.NewGuid().ToString();

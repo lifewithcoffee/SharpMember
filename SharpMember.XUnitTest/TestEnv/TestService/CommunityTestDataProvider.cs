@@ -66,7 +66,7 @@ namespace U.TestEnv.TestService
         }
 
         [Fact]
-        public async Task Create_test_community()
+        public async Task Community_test_data_provider()
         {
             var communityTestDataProvider = _fixture.GetService<ICommunityTestDataProvider>();
             var community = await communityTestDataProvider.CreateTestCommunity();

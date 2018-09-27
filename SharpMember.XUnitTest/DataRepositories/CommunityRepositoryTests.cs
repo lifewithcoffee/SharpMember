@@ -26,7 +26,7 @@ namespace U.DataRepositories
         }
 
         [Fact]
-        public void TestAddGetUpdateCommunity()
+        public void Add_get_update_community()
         {
             ICommunityRepository repo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
             Assert.NotNull(repo);

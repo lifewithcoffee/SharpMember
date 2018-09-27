@@ -34,7 +34,7 @@ namespace U.DataRepositories
         }
 
         [Fact]
-        public async Task Test_AssignMemberNubmer()
+        public async Task Test_assign_member_number()
         {
             int existingOrgId = _fixture.Util.GetExistingCommunityId();
 
