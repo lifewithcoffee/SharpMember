@@ -14,13 +14,14 @@ using SharpMember.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewModels;
+using NetCoreUtils.Diagnosis;
 
 namespace U.TestEnv.TestService
 {
     interface ICommunityTestDataProvider
     {
         Task<Community> CreateTestCommunityFromRepository();
-        Task<CommunityUpdateVM> CreateTestCommunityFromViewService();
+        Task<(string appUserId, CommunityUpdateVM)> CreateTestCommunityFromViewService();
     }
 
     class CommunityTestDataProvider : ICommunityTestDataProvider
@@ -36,6 +37,9 @@ namespace U.TestEnv.TestService
 
         /// <summary>
         /// Unit test: <see cref="CommunityTestDataProviderTests.Create_test_community_from_repository"/>
+        /// 
+        /// Added member number: 10
+        /// Added member profile template item number: 8 (5 required, 3 optional)
         /// </summary>
         public async Task<Community> CreateTestCommunityFromRepository()
         {
@@ -61,9 +65,9 @@ namespace U.TestEnv.TestService
         }
 
         /// <summary>
-        /// Unit test: <see cref="ViewServices.CommunityViewServiceTests.Community_create_view_post"/>
+        /// Added member profile template number: 2 (one required, one optional)
         /// </summary>
-        public async Task<CommunityUpdateVM> CreateTestCommunityFromViewService()
+        public async Task<(string appUserId,CommunityUpdateVM)> CreateTestCommunityFromViewService()
         {
             var _vs = _serviceProvider.GetService<ICommunityCreateViewService>();
 
@@ -84,7 +88,10 @@ namespace U.TestEnv.TestService
 
             model.Id = await _vs.PostAsync(appUserId, model);
 
-            return model;
+            Ensure.IsTrue(!string.IsNullOrWhiteSpace(appUserId));
+            Ensure.IsTrue(model.Id > 0);
+
+            return (appUserId, model);
         }
     }
 

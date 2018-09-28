@@ -11,7 +11,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 {
     public interface IMemberCreateViewService
     {
-        Task<MemberUpdateVM> GetAsync(int orgId, string appUserId);
+        Task<MemberUpdateVM> GetAsync(int commId, string appUserId);
         Task<int> Post(MemberUpdateVM data);
     }
 

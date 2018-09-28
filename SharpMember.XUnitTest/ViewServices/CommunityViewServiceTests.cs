@@ -35,7 +35,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Community_create_view_post()
         {
-            var model_post = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             string newCommunityName = model_post.Name;
             string itemName1 = model_post.MemberProfileItemTemplates[0].ItemName;
             string itemName2 = model_post.MemberProfileItemTemplates[1].ItemName;
@@ -65,7 +65,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Community_edit_view_service()
         { 
-            var model_post = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             string itemName1 = model_post.MemberProfileItemTemplates[0].ItemName;
             int commId = model_post.Id;
 
