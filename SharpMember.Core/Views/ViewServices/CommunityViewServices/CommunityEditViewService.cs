@@ -40,6 +40,9 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             return result;
         }
 
+        /// <summary>
+        /// Unit test: <see cref="U.ViewServices.CommunityViewServiceTests.Community_edit_view_service"/>
+        /// </summary>
         public async Task PostAsync(CommunityUpdateVM data)
         {
             _communityRepository.Update(data.ConvertToCommunity());

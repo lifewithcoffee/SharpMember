@@ -12,12 +12,15 @@ using SharpMember.Core.Data.Repositories.MemberSystem;
 using NetCoreUtils.Database;
 using SharpMember.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using SharpMember.Core.Views.ViewServices.CommunityViewServices;
+using SharpMember.Core.Views.ViewModels;
 
 namespace U.TestEnv.TestService
 {
     interface ICommunityTestDataProvider
     {
-        Task<Community> CreateTestCommunity();
+        Task<Community> CreateTestCommunityFromRepository();
+        Task<CommunityUpdateVM> CreateTestCommunityFromViewService();
     }
 
     class CommunityTestDataProvider : ICommunityTestDataProvider
@@ -31,7 +34,10 @@ namespace U.TestEnv.TestService
             util = new TestUtil(serviceProvider);
         }
 
-        public async Task<Community> CreateTestCommunity()
+        /// <summary>
+        /// Unit test: <see cref="CommunityTestDataProviderTests.Create_test_community_from_repository"/>
+        /// </summary>
+        public async Task<Community> CreateTestCommunityFromRepository()
         {
             var _communityService = _serviceProvider.GetService<ICommunityService>();
 
@@ -53,6 +59,33 @@ namespace U.TestEnv.TestService
 
             return _communityService.Community;
         }
+
+        /// <summary>
+        /// Unit test: <see cref="ViewServices.CommunityViewServiceTests.Community_create_view_post"/>
+        /// </summary>
+        public async Task<CommunityUpdateVM> CreateTestCommunityFromViewService()
+        {
+            var _vs = _serviceProvider.GetService<ICommunityCreateViewService>();
+
+            string appUserId = await util.GetExistingAppUserId();
+
+            CommunityUpdateVM model = _vs.Get();
+            model.Name = ShortGuid.NewGuid();
+
+            var template0 = model.MemberProfileItemTemplates[0];
+            template0.ItemName = ShortGuid.NewGuid();
+            template0.IsRequired = true;
+
+            var template1 = model.MemberProfileItemTemplates[1];
+            template1.ItemName = ShortGuid.NewGuid();
+            template1.IsRequired = false;
+
+            model.MemberProfileItemTemplates[2].ItemName = "  ";
+
+            model.Id = await _vs.PostAsync(appUserId, model);
+
+            return model;
+        }
     }
 
     [Collection(nameof(ServiceProviderCollection))]
@@ -66,10 +99,10 @@ namespace U.TestEnv.TestService
         }
 
         [Fact]
-        public async Task Community_test_data_provider()
+        public async Task Create_test_community_from_repository()
         {
             var communityTestDataProvider = _fixture.GetService<ICommunityTestDataProvider>();
-            var community = await communityTestDataProvider.CreateTestCommunity();
+            var community = await communityTestDataProvider.CreateTestCommunityFromRepository();
 
             community = _fixture.GetServiceNewScope<ICommunityRepository>()
                                 .GetMany(c => c.Id == community.Id)
