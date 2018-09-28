@@ -29,7 +29,7 @@ namespace U.ViewServices
             CommunityUpdateVM model = createViewService.Get();
             Assert.Equal(0, model.Id);
             Assert.True(string.IsNullOrWhiteSpace(model.Name));
-            Assert.Equal(5, model.MemberProfileItemTemplates.Count);    // initialize to have 5 empty item templates
+            Assert.Equal(5, model.ItemTemplateVMs.Count);    // initialize to have 5 empty item templates
         }
 
         [Fact]
@@ -37,8 +37,8 @@ namespace U.ViewServices
         {
             var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             string newCommunityName = model_post.Name;
-            string itemName1 = model_post.MemberProfileItemTemplates[0].ItemName;
-            string itemName2 = model_post.MemberProfileItemTemplates[1].ItemName;
+            string itemName1 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
+            string itemName2 = model_post.ItemTemplateVMs[1].ItemTemplate.ItemName;
             int commId = model_post.Id;
 
             // verify
@@ -46,19 +46,19 @@ namespace U.ViewServices
             Assert.Equal(commId, model_get.Id);
             Assert.Equal(newCommunityName, model_get.Name);
 
-            Assert.Equal(2, model_get.MemberProfileItemTemplates.Count);
+            Assert.Equal(2, model_get.ItemTemplateVMs.Count);
 
-            Assert.Equal(commId, model_get.MemberProfileItemTemplates[0].CommunityId);
-            Assert.True(model_get.MemberProfileItemTemplates[0].IsRequired);
+            Assert.Equal(commId, model_get.ItemTemplateVMs[0].ItemTemplate.CommunityId);
+            Assert.True(model_get.ItemTemplateVMs[0].ItemTemplate.IsRequired);
 
-            Assert.Equal(commId, model_get.MemberProfileItemTemplates[1].CommunityId);
-            Assert.False(model_get.MemberProfileItemTemplates[1].IsRequired);
+            Assert.Equal(commId, model_get.ItemTemplateVMs[1].ItemTemplate.CommunityId);
+            Assert.False(model_get.ItemTemplateVMs[1].ItemTemplate.IsRequired);
 
-            Assert.True(model_get.MemberProfileItemTemplates[0].Id > 0);
-            Assert.True(model_get.MemberProfileItemTemplates[1].Id > 0);
+            Assert.True(model_get.ItemTemplateVMs[0].ItemTemplate.Id > 0);
+            Assert.True(model_get.ItemTemplateVMs[1].ItemTemplate.Id > 0);
 
-            Assert.Equal(itemName1, model_get.MemberProfileItemTemplates[0].ItemName);
-            Assert.Equal(itemName2, model_get.MemberProfileItemTemplates[1].ItemName);
+            Assert.Equal(itemName1, model_get.ItemTemplateVMs[0].ItemTemplate.ItemName);
+            Assert.Equal(itemName2, model_get.ItemTemplateVMs[1].ItemTemplate.ItemName);
 
         }
 
@@ -66,7 +66,7 @@ namespace U.ViewServices
         public async Task Community_edit_view_service()
         { 
             var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
-            string itemName1 = model_post.MemberProfileItemTemplates[0].ItemName;
+            string itemName1 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
             int commId = model_post.Id;
 
             // update item templates
@@ -76,8 +76,8 @@ namespace U.ViewServices
             var editViewService_read = _fixture.GetServiceNewScope<ICommunityEditViewService>();
             var model_update = editViewService_read.Get(commId);
 
-            model_update.MemberProfileItemTemplates[1].ItemName = updatedItem;
-            model_update.MemberProfileItemTemplates.Add(new MemberProfileItemTemplate { ItemName = appendedItem });
+            model_update.ItemTemplateVMs[1].ItemTemplate.ItemName = updatedItem;
+            model_update.ItemTemplateVMs.Add(new MemberProfileItemTemplateVM { ItemTemplate = new MemberProfileItemTemplate { ItemName = appendedItem } });
 
             /** write changes
              * 
@@ -106,11 +106,11 @@ namespace U.ViewServices
             var editViewService = _fixture.GetServiceNewScope<ICommunityEditViewService>();
             var model_get = editViewService.Get(commId);
 
-            Assert.Equal(3, model_get.MemberProfileItemTemplates.Count);
+            Assert.Equal(3, model_get.ItemTemplateVMs.Count);
 
-            Assert.Equal(itemName1, model_get.MemberProfileItemTemplates[0].ItemName);
-            Assert.Equal(updatedItem, model_get.MemberProfileItemTemplates[1].ItemName);
-            Assert.Equal(appendedItem, model_get.MemberProfileItemTemplates[2].ItemName);
+            Assert.Equal(itemName1, model_get.ItemTemplateVMs[0].ItemTemplate.ItemName);
+            Assert.Equal(updatedItem, model_get.ItemTemplateVMs[1].ItemTemplate.ItemName);
+            Assert.Equal(appendedItem, model_get.ItemTemplateVMs[2].ItemTemplate.ItemName);
         }
     }
 }

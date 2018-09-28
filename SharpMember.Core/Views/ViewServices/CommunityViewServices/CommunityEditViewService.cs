@@ -35,7 +35,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             var community = _communityRepository.GetMany(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
 
             CommunityUpdateVM result = community.ConvertToCommunityUpdateVM();
-            result.MemberProfileItemTemplates = community.MemberProfileItemTemplates;
+            result.ItemTemplateVMs = community.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVM { ItemTemplate = x}).ToList();
 
             return result;
         }
@@ -48,7 +48,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _communityRepository.Update(data.ConvertToCommunity());
             await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.MemberProfileItemTemplates);
+            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Select(x => x.ItemTemplate).ToList());
             await _communityRepository.CommitAsync();
         }
     }

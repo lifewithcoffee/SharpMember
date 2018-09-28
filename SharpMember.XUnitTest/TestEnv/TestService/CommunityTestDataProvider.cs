@@ -76,15 +76,15 @@ namespace U.TestEnv.TestService
             CommunityUpdateVM model = _vs.Get();
             model.Name = ShortGuid.NewGuid();
 
-            var template0 = model.MemberProfileItemTemplates[0];
-            template0.ItemName = ShortGuid.NewGuid();
-            template0.IsRequired = true;
+            var template0 = model.ItemTemplateVMs[0];
+            template0.ItemTemplate.ItemName = ShortGuid.NewGuid();
+            template0.ItemTemplate.IsRequired = true;
 
-            var template1 = model.MemberProfileItemTemplates[1];
-            template1.ItemName = ShortGuid.NewGuid();
-            template1.IsRequired = false;
+            var template1 = model.ItemTemplateVMs[1];
+            template1.ItemTemplate.ItemName = ShortGuid.NewGuid();
+            template1.ItemTemplate.IsRequired = false;
 
-            model.MemberProfileItemTemplates[2].ItemName = "  ";
+            model.ItemTemplateVMs[2].ItemTemplate.ItemName = "  ";
 
             model.Id = await _vs.PostAsync(appUserId, model);
 

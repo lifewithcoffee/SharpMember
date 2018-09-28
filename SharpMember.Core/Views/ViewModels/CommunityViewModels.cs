@@ -2,6 +2,7 @@
 using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
@@ -45,13 +46,26 @@ namespace SharpMember.Core.Views.ViewModels
         public List<CommunityGroupItemVM> ItemViewModels { get; set; } = new List<CommunityGroupItemVM>();
     }
     
+    public class MemberProfileItemTemplateVM
+    {
+        public MemberProfileItemTemplate ItemTemplate { get; set; } = new MemberProfileItemTemplate();
+        public bool Delete { get; set; }
+    }
+
     public class CommunityUpdateVM : CommunityEntity
     {
-        public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
+        public virtual List<MemberProfileItemTemplateVM> ItemTemplateVMs { get; set; } = new List<MemberProfileItemTemplateVM>();
         
         public Community ConvertToCommunity()
         {
-            return Mapper.Map<CommunityUpdateVM, Community>(this);
+            Community result = new Community();
+            result.Id = this.Id;
+            result.Name = this.Name;
+            result.Introduction = this.Introduction;
+            result.Announcement = this.Announcement;
+            result.MemberProfileItemTemplates = this.ItemTemplateVMs.Select(x => x.ItemTemplate).ToList();
+
+            return result;
         }
     }
 }

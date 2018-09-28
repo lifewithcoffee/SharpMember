@@ -24,7 +24,13 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         public CommunityUpdateVM ConvertToCommunityUpdateVM()
         {
-            return Mapper.Map<Community, CommunityUpdateVM>(this);
+            CommunityUpdateVM result = new CommunityUpdateVM();
+            result.Id = this.Id;
+            result.Name = this.Name;
+            result.Introduction = this.Introduction;
+            result.Announcement = this.Announcement;
+            result.ItemTemplateVMs = this.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVM { ItemTemplate = x}).ToList();
+            return result;
         }
     }
 }

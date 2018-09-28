@@ -37,7 +37,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         {
             CommunityUpdateVM model = new CommunityUpdateVM
             {
-                MemberProfileItemTemplates = Enumerable.Range(0, 5).Select(i => new MemberProfileItemTemplate()).ToList()
+                ItemTemplateVMs = Enumerable.Range(0, 5).Select(i => new MemberProfileItemTemplateVM()).ToList()
             };
 
             return model;
@@ -53,10 +53,10 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             newMember.CommunityRole = RoleNames.CommunityOwner;
             await _memberRepository.CommitAsync();
 
-            var required = data.MemberProfileItemTemplates.Where(p => p.IsRequired == true).Select(p => p.ItemName);
+            var required = data.ItemTemplateVMs.Where(p => p.ItemTemplate.IsRequired == true).Select(p => p.ItemTemplate.ItemName);
             await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, required, true);
 
-            var optional = data.MemberProfileItemTemplates.Where(p => p.IsRequired == false).Select(p => p.ItemName);
+            var optional = data.ItemTemplateVMs.Where(p => p.ItemTemplate.IsRequired == false).Select(p => p.ItemTemplate.ItemName);
             await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, optional, false);
 
             await _memberProfileItemTemplateRepository.CommitAsync();

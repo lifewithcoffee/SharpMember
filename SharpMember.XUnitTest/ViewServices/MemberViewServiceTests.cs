@@ -32,5 +32,11 @@ namespace U.ViewServices
             var model2 = await _fixture.GetService<IMemberCreateViewService>().GetAsync(model_post.Id, null);
             Assert.Equal(2, model2.ProfileItemViewModels.Count);
         }
+
+        [Fact]
+        public async Task Delete_member_profile_item_template_should_also_delete_profile_items_from_all_members()
+        {
+            var (appUserId, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+        }
     }
 }
