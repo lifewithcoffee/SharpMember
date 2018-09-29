@@ -49,7 +49,7 @@ namespace SharpMember.Core.Views.ViewModels
     public class MemberProfileItemTemplateVM
     {
         public MemberProfileItemTemplate ItemTemplate { get; set; } = new MemberProfileItemTemplate();
-        public bool Delete { get; set; }
+        public bool Delete { get; set; } = false;
     }
 
     public class CommunityUpdateVM : CommunityEntity

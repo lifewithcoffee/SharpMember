@@ -1,4 +1,5 @@
-﻿using SharpMember.Core.Views.ViewServices.MemberViewServices;
+﻿using SharpMember.Core.Views.ViewServices.CommunityViewServices;
+using SharpMember.Core.Views.ViewServices.MemberViewServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,7 @@ namespace U.ViewServices
         }
 
         [Fact]
-        public async Task Member_profile_should_be_consist_with_member_profile_template()
+        public async Task Member_profileItemNumber_should_beTheSameWith_profileTemplateNumber_when_creating()
         {
             var (appUserId, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
 
@@ -34,9 +35,18 @@ namespace U.ViewServices
         }
 
         [Fact]
-        public async Task Delete_member_profile_item_template_should_also_delete_profile_items_from_all_members()
+        public async Task Delete_profileItemTemplate_should_alsoDelete_profileItems_from_allMembers()
         {
             var (appUserId, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+
+            var model_get = _fixture.GetService<ICommunityEditViewService>().Get(model_post.Id,0);
+            int templateNumberBeforeDelete = model_get.ItemTemplateVMs.Count;
+            model_get.ItemTemplateVMs[0].Delete = true;
+            model_get.ItemTemplateVMs[1].Delete = true;
+            await _fixture.GetServiceNewScope<ICommunityEditViewService>().PostAsync(model_get);
+
+            int templateNumberAfterDelete = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 0).ItemTemplateVMs.Count;
+            Assert.Equal(templateNumberAfterDelete, templateNumberBeforeDelete - 2);
         }
     }
 }
