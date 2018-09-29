@@ -45,10 +45,12 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         /// </summary>
         public async Task PostAsync(CommunityUpdateVM data)
         {
-            _communityRepository.Update(data.ConvertToCommunity());
+            _communityRepository.Update(data.ConvertToCommunityWithoutNavProp());
             await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Select(x => x.ItemTemplate).ToList());
+            _memberProfileItemTemplateRepository.DeleteRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
+            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Where(x => !x.Delete).Select(x => x.ItemTemplate).ToList());
+
             await _communityRepository.CommitAsync();
         }
     }

@@ -7,6 +7,7 @@
         <tr>
             <th>Custom Profile Items</th>
             <th width="30px">Required</th>
+            <th width="30px">Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
                     @Html.TextBoxFor(modelItem => modelItem.ItemTemplateVMs[i].ItemTemplate.ItemName, new { @class = "form-control" })
                 </td>
                 <td class="td_checkbox">@Html.CheckBoxFor(modelItem => modelItem.ItemTemplateVMs[i].ItemTemplate.IsRequired)</td>
+                <td class="td_checkbox">@Html.CheckBoxFor(modelItem => modelItem.ItemTemplateVMs[i].Delete)</td>
             </tr>
         }
     </tbody>

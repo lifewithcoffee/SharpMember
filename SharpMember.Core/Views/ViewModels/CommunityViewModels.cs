@@ -56,14 +56,13 @@ namespace SharpMember.Core.Views.ViewModels
     {
         public virtual List<MemberProfileItemTemplateVM> ItemTemplateVMs { get; set; } = new List<MemberProfileItemTemplateVM>();
         
-        public Community ConvertToCommunity()
+        public Community ConvertToCommunityWithoutNavProp()
         {
             Community result = new Community();
             result.Id = this.Id;
             result.Name = this.Name;
             result.Introduction = this.Introduction;
             result.Announcement = this.Announcement;
-            result.MemberProfileItemTemplates = this.ItemTemplateVMs.Select(x => x.ItemTemplate).ToList();
 
             return result;
         }
