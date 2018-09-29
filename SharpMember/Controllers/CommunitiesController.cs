@@ -78,11 +78,11 @@ namespace SharpMember.Controllers
         }
 
         // GET: Communities/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int addMore = 0)
         {
             try
             {
-                return View(_communityEditViewService.Get(id));
+                return View(_communityEditViewService.Get(id, addMore));
             }
             catch
             {
@@ -93,14 +93,17 @@ namespace SharpMember.Controllers
         // POST: Communities/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, CommunityUpdateVM data)
+        public async Task<ActionResult> Edit(CommunityUpdateVM data, int id, string command, int addMore = 0)
         {
             try
             {
                 //string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
                 await _communityEditViewService.PostAsync(data);
 
-                return RedirectToAction(nameof(Edit), new { id = id });
+                if (command != null)
+                    addMore = 10;
+
+                return RedirectToAction(nameof(Edit), new { id = id, addMore = addMore });
             }
             catch(Exception ex)
             {
