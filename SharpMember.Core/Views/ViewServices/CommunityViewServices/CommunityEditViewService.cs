@@ -11,7 +11,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityEditViewService
     {
-        CommunityUpdateVM Get(int commId);
+        CommunityUpdateVM Get(int commId, int addMore);
         Task PostAsync(CommunityUpdateVM data);
     }
 
@@ -30,12 +30,17 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public CommunityUpdateVM Get(int commId)
+        public CommunityUpdateVM Get(int commId, int addMore)
         {
             var community = _communityRepository.GetMany(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
 
             CommunityUpdateVM result = community.ConvertToCommunityUpdateVM();
             result.ItemTemplateVMs = community.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVM { ItemTemplate = x}).ToList();
+
+            for(int i = 0; i < addMore; i++)
+            {
+                result.ItemTemplateVMs.Add(new MemberProfileItemTemplateVM());
+            }
 
             return result;
         }
@@ -49,7 +54,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             await _communityRepository.CommitAsync();
 
             _memberProfileItemTemplateRepository.DeleteRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
-            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Where(x => !x.Delete).Select(x => x.ItemTemplate).ToList());
+            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Where(x => !x.Delete && !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Select(x => x.ItemTemplate).ToList());
 
             await _communityRepository.CommitAsync();
         }

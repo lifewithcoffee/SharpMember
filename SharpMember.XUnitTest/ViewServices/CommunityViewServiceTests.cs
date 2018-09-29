@@ -42,7 +42,7 @@ namespace U.ViewServices
             int commId = model_post.Id;
 
             // verify
-            var model_get = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(commId);
+            var model_get = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(commId, 0);
             Assert.Equal(commId, model_get.Id);
             Assert.Equal(newCommunityName, model_get.Name);
 
@@ -74,7 +74,7 @@ namespace U.ViewServices
             string appendedItem = ShortGuid.NewGuid();
 
             var editViewService_read = _fixture.GetServiceNewScope<ICommunityEditViewService>();
-            var model_update = editViewService_read.Get(commId);
+            var model_update = editViewService_read.Get(commId, 0);
 
             model_update.ItemTemplateVMs[1].ItemTemplate.ItemName = updatedItem;
             model_update.ItemTemplateVMs.Add(new MemberProfileItemTemplateVM { ItemTemplate = new MemberProfileItemTemplate { ItemName = appendedItem } });
@@ -104,7 +104,7 @@ namespace U.ViewServices
 
             // verify
             var editViewService = _fixture.GetServiceNewScope<ICommunityEditViewService>();
-            var model_get = editViewService.Get(commId);
+            var model_get = editViewService.Get(commId, 0);
 
             Assert.Equal(3, model_get.ItemTemplateVMs.Count);
 
