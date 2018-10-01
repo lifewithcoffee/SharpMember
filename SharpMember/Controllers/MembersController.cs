@@ -15,7 +15,7 @@ using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace SharpMember.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MembersController : Controller
     {
         ApplicationDbContext _context;

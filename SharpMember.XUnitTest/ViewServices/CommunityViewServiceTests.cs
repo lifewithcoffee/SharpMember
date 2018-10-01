@@ -9,6 +9,7 @@ using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using U.TestEnv;
 using U.TestEnv.TestService;
 using NetCoreUtils.String;
+using System.Linq;
 
 namespace U.ViewServices
 {
@@ -111,6 +112,60 @@ namespace U.ViewServices
             Assert.Equal(itemName1, model_get.ItemTemplateVMs[0].ItemTemplate.ItemName);
             Assert.Equal(updatedItem, model_get.ItemTemplateVMs[1].ItemTemplate.ItemName);
             Assert.Equal(appendedItem, model_get.ItemTemplateVMs[2].ItemTemplate.ItemName);
+        }
+
+        [Fact]
+        public async Task add_more_item_templates()
+        {
+            var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            int itemTemplateNumber = model_post.ItemTemplateVMs.Where(x => !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Count();
+
+            // when addMore = 0
+            var model_get = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 0);
+            Assert.Equal(itemTemplateNumber, model_get.ItemTemplateVMs.Count);
+
+            // when addMore = 10
+            model_get = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 10);
+            Assert.Equal(itemTemplateNumber + 10, model_get.ItemTemplateVMs.Count);
+        }
+
+        [Fact]
+        public async Task Existing_item_templates_with_empty_names_shouldNot_be_saved()
+        {
+            var (_, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+
+            // make change
+            var model_get = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 0);
+            string currentName_before = model_get.ItemTemplateVMs[0].ItemTemplate.ItemName;
+
+            model_get.ItemTemplateVMs[0].ItemTemplate.ItemName = "   ";
+            await _fixture.GetServiceNewScope<ICommunityEditViewService>().PostAsync(model_get);
+
+            // verify
+            var model_get_after = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 0);
+            string currentName_after = model_get_after.ItemTemplateVMs[0].ItemTemplate.ItemName;
+
+            Assert.Equal(currentName_before, currentName_after);
+        }
+
+        [Fact]
+        public async Task New_item_templates_with_empty_names_shouldNot_be_saved()
+        { 
+            var (_, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            int vmSaved = model_post.ItemTemplateVMs.Where(x => !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Count();
+
+            // add more item templates with blank names
+            var model_get = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 7);
+            int vmCount = model_get.ItemTemplateVMs.Count;
+            model_get.ItemTemplateVMs[vmCount - 1].ItemTemplate.ItemName = "  ";
+            model_get.ItemTemplateVMs[vmCount - 2].ItemTemplate.ItemName = "";
+            model_get.ItemTemplateVMs[vmCount - 3].ItemTemplate.ItemName = ShortGuid.NewGuid(); // only this should be saved
+            await _fixture.GetServiceNewScope<ICommunityEditViewService>().PostAsync(model_get);
+
+            // verify
+            var model_get2 = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_get.Id, 0);
+            int vmCount2 = model_get2.ItemTemplateVMs.Count;
+            Assert.Equal(vmSaved + 1, vmCount2);
         }
     }
 }
