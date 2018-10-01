@@ -14,7 +14,7 @@ using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 
 namespace SharpMember.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CommunitiesController : Controller
     {
         ILogger<CommunitiesController> _logger;
@@ -146,7 +146,7 @@ namespace SharpMember.Controllers
         public async Task<IActionResult> Members(CommunityMembersVM model, int commId)
         {
             await _memberIndexViewService.PostToDeleteSelected(model);
-            return View(model);
+            return RedirectToAction(nameof(Members), new { commId = commId });
         }
 
         [Route("/[controller]/{commId}/groups")]

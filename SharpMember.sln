@@ -9,12 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.Core", "SharpMe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.XUnitTest", "SharpMember.XUnitTest\SharpMember.XUnitTest.csproj", "{1FE177CE-F455-4A69-B3B9-A7843E3AF5AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TempTest", "TempTest\TempTest.csproj", "{6677CD58-37EA-4A57-9318-AE69DA0CC836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempTest", "TempTest\TempTest.csproj", "{6677CD58-37EA-4A57-9318-AE69DA0CC836}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15D7C48D-3046-4191-A3F6-C846921CCB85}"
 	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreUtils.Database", "..\NetCoreUtils\NetCoreUtils.Database\NetCoreUtils.Database.csproj", "{D16CDD29-6B70-4194-ABD6-94D6FE751E45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

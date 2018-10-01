@@ -14,11 +14,11 @@ using System.Linq;
 namespace U.ViewServices
 {
     [Collection(nameof(ServiceProviderCollection))]
-    public class CommunityViewServiceTests
+    public class CommunityCreateView_Tests
     {
         ServiceProviderFixture _fixture;
 
-        public CommunityViewServiceTests(ServiceProviderFixture serviceProviderFixture)
+        public CommunityCreateView_Tests(ServiceProviderFixture serviceProviderFixture)
         {
             this._fixture = serviceProviderFixture;
         }
@@ -36,7 +36,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Community_create_view_post()
         {
-            var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             string newCommunityName = model_post.Name;
             string itemName1 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
             string itemName2 = model_post.ItemTemplateVMs[1].ItemTemplate.ItemName;
@@ -62,9 +62,20 @@ namespace U.ViewServices
             Assert.Equal(itemName2, model_get.ItemTemplateVMs[1].ItemTemplate.ItemName);
 
         }
+    }
+
+    [Collection(nameof(ServiceProviderCollection))]
+    public class CommunityEditView_ItemTemplate_Tests
+    { 
+        ServiceProviderFixture _fixture;
+
+        public CommunityEditView_ItemTemplate_Tests(ServiceProviderFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Fact]
-        public async Task Community_edit_view_service()
+        public async Task Edit_append_item_templates()
         { 
             var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             string itemName1 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
@@ -166,6 +177,40 @@ namespace U.ViewServices
             var model_get2 = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_get.Id, 0);
             int vmCount2 = model_get2.ItemTemplateVMs.Count;
             Assert.Equal(vmSaved + 1, vmCount2);
+        }
+    }
+
+    [Collection(nameof(ServiceProviderCollection))]
+    public class CommunityMembersView_Tests
+    {
+        ServiceProviderFixture _fixture;
+
+        public CommunityMembersView_Tests(ServiceProviderFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
+        [Fact]
+        public async Task Delete_selected_members()
+        {
+            // create test community with members
+            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+
+            // delete members
+            var viewModel = _fixture.GetService<ICommunityMembersViewService>().Get(community.Id);
+            int beforeDelete = viewModel.ItemViewModels.Count;
+
+            viewModel.ItemViewModels[0].Selected = true;
+            viewModel.ItemViewModels[1].Selected = true;
+            viewModel.ItemViewModels[2].Selected = true;
+
+            await _fixture.GetServiceNewScope<ICommunityMembersViewService>().PostToDeleteSelected(viewModel);
+
+            // verify
+            var viewModel2 = _fixture.GetServiceNewScope<ICommunityMembersViewService>().Get(community.Id);
+            int afterDelete = viewModel2.ItemViewModels.Count;
+
+            Assert.Equal(beforeDelete - 3, afterDelete);
         }
     }
 }

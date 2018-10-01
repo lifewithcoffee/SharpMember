@@ -1,9 +1,9 @@
 @model CommunityMembersVM
-
 @using SharpMember.Core.Views.ViewModels
 
 <form asp-action="Members">
     <h2>Members</h2>
+    <input type="hidden" asp-for="CommunityId" />
     <div class="form-horizontal">
         <input type="submit" value="Delete Selected" class="btn btn-default" />
         <a asp-action="Create" asp-controller="Members" asp-route-commId="@Model.CommunityId" class="btn btn-default">Create New Member</a>
@@ -16,9 +16,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th width="100px">Select</th>
-                    <th width="150px">@nameof(CommunityMemberItemVM.MemberNumber)</th>
-                    <th width="120px">@nameof(CommunityMemberItemVM.Renewed)</th>
+                    <th width="50px">Select</th>
+                    <th width="50px">No.</th>
+                    <th width="80px">@nameof(CommunityMemberItemVM.Renewed)</th>
                     <th>@nameof(CommunityMemberItemVM.Name)</th>
                 </tr>
             </thead>
@@ -26,7 +26,10 @@
                 @for (int i = 0; i < Model.ItemViewModels.Count; i++)
                 {
                     <tr>
-                        <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
+                        <td>
+                            <input type="hidden" asp-for="ItemViewModels[i].Id" />
+                            @Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)
+                        </td>
                         <td>@Html.DisplayFor(m => m.ItemViewModels[i].MemberNumber)</td>
                         <td>@Html.DisplayFor(m => m.ItemViewModels[i].Renewed)</td>
                         <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
