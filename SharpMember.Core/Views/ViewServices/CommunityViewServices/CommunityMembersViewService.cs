@@ -27,7 +27,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         {
             var items = _memberRepo
                 .GetMany(m => m.CommunityId == commId)
-                .Select(m => new CommunityMemberItemVM { Id = m.Id, Name = m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed })
+                .Select(m => new CommunityMemberItemVM { Id = m.Id, Name = string.IsNullOrWhiteSpace(m.Name) ? "(No name)" : m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed })
                 .ToList();
 
             return new CommunityMembersVM { CommunityId = commId, ItemViewModels = items };

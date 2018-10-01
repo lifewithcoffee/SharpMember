@@ -28,7 +28,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
                 .GetMany(g => g.CommunityId == commId)
                 .ToList()
                 .Select(g => {
-                    string trim = g.Introduction.Trim();
+                    string trim = g.Introduction == null ? "" : g.Introduction.Trim();
                     string intro;
                     if (trim.Length > 150)
                     {
