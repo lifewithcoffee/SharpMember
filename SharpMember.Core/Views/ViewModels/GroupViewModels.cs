@@ -8,6 +8,8 @@ namespace SharpMember.Core.Views.ViewModels
 {
     public class GroupUpdateVM : GroupEntity
     {
+        public List<CommunityMemberItemVM> ItemViewModels = new List<CommunityMemberItemVM>();
+
         public Group ConvertToGroup()
         {
             return Mapper.Map<GroupUpdateVM, Group>(this);

@@ -13,19 +13,46 @@
 <h4>Group</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <form asp-action="Edit">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <vc:form-groups entity-type=@Model.GetType()
                             instance=@Model
                             hidden-fields="id,CommunityId"
                             readonly-fields=""
-                            text-area-fields="Introduction,Announcement" /> 
+                            text-area-fields="Introduction,Announcement" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="col-md-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="50px">Select</th>
+                        <th width="50px">No.</th>
+                        <th width="80px">@nameof(CommunityMemberItemVM.Renewed)</th>
+                        <th>@nameof(CommunityMemberItemVM.Name)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.ItemViewModels.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" asp-for="ItemViewModels[i].Id" />
+                                @Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)
+                            </td>
+                            <td>@Html.DisplayFor(m => m.ItemViewModels[i].MemberNumber)</td>
+                            <td>@Html.DisplayFor(m => m.ItemViewModels[i].Renewed)</td>
+                            <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
 </div>
 
 <div>

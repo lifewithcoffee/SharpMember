@@ -46,7 +46,7 @@ namespace U.TestEnv.TestService
             var _communityService = _serviceProvider.GetService<ICommunityService>();
             var _groupMemberRelationRepo = _serviceProvider.GetService<IGroupMemberRelationRepository>();
 
-            await _communityService.CreateCommunityAsync(await util.GetExistingAppUserId(), ShortGuid.NewGuid());
+            await _communityService.CreateCommunityAsync(await util.GetExistingAppUserId(), $"TestCommunityFromRepo_{ShortGuid.NewGuid()}");
 
             await AddGroupedMembers(_communityService, _groupMemberRelationRepo, 2);
             await AddGroupedMembers(_communityService, _groupMemberRelationRepo, 3);
@@ -61,12 +61,11 @@ namespace U.TestEnv.TestService
                 await _communityService.AddMemberProfileTemplateAsync(ShortGuid.NewGuid(), false);
 
             await _communityService.CommitAsync();
-
             return _communityService.Community;
 
             async Task AddGroupedMembers(ICommunityService communityService, IGroupMemberRelationRepository groupMemberRelationRepo ,int memberNumber)
             {
-                Group group = new Group { Community = communityService.Community };
+                Group group = new Group { Name = ShortGuid.NewGuid(), Community = communityService.Community };
 
                 for (int i = 0; i < memberNumber; i++)
                 {

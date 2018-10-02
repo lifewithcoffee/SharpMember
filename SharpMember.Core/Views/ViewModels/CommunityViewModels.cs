@@ -19,7 +19,7 @@ namespace SharpMember.Core.Views.ViewModels
 
     public class CommunityMemberItemVM
     {
-        public bool Selected { get; set; }
+        public bool Selected { get; set; } = false;
         public int Id { get; set; }
         public string Name { get; set; }
         public int MemberNumber { get; set; }
@@ -54,7 +54,7 @@ namespace SharpMember.Core.Views.ViewModels
 
     public class CommunityUpdateVM : CommunityEntity
     {
-        public virtual List<MemberProfileItemTemplateVM> ItemTemplateVMs { get; set; } = new List<MemberProfileItemTemplateVM>();
+        public List<MemberProfileItemTemplateVM> ItemTemplateVMs { get; set; } = new List<MemberProfileItemTemplateVM>();
         
         public Community ConvertToCommunityWithoutNavProp()
         {
