@@ -150,16 +150,17 @@ namespace SharpMember.Controllers
         }
 
         [Route("/[controller]/{commId}/groups")]
-        public ActionResult Groups(int commId)
+        public ActionResult<CommunityGroupsVM> Groups(int commId)
         {
             return View(_communityGroupsViewService.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/groups")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Groups(object model, int commId)
+        public async Task<IActionResult> Groups(CommunityGroupsVM model, int commId)
         {
-            return View();
+            await _communityGroupsViewService.PostToDeleteSelected(model);
+            return RedirectToAction(nameof(Groups), new { commId = commId });
         }
     }
 }

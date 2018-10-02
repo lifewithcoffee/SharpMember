@@ -5,28 +5,34 @@
     ViewData["Title"] = "Groups";
 }
 
-<h2>Groups</h2>
+<form asp-action="Groups">
+    <h2>Groups</h2>
 
-<p>
-    <a asp-action="Create" asp-controller="Groups" asp-route-commId="@Model.CommunityId">Create New Group</a>
-    <a asp-action="Edit" asp-controller="Communities" asp-route-id="@Model.CommunityId" class="btn btn-default" style="float: right;">Back To Community Setting</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th width="100px">Select</th>
-            <th width="200px">Name</th>
-            <th>Introduction</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.ItemViewModels.Count; i++)
-        {
+    <p>
+        <input type="submit" value="Delete Selected" class="btn btn-default" />
+        <a asp-action="Create" asp-controller="Groups" asp-route-commId="@Model.CommunityId">Create New Group</a>
+        <a asp-action="Edit" asp-controller="Communities" asp-route-id="@Model.CommunityId" class="btn btn-default" style="float: right;">Back To Community Setting</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)</td>
-                <td><a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
-                <td>@Model.ItemViewModels[i].Introduction</td>
+                <th width="100px">Select</th>
+                <th width="200px">Name</th>
+                <th>Introduction</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ItemViewModels.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" asp-for="ItemViewModels[i].Id" />
+                        @Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)
+                    </td>
+                    <td><a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
+                    <td>@Model.ItemViewModels[i].Introduction</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

@@ -41,7 +41,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
                         intro = trim;
                     }
 
-                    return new CommunityGroupItemVM { Id = g.Id, Name = g.Name, Introduction = intro };
+                    return new CommunityGroupItemVM { Id = g.Id, Name = string.IsNullOrWhiteSpace(g.Name)? "(No name)" : g.Name, Introduction = intro };
                 }).ToList();
 
             return new CommunityGroupsVM { CommunityId = commId, ItemViewModels = items };
