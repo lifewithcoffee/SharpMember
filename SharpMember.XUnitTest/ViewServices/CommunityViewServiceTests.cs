@@ -213,4 +213,37 @@ namespace U.ViewServices
             Assert.Equal(beforeDelete - 3, afterDelete);
         }
     }
+
+    [Collection(nameof(ServiceProviderCollection))]
+    public class CommunityGroupView_Tests
+    {
+        ServiceProviderFixture _fixture;
+
+        public CommunityGroupView_Tests(ServiceProviderFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
+        [Fact]
+        public async Task Delete_selected_groups()
+        {
+            // create test community with groups
+            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+
+            // delete groups
+            var viewModel = _fixture.GetService<ICommunityGroupsViewService>().Get(community.Id);
+            int beforeDelete = viewModel.ItemViewModels.Count;
+
+            viewModel.ItemViewModels[0].Selected = true;
+            viewModel.ItemViewModels[1].Selected = true;
+
+            await _fixture.GetServiceNewScope<ICommunityGroupsViewService>().PostToDeleteSelected(viewModel);
+
+            // vefiry
+            var viewModel2 = _fixture.GetServiceNewScope<ICommunityGroupsViewService>().Get(community.Id);
+            int afterDelete = viewModel2.ItemViewModels.Count;
+
+            Assert.Equal(beforeDelete - 2, afterDelete);
+        }
+    }
 }
