@@ -1,16 +1,18 @@
-﻿using SharpMember.Core.Data.Repositories.MemberSystem;
+﻿using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityGroupsViewService
     {
         CommunityGroupsVM Get(int commId);
-        void PostToDeleteSelected(CommunityGroupsVM data);
+        Task PostToDeleteSelected(CommunityGroupsVM data);
     }
 
     public class CommunityGroupsViewService : ICommunityGroupsViewService
@@ -45,9 +47,10 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             return new CommunityGroupsVM { CommunityId = commId, ItemViewModels = items };
         }
 
-        public void PostToDeleteSelected(CommunityGroupsVM data)
+        public async Task PostToDeleteSelected(CommunityGroupsVM data)
         {
-            throw new NotImplementedException();
+            _groupRepository.DeleteRange(data.ItemViewModels.Where(x => x.Selected).Select(x => new Group { Id = x.Id }));
+            await _groupRepository.CommitAsync();
         }
     }
 }
