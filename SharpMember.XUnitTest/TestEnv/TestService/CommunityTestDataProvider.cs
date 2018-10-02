@@ -44,13 +44,14 @@ namespace U.TestEnv.TestService
         public async Task<Community> CreateTestCommunityFromRepository()
         {
             var _communityService = _serviceProvider.GetService<ICommunityService>();
+            var _groupMemberRelationRepo = _serviceProvider.GetService<IGroupMemberRelationRepository>();
 
-            string appUserId = await util.GetExistingAppUserId();
-            await _communityService.CreateCommunityAsync(appUserId, ShortGuid.NewGuid());
+            await _communityService.CreateCommunityAsync(await util.GetExistingAppUserId(), ShortGuid.NewGuid());
 
-            // add 10 members
-            for (int i = 0; i < 10; i++)
-                await _communityService.AddMemberAsync(null, ShortGuid.NewGuid(), "", "");
+            await AddGroupedMembers(_communityService, _groupMemberRelationRepo, 2);
+            await AddGroupedMembers(_communityService, _groupMemberRelationRepo, 3);
+            await AddGroupedMembers(_communityService, _groupMemberRelationRepo, 4);
+            await _communityService.AddMemberAsync(null, ShortGuid.NewGuid(), "", "");
 
             // add member profile templates (5 required, 3 optional)
             for (int i = 0; i < 5; i++)
@@ -62,6 +63,19 @@ namespace U.TestEnv.TestService
             await _communityService.CommitAsync();
 
             return _communityService.Community;
+
+            async Task AddGroupedMembers(ICommunityService communityService, IGroupMemberRelationRepository groupMemberRelationRepo ,int memberNumber)
+            {
+                Group group = new Group { Community = communityService.Community };
+
+                for (int i = 0; i < memberNumber; i++)
+                {
+                    var member = await communityService.AddMemberAsync(null, ShortGuid.NewGuid(), "", "");
+
+                    GroupMemberRelation relation = new GroupMemberRelation { Group = group, Member = member };
+                    groupMemberRelationRepo.Add(relation);
+                }
+            }
         }
 
         /// <summary>
@@ -113,13 +127,20 @@ namespace U.TestEnv.TestService
 
             community = _fixture.GetServiceNewScope<ICommunityRepository>()
                                 .GetMany(c => c.Id == community.Id)
+                                .Include(c => c.Groups)
+                                    .ThenInclude(g => g.GroupMemberRelations)
                                 .Include(c => c.Members)
                                 .Include(c => c.MemberProfileItemTemplates)
                                 .Single();
 
             Assert.True(community.Id > 0);
-            Assert.Equal(11, community.Members.Count());    // 1 owner self's and 10 new added
-            Assert.Equal(8, community.MemberProfileItemTemplates.Count());
+            Assert.Equal(11, community.Members.Count);    // 1 owner self's and 10 new added
+            Assert.Equal(8, community.MemberProfileItemTemplates.Count);
+            Assert.Equal(3, community.Groups.Count);
+
+            Assert.Equal(2, community.Groups[0].GroupMemberRelations.Count);
+            Assert.Equal(3, community.Groups[1].GroupMemberRelations.Count);
+            Assert.Equal(4, community.Groups[2].GroupMemberRelations.Count);
         }
     }
 }

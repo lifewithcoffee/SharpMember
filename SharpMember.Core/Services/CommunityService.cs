@@ -9,7 +9,7 @@ namespace SharpMember.Core.Services
 {
     public interface ICommunityService : ICommittable
     {
-        Task AddMemberAsync(string appUserId, string name, string email, string role);
+        Task<Member> AddMemberAsync(string appUserId, string name, string email, string role);
         Task AddMemberProfileTemplateAsync(string itemName, bool required);
         Task CreateCommunityAsync(string appUserId, string communityName);
         Community Community { get; set; }
@@ -45,13 +45,14 @@ namespace SharpMember.Core.Services
             await _communityRepository.CommitAsync();
         }
 
-        public async Task AddMemberAsync(string appUserId, string name, string email, string role)
+        public async Task<Member> AddMemberAsync(string appUserId, string name, string email, string role)
         {
             Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(this.Community.Id, appUserId);
             newMember.Name = name;
             newMember.Email = email;
             newMember.CommunityRole = role;
             _memberRepository.Add(newMember);
+            return newMember;
         }
 
         public async Task AddMemberProfileTemplateAsync(string itemName, bool required)
