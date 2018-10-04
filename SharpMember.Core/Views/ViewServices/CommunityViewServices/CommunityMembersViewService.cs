@@ -11,8 +11,8 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityMembersViewService
     {
-        CommunityMembersVM Get(int commId);
-        Task PostToDeleteSelected(CommunityMembersVM data);
+        CommunityMembersVm Get(int commId);
+        Task PostToDeleteSelected(CommunityMembersVm data);
     }
 
     public class CommunityMembersViewService : ICommunityMembersViewService
@@ -24,19 +24,19 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _memberRepo = memberRepo;
         }
 
-        public CommunityMembersVM Get(int commId)
+        public CommunityMembersVm Get(int commId)
         {
             var items = _memberRepo
                 .GetMany(m => m.CommunityId == commId)
-                .Select(m => new CommunityMemberItemVM { Id = m.Id, Name = string.IsNullOrWhiteSpace(m.Name) ? "(No name)" : m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed })
+                .Select(m => new MemberItemVm { Id = m.Id, Name = string.IsNullOrWhiteSpace(m.Name) ? "(No name)" : m.Name, MemberNumber = m.MemberNumber, Renewed = m.Renewed })
                 .ToList();
 
-            return new CommunityMembersVM {  CommunityId = commId, ItemViewModels = items };
+            return new CommunityMembersVm {  CommunityId = commId, MemberItemVms = items };
         }
 
-        public async Task PostToDeleteSelected(CommunityMembersVM data)
+        public async Task PostToDeleteSelected(CommunityMembersVm data)
         {
-            _memberRepo.DeleteRange(data.ItemViewModels.Where(x => x.Selected).Select(x => new Member { Id = x.Id }));
+            _memberRepo.DeleteRange(data.MemberItemVms.Where(x => x.Selected).Select(x => new Member { Id = x.Id }));
             await _memberRepo.CommitAsync();
         }
     }

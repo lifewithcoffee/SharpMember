@@ -11,8 +11,8 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityEditViewService
     {
-        CommunityUpdateVM Get(int commId, int addMore);
-        Task PostAsync(CommunityUpdateVM data);
+        CommunityUpdateVm Get(int commId, int addMore);
+        Task PostAsync(CommunityUpdateVm data);
     }
 
     public class CommunityEditViewService : ICommunityEditViewService
@@ -30,16 +30,16 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public CommunityUpdateVM Get(int commId, int addMore)
+        public CommunityUpdateVm Get(int commId, int addMore)
         {
             var community = _communityRepository.GetMany(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
 
-            CommunityUpdateVM result = community.ConvertToCommunityUpdateVM();
-            result.ItemTemplateVMs = community.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVM { ItemTemplate = x}).ToList();
+            CommunityUpdateVm result = community.ConvertToCommunityUpdateVM();
+            result.ItemTemplateVMs = community.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVm { ItemTemplate = x}).ToList();
 
             for(int i = 0; i < addMore; i++)
             {
-                result.ItemTemplateVMs.Add(new MemberProfileItemTemplateVM());
+                result.ItemTemplateVMs.Add(new MemberProfileItemTemplateVm());
             }
 
             return result;
@@ -48,7 +48,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         /// <summary>
         /// Unit test: <see cref="U.ViewServices.CommunityViewServiceTests.Community_edit_view_service"/>
         /// </summary>
-        public async Task PostAsync(CommunityUpdateVM data)
+        public async Task PostAsync(CommunityUpdateVm data)
         {
             _communityRepository.Update(data.ConvertToCommunityWithoutNavProp());
             await _communityRepository.CommitAsync();

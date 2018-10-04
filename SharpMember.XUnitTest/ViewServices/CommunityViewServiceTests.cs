@@ -27,7 +27,7 @@ namespace U.ViewServices
         public void Community_create_view_get()
         {
             var createViewService = _fixture.GetServiceNewScope<ICommunityCreateViewService>();
-            CommunityUpdateVM model = createViewService.Get();
+            CommunityUpdateVm model = createViewService.Get();
             Assert.Equal(0, model.Id);
             Assert.True(string.IsNullOrWhiteSpace(model.Name));
             Assert.Equal(5, model.ItemTemplateVMs.Count);    // initialize to have 5 empty item templates
@@ -89,7 +89,7 @@ namespace U.ViewServices
             var model_update = editViewService_read.Get(commId, 0);
 
             model_update.ItemTemplateVMs[1].ItemTemplate.ItemName = updatedItem;
-            model_update.ItemTemplateVMs.Add(new MemberProfileItemTemplateVM { ItemTemplate = new MemberProfileItemTemplate { ItemName = appendedItem } });
+            model_update.ItemTemplateVMs.Add(new MemberProfileItemTemplateVm { ItemTemplate = new MemberProfileItemTemplate { ItemName = appendedItem } });
 
             /** write changes
              * 
@@ -198,17 +198,17 @@ namespace U.ViewServices
 
             // delete members
             var viewModel = _fixture.GetService<ICommunityMembersViewService>().Get(community.Id);
-            int beforeDelete = viewModel.ItemViewModels.Count;
+            int beforeDelete = viewModel.MemberItemVms.Count;
 
-            viewModel.ItemViewModels[0].Selected = true;
-            viewModel.ItemViewModels[1].Selected = true;
-            viewModel.ItemViewModels[2].Selected = true;
+            viewModel.MemberItemVms[0].Selected = true;
+            viewModel.MemberItemVms[1].Selected = true;
+            viewModel.MemberItemVms[2].Selected = true;
 
             await _fixture.GetServiceNewScope<ICommunityMembersViewService>().PostToDeleteSelected(viewModel);
 
             // verify
             var viewModel2 = _fixture.GetServiceNewScope<ICommunityMembersViewService>().Get(community.Id);
-            int afterDelete = viewModel2.ItemViewModels.Count;
+            int afterDelete = viewModel2.MemberItemVms.Count;
 
             Assert.Equal(beforeDelete - 3, afterDelete);
         }

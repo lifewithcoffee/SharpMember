@@ -45,7 +45,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(GroupUpdateVM group)
+        public async Task<IActionResult> Create(GroupUpdateVm group)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, GroupUpdateVM group)
+        public async Task<IActionResult> Edit(int id, GroupUpdateVm group)
         {
             if (id != group.Id)
             {

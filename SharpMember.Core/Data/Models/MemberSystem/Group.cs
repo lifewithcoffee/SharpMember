@@ -28,9 +28,9 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         public virtual List<GroupMemberRelation> GroupMemberRelations { get; set; } = new List<GroupMemberRelation>();
 
-        public GroupUpdateVM ConvertToGroupUpdateVM()
+        public GroupUpdateVm ConvertToGroupUpdateVM()
         {
-            return Mapper.Map<Group, GroupUpdateVM>(this);
+            return Mapper.Map<Group, GroupUpdateVm>(this);
         }
     }
 }

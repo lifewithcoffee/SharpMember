@@ -45,7 +45,7 @@ namespace SharpMember.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MemberUpdateVM data)
+        public async Task<IActionResult> Create(MemberUpdateVm data)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, MemberUpdateVM data)
+        public async Task<IActionResult> Edit(int id, MemberUpdateVm data)
         {
             if (id != data.Id)
             {

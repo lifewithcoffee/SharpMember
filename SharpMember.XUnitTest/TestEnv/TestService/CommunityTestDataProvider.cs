@@ -21,7 +21,7 @@ namespace U.TestEnv.TestService
     interface ICommunityTestDataProvider
     {
         Task<Community> CreateTestCommunityFromRepository();
-        Task<(string appUserId, CommunityUpdateVM)> CreateTestCommunityFromViewService();
+        Task<(string appUserId, CommunityUpdateVm)> CreateTestCommunityFromViewService();
     }
 
     class CommunityTestDataProvider : ICommunityTestDataProvider
@@ -80,13 +80,13 @@ namespace U.TestEnv.TestService
         /// <summary>
         /// Added member profile template number: 2 (one required, one optional)
         /// </summary>
-        public async Task<(string appUserId,CommunityUpdateVM)> CreateTestCommunityFromViewService()
+        public async Task<(string appUserId,CommunityUpdateVm)> CreateTestCommunityFromViewService()
         {
             var _vs = _serviceProvider.GetService<ICommunityCreateViewService>();
 
             string appUserId = await util.GetExistingAppUserId();
 
-            CommunityUpdateVM model = _vs.Get();
+            CommunityUpdateVm model = _vs.Get();
             model.Name = ShortGuid.NewGuid();
 
             var template0 = model.ItemTemplateVMs[0];

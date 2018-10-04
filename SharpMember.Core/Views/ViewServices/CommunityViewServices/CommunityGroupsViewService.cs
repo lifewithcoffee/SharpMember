@@ -11,8 +11,8 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityGroupsViewService
     {
-        CommunityGroupsVM Get(int commId);
-        Task PostToDeleteSelected(CommunityGroupsVM data);
+        CommunityGroupsVm Get(int commId);
+        Task PostToDeleteSelected(CommunityGroupsVm data);
     }
 
     public class CommunityGroupsViewService : ICommunityGroupsViewService
@@ -24,7 +24,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _groupRepository = groupRepository;
         }
 
-        public CommunityGroupsVM Get(int commId)
+        public CommunityGroupsVm Get(int commId)
         {
             var items = _groupRepository
                 .GetMany(g => g.CommunityId == commId)
@@ -41,13 +41,13 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
                         intro = trim;
                     }
 
-                    return new CommunityGroupItemVM { Id = g.Id, Name = string.IsNullOrWhiteSpace(g.Name)? "(No name)" : g.Name, Introduction = intro };
+                    return new CommunityGroupItemVm { Id = g.Id, Name = string.IsNullOrWhiteSpace(g.Name)? "(No name)" : g.Name, Introduction = intro };
                 }).ToList();
 
-            return new CommunityGroupsVM { CommunityId = commId, ItemViewModels = items };
+            return new CommunityGroupsVm { CommunityId = commId, ItemViewModels = items };
         }
 
-        public async Task PostToDeleteSelected(CommunityGroupsVM data)
+        public async Task PostToDeleteSelected(CommunityGroupsVm data)
         {
             _groupRepository.DeleteRange(data.ItemViewModels.Where(x => x.Selected).Select(x => new Group { Id = x.Id }));
             await _groupRepository.CommitAsync();

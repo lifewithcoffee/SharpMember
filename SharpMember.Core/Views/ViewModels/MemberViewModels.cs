@@ -6,16 +6,25 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
 {
-    public class MemberProfileItemVM
+    public class MemberItemVm
+    {
+        public bool Selected { get; set; } = false;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int MemberNumber { get; set; }
+        public bool Renewed { get; set; }
+    }
+
+    public class MemberProfileItemVm
     {
         public int Id { get; set; }
         public string ItemValue { get; set; }
         public string ItemName { get; set; }
         public int MemberProfileItemTemplateId { get; set; }
 
-        public MemberProfileItemVM() { }
+        public MemberProfileItemVm() { }
 
-        public MemberProfileItemVM(MemberProfileItem item, string itemName)
+        public MemberProfileItemVm(MemberProfileItem item, string itemName)
         {
             this.Id = item.Id;
             this.ItemValue = item.ItemValue;
@@ -25,8 +34,8 @@ namespace SharpMember.Core.Views.ViewModels
         }
     }
 
-    public class MemberUpdateVM : MemberEntity
+    public class MemberUpdateVm : MemberEntity
     {
-        public List<MemberProfileItemVM> ProfileItemViewModels { get; set; } = new List<MemberProfileItemVM>();
+        public List<MemberProfileItemVm> ProfileItemViewModels { get; set; } = new List<MemberProfileItemVm>();
     }
 }

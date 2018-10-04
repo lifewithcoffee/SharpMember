@@ -37,13 +37,13 @@ namespace U.ViewServices
             // verify
             var groupEditViewService = _fixture.GetService<IGroupEditViewService>();
 
-            int memberVmNumber0 = groupEditViewService.Get(community.Groups[0].Id).ItemViewModels.Count;
+            int memberVmNumber0 = groupEditViewService.Get(community.Groups[0].Id).MemberItemVms.Count;
             Assert.Equal(memberNumber0, memberVmNumber0);
 
-            int memberVmNumber1 = groupEditViewService.Get(community.Groups[1].Id).ItemViewModels.Count;
+            int memberVmNumber1 = groupEditViewService.Get(community.Groups[1].Id).MemberItemVms.Count;
             Assert.Equal(memberNumber1, memberVmNumber1);
 
-            int memberVmNumber2 = groupEditViewService.Get(community.Groups[2].Id).ItemViewModels.Count;
+            int memberVmNumber2 = groupEditViewService.Get(community.Groups[2].Id).MemberItemVms.Count;
             Assert.Equal(memberNumber2, memberVmNumber2);
         }
     }

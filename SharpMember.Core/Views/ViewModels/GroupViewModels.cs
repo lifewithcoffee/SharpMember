@@ -6,13 +6,13 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewModels
 {
-    public class GroupUpdateVM : GroupEntity
+    public class GroupUpdateVm : GroupEntity
     {
-        public List<CommunityMemberItemVM> ItemViewModels = new List<CommunityMemberItemVM>();
+        public List<MemberItemVm> MemberItemVms = new List<MemberItemVm>();
 
         public Group ConvertToGroup()
         {
-            return Mapper.Map<GroupUpdateVM, Group>(this);
+            return Mapper.Map<GroupUpdateVm, Group>(this);
         }
     }
 }

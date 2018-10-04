@@ -1,4 +1,4 @@
-﻿@model GroupUpdateVM
+﻿@model GroupUpdateVm
 @addTagHelper *,SharpMember
 @using SharpMember.Core.Views.ViewModels
 @using SharpMember.Controllers
@@ -32,21 +32,21 @@
                     <tr>
                         <th width="50px">Select</th>
                         <th width="50px">No.</th>
-                        <th width="80px">@nameof(CommunityMemberItemVM.Renewed)</th>
-                        <th>@nameof(CommunityMemberItemVM.Name)</th>
+                        <th width="80px">@nameof(MemberItemVm.Renewed)</th>
+                        <th>@nameof(MemberItemVm.Name)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < Model.ItemViewModels.Count; i++)
+                    @for (int i = 0; i < Model.MemberItemVms.Count; i++)
                     {
                         <tr>
                             <td>
-                                <input type="hidden" asp-for="ItemViewModels[i].Id" />
-                                @Html.CheckBoxFor(m => m.ItemViewModels[i].Selected)
+                                <input type="hidden" asp-for="MemberItemVms[i].Id" />
+                                @Html.CheckBoxFor(m => m.MemberItemVms[i].Selected)
                             </td>
-                            <td>@Html.DisplayFor(m => m.ItemViewModels[i].MemberNumber)</td>
-                            <td>@Html.DisplayFor(m => m.ItemViewModels[i].Renewed)</td>
-                            <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.ItemViewModels[i].Id"><div>@Model.ItemViewModels[i].Name</div></a></td>
+                            <td>@Html.DisplayFor(m => m.MemberItemVms[i].MemberNumber)</td>
+                            <td>@Html.DisplayFor(m => m.MemberItemVms[i].Renewed)</td>
+                            <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.MemberItemVms[i].Id"><div>@Model.MemberItemVms[i].Name</div></a></td>
                         </tr>
                     }
                 </tbody>

@@ -31,7 +31,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         public MemberProfileItem() { }
 
-        public MemberProfileItem(MemberProfileItemVM viewModel)
+        public MemberProfileItem(MemberProfileItemVm viewModel)
         {
             this.Id = viewModel.Id;
             this.ItemValue = viewModel.ItemValue;

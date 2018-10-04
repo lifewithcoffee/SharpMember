@@ -22,14 +22,14 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public virtual List<Group> Groups { get; set; } = new List<Group>();
         public virtual List<MemberProfileItemTemplate> MemberProfileItemTemplates { get; set; } = new List<MemberProfileItemTemplate>();
 
-        public CommunityUpdateVM ConvertToCommunityUpdateVM()
+        public CommunityUpdateVm ConvertToCommunityUpdateVM()
         {
-            CommunityUpdateVM result = new CommunityUpdateVM();
+            CommunityUpdateVm result = new CommunityUpdateVm();
             result.Id = this.Id;
             result.Name = this.Name;
             result.Introduction = this.Introduction;
             result.Announcement = this.Announcement;
-            result.ItemTemplateVMs = this.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVM { ItemTemplate = x}).ToList();
+            result.ItemTemplateVMs = this.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVm { ItemTemplate = x}).ToList();
             return result;
         }
     }

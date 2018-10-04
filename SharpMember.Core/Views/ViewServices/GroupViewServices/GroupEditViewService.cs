@@ -13,8 +13,8 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
     public interface IGroupEditViewService
     {
-        GroupUpdateVM Get(int id);
-        Task PostAsync(GroupUpdateVM data);
+        GroupUpdateVm Get(int id);
+        Task PostAsync(GroupUpdateVm data);
     }
 
     public class GroupEditViewService : IGroupEditViewService
@@ -26,12 +26,12 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             _groupRepository = groupRepository;
         }
 
-        public GroupUpdateVM Get(int id)
+        public GroupUpdateVm Get(int id)
         {
             var group = _groupRepository.GetMany(x => x.Id == id).Include(x => x.GroupMemberRelations).ThenInclude(x => x.Member).Single();
             var result = group.ConvertToGroupUpdateVM();
-            result.ItemViewModels = group.GroupMemberRelations.Select(x =>
-                new CommunityMemberItemVM
+            result.MemberItemVms = group.GroupMemberRelations.Select(x =>
+                new MemberItemVm
                 {
                     Id = x.Member.Id,
                     MemberNumber = x.Member.MemberNumber,
@@ -42,7 +42,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             return result;
         }
 
-        public async Task PostAsync(GroupUpdateVM data)
+        public async Task PostAsync(GroupUpdateVm data)
         {
             Ensure.IsTrue(data.Id > 0);
             _groupRepository.Update(data.ConvertToGroup());

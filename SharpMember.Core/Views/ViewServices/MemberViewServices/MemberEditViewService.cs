@@ -14,8 +14,8 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 {
     public interface IMemberEditViewService
     {
-        Task<MemberUpdateVM> GetAsync(int id);
-        Task PostAsync(MemberUpdateVM data);
+        Task<MemberUpdateVm> GetAsync(int id);
+        Task PostAsync(MemberUpdateVm data);
     }
 
     public class MemberEditViewService : IMemberEditViewService
@@ -32,15 +32,15 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public async Task<MemberUpdateVM> GetAsync(int id)
+        public async Task<MemberUpdateVm> GetAsync(int id)
         {
-            MemberUpdateVM result = null;
+            MemberUpdateVm result = null;
 
             // get existing items
             var member = await _memberRepository.GetMany(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
             if (member != null)
             {
-                result = MemberMapper<Member, MemberUpdateVM>.Cast(member);
+                result = MemberMapper<Member, MemberUpdateVm>.Cast(member);
                 result.ProfileItemViewModels = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
             }
 
@@ -58,11 +58,11 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             return result;
         }
 
-        public async Task PostAsync(MemberUpdateVM data)
+        public async Task PostAsync(MemberUpdateVm data)
         {
             Ensure.IsTrue(data.Id > 0, $"Invalid value: MemberUpdateVM.Id = {data.Id}");
 
-            Member member = MemberMapper<MemberUpdateVM, Member>.Cast(data);
+            Member member = MemberMapper<MemberUpdateVm, Member>.Cast(data);
             member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
             _memberRepository.Update(member);
             await _memberRepository.CommitAsync();

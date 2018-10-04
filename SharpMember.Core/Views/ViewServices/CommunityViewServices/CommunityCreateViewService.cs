@@ -12,8 +12,8 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityCreateViewService
     {
-        CommunityUpdateVM Get();
-        Task<int> PostAsync(string appUserId, CommunityUpdateVM data);
+        CommunityUpdateVm Get();
+        Task<int> PostAsync(string appUserId, CommunityUpdateVm data);
     }
 
     public class CommunityCreateViewService : ICommunityCreateViewService
@@ -33,17 +33,17 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
-        public CommunityUpdateVM Get()
+        public CommunityUpdateVm Get()
         {
-            CommunityUpdateVM model = new CommunityUpdateVM
+            CommunityUpdateVm model = new CommunityUpdateVm
             {
-                ItemTemplateVMs = Enumerable.Range(0, 5).Select(i => new MemberProfileItemTemplateVM()).ToList()
+                ItemTemplateVMs = Enumerable.Range(0, 5).Select(i => new MemberProfileItemTemplateVm()).ToList()
             };
 
             return model;
         }
 
-        public async Task<int> PostAsync(string appUserId, CommunityUpdateVM data)
+        public async Task<int> PostAsync(string appUserId, CommunityUpdateVm data)
         {
             Community community = new Community { Name = data.Name };
             _communityRepository.Add(community);

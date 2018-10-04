@@ -59,7 +59,7 @@ namespace SharpMember.Controllers
         // POST: Communities/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CommunityUpdateVM data)
+        public async Task<ActionResult> Create(CommunityUpdateVm data)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace SharpMember.Controllers
         // POST: Communities/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CommunityUpdateVM data, int id, string command, int addMore = 0)
+        public async Task<ActionResult> Edit(CommunityUpdateVm data, int id, string command, int addMore = 0)
         {
             try
             {
@@ -143,21 +143,21 @@ namespace SharpMember.Controllers
 
         [HttpPost("/[controller]/{commId}/members")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Members(CommunityMembersVM model, int commId)
+        public async Task<IActionResult> Members(CommunityMembersVm model, int commId)
         {
             await _memberIndexViewService.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Members), new { commId = commId });
         }
 
         [Route("/[controller]/{commId}/groups")]
-        public ActionResult<CommunityGroupsVM> Groups(int commId)
+        public ActionResult<CommunityGroupsVm> Groups(int commId)
         {
             return View(_communityGroupsViewService.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/groups")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Groups(CommunityGroupsVM model, int commId)
+        public async Task<IActionResult> Groups(CommunityGroupsVm model, int commId)
         {
             await _communityGroupsViewService.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Groups), new { commId = commId });

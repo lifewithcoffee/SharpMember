@@ -37,14 +37,14 @@ namespace SharpMember.Core
                 {
                     Mapper.Initialize(cfg =>
                     {
-                        cfg.CreateMap<Member, MemberUpdateVM>();
-                        cfg.CreateMap<MemberUpdateVM, Member>();
+                        cfg.CreateMap<Member, MemberUpdateVm>();
+                        cfg.CreateMap<MemberUpdateVm, Member>();
 
-                        cfg.CreateMap<GroupUpdateVM, Group>();
-                        cfg.CreateMap<Group, GroupUpdateVM>();
+                        cfg.CreateMap<GroupUpdateVm, Group>();
+                        cfg.CreateMap<Group, GroupUpdateVm>();
 
-                        cfg.CreateMap<CommunityUpdateVM, Community>();
-                        cfg.CreateMap<Community, CommunityUpdateVM>();
+                        cfg.CreateMap<CommunityUpdateVm, Community>();
+                        cfg.CreateMap<Community, CommunityUpdateVm>();
                     });
                     automapper_initialized = true;
                 }

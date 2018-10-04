@@ -9,8 +9,8 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
     public interface ICommunityIndexViewService
     {
-        CommunityIndexVM Get();
-        void Post(CommunityIndexVM data);
+        CommunityIndexVm Get();
+        void Post(CommunityIndexVm data);
     }
 
     public class CommunityIndexViewService : ICommunityIndexViewService
@@ -22,7 +22,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _communityRepository = communityRepository;
         }
 
-        public CommunityIndexVM Get()
+        public CommunityIndexVm Get()
         {
             var commItems = _communityRepository.GetAll().ToList().Select(o => {
 
@@ -33,12 +33,12 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
                 else
                     intro = trim;
 
-                return new CommunityIndexItemVM { Name = o.Name, Id = o.Id, Introduction = intro };
+                return new CommunityIndexItemVm { Name = o.Name, Id = o.Id, Introduction = intro };
             }).ToList();
-            return  new CommunityIndexVM { ItemViewModels = commItems };
+            return  new CommunityIndexVm { ItemViewModels = commItems };
         }
 
-        public void Post(CommunityIndexVM data)
+        public void Post(CommunityIndexVm data)
         {
             throw new NotImplementedException();
         }
