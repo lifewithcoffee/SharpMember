@@ -89,18 +89,14 @@ namespace SharpMember.Controllers
             {
                 try
                 {
-                    await _groupEditViewService.PostAsync(group);
+                    await _groupEditViewService.PostToUpdateAsync(group);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!GroupExists(@group.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction("Edit", new { id = id });
             }

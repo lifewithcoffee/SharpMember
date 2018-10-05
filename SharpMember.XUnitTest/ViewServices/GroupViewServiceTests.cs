@@ -1,4 +1,6 @@
-﻿using SharpMember.Core.Views.ViewServices.GroupViewServices;
+﻿using Microsoft.EntityFrameworkCore;
+using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Views.ViewServices.GroupViewServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,6 +47,32 @@ namespace U.ViewServices
 
             int memberVmNumber2 = groupEditViewService.Get(community.Groups[2].Id).MemberItemVms.Count;
             Assert.Equal(memberNumber2, memberVmNumber2);
+        }
+
+        [Fact]
+        public async Task Group_editView_delete_selected_members()
+        {
+            // populate testing data
+            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            int totalMemberNumberBefore = community.Members.Count;
+            int groupMemberNumberBefore = community.Groups[2].GroupMemberRelations.Count;
+            Assert.True(totalMemberNumberBefore > 0);
+            Assert.True(groupMemberNumberBefore > 0);
+
+            // do change: remove members from group
+            var viewModel = _fixture.GetService<IGroupEditViewService>().Get(community.Groups[2].Id);
+            viewModel.MemberItemVms[0].Selected = true;
+            viewModel.MemberItemVms[1].Selected = true;
+            await _fixture.GetServiceNewScope<IGroupEditViewService>().PostToDeleteAsync(viewModel);
+
+            // verify: members are removed from group
+            var viewModel2 = _fixture.GetServiceNewScope<IGroupEditViewService>().Get(community.Groups[2].Id);
+            int groupMemberNumberAfter = viewModel2.MemberItemVms.Count;
+            Assert.Equal(groupMemberNumberBefore - 2, groupMemberNumberAfter);
+
+            // verify: make sure the members are not entirely deleted from database
+            int totalMemberNumberAfter = await _fixture.GetServiceNewScope<IMemberRepository>().GetMany(x => x.CommunityId == community.Id).CountAsync();
+            Assert.Equal(totalMemberNumberBefore, totalMemberNumberAfter);
         }
     }
 }

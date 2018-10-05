@@ -14,7 +14,8 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
     public interface IGroupEditViewService
     {
         GroupUpdateVm Get(int id);
-        Task PostAsync(GroupUpdateVm data);
+        Task PostToUpdateAsync(GroupUpdateVm data);
+        Task PostToDeleteAsync(GroupUpdateVm data);
     }
 
     public class GroupEditViewService : IGroupEditViewService
@@ -42,11 +43,16 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             return result;
         }
 
-        public async Task PostAsync(GroupUpdateVm data)
+        public async Task PostToUpdateAsync(GroupUpdateVm data)
         {
             Ensure.IsTrue(data.Id > 0);
             _groupRepository.Update(data.ConvertToGroup());
             await _groupRepository.CommitAsync();
+        }
+
+        public async Task PostToDeleteAsync(GroupUpdateVm data)
+        {
+            throw new NotImplementedException();
         }
     }
 }
