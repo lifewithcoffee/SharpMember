@@ -3,6 +3,7 @@
 @using SharpMember.Core.Views.ViewModels
 @using SharpMember.Controllers
 @using SharpMember.Definitions
+@using SharpMember.Core.Definitions
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,6 +24,7 @@
                             text-area-fields="Introduction,Announcement" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="@PostCommandNames.PostToRemoveMembers" name="command" class="btn btn-default" />
             </div>
         </div>
 
@@ -42,10 +44,12 @@
                         <tr>
                             <td>
                                 <input type="hidden" asp-for="MemberItemVms[i].Id" />
-                                @Html.CheckBoxFor(m => m.MemberItemVms[i].Selected)
+                                <input type="checkbox" asp-for="MemberItemVms[i].Selected" />
+                                @*@Html.CheckBoxFor(m => m.MemberItemVms[i].Selected)*@
                             </td>
                             <td>@Html.DisplayFor(m => m.MemberItemVms[i].MemberNumber)</td>
-                            <td>@Html.DisplayFor(m => m.MemberItemVms[i].Renewed)</td>
+                            @*<td>@Html.CheckBoxFor(m => m.MemberItemVms[i].Renewed)</td>*@
+                            <td><input type="checkbox" asp-for="MemberItemVms[i].Renewed" /></td>
                             <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.MemberItemVms[i].Id"><div>@Model.MemberItemVms[i].Name</div></a></td>
                         </tr>
                     }

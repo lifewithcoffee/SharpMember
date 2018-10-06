@@ -78,22 +78,23 @@ namespace SharpMember.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, GroupUpdateVm group)
+        public async Task<IActionResult> Edit(int id, GroupUpdateVm group, string command)
         {
             if (id != group.Id)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _groupEditViewService.PostToUpdateAsync(group);
+                    if (command == PostCommandNames.PostToRemoveMembers)
+                        await _groupEditViewService.PostToDeleteSelectedMembersAsync(group);
+                    else
+                        await _groupEditViewService.PostToUpdateAsync(group);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupExists(@group.Id))
+                    if (!GroupExists(group.Id))
                         return NotFound();
                     else
                         throw;

@@ -6,7 +6,7 @@ namespace SharpMember.Core.Definitions
 {
     public class PostCommandNames
     {
-        public const string PostToRemoveMembers = nameof(PostCommandNames.PostToRemoveMembers);
+        public const string PostToRemoveMembers = "Remove Selected Member(s)";
         public const string AddMoreItemTemplates = nameof(PostCommandNames.AddMoreItemTemplates);
     }
 }
