@@ -1,6 +1,7 @@
 @model CommunityUpdateVm
 @addTagHelper *,SharpMember
 @using SharpMember.Core.Views.ViewModels
+@using SharpMember.Core.Definitions
 
 @{
     ViewData["Title"] = "View";
@@ -34,7 +35,7 @@
 
             <hr />
             <div class="form-group" style="float: right;">
-                <input type="submit" value="Add More" class="btn btn-default" name="command"/>
+                <input type="submit" value="@PostCommandNames.AddMoreItemTemplates" class="btn btn-default" name="command"/>
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

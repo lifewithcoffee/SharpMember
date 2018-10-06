@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
+using SharpMember.Core.Definitions;
 
 namespace SharpMember.Controllers
 {
@@ -100,7 +101,7 @@ namespace SharpMember.Controllers
                 //string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
                 await _communityEditViewService.PostAsync(data);
 
-                if (command != null)
+                if (command == PostCommandNames.AddMoreItemTemplates)
                     addMore = 10;
 
                 return RedirectToAction(nameof(Edit), new { id = id, addMore = addMore });

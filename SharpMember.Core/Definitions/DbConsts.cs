@@ -8,6 +8,5 @@ namespace SharpMember.Core.Definitions
     static public class DbConsts
     {
         public const string SqliteDbFileName = "Members.sqlite";
-
     }
 }
