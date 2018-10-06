@@ -63,7 +63,7 @@ namespace U.ViewServices
             var viewModel = _fixture.GetService<IGroupEditViewService>().Get(community.Groups[2].Id);
             viewModel.MemberItemVms[0].Selected = true;
             viewModel.MemberItemVms[1].Selected = true;
-            await _fixture.GetServiceNewScope<IGroupEditViewService>().PostToDeleteAsync(viewModel);
+            await _fixture.GetServiceNewScope<IGroupEditViewService>().PostToDeleteSelectedMembersAsync(viewModel);
 
             // verify: members are removed from group
             var viewModel2 = _fixture.GetServiceNewScope<IGroupEditViewService>().Get(community.Groups[2].Id);
