@@ -98,7 +98,7 @@ namespace SharpMember.Core
             {
                 case eDatabaseType.Sqlite:
                     services.AddDbContext<ApplicationDbContext>(
-                        options => options.UseSqlite($"Filename={GlobalConsts.SqliteDbFileName}")
+                        options => options.UseSqlite($"Filename={DbConsts.SqliteDbFileName}")
                     );
                     break;
                 case eDatabaseType.SqlServer:
