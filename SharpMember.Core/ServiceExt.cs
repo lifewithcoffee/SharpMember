@@ -88,6 +88,7 @@ namespace SharpMember.Core
 
             services.AddTransient<IGroupCreateViewService, GroupCreateViewService>();
             services.AddTransient<IGroupEditViewService, GroupEditViewService>();
+            services.AddTransient<IGroupAddMemberViewService, GroupAddMemberViewService>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)

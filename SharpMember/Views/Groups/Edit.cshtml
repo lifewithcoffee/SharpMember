@@ -22,13 +22,9 @@
                             hidden-fields="id,CommunityId"
                             readonly-fields=""
                             text-area-fields="Introduction,Announcement" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-                <input type="submit" value="@PostCommandNames.PostToRemoveMembers" name="command" class="btn btn-default" />
-            </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <table class="table">
                 <thead>
                     <tr>
@@ -55,6 +51,13 @@
                     }
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-3">
+            <ul class="list-group">
+                <li class="list-group-item"><input type="submit" value="Save" class="btn btn-primary" /></li>
+                <li class="list-group-item"><input type="submit" value="@PostCommandNames.PostToRemoveMembers" name="command" class="btn btn-default" /></li>
+                <li class="list-group-item"><a  asp-action="AddMember" asp-route-commId="@Model.Id"><div>Add Members</div></a></li>
+            </ul>
         </div>
     </form>
 </div>

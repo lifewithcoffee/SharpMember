@@ -104,6 +104,24 @@ namespace SharpMember.Controllers
             return View(group);
         }
 
+        public ActionResult<GroupAddMemberVm> AddMember(int id, [FromServices] IGroupAddMemberViewService _vs)
+        {
+            var vm = _vs.GetAsync(id);
+            if (vm == null)
+                return NotFound();
+            return View(vm);
+        }
+
+        //[HttpPost("/[controller]/{groupId}/members")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddMember(int id, GroupAddMemberVm vm, [FromServices] IGroupAddMemberViewService _vs)
+        {
+            if (ModelState.IsValid)
+                _vs.Post(vm);
+            return RedirectToAction(nameof(AddMember), new { groupId = id });
+        }
+
         // GET: Groups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
