@@ -115,10 +115,10 @@ namespace SharpMember.Controllers
         //[HttpPost("/[controller]/{groupId}/members")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddMember(int id, GroupAddMemberVm vm, [FromServices] IGroupAddMemberViewService _vs)
+        public async Task<ActionResult> AddMember(int id, GroupAddMemberVm vm, [FromServices] IGroupAddMemberViewService _vs)
         {
             if (ModelState.IsValid)
-                _vs.Post(vm);
+                await _vs.PostAsync(vm);
             return RedirectToAction(nameof(AddMember), new { groupId = id });
         }
 

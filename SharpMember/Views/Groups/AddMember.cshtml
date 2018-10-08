@@ -7,9 +7,11 @@
 
 <h2>AddMember</h2>
 
-<form asp-action="AddMembers">
+<form asp-action="AddMember">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="GroupId" />
-        <input type="submit" value="Add Selected" class="btn btn-default" />
+    <input type="submit" value="Add Selected" class="btn btn-default" />
+    <a asp-action="Edit" asp-route-id="@Model.GroupId">Go back to group edit view</a>
     <div class="form-horizontal">
         <table class="table">
             <thead>
