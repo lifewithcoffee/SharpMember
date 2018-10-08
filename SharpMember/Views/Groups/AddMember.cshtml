@@ -1,4 +1,6 @@
-﻿
+﻿@model GroupAddMemberVm
+@using SharpMember.Core.Views.ViewModels
+
 @{
     ViewData["Title"] = "AddMember";
 }
@@ -6,4 +8,32 @@
 <h2>AddMember</h2>
 
 <form asp-action="AddMembers">
+    <input type="hidden" asp-for="GroupId" />
+        <input type="submit" value="Add Selected" class="btn btn-default" />
+    <div class="form-horizontal">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="50px">Select</th>
+                    <th width="50px">No.</th>
+                    <th width="80px">@nameof(MemberItemVm.Renewed)</th>
+                    <th>@nameof(MemberItemVm.Name)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.MemberItemVms.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" asp-for="MemberItemVms[i].Id" />
+                            @Html.CheckBoxFor(m => m.MemberItemVms[i].Selected)
+                        </td>
+                        <td>@Html.DisplayFor(m => m.MemberItemVms[i].MemberNumber)</td>
+                        <td>@Html.DisplayFor(m => m.MemberItemVms[i].Renewed)</td>
+                        <td><a asp-action="Edit" asp-controller="Members" asp-route-id="@Model.MemberItemVms[i].Id"><div>@Model.MemberItemVms[i].Name</div></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </form>
