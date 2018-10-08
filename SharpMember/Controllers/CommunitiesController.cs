@@ -21,54 +21,37 @@ namespace SharpMember.Controllers
     {
         ILogger<CommunitiesController> _logger;
         UserManager<ApplicationUser> _userManager;
-        ICommunityIndexViewService _communityIndexViewService;
-        ICommunityCreateViewService _communityCreateViewService;
-        ICommunityEditViewService _communityEditViewService;
-        ICommunityMembersViewService _memberIndexViewService;
-        ICommunityGroupsViewService _communityGroupsViewService;
 
-        public CommunitiesController(
-            ILogger<CommunitiesController> logger,
-            UserManager<ApplicationUser> userManager,
-            ICommunityIndexViewService communityIndexViewService,
-            ICommunityCreateViewService communityCreateViewService,
-            ICommunityEditViewService communityEditViewService,
-            ICommunityMembersViewService memberIndexViewService,
-            ICommunityGroupsViewService communityGroupsViewService
-        ){
+        public CommunitiesController(ILogger<CommunitiesController> logger, UserManager<ApplicationUser> userManager)
+        {
             _logger = logger;
             _userManager = userManager;
-            _communityIndexViewService = communityIndexViewService;
-            _communityCreateViewService = communityCreateViewService;
-            _communityEditViewService = communityEditViewService;
-            _memberIndexViewService = memberIndexViewService;
-            _communityGroupsViewService = communityGroupsViewService;
         }
 
         // GET: Communities
-        public ActionResult Index()
+        public ActionResult Index([FromServices] ICommunityIndexViewService _vs)
         {
-            return View(_communityIndexViewService.Get());
+            return View(_vs.Get());
         }
 
         // GET: Communities/Create
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create([FromServices] ICommunityCreateViewService _vs)
         {
-            return View(_communityCreateViewService.Get());
+            return View(_vs.Get());
         }
 
         // POST: Communities/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CommunityUpdateVm data)
+        public async Task<ActionResult> Create(CommunityUpdateVm data, [FromServices] ICommunityCreateViewService _vs)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                    int returnedOrgId = await _communityCreateViewService.PostAsync(appUserId, data);
+                    int returnedOrgId = await _vs.PostAsync(appUserId, data);
                     return RedirectToAction(nameof(Edit), new { id = returnedOrgId });
                 }
                 return View(data);
@@ -80,11 +63,11 @@ namespace SharpMember.Controllers
         }
 
         // GET: Communities/Edit/5
-        public ActionResult Edit(int id, int addMore = 0)
+        public ActionResult Edit(int id, [FromServices] ICommunityEditViewService _vs, int addMore = 0)
         {
             try
             {
-                return View(_communityEditViewService.Get(id, addMore));
+                return View(_vs.Get(id, addMore));
             }
             catch
             {
@@ -95,12 +78,12 @@ namespace SharpMember.Controllers
         // POST: Communities/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CommunityUpdateVm data, int id, string command, int addMore = 0)
+        public async Task<ActionResult> Edit(CommunityUpdateVm data, int id, string command, [FromServices] ICommunityEditViewService _vs, int addMore = 0)
         {
             try
             {
                 //string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                await _communityEditViewService.PostAsync(data);
+                await _vs.PostAsync(data);
 
                 if (command == PostCommandNames.AddMoreItemTemplates)
                     addMore = 10;
@@ -138,30 +121,30 @@ namespace SharpMember.Controllers
         }
 
         [Route("/[controller]/{commId}/members")]
-        public ActionResult Members(int commId)
+        public ActionResult Members(int commId, [FromServices] ICommunityMembersViewService _vs)
         {
-            return View(_memberIndexViewService.Get(commId));
+            return View(_vs.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/members")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Members(CommunityMembersVm model, int commId)
+        public async Task<IActionResult> Members(CommunityMembersVm model, int commId, [FromServices] ICommunityMembersViewService _vs)
         {
-            await _memberIndexViewService.PostToDeleteSelected(model);
+            await _vs.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Members), new { commId = commId });
         }
 
         [Route("/[controller]/{commId}/groups")]
-        public ActionResult<CommunityGroupsVm> Groups(int commId)
+        public ActionResult<CommunityGroupsVm> Groups(int commId, [FromServices] ICommunityGroupsViewService _vs)
         {
-            return View(_communityGroupsViewService.Get(commId));
+            return View(_vs.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/groups")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Groups(CommunityGroupsVm model, int commId)
+        public async Task<IActionResult> Groups(CommunityGroupsVm model, int commId, [FromServices] ICommunityGroupsViewService _vs)
         {
-            await _communityGroupsViewService.PostToDeleteSelected(model);
+            await _vs.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Groups), new { commId = commId });
         }
     }
