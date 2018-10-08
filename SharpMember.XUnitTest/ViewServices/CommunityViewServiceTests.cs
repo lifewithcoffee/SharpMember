@@ -10,6 +10,7 @@ using U.TestEnv;
 using U.TestEnv.TestService;
 using NetCoreUtils.String;
 using System.Linq;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace U.ViewServices
 {

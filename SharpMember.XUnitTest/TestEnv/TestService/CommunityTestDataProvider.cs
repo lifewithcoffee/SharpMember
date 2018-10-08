@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewModels;
 using NetCoreUtils.Diagnosis;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace U.TestEnv.TestService
 {

@@ -12,6 +12,7 @@ using SharpMember.Core.Data.Models;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Definitions;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace SharpMember.Controllers
 {

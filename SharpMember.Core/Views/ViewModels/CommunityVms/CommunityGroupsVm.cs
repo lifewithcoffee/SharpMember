@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Views.ViewModels
+namespace SharpMember.Core.Views.ViewModels.CommunityVms
 {
     public class CommunityGroupItemVm
     {

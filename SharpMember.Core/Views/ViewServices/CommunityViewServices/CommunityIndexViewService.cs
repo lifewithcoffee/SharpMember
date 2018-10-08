@@ -1,5 +1,6 @@
 ﻿using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 using System;
 using System.Collections.Generic;
 using System.Linq;

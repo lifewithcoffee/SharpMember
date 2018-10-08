@@ -53,11 +53,11 @@
             </table>
         </div>
         <div class="col-md-3">
-            <ul class="list-group">
-                <li class="list-group-item"><input type="submit" value="Save" class="btn btn-primary" /></li>
-                <li class="list-group-item"><input type="submit" value="@PostCommandNames.PostToRemoveMembers" name="command" class="btn btn-default" /></li>
-                <li class="list-group-item"><a  asp-action="AddMember" asp-route-commId="@Model.Id"><div>Add Members</div></a></li>
-            </ul>
+            <div class="list-group">
+                <button type="submit" value="Save" class="list-group-item">Save</button>
+                <button type="submit" value="@PostCommandNames.PostToRemoveMembers" name="command" class="list-group-item">@PostCommandNames.PostToRemoveMembers</button>
+                <a  asp-action="AddMember" asp-route-commId="@Model.Id" class="list-group-item"><div>Add Members</div></a>
+            </div>
         </div>
     </form>
 </div>

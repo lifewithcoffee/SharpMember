@@ -19,6 +19,7 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace SharpMember.Core
 {
