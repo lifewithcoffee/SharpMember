@@ -106,7 +106,7 @@ namespace SharpMember.Controllers
 
         public ActionResult<GroupAddMemberVm> AddMember(int id, [FromServices] IGroupAddMemberViewService _vs)
         {
-            var vm = _vs.GetAsync(id);
+            var vm = _vs.Get(id);
             if (vm == null)
                 return NotFound();
             return View(vm);

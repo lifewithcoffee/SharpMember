@@ -74,5 +74,22 @@ namespace U.ViewServices
             int totalMemberNumberAfter = await _fixture.GetServiceNewScope<IMemberRepository>().GetMany(x => x.CommunityId == community.Id).CountAsync();
             Assert.Equal(totalMemberNumberBefore, totalMemberNumberAfter);
         }
+
+        [Fact]
+        public async Task Group_addMemberView_should_only_list_members_not_in_the_current_group()
+        {
+            // populate testing data
+            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            int totalMemberNumber = community.Members.Count;
+            int groupMemberNumber = community.Groups[2].GroupMemberRelations.Count;
+
+            // get addMember view's item number
+            int groupId = community.Groups[2].Id;
+            var vm = _fixture.GetServiceNewScope<IGroupAddMemberViewService>().Get(groupId);
+            int viewItemNumber = vm.MemberItemVms.Count;
+
+            // verify
+            Assert.Equal(totalMemberNumber - groupMemberNumber, viewItemNumber);
+        }
     }
 }

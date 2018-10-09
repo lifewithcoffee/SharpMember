@@ -11,7 +11,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
     public interface IGroupAddMemberViewService
     {
-        GroupAddMemberVm GetAsync(int groupId);
+        GroupAddMemberVm Get(int groupId);
         Task PostAsync(GroupAddMemberVm vm);
     }
 
@@ -28,7 +28,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             _groupRepo = groupRepo;
         }
 
-        public GroupAddMemberVm GetAsync(int groupId)
+        public GroupAddMemberVm Get(int groupId)
         {
             var communityId = _groupRepo.GetById(groupId).CommunityId;
 
