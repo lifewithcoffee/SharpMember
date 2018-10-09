@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace SharpMember.Core.Views.ViewModels
 {
@@ -28,5 +29,6 @@ namespace SharpMember.Core.Views.ViewModels
     public class MemberUpdateVm : MemberEntity
     {
         public List<MemberProfileItemVm> ProfileItemViewModels { get; set; } = new List<MemberProfileItemVm>();
+        public List<CommunityGroupItemVm> GroupList { get; set; } = new List<CommunityGroupItemVm>();
     }
 }

@@ -15,7 +15,8 @@
 
 <form asp-action="Edit">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
+            Basic Information
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -26,14 +27,24 @@
                             text-area-fields="remarks" />
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-4">
+            Additional Information
             <hr />
             @await Html.PartialAsync("_ProfileItemsForm")
+        </div>
+
+        <div class="col-md-4">
+            groups
+            <hr/>
+            @for(int i=0; i<Model.GroupList.Count; i++)
+            {
+                <a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.GroupList[i].Id"><div>@Model.GroupList[i].Name</div></a>
+            }
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <hr />
             <div class="form-group" style="float: right;">
                 <input type="submit" value="Save" class="btn btn-default" />

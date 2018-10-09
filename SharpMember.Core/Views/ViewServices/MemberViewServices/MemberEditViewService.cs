@@ -3,6 +3,7 @@ using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Mappers;
 using SharpMember.Core.Views.ViewModels;
+using SharpMember.Core.Views.ViewModels.CommunityVms;
 using SharpMember.Utils;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,17 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
         IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
+        IGroupMemberRelationRepository _groupMemberRelationRepository;
+
         public MemberEditViewService(
             IMemberRepository memberRepo,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository,
+            IGroupMemberRelationRepository groupMemberRelationRepository
         )
         {
             _memberRepository = memberRepo;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
+            _groupMemberRelationRepository = groupMemberRelationRepository;
         }
 
         public async Task<MemberUpdateVm> GetAsync(int id)
@@ -54,6 +59,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 
             var newItemVms = await ConvertTo.MemberProfileItemVMList(newItems, _memberProfileItemTemplateRepository);
             result.ProfileItemViewModels.AddRange(newItemVms);
+            result.GroupList = GetGroups(id);
 
             return result;
         }
@@ -66,6 +72,14 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
             _memberRepository.Update(member);
             await _memberRepository.CommitAsync();
+        }
+
+        private List<CommunityGroupItemVm> GetGroups(int memberId)
+        {
+            return _groupMemberRelationRepository.GetMany(x => x.MemberId == memberId)
+                                                 .Include(x => x.Group)
+                                                 .Select(x => new CommunityGroupItemVm { Id = x.GroupId, Name = x.Group.Name, Introduction = x.Group.Introduction })
+                                                 .ToList();
         }
     }
 }
