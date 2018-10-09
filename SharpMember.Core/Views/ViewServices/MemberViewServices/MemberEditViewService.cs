@@ -78,7 +78,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
         {
             return _groupMemberRelationRepository.GetMany(x => x.MemberId == memberId)
                                                  .Include(x => x.Group)
-                                                 .Select(x => new CommunityGroupItemVm { Id = x.GroupId, Name = x.Group.Name, Introduction = x.Group.Introduction })
+                                                 .Select(x => new CommunityGroupItemVm { Id = x.GroupId, Name = x.Group.Name, Introduction = x.Group.Description })
                                                  .ToList();
         }
     }

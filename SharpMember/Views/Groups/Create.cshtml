@@ -18,7 +18,7 @@
                             instance=@Model
                             hidden-fields="id,CommunityId"
                             readonly-fields=""
-                            text-area-fields="Introduction,Announcement" /> 
+                            text-area-fields="@nameof(Model.Description)" /> 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

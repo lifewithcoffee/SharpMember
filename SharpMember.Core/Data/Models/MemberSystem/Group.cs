@@ -12,8 +12,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Introduction { get; set; }
-        public string Announcement { get; set; }
+        public string Description { get; set; }
         public int CommunityId { get; set; }
     }
 

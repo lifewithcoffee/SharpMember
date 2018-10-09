@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace SharpMember.Core.Data.Migrations
 {
@@ -25,11 +24,11 @@ namespace SharpMember.Core.Data.Migrations
                 name: "Communities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Announcement = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Introduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Introduction = table.Column<string>(nullable: true),
+                    Announcement = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,8 +39,8 @@ namespace SharpMember.Core.Data.Migrations
                 name: "GlobalSettings",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,12 +51,11 @@ namespace SharpMember.Core.Data.Migrations
                 name: "Groups",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Announcement = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CommunityId = table.Column<int>(type: "int", nullable: false),
-                    Introduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    CommunityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,11 +72,11 @@ namespace SharpMember.Core.Data.Migrations
                 name: "MemberProfileItemTemplates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CommunityId = table.Column<int>(type: "int", nullable: false),
-                    IsRequired = table.Column<bool>(type: "bit", nullable: false),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ItemName = table.Column<string>(nullable: true),
+                    IsRequired = table.Column<bool>(nullable: false),
+                    CommunityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,19 +93,19 @@ namespace SharpMember.Core.Data.Migrations
                 name: "Members",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CancellationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CommunityId = table.Column<int>(type: "int", nullable: false),
-                    CommunityRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    MemberNumber = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Renewed = table.Column<bool>(type: "bit", nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    CommunityRole = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    MemberNumber = table.Column<int>(nullable: false),
+                    Renewed = table.Column<bool>(nullable: false),
+                    RegistrationDate = table.Column<DateTime>(nullable: true),
+                    CancellationDate = table.Column<DateTime>(nullable: true),
+                    Level = table.Column<int>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    CommunityId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -130,9 +128,9 @@ namespace SharpMember.Core.Data.Migrations
                 name: "GroupMemberRelation",
                 columns: table => new
                 {
-                    MemberId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
-                    GroupRole = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    MemberId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false),
+                    GroupRole = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -155,11 +153,11 @@ namespace SharpMember.Core.Data.Migrations
                 name: "MemberProfileItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ItemValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MemberId = table.Column<int>(type: "int", nullable: false),
-                    MemberProfileItemTemplateId = table.Column<int>(type: "int", nullable: false)
+                    ItemValue = table.Column<string>(nullable: true),
+                    MemberId = table.Column<int>(nullable: false),
+                    MemberProfileItemTemplateId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
