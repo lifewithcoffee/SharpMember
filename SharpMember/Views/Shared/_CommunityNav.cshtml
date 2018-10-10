@@ -1,0 +1,5 @@
+﻿@model int
+@using SharpMember.Core.Views.ViewModels
+
+<a asp-action="Members" asp-controller="Communities" asp-route-commId="@Model"><div>All Members</div></a>
+<a asp-action="Groups" asp-controller="Communities" asp-route-commId="@Model"><div>All Groups</div></a>

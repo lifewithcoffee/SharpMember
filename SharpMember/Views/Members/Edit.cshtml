@@ -34,8 +34,9 @@
         </div>
 
         <div class="col-md-4">
-            groups
+            @await Html.PartialAsync("_CommunityNav", @Model.CommunityId)
             <hr/>
+            <h5>Member Groups:</h5>
             @for(int i=0; i<Model.GroupList.Count; i++)
             {
                 <a asp-action="Edit" asp-controller="Groups" asp-route-id="@Model.GroupList[i].Id"><div>@Model.GroupList[i].Name</div></a>

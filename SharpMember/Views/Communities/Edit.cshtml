@@ -43,8 +43,7 @@
     <div class="col-md-2">
         <hr />
         <a asp-action="Index"><div>Back to Community List</div></a>
-        <a asp-action="Members" asp-route-commId="@Model.Id"><div>Members</div></a>
-        <a asp-action="Groups" asp-route-commId="@Model.Id"><div>Groups</div></a>
+        @await Html.PartialAsync("_CommunityNav", @Model.Id)
     </div>
 </div>
 

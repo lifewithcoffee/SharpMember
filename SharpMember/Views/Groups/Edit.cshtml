@@ -53,6 +53,8 @@
             </table>
         </div>
         <div class="col-md-3">
+            @await Html.PartialAsync("_CommunityNav", @Model.CommunityId)
+            <hr/>
             <div class="list-group">
                 <button type="submit" value="Save" class="list-group-item">Save</button>
                 <button type="submit" value="@PostCommandNames.PostToRemoveMembers" name="command" class="list-group-item">@PostCommandNames.PostToRemoveMembers</button>
