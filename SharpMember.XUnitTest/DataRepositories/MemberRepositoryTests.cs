@@ -75,7 +75,7 @@ namespace U.DataRepositories
             {
                 var itemTemplateRepo2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
-                itemTemplateRepo2.Delete(templateToBeDeleted);
+                itemTemplateRepo2.Remove(templateToBeDeleted);
                 await itemTemplateRepo2.CommitAsync();
             }
 

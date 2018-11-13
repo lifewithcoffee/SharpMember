@@ -73,7 +73,7 @@ namespace U.DataRepositories
             // delete
             var repoDelete = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
             var deleteTarget = repoDelete.GetMany(t => t.CommunityId == existingOrgId).Last();
-            repoDelete.Delete(deleteTarget);
+            repoDelete.Remove(deleteTarget);
             repoDelete.Commit();
 
             // verify delete

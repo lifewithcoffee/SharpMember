@@ -56,7 +56,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public async Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired)
         {
-            if(await _communityReader.ExistAsync(c => c.Id == commId))
+            if(!await _communityReader.ExistAsync(c => c.Id == commId))
             {
                 throw new CommunityNotExistsException(commId);
             }
