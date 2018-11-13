@@ -8,11 +8,11 @@ using NetCoreUtils.Database;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IGatheringRepository : IRepositoryBase<Gathering, ApplicationDbContext> { }
+    public interface IGatheringRepository : IRepositoryBase<Gathering> { }
 
     public class GatheringRepository : RepositoryBase<Gathering, ApplicationDbContext>, IGatheringRepository
     {
-        public GatheringRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<GatheringRepository> logger) : base(unitOfWork, logger)
+        public GatheringRepository(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork)
         {
         }
     }

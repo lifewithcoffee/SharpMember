@@ -54,7 +54,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _communityRepository.Update(data.ConvertToCommunityWithoutNavProp());
             await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.DeleteRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
+            _memberProfileItemTemplateRepository.RemoveRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
             _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Where(x => !x.Delete && !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Select(x => x.ItemTemplate).ToList());
 
             await _communityRepository.CommitAsync();

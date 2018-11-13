@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using SharpMember.Core.Definitions;
 using AutoMapper;
+using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IMemberProfileItemTemplateRepository : IRepositoryBase<MemberProfileItemTemplate, ApplicationDbContext>
+    public interface IMemberProfileItemTemplateRepository : IRepositoryBase<MemberProfileItemTemplate>
     {
         IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId);
         Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired);
@@ -20,7 +21,15 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberProfileItemTemplateRepository : RepositoryBase<MemberProfileItemTemplate, ApplicationDbContext>, IMemberProfileItemTemplateRepository
     {
-        public MemberProfileItemTemplateRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberProfileItemTemplateRepository> logger) : base(unitOfWork, logger) { }
+        IRepositoryRead<Community> _communityReader;
+
+        public MemberProfileItemTemplateRepository(
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
+            IRepositoryRead<Community> communityReade
+        ) : base(unitOfWork)
+        {
+            _communityReader = communityReade;
+        }
 
         public class MemberProfileItemTemplateIdComparer : IEqualityComparer<MemberProfileItemTemplate>
         {
@@ -47,7 +56,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public async Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired)
         {
-            if(null == await this.UnitOfWork.Context.Communities.FindAsync(commId))
+            if(await _communityReader.ExistAsync(c => c.Id == commId))
             {
                 throw new CommunityNotExistsException(commId);
             }
@@ -70,7 +79,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// </summary>
         public void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates)
         {
-            var community = this.UnitOfWork.Context.Communities.Find(commId);
+            var community = _communityReader.GetById(commId);
             if(null == community)
             {
                 throw new CommunityNotExistsException(commId);

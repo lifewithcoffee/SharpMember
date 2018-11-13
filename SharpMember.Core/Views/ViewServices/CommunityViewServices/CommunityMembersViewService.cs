@@ -37,7 +37,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
         public async Task PostToDeleteSelected(CommunityMembersVm data)
         {
-            _memberRepo.DeleteRange(data.MemberItemVms.Where(x => x.Selected).Select(x => new Member { Id = x.Id }));
+            _memberRepo.RemoveRange(data.MemberItemVms.Where(x => x.Selected).Select(x => new Member { Id = x.Id }));
             await _memberRepo.CommitAsync();
         }
     }

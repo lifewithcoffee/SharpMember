@@ -13,7 +13,7 @@ using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IMemberRepository : IRepositoryBase<Member, ApplicationDbContext>
+    public interface IMemberRepository : IRepositoryBase<Member>
     {
         int GetNextUnassignedMemberNumber(int commId);
         IQueryable<Member> GetByMemberNumber(int commId, int memberNumber);
@@ -24,12 +24,22 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
     {
-        public MemberRepository(IUnitOfWork<ApplicationDbContext> unitOfWork, ILogger<MemberRepository> logger) : base(unitOfWork, logger)
-        { }
+        private readonly IRepositoryRead<Community> _communityRepoReader;
+        private readonly IRepositoryRead<MemberProfileItemTemplate> _memberProfileItemTemplateRepoReader;
+
+        public MemberRepository(
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
+            IRepositoryRead<Community> communityRepoReader,
+            IRepositoryRead<MemberProfileItemTemplate> memberProfileItemTemplateRepoReader
+        ) : base(unitOfWork)
+        {
+            _communityRepoReader = communityRepoReader;
+            _memberProfileItemTemplateRepoReader = memberProfileItemTemplateRepoReader;
+        }
 
         public override Member Add(Member entity)
         {
-            if (null == this.Context.Communities.Find(entity.CommunityId))
+            if(_communityRepoReader.Exist(e => e.Id == entity.CommunityId))
             {
                 throw new CommunityNotExistsException(entity.CommunityId);
             }
@@ -87,13 +97,12 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public async Task<Member> GenerateNewMemberWithProfileItemsAsync(int commId, string appUserId)
         {
-            if (null == this.Context.Communities.Find(commId))
+            if(_communityRepoReader.Exist(e => e.Id == commId))
             {
                 throw new CommunityNotExistsException(commId);
             }
 
-            var memberProfileItems = await this.UnitOfWork.Context.MemberProfileItemTemplates
-                .Where(t => t.CommunityId == commId)
+            var memberProfileItems = await _memberProfileItemTemplateRepoReader.GetManyNoTracking(t => t.CommunityId == commId)
                 .Select(t => new MemberProfileItem { MemberProfileItemTemplateId = t.Id })
                 .ToListAsync();
 

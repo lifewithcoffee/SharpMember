@@ -61,6 +61,11 @@ namespace SharpMember.Core
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
             services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
+
+            services.AddScoped<IRepositoryRead<Community>, RepositoryRead<Community,ApplicationDbContext>>();
+            services.AddScoped<IRepositoryRead<Member>, RepositoryRead<Member,ApplicationDbContext>>();
+            services.AddScoped<IRepositoryRead<MemberProfileItemTemplate>, RepositoryRead<MemberProfileItemTemplate,ApplicationDbContext>>();
+            services.AddScoped<IRepositoryRead<MemberProfileItem>, RepositoryRead<MemberProfileItem,ApplicationDbContext>>();
         }
         
         static private void AddServices(this IServiceCollection services)

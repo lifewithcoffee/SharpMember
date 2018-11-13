@@ -13,7 +13,7 @@ using NetCoreUtils.Database;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface ICommunityRepository : IRepositoryBase<Community, ApplicationDbContext>
+    public interface ICommunityRepository : IRepositoryBase<Community>
     {
         Community Add(string name);
         void CancelMember(string appUserId);
@@ -21,15 +21,11 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class CommunityRepository : RepositoryBase<Community, ApplicationDbContext>, ICommunityRepository
     {
-        IMemberRepository _memberRepository;
 
         public CommunityRepository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
-            ILogger<CommunityRepository> logger,
-            IMemberRepository memberRepository
-        ) : base(unitOfWork, logger)
+            IUnitOfWork<ApplicationDbContext> unitOfWork
+        ) : base(unitOfWork)
         {
-            this._memberRepository = memberRepository;
         }
 
         public Community Add(string name)

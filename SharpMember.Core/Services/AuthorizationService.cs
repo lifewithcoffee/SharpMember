@@ -53,7 +53,7 @@ namespace SharpMember.Core.Services
 
         public void RemoveGroupRole(int memberId, int groupId)
         {
-            _memberGroupRoleRelationRepository.Delete(m => m.MemberId == memberId && m.GroupId == groupId);
+            _memberGroupRoleRelationRepository.Remove(m => m.MemberId == memberId && m.GroupId == groupId);
         }
     }
 }

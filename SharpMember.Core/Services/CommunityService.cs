@@ -3,6 +3,7 @@ using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Definitions;
+using System;
 using System.Threading.Tasks;
 
 namespace SharpMember.Core.Services
@@ -15,7 +16,26 @@ namespace SharpMember.Core.Services
         Community Community { get; set; }
     }
 
-    class CommunityService :  ICommunityService
+    public class EntityServiceBase : ICommittable
+    {
+        IUnitOfWork<ApplicationDbContext> _unitOfWork;
+        public EntityServiceBase(IUnitOfWork<ApplicationDbContext> unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public bool Commit()
+        {
+            return _unitOfWork.Commit();
+        }
+
+        public async Task<bool> CommitAsync()
+        {
+            return await _unitOfWork.CommitAsync();
+        }
+    }
+
+    class CommunityService : EntityServiceBase, ICommunityService
     {
         IUnitOfWork<ApplicationDbContext> _unitOfWork;
         ICommunityRepository _communityRepository;
@@ -29,9 +49,8 @@ namespace SharpMember.Core.Services
             ICommunityRepository communityRepository,
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
-        )
+        ):base(unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             _communityRepository = communityRepository;
             _memberRepository = memberRepository;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
@@ -60,19 +79,5 @@ namespace SharpMember.Core.Services
             await _memberProfileItemTemplateRepository.AddTemplateAsync(this.Community.Id, itemName, required);
         }
 
-        public bool Commit()
-        {
-            return _unitOfWork.Commit();
-        }
-
-        public async Task<bool> CommitAsync()
-        {
-            return await _unitOfWork.CommitAsync();
-        }
-
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
-        }
     }
 }
