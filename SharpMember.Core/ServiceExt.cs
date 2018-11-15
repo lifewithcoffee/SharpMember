@@ -23,6 +23,16 @@ using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace SharpMember.Core
 {
+    public class RepositoryReader<TEntity> : RepositoryRead<TEntity, ApplicationDbContext> where TEntity : class
+    {
+        public RepositoryReader(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork) { }
+    }
+
+    public class RepositoryWriter<TEntity> : RepositoryWrite<TEntity, ApplicationDbContext> where TEntity : class
+    {
+        public RepositoryWriter(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork) { }
+    }
+
     public static class ServiceExt
     {
         static private bool automapper_initialized = false;
@@ -62,10 +72,8 @@ namespace SharpMember.Core
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
             services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
 
-            services.AddScoped<IRepositoryRead<Community>, RepositoryRead<Community,ApplicationDbContext>>();
-            services.AddScoped<IRepositoryRead<Member>, RepositoryRead<Member,ApplicationDbContext>>();
-            services.AddScoped<IRepositoryRead<MemberProfileItemTemplate>, RepositoryRead<MemberProfileItemTemplate,ApplicationDbContext>>();
-            services.AddScoped<IRepositoryRead<MemberProfileItem>, RepositoryRead<MemberProfileItem,ApplicationDbContext>>();
+            services.AddScoped(typeof(IRepositoryRead<>), typeof(RepositoryReader<>));
+            services.AddScoped(typeof(IRepositoryWrite<>), typeof(RepositoryWriter<>));
         }
         
         static private void AddServices(this IServiceCollection services)
