@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Mappers
+namespace SharpMember.Core.Utils.Mappers
 {
     static public class ConvertTo
     {

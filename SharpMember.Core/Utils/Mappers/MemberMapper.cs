@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Mappers
+namespace SharpMember.Core.Utils.Mappers
 {
     public static class MemberMapper<TSource, TTarget>
         where TSource : MemberEntity

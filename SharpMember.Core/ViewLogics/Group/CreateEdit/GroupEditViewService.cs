@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Data.Repositories.MemberSystem;
-using SharpMember.Core.Mappers;
+using SharpMember.Core.Utils.Mappers;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Utils;
 using System;

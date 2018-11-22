@@ -1,6 +1,6 @@
 ﻿using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
-using SharpMember.Core.Mappers;
+using SharpMember.Core.Utils.Mappers;
 using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;
