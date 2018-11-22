@@ -37,7 +37,6 @@ namespace SharpMember.Core.Services
 
     class CommunityService : EntityServiceBase, ICommunityService
     {
-        IUnitOfWork<ApplicationDbContext> _unitOfWork;
         ICommunityRepository _communityRepository;
         IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
