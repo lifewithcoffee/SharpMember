@@ -12,44 +12,42 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SharpMember.Controllers
 {
     //[Authorize]
-    public class MembersController : Controller
+    public class MembersController : ControllerBase
     {
         ApplicationDbContext _context;
         UserManager<ApplicationUser> _userManager;
-        IMemberCreateViewService _memberCreateViewService;
-        IMemberEditViewService _memberEditViewService;
 
         public MembersController(
             ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager,
-            ICommunityMembersViewService memberIndexViewService,
-            IMemberCreateViewService memberCreateViewService,
-            IMemberEditViewService memberEditViewService
+            UserManager<ApplicationUser> userManager
         ){
             _context = context;
             _userManager = userManager;
-            _memberCreateViewService = memberCreateViewService;
-            _memberEditViewService = memberEditViewService;
         }
 
         // GET: Members/Create
         public async Task<IActionResult> Create(int commId)
         {
+            var vs = HttpContext.RequestServices.GetService<IMemberCreateViewService>();
+
             string appUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return View(await this._memberCreateViewService.GetAsync(commId, appUserId));
+            return View(await vs.GetAsync(commId, appUserId));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MemberUpdateVm data)
         {
+            var vs = HttpContext.RequestServices.GetService<IMemberCreateViewService>();
+
             if (ModelState.IsValid)
             {
-                int id = await this._memberCreateViewService.Post(data);
+                int id = await vs.Post(data);
                 return RedirectToAction(nameof(Edit), new { id = id });
             }
             return View(data);
@@ -58,12 +56,13 @@ namespace SharpMember.Controllers
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var vs = GetService<IMemberEditViewService>();
             if (id == null)
             {
                 return NotFound();
             }
 
-            var model = await _memberEditViewService.GetAsync(id.Value);
+            var model = await vs.GetAsync(id.Value);
 
             if (model == null)
             {
@@ -80,6 +79,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, MemberUpdateVm data)
         {
+            var vs = GetService<IMemberEditViewService>();
             if (id != data.Id)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace SharpMember.Controllers
             {
                 try
                 {
-                    await _memberEditViewService.PostAsync(data);
+                    await vs.PostAsync(data);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -13,11 +13,12 @@ using Microsoft.Extensions.Logging;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Definitions;
 using SharpMember.Core.Views.ViewModels.CommunityVms;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SharpMember.Controllers
 {
     //[Authorize]
-    public class CommunitiesController : Controller
+    public class CommunitiesController : ControllerBase
     {
         ILogger<CommunitiesController> _logger;
         UserManager<ApplicationUser> _userManager;
@@ -29,29 +30,32 @@ namespace SharpMember.Controllers
         }
 
         // GET: Communities
-        public ActionResult Index([FromServices] ICommunityIndexViewService _vs)
+        public ActionResult Index()
         {
-            return View(_vs.Get());
+            var vs = GetService<ICommunityIndexViewService>();
+            return View(vs.Get());
         }
 
         // GET: Communities/Create
         [HttpGet]
-        public ActionResult Create([FromServices] ICommunityCreateViewService _vs)
+        public ActionResult Create()
         {
-            return View(_vs.Get());
+            var vs = GetService<ICommunityCreateViewService>();
+            return View(vs.Get());
         }
 
         // POST: Communities/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CommunityUpdateVm data, [FromServices] ICommunityCreateViewService _vs)
+        public async Task<ActionResult> Create(CommunityUpdateVm data)
         {
+            var vs = GetService<ICommunityCreateViewService>();
             try
             {
                 if (ModelState.IsValid)
                 {
                     string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                    int returnedOrgId = await _vs.PostAsync(appUserId, data);
+                    int returnedOrgId = await vs.PostAsync(appUserId, data);
                     return RedirectToAction(nameof(Edit), new { id = returnedOrgId });
                 }
                 return View(data);
@@ -63,11 +67,12 @@ namespace SharpMember.Controllers
         }
 
         // GET: Communities/Edit/5
-        public ActionResult Edit(int id, [FromServices] ICommunityEditViewService _vs, int addMore = 0)
+        public ActionResult Edit(int id, int addMore = 0)
         {
+            var vs = GetService<ICommunityEditViewService>();
             try
             {
-                return View(_vs.Get(id, addMore));
+                return View(vs.Get(id, addMore));
             }
             catch
             {
@@ -78,12 +83,13 @@ namespace SharpMember.Controllers
         // POST: Communities/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CommunityUpdateVm data, int id, string command, [FromServices] ICommunityEditViewService _vs, int addMore = 0)
+        public async Task<ActionResult> Edit(CommunityUpdateVm data, int id, string command, int addMore = 0)
         {
+            var vs = GetService<ICommunityEditViewService>();
             try
             {
                 //string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
-                await _vs.PostAsync(data);
+                await vs.PostAsync(data);
 
                 if (command == PostCommandNames.AddMoreItemTemplates)
                     addMore = 10;
@@ -110,8 +116,6 @@ namespace SharpMember.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -121,30 +125,34 @@ namespace SharpMember.Controllers
         }
 
         [Route("/[controller]/{commId}/members")]
-        public ActionResult Members(int commId, [FromServices] ICommunityMembersViewService _vs)
+        public ActionResult Members(int commId)
         {
-            return View(_vs.Get(commId));
+            var vs = GetService<ICommunityMembersViewService>();
+            return View(vs.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/members")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Members(CommunityMembersVm model, int commId, [FromServices] ICommunityMembersViewService _vs)
+        public async Task<IActionResult> Members(CommunityMembersVm model, int commId)
         {
-            await _vs.PostToDeleteSelected(model);
+            var vs = GetService<ICommunityMembersViewService>();
+            await vs.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Members), new { commId = commId });
         }
 
         [Route("/[controller]/{commId}/groups")]
-        public ActionResult<CommunityGroupsVm> Groups(int commId, [FromServices] ICommunityGroupsViewService _vs)
+        public ActionResult<CommunityGroupsVm> Groups(int commId)
         {
-            return View(_vs.Get(commId));
+            var vs = GetService<ICommunityGroupsViewService>();
+            return View(vs.Get(commId));
         }
 
         [HttpPost("/[controller]/{commId}/groups")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Groups(CommunityGroupsVm model, int commId, [FromServices] ICommunityGroupsViewService _vs)
+        public async Task<IActionResult> Groups(CommunityGroupsVm model, int commId)
         {
-            await _vs.PostToDeleteSelected(model);
+            var vs = GetService<ICommunityGroupsViewService>();
+            await vs.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Groups), new { commId = commId });
         }
     }
