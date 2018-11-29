@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SharpMember.Controllers
+namespace SharpMember.Controllers.APIs
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller

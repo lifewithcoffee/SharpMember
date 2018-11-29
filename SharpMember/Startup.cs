@@ -16,6 +16,10 @@ using SharpMember.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Data;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using SharpMember.Controllers.APIs;
 
 namespace SharpMember
 {
@@ -33,6 +37,22 @@ namespace SharpMember
         {
             services.AddSharpMemberCore(Configuration);
             services.AddMvc();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options => {
+                        options.RequireHttpsMetadata = true;
+                        options.SaveToken = true;
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            // what to validate
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
+                            ValidateIssuerSigningKey = true,
+
+                            // setup validation data
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(UsersController.test_security_key))
+                        };
+                    });
+
             services.AddAuthorization(options => {
                 options.AddPolicy(PolicyNames.RequireRoleOf_CommunityOwner,
                     policy =>
