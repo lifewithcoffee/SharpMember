@@ -37,7 +37,7 @@ namespace U.ViewServices
             Assert.True(memberNumber2 > 0);
 
             // verify
-            var groupEditViewService = _fixture.GetService<IGroupEditViewService>();
+            var groupEditViewService = _fixture.GetService<IGroupEditHandler>();
 
             int memberVmNumber0 = groupEditViewService.Get(community.Groups[0].Id).MemberItemVms.Count;
             Assert.Equal(memberNumber0, memberVmNumber0);
@@ -60,13 +60,13 @@ namespace U.ViewServices
             Assert.True(groupMemberNumberBefore > 0);
 
             // do change: remove members from group
-            var viewModel = _fixture.GetService<IGroupEditViewService>().Get(community.Groups[2].Id);
+            var viewModel = _fixture.GetService<IGroupEditHandler>().Get(community.Groups[2].Id);
             viewModel.MemberItemVms[0].Selected = true;
             viewModel.MemberItemVms[1].Selected = true;
-            await _fixture.GetServiceNewScope<IGroupEditViewService>().PostToDeleteSelectedMembersAsync(viewModel);
+            await _fixture.GetServiceNewScope<IGroupEditHandler>().PostToDeleteSelectedMembersAsync(viewModel);
 
             // verify: members are removed from group
-            var viewModel2 = _fixture.GetServiceNewScope<IGroupEditViewService>().Get(community.Groups[2].Id);
+            var viewModel2 = _fixture.GetServiceNewScope<IGroupEditHandler>().Get(community.Groups[2].Id);
             int groupMemberNumberAfter = viewModel2.MemberItemVms.Count;
             Assert.Equal(groupMemberNumberBefore - 2, groupMemberNumberAfter);
 
@@ -85,7 +85,7 @@ namespace U.ViewServices
 
             // get addMember view's item number
             int groupId = community.Groups[2].Id;
-            var vm = _fixture.GetServiceNewScope<IGroupAddMemberViewService>().Get(groupId);
+            var vm = _fixture.GetServiceNewScope<IGroupAddMemberHandler>().Get(groupId);
             int viewItemNumber = vm.MemberItemVms.Count;
 
             // verify

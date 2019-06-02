@@ -12,19 +12,19 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
-    public interface ICommunityEditViewService
+    public interface ICommunityEditHandler
     {
         CommunityUpdateVm Get(int commId, int addMore);
         Task PostAsync(CommunityUpdateVm data);
     }
 
-    public class CommunityEditViewService : ICommunityEditViewService
+    public class CommunityEditHandler : ICommunityEditHandler
     {
         IRepositoryBase<Community> _communityRepository;
         IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
-        public CommunityEditViewService(
+        public CommunityEditHandler(
             IRepositoryBase<Community> orgRepo,
             IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository

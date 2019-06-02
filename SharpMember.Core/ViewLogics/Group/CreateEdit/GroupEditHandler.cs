@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
-    public interface IGroupEditViewService
+    public interface IGroupEditHandler
     {
         GroupUpdateVm Get(int id);
         Task PostToUpdateAsync(GroupUpdateVm data);
         Task PostToDeleteSelectedMembersAsync(GroupUpdateVm data);
     }
 
-    public class GroupEditViewService : IGroupEditViewService
+    public class GroupEditHandler : IGroupEditHandler
     {
         IRepositoryBase<Group> _groupRepository;
 
-        public GroupEditViewService(IRepositoryBase<Group> groupRepository)
+        public GroupEditHandler(IRepositoryBase<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
-    public interface ICommunityMembersViewService
+    public interface ICommunityMembersHandler
     {
         CommunityMembersVm Get(int commId);
         Task PostToDeleteSelected(CommunityMembersVm data);
     }
 
-    public class CommunityMembersViewService : ICommunityMembersViewService
+    public class CommunityMembersHandler : ICommunityMembersHandler
     {
         IRepositoryBase<Member> _memberRepo;
 
-        public CommunityMembersViewService(IRepositoryBase<Member> memberRepo)
+        public CommunityMembersHandler(IRepositoryBase<Member> memberRepo)
         {
             _memberRepo = memberRepo;
         }

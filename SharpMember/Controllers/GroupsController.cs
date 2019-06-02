@@ -31,7 +31,7 @@ namespace SharpMember.Controllers
         // GET: Groups/Create
         public IActionResult Create(int commId)
         {
-            var vs = GetService<IGroupCreateViewService>();
+            var vs = GetService<IGroupCreateHandler>();
             return View(vs.GetAsync(commId));
         }
 
@@ -42,7 +42,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(GroupUpdateVm group)
         {
-            var vs = GetService<IGroupCreateViewService>();
+            var vs = GetService<IGroupCreateHandler>();
             if (ModelState.IsValid)
             {
                 int newGroupId = await vs.Post(group);
@@ -54,7 +54,7 @@ namespace SharpMember.Controllers
         // GET: Groups/Edit/5
         public IActionResult Edit(int? id)
         {
-            var vs = GetService<IGroupEditViewService>();
+            var vs = GetService<IGroupEditHandler>();
             //await this._authorizationService.AuthorizeAsync(User, new Group(), PolicyName.RequireRoleOf_GroupOwner);
 
             if (id == null)
@@ -77,7 +77,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, GroupUpdateVm group, string command)
         {
-            var vs = GetService<IGroupEditViewService>();
+            var vs = GetService<IGroupEditHandler>();
 
             if (id != group.Id)
                 return NotFound();
@@ -105,7 +105,7 @@ namespace SharpMember.Controllers
 
         public ActionResult<GroupAddMemberVm> AddMember(int id)
         {
-            var vm = GetService<IGroupAddMemberViewService>().Get(id);
+            var vm = GetService<IGroupAddMemberHandler>().Get(id);
             if (vm == null)
                 return NotFound();
             return View(vm);
@@ -116,7 +116,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddMember(int id, GroupAddMemberVm vm)
         {
-            var vs = GetService<IGroupAddMemberViewService>();
+            var vs = GetService<IGroupAddMemberHandler>();
             if (ModelState.IsValid)
                 await vs.PostAsync(vm);
             return RedirectToAction(nameof(AddMember), new { groupId = id });

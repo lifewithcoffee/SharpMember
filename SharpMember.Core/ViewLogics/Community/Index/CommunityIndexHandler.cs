@@ -10,17 +10,17 @@ using System.Text;
 
 namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
-    public interface ICommunityIndexViewService
+    public interface ICommunityIndexHandler
     {
         CommunityIndexVm Get();
         void Post(CommunityIndexVm data);
     }
 
-    public class CommunityIndexViewService : ICommunityIndexViewService
+    public class CommunityIndexHandler : ICommunityIndexHandler
     {
         IRepositoryBase<Community> _communityRepository;
 
-        public CommunityIndexViewService(IRepositoryBase<Community> communityRepository)
+        public CommunityIndexHandler(IRepositoryBase<Community> communityRepository)
         {
             _communityRepository = communityRepository;
         }

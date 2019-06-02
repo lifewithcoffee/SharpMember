@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
-    public interface IGroupCreateViewService
+    public interface IGroupCreateHandler
     {
         GroupUpdateVm GetAsync(int commId);
         Task<int> Post(GroupUpdateVm data);
     }
 
-    public class GroupCreateViewService : IGroupCreateViewService
+    public class GroupCreateHandler : IGroupCreateHandler
     {
         IRepositoryBase<Group> _groupRepository;
 
-        public GroupCreateViewService(IRepositoryBase<Group> groupRepository)
+        public GroupCreateHandler(IRepositoryBase<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

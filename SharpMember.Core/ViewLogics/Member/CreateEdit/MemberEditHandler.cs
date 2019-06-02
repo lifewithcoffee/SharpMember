@@ -14,20 +14,20 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 {
-    public interface IMemberEditViewService
+    public interface IMemberEditHandler
     {
         Task<MemberUpdateVm> GetAsync(int id);
         Task PostAsync(MemberUpdateVm data);
     }
 
-    public class MemberEditViewService : IMemberEditViewService
+    public class MemberEditHandler : IMemberEditHandler
     {
         IRepositoryBase<Member> _memberRepository;
         IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
 
         IRepositoryBase<GroupMemberRelation> _groupMemberRelationRepository;
 
-        public MemberEditViewService(
+        public MemberEditHandler(
             IRepositoryBase<Member> memberRepo,
             IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository,
             IRepositoryBase<GroupMemberRelation> groupMemberRelationRepository

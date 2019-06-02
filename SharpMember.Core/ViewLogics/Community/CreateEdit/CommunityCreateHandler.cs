@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 {
-    public interface ICommunityCreateViewService
+    public interface ICommunityCreateHandler
     {
         CommunityUpdateVm Get();
         Task<int> PostAsync(string appUserId, CommunityUpdateVm data);
     }
 
-    public class CommunityCreateViewService : ICommunityCreateViewService
+    public class CommunityCreateHandler : ICommunityCreateHandler
     {
         IRepositoryBase<Community> _communityRepository;
         IRepositoryBase<Member> _memberRepo;
@@ -26,7 +26,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
-        public CommunityCreateViewService(
+        public CommunityCreateHandler(
             IRepositoryBase<Community> orgRepo,
             IRepositoryBase<Member> memberRepo,
             IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepo,

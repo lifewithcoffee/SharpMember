@@ -115,19 +115,19 @@ namespace SharpMember.Core
 
         static private void AddViewServices(this IServiceCollection services)
         {
-            services.AddTransient<IMemberCreateViewService, MemberCreateViewService>();
-            services.AddTransient<IMemberEditViewService, MemberEditViewService>();
+            services.AddTransient<IMemberCreateHandler, MemberCreateHandler>();
+            services.AddTransient<IMemberEditHandler, MemberEditHandler>();
 
-            services.AddTransient<ICommunityIndexViewService, CommunityIndexViewService>();
-            services.AddTransient<ICommunityCreateViewService, CommunityCreateViewService>();
-            services.AddTransient<ICommunityEditViewService, CommunityEditViewService>();
+            services.AddTransient<ICommunityIndexHandler, CommunityIndexHandler>();
+            services.AddTransient<ICommunityCreateHandler, CommunityCreateHandler>();
+            services.AddTransient<ICommunityEditHandler, CommunityEditHandler>();
 
-            services.AddTransient<ICommunityMembersViewService, CommunityMembersViewService>();
-            services.AddTransient<ICommunityGroupsViewService, CommunityGroupsViewService>();
+            services.AddTransient<ICommunityMembersHandler, CommunityMembersHandler>();
+            services.AddTransient<ICommunityGroupsHandler, CommunityGroupsHandler>();
 
-            services.AddTransient<IGroupCreateViewService, GroupCreateViewService>();
-            services.AddTransient<IGroupEditViewService, GroupEditViewService>();
-            services.AddTransient<IGroupAddMemberViewService, GroupAddMemberViewService>();
+            services.AddTransient<IGroupCreateHandler, GroupCreateHandler>();
+            services.AddTransient<IGroupEditHandler, GroupEditHandler>();
+            services.AddTransient<IGroupAddMemberHandler, GroupAddMemberHandler>();
         }
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)

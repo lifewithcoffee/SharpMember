@@ -26,11 +26,11 @@ namespace U.ViewServices
             var (appUserId, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
 
             // case 1: create by user with appUserId
-            var model1 = await _fixture.GetService<IMemberCreateViewService>().GetAsync(model_post.Id, appUserId);
+            var model1 = await _fixture.GetService<IMemberCreateHandler>().GetAsync(model_post.Id, appUserId);
             Assert.Equal(2, model1.ProfileItemViewModels.Count);
 
             // case 2: create by admin with no appUserId
-            var model2 = await _fixture.GetService<IMemberCreateViewService>().GetAsync(model_post.Id, null);
+            var model2 = await _fixture.GetService<IMemberCreateHandler>().GetAsync(model_post.Id, null);
             Assert.Equal(2, model2.ProfileItemViewModels.Count);
         }
 
@@ -39,13 +39,13 @@ namespace U.ViewServices
         {
             var (appUserId, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
 
-            var model_get = _fixture.GetService<ICommunityEditViewService>().Get(model_post.Id,0);
+            var model_get = _fixture.GetService<ICommunityEditHandler>().Get(model_post.Id,0);
             int templateNumberBeforeDelete = model_get.ItemTemplateVMs.Count;
             model_get.ItemTemplateVMs[0].Delete = true;
             model_get.ItemTemplateVMs[1].Delete = true;
-            await _fixture.GetServiceNewScope<ICommunityEditViewService>().PostAsync(model_get);
+            await _fixture.GetServiceNewScope<ICommunityEditHandler>().PostAsync(model_get);
 
-            int templateNumberAfterDelete = _fixture.GetServiceNewScope<ICommunityEditViewService>().Get(model_post.Id, 0).ItemTemplateVMs.Count;
+            int templateNumberAfterDelete = _fixture.GetServiceNewScope<ICommunityEditHandler>().Get(model_post.Id, 0).ItemTemplateVMs.Count;
             Assert.Equal(templateNumberAfterDelete, templateNumberBeforeDelete - 2);
         }
     }

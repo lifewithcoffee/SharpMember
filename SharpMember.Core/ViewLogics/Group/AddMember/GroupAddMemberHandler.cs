@@ -10,19 +10,19 @@ using NetCoreUtils.Database;
 
 namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
-    public interface IGroupAddMemberViewService
+    public interface IGroupAddMemberHandler
     {
         GroupAddMemberVm Get(int groupId);
         Task PostAsync(GroupAddMemberVm vm);
     }
 
-    public class GroupAddMemberViewService : IGroupAddMemberViewService
+    public class GroupAddMemberHandler : IGroupAddMemberHandler
     {
         IRepositoryBase<Group> _groupRepo;
         IRepositoryBase<Member> _memberRepo;
         IRepositoryBase<GroupMemberRelation> _groupMemberRelationRepo;
 
-        public GroupAddMemberViewService(IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> groupMemberRelationRepo, IRepositoryBase<Group> groupRepo)
+        public GroupAddMemberHandler(IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> groupMemberRelationRepo, IRepositoryBase<Group> groupRepo)
         {
             _memberRepo = memberRepo;
             _groupMemberRelationRepo = groupMemberRelationRepo;

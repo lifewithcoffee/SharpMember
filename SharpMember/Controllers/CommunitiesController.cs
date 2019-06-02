@@ -32,7 +32,7 @@ namespace SharpMember.Controllers
         // GET: Communities
         public ActionResult Index()
         {
-            var vs = GetService<ICommunityIndexViewService>();
+            var vs = GetService<ICommunityIndexHandler>();
             return View(vs.Get());
         }
 
@@ -40,7 +40,7 @@ namespace SharpMember.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var vs = GetService<ICommunityCreateViewService>();
+            var vs = GetService<ICommunityCreateHandler>();
             return View(vs.Get());
         }
 
@@ -49,7 +49,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CommunityUpdateVm data)
         {
-            var vs = GetService<ICommunityCreateViewService>();
+            var vs = GetService<ICommunityCreateHandler>();
             try
             {
                 if (ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace SharpMember.Controllers
         // GET: Communities/Edit/5
         public ActionResult Edit(int id, int addMore = 0)
         {
-            var vs = GetService<ICommunityEditViewService>();
+            var vs = GetService<ICommunityEditHandler>();
             try
             {
                 return View(vs.Get(id, addMore));
@@ -85,7 +85,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(CommunityUpdateVm data, int id, string command, int addMore = 0)
         {
-            var vs = GetService<ICommunityEditViewService>();
+            var vs = GetService<ICommunityEditHandler>();
             try
             {
                 //string appUserId = await _userManager.GetUserIdAsync(await _userManager.GetUserAsync(User));
@@ -127,7 +127,7 @@ namespace SharpMember.Controllers
         [Route("/[controller]/{commId}/members")]
         public ActionResult Members(int commId)
         {
-            var vs = GetService<ICommunityMembersViewService>();
+            var vs = GetService<ICommunityMembersHandler>();
             return View(vs.Get(commId));
         }
 
@@ -135,7 +135,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Members(CommunityMembersVm model, int commId)
         {
-            var vs = GetService<ICommunityMembersViewService>();
+            var vs = GetService<ICommunityMembersHandler>();
             await vs.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Members), new { commId = commId });
         }
@@ -143,7 +143,7 @@ namespace SharpMember.Controllers
         [Route("/[controller]/{commId}/groups")]
         public ActionResult<CommunityGroupsVm> Groups(int commId)
         {
-            var vs = GetService<ICommunityGroupsViewService>();
+            var vs = GetService<ICommunityGroupsHandler>();
             return View(vs.Get(commId));
         }
 
@@ -151,7 +151,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Groups(CommunityGroupsVm model, int commId)
         {
-            var vs = GetService<ICommunityGroupsViewService>();
+            var vs = GetService<ICommunityGroupsHandler>();
             await vs.PostToDeleteSelected(model);
             return RedirectToAction(nameof(Groups), new { commId = commId });
         }

@@ -33,7 +33,7 @@ namespace SharpMember.Controllers
         // GET: Members/Create
         public async Task<IActionResult> Create(int commId)
         {
-            var vs = HttpContext.RequestServices.GetService<IMemberCreateViewService>();
+            var vs = HttpContext.RequestServices.GetService<IMemberCreateHandler>();
 
             string appUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(await vs.GetAsync(commId, appUserId));
@@ -43,7 +43,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MemberUpdateVm data)
         {
-            var vs = HttpContext.RequestServices.GetService<IMemberCreateViewService>();
+            var vs = HttpContext.RequestServices.GetService<IMemberCreateHandler>();
 
             if (ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace SharpMember.Controllers
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var vs = GetService<IMemberEditViewService>();
+            var vs = GetService<IMemberEditHandler>();
             if (id == null)
             {
                 return NotFound();
@@ -79,7 +79,7 @@ namespace SharpMember.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, MemberUpdateVm data)
         {
-            var vs = GetService<IMemberEditViewService>();
+            var vs = GetService<IMemberEditHandler>();
             if (id != data.Id)
             {
                 return NotFound();

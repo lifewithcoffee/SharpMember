@@ -83,7 +83,7 @@ namespace U.TestEnv.TestService
         /// </summary>
         public async Task<(string appUserId,CommunityUpdateVm)> CreateTestCommunityFromViewService()
         {
-            var _vs = _serviceProvider.GetService<ICommunityCreateViewService>();
+            var _vs = _serviceProvider.GetService<ICommunityCreateHandler>();
 
             string appUserId = await util.GetExistingAppUserId();
 

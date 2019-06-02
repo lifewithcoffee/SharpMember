@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 {
-    public interface IMemberCreateViewService
+    public interface IMemberCreateHandler
     {
         Task<MemberUpdateVm> GetAsync(int commId, string appUserId);
         Task<int> Post(MemberUpdateVm data);
     }
 
-    public class MemberCreateViewService : IMemberCreateViewService
+    public class MemberCreateHandler : IMemberCreateHandler
     {
         IMemberRepository _memberRepository;
         IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
 
-        public MemberCreateViewService(
+        public MemberCreateHandler(
             IMemberRepository memberRepo,
             IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         )
