@@ -12,16 +12,28 @@ namespace SharpMember.Core.Data.Models.MemberSystem
     {
         public int Id { get; set; }
         public string ItemValue { get; set; }
-    }
 
-    public class MemberProfileItemWithFK : MemberProfileItemEntity
-    { 
-        // FK
+        // FKs
         public int MemberId { get; set; }
         public int MemberProfileItemTemplateId { get; set; }
     }
 
-    public class MemberProfileItem : MemberProfileItemWithFK
+    public static class MemberProfileItemEntityExt
+    {
+
+        public static TOut CopyFrom<TOut>(this TOut to, MemberProfileItemEntity from)
+            where TOut  : MemberProfileItemEntity
+        {
+            to.Id = from.Id;
+            to.ItemValue = from.ItemValue;
+            to.MemberId = from.MemberId;
+            to.MemberProfileItemTemplateId = from.MemberProfileItemTemplateId;
+
+            return to;
+        }
+    }
+
+    public class MemberProfileItem : MemberProfileItemEntity
     {
         [ForeignKey(nameof(MemberId))]
         public virtual Member Member { get; set; }

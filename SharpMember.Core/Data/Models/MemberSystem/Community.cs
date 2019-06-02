@@ -17,6 +17,20 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string Announcement { get; set; }
     }
 
+    public static class CommunityEntityExt
+    {
+        public static TOut CopyFrom<TOut>(this TOut to, CommunityEntity from)
+            where TOut  : CommunityEntity
+        {
+            to.Id = from.Id;
+            to.Name = from.Name;
+            to.Introduction = from.Introduction;
+            to.Announcement = from.Announcement;
+
+            return to;
+        }
+    }
+
     public class Community : CommunityEntity
     {
         public virtual List<Member> Members { get; set; } = new List<Member>();
@@ -25,12 +39,10 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         public CommunityUpdateVm ConvertToCommunityUpdateVM()
         {
-            CommunityUpdateVm result = new CommunityUpdateVm();
-            result.Id = this.Id;
-            result.Name = this.Name;
-            result.Introduction = this.Introduction;
-            result.Announcement = this.Announcement;
-            result.ItemTemplateVMs = this.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVm { ItemTemplate = x}).ToList();
+            var result = new CommunityUpdateVm().CopyFrom(this);
+            result.ItemTemplateVMs = this.MemberProfileItemTemplates
+                                         .Select(x => new MemberProfileItemTemplateVm { ItemTemplate = x})
+                                         .ToList();
             return result;
         }
     }

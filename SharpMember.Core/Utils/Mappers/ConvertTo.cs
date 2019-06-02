@@ -1,4 +1,5 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using System;
@@ -11,8 +12,8 @@ namespace SharpMember.Core.Utils.Mappers
     static public class ConvertTo
     {
         static public async Task<List<MemberProfileItemVm>> MemberProfileItemVMList(
-            IList<MemberProfileItem> items, 
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IList<MemberProfileItem> items,
+            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         ){
             List<MemberProfileItemVm> result = new List<MemberProfileItemVm>();
 
@@ -20,7 +21,10 @@ namespace SharpMember.Core.Utils.Mappers
             {
                 var template = await memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
                 string itemName = template.ItemName;
-                result.Add(new MemberProfileItemVm(item, itemName));
+
+                var itemVm = new MemberProfileItemVm().CopyFrom(item);
+                itemVm.ItemName = itemName;
+                result.Add(itemVm);
             }
 
             return result;
@@ -28,7 +32,7 @@ namespace SharpMember.Core.Utils.Mappers
 
         static public async Task<List<MemberProfileItem>> MemberProfileItemList(
             IList<MemberProfileItemVm> items,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         ){
             List<MemberProfileItem> result = new List<MemberProfileItem>();
 
