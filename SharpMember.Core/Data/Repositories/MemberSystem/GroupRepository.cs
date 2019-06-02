@@ -10,12 +10,12 @@ using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IGroupRepository : IRepositoryBase<Group>
-    { }
+    //public interface IGroupRepository
+    //{ }
 
-    public class GroupRepository : RepositoryBase<Group, ApplicationDbContext>, IGroupRepository
-    {
-        public GroupRepository( IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork)
-        { }
-    }
+    //public class GroupRepository : RepositoryBase<Group>, IGroupRepository
+    //{
+    //    public GroupRepository(IUnitOfWork<ApplicationDbContext> unitOfWork
+    //    { }
+    //}
 }

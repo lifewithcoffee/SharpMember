@@ -17,4 +17,8 @@
     <PackageReference Include="Savorboard.NPOI.Core.Ooxml" Version="1.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\NetCoreUtils\NetCoreUtils.Database\NetCoreUtils.Database.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Definitions;
 using SharpMember.Core.Views.ViewModels;
@@ -19,17 +20,23 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityCreateViewService : ICommunityCreateViewService
     {
-        ICommunityRepository _communityRepository;
+        IRepositoryBase<Community> _communityRepository;
+        IRepositoryBase<Member> _memberRepo;
+        IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
         IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
         public CommunityCreateViewService(
-            ICommunityRepository orgRepo,
+            IRepositoryBase<Community> orgRepo,
+            IRepositoryBase<Member> memberRepo,
+            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
         )
         {
             _communityRepository = orgRepo;
+            _memberRepo = memberRepo;
+            _memberProfileItemTemplateRepo = memberProfileItemTemplateRepo;
             _memberRepository = memberRepository;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
@@ -52,7 +59,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
             Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(community.Id, appUserId);
             newMember.CommunityRole = RoleNames.CommunityOwner;
-            await _memberRepository.CommitAsync();
+            await _memberRepo.CommitAsync();
 
             var required = data.ItemTemplateVMs.Where(p => p.ItemTemplate.IsRequired == true).Select(p => p.ItemTemplate.ItemName);
             await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, required, true);
@@ -60,7 +67,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             var optional = data.ItemTemplateVMs.Where(p => p.ItemTemplate.IsRequired == false).Select(p => p.ItemTemplate.ItemName);
             await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, optional, false);
 
-            await _memberProfileItemTemplateRepository.CommitAsync();
+            await _memberProfileItemTemplateRepo.CommitAsync();
 
             return community.Id;
         }

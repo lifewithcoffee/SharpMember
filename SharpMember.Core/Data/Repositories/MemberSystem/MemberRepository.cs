@@ -13,43 +13,49 @@ using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IMemberRepository : IRepositoryBase<Member>
+    public interface IMemberRepository
     {
         int GetNextUnassignedMemberNumber(int commId);
         IQueryable<Member> GetByMemberNumber(int commId, int memberNumber);
         IQueryable<Member> GetByCommunity(int commId);
         Task<Member> GenerateNewMemberWithProfileItemsAsync(int commId, string appUserId);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
+        Member Add(Member entity);
+        IRepositoryBase<Member> Repo { get; }
     }
 
-    public class MemberRepository : RepositoryBase<Member, ApplicationDbContext>, IMemberRepository
+    public class MemberRepository : IMemberRepository
     {
+        private readonly IRepositoryBase<Member> _repo;
         private readonly IRepositoryRead<Community> _communityReader;
         private readonly IRepositoryRead<MemberProfileItemTemplate> _memberProfileItemTemplateReader;
 
         public MemberRepository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
+            IRepositoryBase<Member> repo,
             IRepositoryRead<Community> communityRepoReader,
             IRepositoryRead<MemberProfileItemTemplate> memberProfileItemTemplateRepoReader
-        ) : base(unitOfWork)
+        )
         {
+            _repo = repo;
             _communityReader = communityRepoReader;
             _memberProfileItemTemplateReader = memberProfileItemTemplateRepoReader;
         }
 
-        public override Member Add(Member entity)
+        public IRepositoryBase<Member> Repo { get { return _repo; } }
+
+        public Member Add(Member entity)
         {
             if(!_communityReader.Exist(e => e.Id == entity.CommunityId))
             {
                 throw new CommunityNotExistsException(entity.CommunityId);
             }
-            return base.Add(entity);
+            return _repo.Add(entity);
         }
 
         public int GetNextUnassignedMemberNumber(int commId)
         {
             int nextMemberNumber = 1;
-            var member = this.GetMany(m => m.CommunityId == commId).OrderBy(m => m.MemberNumber).LastOrDefault();
+            var member = _repo.GetMany(m => m.CommunityId == commId).OrderBy(m => m.MemberNumber).LastOrDefault();
             if(member != null)
             {
                 nextMemberNumber = member.MemberNumber + 1;
@@ -70,7 +76,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// <returns>The successfully assigned member number.</returns>
         public async Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber)
         {
-            var member = this.GetById(memberId);
+            var member = _repo.GetById(memberId);
             
             if(nextMemberNumber <= 0)
             {
@@ -82,14 +88,14 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 member.MemberNumber = nextMemberNumber;
             }
 
-            await this.CommitAsync();
+            await _repo.CommitAsync();
 
             // check if there is a duplication
             while(this.GetByMemberNumber(member.CommunityId, nextMemberNumber).Count() > 1)
             {
                 nextMemberNumber = await AssignMemberNubmerAsync(memberId, 0);
                 member.MemberNumber = nextMemberNumber;
-                await this.CommitAsync();
+                await _repo.CommitAsync();
             }
 
             return nextMemberNumber;
@@ -113,12 +119,12 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber)
         {
-            return this.GetMany(m => m.MemberNumber == memberNumber && m.CommunityId == orgId);
+            return _repo.GetMany(m => m.MemberNumber == memberNumber && m.CommunityId == orgId);
         }
 
         public IQueryable<Member> GetByCommunity(int commId)
         {
-            return this.GetMany(m => m.CommunityId == commId);
+            return _repo.GetMany(m => m.CommunityId == commId);
         }
 
        

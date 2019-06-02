@@ -11,6 +11,8 @@ using U.TestEnv.TestService;
 using NetCoreUtils.String;
 using System.Linq;
 using SharpMember.Core.Views.ViewModels.CommunityVms;
+using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace U.ViewServices
 {
@@ -230,6 +232,8 @@ namespace U.ViewServices
         {
             // create test community with groups
             var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+
+            //var groupRepo = _fixture.GetService<IRepositoryBase<Group>>();
 
             // delete groups
             var viewModel = _fixture.GetService<ICommunityGroupsViewService>().Get(community.Id);

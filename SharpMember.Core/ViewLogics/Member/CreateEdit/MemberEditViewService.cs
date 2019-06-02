@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NetCoreUtils.Database;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Utils.Mappers;
@@ -21,15 +22,15 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 
     public class MemberEditViewService : IMemberEditViewService
     {
-        IMemberRepository _memberRepository;
-        IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
+        IRepositoryBase<Member> _memberRepository;
+        IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
 
-        IGroupMemberRelationRepository _groupMemberRelationRepository;
+        IRepositoryBase<GroupMemberRelation> _groupMemberRelationRepository;
 
         public MemberEditViewService(
-            IMemberRepository memberRepo,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository,
-            IGroupMemberRelationRepository groupMemberRelationRepository
+            IRepositoryBase<Member> memberRepo,
+            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository,
+            IRepositoryBase<GroupMemberRelation> groupMemberRelationRepository
         )
         {
             _memberRepository = memberRepo;

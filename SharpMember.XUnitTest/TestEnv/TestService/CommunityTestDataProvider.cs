@@ -45,7 +45,7 @@ namespace U.TestEnv.TestService
         public async Task<Community> CreateTestCommunityFromRepository()
         {
             var _communityService = _serviceProvider.GetService<ICommunityService>();
-            var _groupMemberRelationRepo = _serviceProvider.GetService<IGroupMemberRelationRepository>();
+            var _groupMemberRelationRepo = _serviceProvider.GetService<IRepositoryBase<GroupMemberRelation>> ();
 
             await _communityService.CreateCommunityAsync(await util.GetExistingAppUserId(), $"TestCommunityFromRepo_{ShortGuid.NewGuid()}");
 
@@ -64,7 +64,7 @@ namespace U.TestEnv.TestService
             await _communityService.CommitAsync();
             return _communityService.Community;
 
-            async Task AddGroupedMembers(ICommunityService communityService, IGroupMemberRelationRepository groupMemberRelationRepo ,int memberNumber)
+            async Task AddGroupedMembers(ICommunityService communityService, IRepositoryBase<GroupMemberRelation> groupMemberRelationRepo ,int memberNumber)
             {
                 Group group = new Group { Name = ShortGuid.NewGuid(), Community = communityService.Community };
 
@@ -126,6 +126,7 @@ namespace U.TestEnv.TestService
             var community = await communityTestDataProvider.CreateTestCommunityFromRepository();
 
             community = _fixture.GetServiceNewScope<ICommunityRepository>()
+                                .Repo
                                 .GetMany(c => c.Id == community.Id)
                                 .Include(c => c.Groups)
                                     .ThenInclude(g => g.GroupMemberRelations)

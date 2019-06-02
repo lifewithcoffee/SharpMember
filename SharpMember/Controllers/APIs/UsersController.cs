@@ -64,11 +64,6 @@ namespace SharpMember.Controllers.APIs
                 };
 
                 return Ok(GetToken(test_security_key, claims));
-                    // (new
-                    // {
-                    //     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    //     expiration=token.ValidTo
-                    // });
             }
             return Unauthorized();
         }

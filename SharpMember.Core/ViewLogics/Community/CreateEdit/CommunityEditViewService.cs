@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Core.Views.ViewModels.CommunityVms;
@@ -18,16 +20,18 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityEditViewService : ICommunityEditViewService
     {
-        ICommunityRepository _communityRepository;
+        IRepositoryBase<Community> _communityRepository;
+        IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
         public CommunityEditViewService(
-            ICommunityRepository orgRepo,
-            IMemberRepository memberRepository,
+            IRepositoryBase<Community> orgRepo,
+            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
         )
         {
             _communityRepository = orgRepo;
+            _memberProfileItemTemplateRepo = memberProfileItemTemplateRepo;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
 
@@ -54,7 +58,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
             _communityRepository.Update(data.ConvertToCommunityWithoutNavProp());
             await _communityRepository.CommitAsync();
 
-            _memberProfileItemTemplateRepository.RemoveRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
+            _memberProfileItemTemplateRepo.RemoveRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
             _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Where(x => !x.Delete && !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Select(x => x.ItemTemplate).ToList());
 
             await _communityRepository.CommitAsync();

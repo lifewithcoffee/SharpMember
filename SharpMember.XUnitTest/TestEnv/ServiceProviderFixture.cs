@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NetCoreUtils.Database;
 using SharpMember.Core;
 using System;
 using System.Collections.Generic;

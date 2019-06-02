@@ -1,4 +1,5 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Utils.Mappers;
 using SharpMember.Core.Views.ViewModels;
@@ -18,11 +19,11 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
     public class MemberCreateViewService : IMemberCreateViewService
     {
         IMemberRepository _memberRepository;
-        IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
+        IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
 
         public MemberCreateViewService(
             IMemberRepository memberRepo,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         )
         {
             _memberRepository = memberRepo;
@@ -43,7 +44,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
 
             _memberRepository.Add(member);
-            await _memberRepository.CommitAsync();
+            await _memberProfileItemTemplateRepository.CommitAsync();
 
             return member.Id;
         }

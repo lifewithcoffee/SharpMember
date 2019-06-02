@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Utils.Mappers;
 using SharpMember.Core.Views.ViewModels;
@@ -20,9 +22,9 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
     public class GroupEditViewService : IGroupEditViewService
     {
-        IGroupRepository _groupRepository;
+        IRepositoryBase<Group> _groupRepository;
 
-        public GroupEditViewService(IGroupRepository groupRepository)
+        public GroupEditViewService(IRepositoryBase<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

@@ -11,25 +11,30 @@ using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IMemberProfileItemTemplateRepository : IRepositoryBase<MemberProfileItemTemplate>
+    public interface IMemberProfileItemTemplateRepository
     {
         IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId);
         Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired);
         Task AddTemplatesAsync(int orgId, IEnumerable<string> itemNames, bool isRequired);
         void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates);
+        IRepositoryBase<MemberProfileItemTemplate> Repo { get; }
     }
 
-    public class MemberProfileItemTemplateRepository : RepositoryBase<MemberProfileItemTemplate, ApplicationDbContext>, IMemberProfileItemTemplateRepository
+    public class MemberProfileItemTemplateRepository : IMemberProfileItemTemplateRepository
     {
-        IRepositoryRead<Community> _communityReader;
+        IRepositoryBase<MemberProfileItemTemplate> _repo;
+        IRepositoryBase<Community> _communityRepo;
 
         public MemberProfileItemTemplateRepository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
-            IRepositoryRead<Community> communityReade
-        ) : base(unitOfWork)
+            IRepositoryBase<MemberProfileItemTemplate> repo,
+            IRepositoryBase<Community> communityRepo
+            )
         {
-            _communityReader = communityReade;
+            _repo = repo;
+            _communityRepo = communityRepo;
         }
+
+        public IRepositoryBase<MemberProfileItemTemplate> Repo { get { return _repo; } }
 
         public class MemberProfileItemTemplateIdComparer : IEqualityComparer<MemberProfileItemTemplate>
         {
@@ -51,16 +56,16 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId)
         {
-            return this.GetMany(t => t.CommunityId == commId);
+            return _repo.GetMany(t => t.CommunityId == commId);
         }
 
         public async Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired)
         {
-            if(!await _communityReader.ExistAsync(c => c.Id == commId))
+            if(!await _communityRepo.ExistAsync(c => c.Id == commId))
             {
                 throw new CommunityNotExistsException(commId);
             }
-            return Add(new MemberProfileItemTemplate { CommunityId = commId, ItemName = itemName, IsRequired = isRequired });
+            return _repo.Add(new MemberProfileItemTemplate { CommunityId = commId, ItemName = itemName, IsRequired = isRequired });
         }
 
         public async Task AddTemplatesAsync(int commId, IEnumerable<string> itemNames, bool isRequired)
@@ -79,8 +84,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// </summary>
         public void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates)
         {
-            var community = _communityReader.GetById(commId);
-            if(null == community)
+            if(null == _communityRepo.GetById(commId))
             {
                 throw new CommunityNotExistsException(commId);
             }
@@ -97,7 +101,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 }
             }
 
-            this.UpdateRange(newTemplates);
+            _repo.UpdateRange(newTemplates);
         }
     }
 }

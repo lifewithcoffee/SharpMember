@@ -1,4 +1,7 @@
-﻿using SharpMember.Core.Data.Repositories;
+﻿using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models;
+using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Repositories;
 using SharpMember.Core.Data.Repositories.MemberSystem;
 using System;
 using System.Collections.Generic;
@@ -14,10 +17,10 @@ namespace SharpMember.Core.Services
 
     public class AccountService : IAccountService
     {
-        private readonly IMemberRepository _memberRepository;
-        private readonly IApplicationUserRepository _userRepository;
+        private readonly IRepositoryBase<Member> _memberRepository;
+        private readonly IRepositoryBase<ApplicationUser> _userRepository;
 
-        public AccountService(IMemberRepository memberRepository, IApplicationUserRepository userRepository)
+        public AccountService(IRepositoryBase<Member> memberRepository, IRepositoryBase<ApplicationUser> userRepository)
         {
             this._memberRepository = memberRepository;
             this._userRepository = userRepository;

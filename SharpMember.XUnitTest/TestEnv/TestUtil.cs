@@ -26,14 +26,14 @@ namespace U.TestEnv
         {
             var repo = _serviceProvider.GetService<ICommunityRepository>();
             var community = repo.Add(ShortGuid.NewGuid());
-            repo.Commit();
+            repo.Repo.Commit();
             return community.Id;
         }
 
         public int GetNonexistentCommunityId()
         {
             var repo = _serviceProvider.GetService<ICommunityRepository>();
-            var community = repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
+            var community = repo.Repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
             if (null == community)
                 return 1;
             else
@@ -47,14 +47,14 @@ namespace U.TestEnv
 
             var repo = _serviceProvider.GetService<IMemberRepository>();
             var member = repo.Add(new Member { CommunityId = existingCommunityId.Value });
-            repo.Commit();
+            repo.Repo.Commit();
             return member.Id;
         }
 
         public int GetNonexistentMemberId()
         {
             var memberRepo = _serviceProvider.GetService<IMemberRepository>();
-            var member = memberRepo.GetAll().OrderBy(m => m.Id).LastOrDefault();
+            var member = memberRepo.Repo.GetAll().OrderBy(m => m.Id).LastOrDefault();
             if(null == member)
                 return 1;
             else

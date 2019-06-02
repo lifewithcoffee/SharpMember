@@ -1,4 +1,6 @@
-﻿using SharpMember.Core.Data.Repositories.MemberSystem;
+﻿using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Utils.Mappers;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Utils;
@@ -17,9 +19,9 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
     public class GroupCreateViewService : IGroupCreateViewService
     {
-        IGroupRepository _groupRepository;
+        IRepositoryBase<Group> _groupRepository;
 
-        public GroupCreateViewService(IGroupRepository groupRepository)
+        public GroupCreateViewService(IRepositoryBase<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

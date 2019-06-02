@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using SharpMember.Core.Data.Models.MemberSystem;
+using NetCoreUtils.Database;
 
 namespace SharpMember.Core.Services
 {
@@ -18,10 +19,10 @@ namespace SharpMember.Core.Services
 
     public class AuthorizationService : IAuthorizationService
     {
-        IMemberRepository _memberRepo;
-        IGroupMemberRelationRepository _memberGroupRoleRelationRepository;
+        IRepositoryBase<Member> _memberRepo;
+        IRepositoryBase<GroupMemberRelation> _memberGroupRoleRelationRepository;
 
-        public AuthorizationService(IMemberRepository memberRepo, IGroupMemberRelationRepository memberGroupRoleRelationRepository)
+        public AuthorizationService(IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> memberGroupRoleRelationRepository)
         {
             this._memberRepo = memberRepo;
             this._memberGroupRoleRelationRepository = memberGroupRoleRelationRepository;

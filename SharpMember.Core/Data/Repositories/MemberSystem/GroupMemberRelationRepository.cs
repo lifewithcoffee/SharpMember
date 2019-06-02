@@ -7,13 +7,15 @@ using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
-    public interface IGroupMemberRelationRepository : IRepositoryBase<GroupMemberRelation>
-    { }
+    //public interface IGroupMemberRelationRepository : IRepositoryBase<GroupMemberRelation>
+    //{ }
 
-    public class GroupMemberRelationRepository : RepositoryBase<GroupMemberRelation, ApplicationDbContext>, IGroupMemberRelationRepository
-    {
-        public GroupMemberRelationRepository(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork)
-        {
-        }
-    }
+    //public class GroupMemberRelationRepository :  IGroupMemberRelationRepository
+    //{
+    //    IRepositoryBase<GroupMemberRelation> _repo;
+    //    public GroupMemberRelationRepository(IRepositoryBase<GroupMemberRelation> repo)
+    //    {
+    //        _repo = repo;
+    //    }
+    //}
 }

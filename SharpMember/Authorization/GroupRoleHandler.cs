@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using NetCoreUtils.Database;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Repositories.MemberSystem;
@@ -23,10 +24,10 @@ namespace SharpMember.Authorization
     public class GroupRoleHandler : AuthorizationHandler<GroupRoleRequirement,Group>
     {
         UserManager<ApplicationUser> _userManager;
-        IMemberRepository _memberRepo;
-        IGroupMemberRelationRepository _memberGroupRoleRelationRepo;
+        IRepositoryBase<Member> _memberRepo;
+        IRepositoryBase<GroupMemberRelation> _memberGroupRoleRelationRepo;
 
-        public GroupRoleHandler(UserManager<ApplicationUser> userManager, IMemberRepository memberRepo, IGroupMemberRelationRepository memberGroupRoleRelationRepo)
+        public GroupRoleHandler(UserManager<ApplicationUser> userManager, IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> memberGroupRoleRelationRepo)
         {
             this._userManager = userManager;
             this._memberRepo = memberRepo;

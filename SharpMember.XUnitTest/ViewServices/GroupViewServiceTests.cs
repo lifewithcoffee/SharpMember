@@ -71,7 +71,7 @@ namespace U.ViewServices
             Assert.Equal(groupMemberNumberBefore - 2, groupMemberNumberAfter);
 
             // verify: make sure the members are not entirely deleted from database
-            int totalMemberNumberAfter = await _fixture.GetServiceNewScope<IMemberRepository>().GetMany(x => x.CommunityId == community.Id).CountAsync();
+            int totalMemberNumberAfter = await _fixture.GetServiceNewScope<IMemberRepository>().Repo.GetMany(x => x.CommunityId == community.Id).CountAsync();
             Assert.Equal(totalMemberNumberBefore, totalMemberNumberAfter);
         }
 

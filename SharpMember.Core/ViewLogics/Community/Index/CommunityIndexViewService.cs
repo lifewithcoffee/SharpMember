@@ -1,4 +1,6 @@
-﻿using SharpMember.Core.Data.Repositories.MemberSystem;
+﻿using NetCoreUtils.Database;
+using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Repositories.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Core.Views.ViewModels.CommunityVms;
 using System;
@@ -16,9 +18,9 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityIndexViewService : ICommunityIndexViewService
     {
-        ICommunityRepository _communityRepository;
+        IRepositoryBase<Community> _communityRepository;
 
-        public CommunityIndexViewService(ICommunityRepository communityRepository)
+        public CommunityIndexViewService(IRepositoryBase<Community> communityRepository)
         {
             _communityRepository = communityRepository;
         }

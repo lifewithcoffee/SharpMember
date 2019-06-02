@@ -32,28 +32,28 @@ namespace U.DataRepositories
             Assert.NotNull(repo);
 
             // add
-            var newCommunity = repo.Add(new Community { Name = Guid.NewGuid().ToString()});
+            var newCommunity = repo.Repo.Add(new Community { Name = Guid.NewGuid().ToString()});
             Assert.False(newCommunity.Id > 0);
 
-            repo.Commit();
+            repo.Repo.Commit();
             Assert.True(newCommunity.Id > 0);
 
             // read to verify add
             var readRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var readCommunity = readRepo.GetById(newCommunity.Id);
+            var readCommunity = readRepo.Repo.GetById(newCommunity.Id);
             Assert.Equal(newCommunity.Name, readCommunity.Name);
 
             // update
             var updateRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var orgBeforeUpdate = updateRepo.GetById(newCommunity.Id);
+            var orgBeforeUpdate = updateRepo.Repo.GetById(newCommunity.Id);
 
             string newCommunityName = Guid.NewGuid().ToString();
             orgBeforeUpdate.Name = newCommunityName;
-            updateRepo.Commit();
+            updateRepo.Repo.Commit();
 
             // read to verify update
             var readRepo2 = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var orgAfterUpdate = readRepo2.GetById(newCommunity.Id);
+            var orgAfterUpdate = readRepo2.Repo.GetById(newCommunity.Id);
             Assert.Equal(newCommunityName, orgAfterUpdate.Name);
         }
     }

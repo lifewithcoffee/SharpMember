@@ -9,13 +9,13 @@ using System.Security.Claims;
 
 namespace SharpMember.Core.Data.Repositories
 {
-    public interface IApplicationUserRepository : IRepositoryBase<ApplicationUser>
-    {
-        //bool ValidateLastChanged(ClaimsPrincipal userPrincipal, string lastChanged); //see: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/cookie
-    }
+    //public interface IApplicationUserRepository : IRepositoryBase<ApplicationUser>
+    //{
+    //    //bool ValidateLastChanged(ClaimsPrincipal userPrincipal, string lastChanged); //see: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/cookie
+    //}
 
-    public class ApplicationUserRepository : RepositoryBase<ApplicationUser, ApplicationDbContext>, IApplicationUserRepository
-    {
-        public ApplicationUserRepository(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork) { }
-    }
+    //public class ApplicationUserRepository : RepositoryBase<ApplicationUser>, IApplicationUserRepository
+    //{
+    //    public ApplicationUserRepository(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork) { }
+    //}
 }

@@ -37,20 +37,20 @@ namespace SharpMember.Core.Services
 
     class CommunityService : EntityServiceBase, ICommunityService
     {
-        ICommunityRepository _communityRepository;
+        IRepositoryBase<Community> _communityRepo;
         IMemberRepository _memberRepository;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
         public Community Community { get; set; }
 
         public CommunityService(
+            IRepositoryBase<Community> communityRepo,
             IUnitOfWork<ApplicationDbContext> unitOfWork,
-            ICommunityRepository communityRepository,
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
         ):base(unitOfWork)
         {
-            _communityRepository = communityRepository;
+            _communityRepo = communityRepo;
             _memberRepository = memberRepository;
             _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
         }
@@ -59,8 +59,8 @@ namespace SharpMember.Core.Services
         {
             this.Community = new Community { Name = communityName };
             this.Community.Members.Add(new Member { ApplicationUserId = appUserId, CommunityRole = RoleNames.CommunityOwner });
-            _communityRepository.Add(this.Community);
-            await _communityRepository.CommitAsync();
+            _communityRepo.Add(this.Community);
+            await _communityRepo.CommitAsync();
         }
 
         public async Task<Member> AddMemberAsync(string appUserId, string name, string email, string role)

@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using SharpMember.Core.Data.Models.MemberSystem;
 using System.Threading.Tasks;
+using NetCoreUtils.Database;
 
 namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 {
@@ -17,11 +18,11 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
     public class GroupAddMemberViewService : IGroupAddMemberViewService
     {
-        IGroupRepository _groupRepo;
-        IMemberRepository _memberRepo;
-        IGroupMemberRelationRepository _groupMemberRelationRepo;
+        IRepositoryBase<Group> _groupRepo;
+        IRepositoryBase<Member> _memberRepo;
+        IRepositoryBase<GroupMemberRelation> _groupMemberRelationRepo;
 
-        public GroupAddMemberViewService(IMemberRepository memberRepo, IGroupMemberRelationRepository groupMemberRelationRepo, IGroupRepository groupRepo)
+        public GroupAddMemberViewService(IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> groupMemberRelationRepo, IRepositoryBase<Group> groupRepo)
         {
             _memberRepo = memberRepo;
             _groupMemberRelationRepo = groupMemberRelationRepo;

@@ -42,7 +42,7 @@ namespace U.DataRepositories
 
             var member1 = repo.Add(new Member { CommunityId = existingOrgId });
             var member2 = repo.Add(new Member { CommunityId = existingOrgId });
-            await repo.CommitAsync();
+            await repo.Repo.CommitAsync();
 
             int nextMemberNumber = repo.GetNextUnassignedMemberNumber(existingOrgId);
             int result1 = await repo.AssignMemberNubmerAsync(member1.Id, nextMemberNumber);
@@ -61,7 +61,7 @@ namespace U.DataRepositories
 
             var itemTemplateRepo = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
             await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
-            await itemTemplateRepo.CommitAsync();
+            await itemTemplateRepo.Repo.CommitAsync();
 
             // Generate & verify a new member
             {
@@ -75,8 +75,8 @@ namespace U.DataRepositories
             {
                 var itemTemplateRepo2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
-                itemTemplateRepo2.Remove(templateToBeDeleted);
-                await itemTemplateRepo2.CommitAsync();
+                itemTemplateRepo2.Repo.Remove(templateToBeDeleted);
+                await itemTemplateRepo2.Repo.CommitAsync();
             }
 
             // Generate & verify a new member after deletion
