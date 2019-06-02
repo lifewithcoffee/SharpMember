@@ -14,16 +14,5 @@ namespace SharpMember.Core.Views.ViewModels.CommunityVms
     public class CommunityUpdateVm : CommunityEntity
     {
         public List<MemberProfileItemTemplateVm> ItemTemplateVMs { get; set; } = new List<MemberProfileItemTemplateVm>();
-
-        public Community ConvertToCommunityWithoutNavProp()
-        {
-            Community result = new Community();
-            result.Id = this.Id;
-            result.Name = this.Name;
-            result.Introduction = this.Introduction;
-            result.Announcement = this.Announcement;
-
-            return result;
-        }
     }
 }

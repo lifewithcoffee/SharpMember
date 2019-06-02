@@ -55,7 +55,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         /// </summary>
         public async Task PostAsync(CommunityUpdateVm data)
         {
-            _communityRepository.Update(data.ConvertToCommunityWithoutNavProp());
+            _communityRepository.Update(new Community().CopyFrom(data));
             await _communityRepository.CommitAsync();
 
             _memberProfileItemTemplateRepo.RemoveRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
