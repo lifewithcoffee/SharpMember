@@ -23,14 +23,34 @@ using SharpMember.Core.Views.ViewModels.CommunityVms;
 
 namespace SharpMember.Core
 {
-    public class RepositoryReader<TEntity> : RepositoryRead<TEntity, ApplicationDbContext> where TEntity : class
+    public class RepositoryReader<TEntity>
+        : RepositoryRead<TEntity, ApplicationDbContext>
+        where TEntity : class
     {
-        public RepositoryReader(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork) { }
+        public RepositoryReader(IUnitOfWork<ApplicationDbContext> unitOfWork)
+            : base(unitOfWork)
+        { }
     }
 
-    public class RepositoryWriter<TEntity> : RepositoryWrite<TEntity, ApplicationDbContext> where TEntity : class
+    public class RepositoryWriter<TEntity>
+        : RepositoryWrite<TEntity, ApplicationDbContext>
+        where TEntity : class
     {
-        public RepositoryWriter(IUnitOfWork<ApplicationDbContext> unitOfWork) : base(unitOfWork) { }
+        public RepositoryWriter(IUnitOfWork<ApplicationDbContext> unitOfWork)
+            : base(unitOfWork)
+        { }
+    }
+
+    public class RepositoryBase<TEntity>
+        : RepositoryBase<TEntity, ApplicationDbContext>
+        where TEntity : class
+    {
+        public RepositoryBase(
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
+            IRepositoryRead<TEntity, ApplicationDbContext> repoReader,
+            IRepositoryWrite<TEntity, ApplicationDbContext> repoWriter
+        ) : base(unitOfWork, repoReader, repoWriter)
+        { }
     }
 
     public static class ServiceExt
@@ -64,16 +84,21 @@ namespace SharpMember.Core
 
         static private void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddScoped(typeof(IRepositoryRead<,>), typeof(RepositoryRead<,>));
+            services.AddScoped(typeof(IRepositoryWrite<,>), typeof(RepositoryWrite<,>));
+
+            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            services.AddScoped(typeof(IRepositoryRead<>), typeof(RepositoryReader<>));
+            services.AddScoped(typeof(IRepositoryWrite<>), typeof(RepositoryWriter<>));
+
+            //services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<ICommunityRepository, CommunityRepository>();
-            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            //services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
-            services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
-
-            services.AddScoped(typeof(IRepositoryRead<>), typeof(RepositoryReader<>));
-            services.AddScoped(typeof(IRepositoryWrite<>), typeof(RepositoryWriter<>));
+            //services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
         }
         
         static private void AddServices(this IServiceCollection services)
@@ -135,8 +160,6 @@ namespace SharpMember.Core
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddScoped<IUnitOfWork<ApplicationDbContext>, UnitOfWork<ApplicationDbContext>>();
 
             services.AddRepositories();
             services.AddServices();
