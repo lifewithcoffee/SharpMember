@@ -24,10 +24,10 @@ namespace SharpMember.Authorization
     public class GroupRoleHandler : AuthorizationHandler<GroupRoleRequirement,Group>
     {
         UserManager<ApplicationUser> _userManager;
-        IRepositoryBase<Member> _memberRepo;
-        IRepositoryBase<GroupMemberRelation> _memberGroupRoleRelationRepo;
+        IRepository<Member> _memberRepo;
+        IRepository<GroupMemberRelation> _memberGroupRoleRelationRepo;
 
-        public GroupRoleHandler(UserManager<ApplicationUser> userManager, IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> memberGroupRoleRelationRepo)
+        public GroupRoleHandler(UserManager<ApplicationUser> userManager, IRepository<Member> memberRepo, IRepository<GroupMemberRelation> memberGroupRoleRelationRepo)
         {
             this._userManager = userManager;
             this._memberRepo = memberRepo;

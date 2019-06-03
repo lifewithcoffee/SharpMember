@@ -18,9 +18,9 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityIndexHandler : ICommunityIndexHandler
     {
-        IRepositoryBase<Community> _communityRepository;
+        IRepository<Community> _communityRepository;
 
-        public CommunityIndexHandler(IRepositoryBase<Community> communityRepository)
+        public CommunityIndexHandler(IRepository<Community> communityRepository)
         {
             _communityRepository = communityRepository;
         }

@@ -22,9 +22,9 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
     public class GroupEditHandler : IGroupEditHandler
     {
-        IRepositoryBase<Group> _groupRepository;
+        IRepository<Group> _groupRepository;
 
-        public GroupEditHandler(IRepositoryBase<Group> groupRepository)
+        public GroupEditHandler(IRepository<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

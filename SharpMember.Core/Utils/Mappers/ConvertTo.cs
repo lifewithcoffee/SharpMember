@@ -13,7 +13,7 @@ namespace SharpMember.Core.Utils.Mappers
     {
         static public async Task<List<MemberProfileItemVm>> MemberProfileItemVMList(
             IList<MemberProfileItem> items,
-            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository
+            IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         ){
             List<MemberProfileItemVm> result = new List<MemberProfileItemVm>();
 
@@ -32,7 +32,7 @@ namespace SharpMember.Core.Utils.Mappers
 
         static public async Task<List<MemberProfileItem>> MemberProfileItemList(
             IList<MemberProfileItemVm> items,
-            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepository
+            IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         ){
             List<MemberProfileItem> result = new List<MemberProfileItem>();
 

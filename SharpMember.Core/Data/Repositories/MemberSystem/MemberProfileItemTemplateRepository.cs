@@ -17,24 +17,24 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired);
         Task AddTemplatesAsync(int orgId, IEnumerable<string> itemNames, bool isRequired);
         void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates);
-        IRepositoryBase<MemberProfileItemTemplate> Repo { get; }
+        IRepository<MemberProfileItemTemplate> Repo { get; }
     }
 
     public class MemberProfileItemTemplateRepository : IMemberProfileItemTemplateRepository
     {
-        IRepositoryBase<MemberProfileItemTemplate> _repo;
-        IRepositoryBase<Community> _communityRepo;
+        IRepository<MemberProfileItemTemplate> _repo;
+        IRepository<Community> _communityRepo;
 
         public MemberProfileItemTemplateRepository(
-            IRepositoryBase<MemberProfileItemTemplate> repo,
-            IRepositoryBase<Community> communityRepo
+            IRepository<MemberProfileItemTemplate> repo,
+            IRepository<Community> communityRepo
             )
         {
             _repo = repo;
             _communityRepo = communityRepo;
         }
 
-        public IRepositoryBase<MemberProfileItemTemplate> Repo { get { return _repo; } }
+        public IRepository<MemberProfileItemTemplate> Repo { get { return _repo; } }
 
         public class MemberProfileItemTemplateIdComparer : IEqualityComparer<MemberProfileItemTemplate>
         {

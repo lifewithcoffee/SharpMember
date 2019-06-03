@@ -18,11 +18,11 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
     public class GroupAddMemberHandler : IGroupAddMemberHandler
     {
-        IRepositoryBase<Group> _groupRepo;
-        IRepositoryBase<Member> _memberRepo;
-        IRepositoryBase<GroupMemberRelation> _groupMemberRelationRepo;
+        IRepository<Group> _groupRepo;
+        IRepository<Member> _memberRepo;
+        IRepository<GroupMemberRelation> _groupMemberRelationRepo;
 
-        public GroupAddMemberHandler(IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> groupMemberRelationRepo, IRepositoryBase<Group> groupRepo)
+        public GroupAddMemberHandler(IRepository<Member> memberRepo, IRepository<GroupMemberRelation> groupMemberRelationRepo, IRepository<Group> groupRepo)
         {
             _memberRepo = memberRepo;
             _groupMemberRelationRepo = groupMemberRelationRepo;

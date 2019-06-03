@@ -41,11 +41,11 @@ namespace SharpMember.Core
         { }
     }
 
-    public class RepositoryBase<TEntity>
-        : RepositoryBase<TEntity, ApplicationDbContext>
+    public class Repository<TEntity>
+        : Repository<TEntity, ApplicationDbContext>
         where TEntity : class
     {
-        public RepositoryBase(
+        public Repository(
             IUnitOfWork<ApplicationDbContext> unitOfWork,
             IRepositoryRead<TEntity, ApplicationDbContext> repoReader,
             IRepositoryWrite<TEntity, ApplicationDbContext> repoWriter
@@ -88,7 +88,7 @@ namespace SharpMember.Core
             services.AddScoped(typeof(IRepositoryRead<,>), typeof(RepositoryRead<,>));
             services.AddScoped(typeof(IRepositoryWrite<,>), typeof(RepositoryWrite<,>));
 
-            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IRepositoryRead<>), typeof(RepositoryReader<>));
             services.AddScoped(typeof(IRepositoryWrite<>), typeof(RepositoryWriter<>));
 

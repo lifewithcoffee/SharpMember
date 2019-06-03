@@ -19,11 +19,11 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
     public class MemberProfileItemRepository : IMemberProfileItemRepository
     {
-        IRepositoryBase<MemberProfileItem> _repo;
+        IRepository<MemberProfileItem> _repo;
         IRepositoryRead<Member> _memberReader;
 
         public MemberProfileItemRepository(
-            IRepositoryBase<MemberProfileItem> repo,
+            IRepository<MemberProfileItem> repo,
             IRepositoryRead<Member> memberReader
         )
         {

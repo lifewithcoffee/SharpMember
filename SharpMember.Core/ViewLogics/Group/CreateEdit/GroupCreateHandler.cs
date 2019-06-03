@@ -19,9 +19,9 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
     public class GroupCreateHandler : IGroupCreateHandler
     {
-        IRepositoryBase<Group> _groupRepository;
+        IRepository<Group> _groupRepository;
 
-        public GroupCreateHandler(IRepositoryBase<Group> groupRepository)
+        public GroupCreateHandler(IRepository<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

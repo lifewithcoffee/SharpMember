@@ -20,13 +20,13 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityEditHandler : ICommunityEditHandler
     {
-        IRepositoryBase<Community> _communityRepository;
-        IRepositoryBase<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
+        IRepository<Community> _communityRepository;
+        IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
         IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
 
         public CommunityEditHandler(
-            IRepositoryBase<Community> orgRepo,
-            IRepositoryBase<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
+            IRepository<Community> orgRepo,
+            IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
             IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
         )
         {

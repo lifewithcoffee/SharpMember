@@ -17,18 +17,18 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
     {
         Community Add(string name);
         void CancelMember(string appUserId);
-        IRepositoryBase<Community> Repo { get; }
+        IRepository<Community> Repo { get; }
     }
 
     public class CommunityRepository : ICommunityRepository
     {
-        IRepositoryBase<Community> _repo;
-        public CommunityRepository(IRepositoryBase<Community> repo)
+        IRepository<Community> _repo;
+        public CommunityRepository(IRepository<Community> repo)
         {
             _repo = repo;
         }
 
-        public IRepositoryBase<Community> Repo { get { return _repo; } }
+        public IRepository<Community> Repo { get { return _repo; } }
 
         public Community Add(string name)
         {

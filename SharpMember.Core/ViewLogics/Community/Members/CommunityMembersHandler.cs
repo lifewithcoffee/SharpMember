@@ -19,9 +19,9 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityMembersHandler : ICommunityMembersHandler
     {
-        IRepositoryBase<Member> _memberRepo;
+        IRepository<Member> _memberRepo;
 
-        public CommunityMembersHandler(IRepositoryBase<Member> memberRepo)
+        public CommunityMembersHandler(IRepository<Member> memberRepo)
         {
             _memberRepo = memberRepo;
         }

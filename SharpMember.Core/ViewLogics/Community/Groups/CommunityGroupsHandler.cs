@@ -19,9 +19,9 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityGroupsHandler : ICommunityGroupsHandler
     {
-        IRepositoryBase<Group> _groupRepository;
+        IRepository<Group> _groupRepository;
 
-        public CommunityGroupsHandler(IRepositoryBase<Group> groupRepository)
+        public CommunityGroupsHandler(IRepository<Group> groupRepository)
         {
             _groupRepository = groupRepository;
         }

@@ -19,10 +19,10 @@ namespace SharpMember.Core.Services
 
     public class AuthorizationService : IAuthorizationService
     {
-        IRepositoryBase<Member> _memberRepo;
-        IRepositoryBase<GroupMemberRelation> _memberGroupRoleRelationRepository;
+        IRepository<Member> _memberRepo;
+        IRepository<GroupMemberRelation> _memberGroupRoleRelationRepository;
 
-        public AuthorizationService(IRepositoryBase<Member> memberRepo, IRepositoryBase<GroupMemberRelation> memberGroupRoleRelationRepository)
+        public AuthorizationService(IRepository<Member> memberRepo, IRepository<GroupMemberRelation> memberGroupRoleRelationRepository)
         {
             this._memberRepo = memberRepo;
             this._memberGroupRoleRelationRepository = memberGroupRoleRelationRepository;

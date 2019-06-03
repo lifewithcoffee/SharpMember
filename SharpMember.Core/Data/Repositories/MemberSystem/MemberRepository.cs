@@ -21,17 +21,17 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         Task<Member> GenerateNewMemberWithProfileItemsAsync(int commId, string appUserId);
         Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber);
         Member Add(Member entity);
-        IRepositoryBase<Member> Repo { get; }
+        IRepository<Member> Repo { get; }
     }
 
     public class MemberRepository : IMemberRepository
     {
-        private readonly IRepositoryBase<Member> _repo;
+        private readonly IRepository<Member> _repo;
         private readonly IRepositoryRead<Community> _communityReader;
         private readonly IRepositoryRead<MemberProfileItemTemplate> _memberProfileItemTemplateReader;
 
         public MemberRepository(
-            IRepositoryBase<Member> repo,
+            IRepository<Member> repo,
             IRepositoryRead<Community> communityRepoReader,
             IRepositoryRead<MemberProfileItemTemplate> memberProfileItemTemplateRepoReader
         )
@@ -41,7 +41,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
             _memberProfileItemTemplateReader = memberProfileItemTemplateRepoReader;
         }
 
-        public IRepositoryBase<Member> Repo { get { return _repo; } }
+        public IRepository<Member> Repo { get { return _repo; } }
 
         public Member Add(Member entity)
         {
