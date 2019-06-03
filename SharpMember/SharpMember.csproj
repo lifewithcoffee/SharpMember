@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharpMember.Core\SharpMember.Core.csproj" />
+    <ProjectReference Include="..\SharpMember.Migrations.Postgres\SharpMember.Migrations.Postgres.csproj" />
+    <ProjectReference Include="..\SharpMember.Migrations.SqlServer\SharpMember.Migrations.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -145,13 +145,29 @@ namespace SharpMember.Core
                     services.AddDbContext<ApplicationDbContext>(
                         options =>
                         {
+                            string migrationAssembly = "SharpMember.Migrations.SqlServer";
                             bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
                             if ( config_UnitTestConnectionEnabled == true)
-                                options.UseSqlServer(Configuration.GetConnectionString("UnitTestConnection"));
+                                options.UseSqlServer(
+                                    Configuration.GetConnectionString("UnitTestConnection"), 
+                                    sqlServerOption => sqlServerOption.MigrationsAssembly(migrationAssembly)
+                                );
                             else
-                                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                                options.UseSqlServer(
+                                    Configuration.GetConnectionString("DefaultConnection"),
+                                    sqlServerOption => sqlServerOption.MigrationsAssembly(migrationAssembly)
+                                );
                         }
                     );
+                    break;
+                case eDatabaseType.Postgres:
+                    var postgresConnStr = Configuration.GetConnectionString("PostgresConnection");
+                    Console.WriteLine($"postgresConnStr: {postgresConnStr}");
+                    services.AddDbContext<ApplicationDbContext>( options =>
+                        options.UseNpgsql(
+                            postgresConnStr, 
+                            postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
+                        ));
                     break;
                 default:
                     throw new Exception("Unknown database type for DbContext dependency injection");

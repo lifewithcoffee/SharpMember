@@ -13,6 +13,6 @@ namespace SharpMember.Core.Definitions
 
     static public class GlobalConfigs
     {
-        static public eDatabaseType DatabaseType { get; set; } = eDatabaseType.SqlServer;
+        static public eDatabaseType DatabaseType { get; set; } = eDatabaseType.Postgres;
     }
 }
