@@ -46,7 +46,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             var member = await _memberRepository.GetMany(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
             if (member != null)
             {
-                result = MemberMapper<Member, MemberUpdateVm>.Cast(member);
+                result.CopyFrom(member);
                 result.ProfileItemViewModels = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
             }
 
@@ -69,7 +69,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
         {
             Ensure.IsTrue(data.Id > 0, $"Invalid value: MemberUpdateVM.Id = {data.Id}");
 
-            Member member = MemberMapper<MemberUpdateVm, Member>.Cast(data);
+            Member member = new Member().CopyFrom(data);
             member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
             _memberRepository.Update(member);
             await _memberRepository.CommitAsync();

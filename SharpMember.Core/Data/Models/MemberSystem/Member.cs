@@ -26,6 +26,29 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public string ApplicationUserId { get; set; }
     }
 
+    public static class MemberEntityExt
+    {
+        public static TOut CopyFrom<TOut>(this TOut to, MemberEntity from)
+            where TOut : MemberEntity
+        {
+            to.Id = from.Id;
+            to.Name = from.Name;
+            to.CommunityRole = from.CommunityRole;
+            to.Email = from.Email;
+            to.MemberNumber = from.MemberNumber;
+            to.Renewed = from.Renewed;
+            to.RegistrationDate = from.RegistrationDate;
+            to.CancellationDate = from.CancellationDate;
+            to.Level = from.Level;
+            to.Remarks = from.Remarks;
+
+            to.CommunityId = from.CommunityId;
+            to.ApplicationUserId = from.ApplicationUserId;
+
+            return to;
+        }
+    }
+
     public class Member : MemberEntity
     {
         [ForeignKey(nameof(ApplicationUserId))]
