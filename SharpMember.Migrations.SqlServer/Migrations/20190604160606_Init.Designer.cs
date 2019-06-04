@@ -10,7 +10,7 @@ using SharpMember.Core.Data;
 namespace SharpMember.Migrations.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190603155304_Init")]
+    [Migration("20190604160606_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

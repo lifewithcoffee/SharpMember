@@ -15,15 +15,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
 		README.md = README.md
+		update-local-packges.bat = update-local-packges.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreUtils.Database", "..\NetCoreUtils\NetCoreUtils.Database\NetCoreUtils.Database.csproj", "{D16CDD29-6B70-4194-ABD6-94D6FE751E45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PackageProjects", "PackageProjects", "{35D1E616-A617-4D38-B6B2-F8225F75D793}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMember.Migrations.SqlServer", "SharpMember.Migrations.SqlServer\SharpMember.Migrations.SqlServer.csproj", "{2AE62EC4-EDB7-4D65-BDE8-846109EA1A5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.Migrations.SqlServer", "SharpMember.Migrations.SqlServer\SharpMember.Migrations.SqlServer.csproj", "{2AE62EC4-EDB7-4D65-BDE8-846109EA1A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMember.Migrations.Postgres", "SharpMember.Migrations.Postgres\SharpMember.Migrations.Postgres.csproj", "{3B170DC8-0179-42FF-B0AC-3C70566CA306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.Migrations.Postgres", "SharpMember.Migrations.Postgres\SharpMember.Migrations.Postgres.csproj", "{3B170DC8-0179-42FF-B0AC-3C70566CA306}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
