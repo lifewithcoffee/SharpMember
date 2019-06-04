@@ -108,10 +108,10 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 throw new CommunityNotExistsException(commId);
             }
 
-            var memberProfileItems = await _memberProfileItemTemplateReader.GetManyNoTracking(t => t.CommunityId == commId)
-                .Select(t => new MemberProfileItem { MemberProfileItemTemplateId = t.Id })
-                .ToListAsync();
-
+            var memberProfileItems = await _memberProfileItemTemplateReader.GetMany(t => t.CommunityId == commId)
+                                                                           .AsNoTracking()
+                                                                           .Select(t => new MemberProfileItem { MemberProfileItemTemplateId = t.Id })
+                                                                           .ToListAsync();
             Member returned = new Member { MemberProfileItems = memberProfileItems, CommunityId = commId, ApplicationUserId = appUserId};
 
             return returned;

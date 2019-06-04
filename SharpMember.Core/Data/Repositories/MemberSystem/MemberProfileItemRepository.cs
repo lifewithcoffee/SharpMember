@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Definitions;
+using Microsoft.EntityFrameworkCore;
 
 namespace SharpMember.Core.Data.Repositories.MemberSystem
 {
@@ -88,8 +89,8 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<MemberProfileItem> GetByItemValueContains(int orgId, string itemValue)
         {
-            return from item in _repo.GetAllNoTracking()
-                   join member in _memberReader.GetManyNoTracking(m => m.CommunityId == orgId) on item.MemberId equals member.Id
+            return from item in _repo.GetAll().AsNoTracking()
+                   join member in _memberReader.GetMany(m => m.CommunityId == orgId).AsNoTracking() on item.MemberId equals member.Id
                    where item.ItemValue.Contains(itemValue)
                    select item;
         }
