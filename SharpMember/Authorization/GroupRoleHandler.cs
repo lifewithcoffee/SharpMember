@@ -41,13 +41,13 @@ namespace SharpMember.Authorization
 
             string userId = _userManager.GetUserId(context.User);
 
-            Member member = this._memberRepo.GetMany(m => m.ApplicationUserId == userId).SingleOrDefault();
+            Member member = this._memberRepo.Query(m => m.ApplicationUserId == userId).SingleOrDefault();
             if (!string.IsNullOrWhiteSpace(member?.CommunityRole))
             {
                 context.Succeed(requirement);
             }
 
-            string groupRole = _memberGroupRoleRelationRepo.GetMany(m => m.GroupId == group.Id && m.MemberId == member.Id).SingleOrDefault()?.GroupRole;
+            string groupRole = _memberGroupRoleRelationRepo.Query(m => m.GroupId == group.Id && m.MemberId == member.Id).SingleOrDefault()?.GroupRole;
             if(groupRole == requirement.MemberRole)
             {
                 context.Succeed(requirement);

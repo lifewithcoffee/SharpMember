@@ -27,7 +27,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
         public CommunityIndexVm Get()
         {
-            var commItems = _communityRepository.GetAll().ToList().Select(o => {
+            var commItems = _communityRepository.QueryAll().ToList().Select(o => {
 
                 string trim = o.Introduction != null? o.Introduction.Trim() : "";
                 string intro;

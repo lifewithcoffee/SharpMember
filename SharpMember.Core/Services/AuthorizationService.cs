@@ -30,17 +30,17 @@ namespace SharpMember.Core.Services
 
         public void UpdateCommunityRole(int memberId, string roleName)
         {
-            _memberRepo.GetById(memberId).CommunityRole = roleName;
+            _memberRepo.Get(memberId).CommunityRole = roleName;
         }
 
         public void RemoveCommunityRole(int memberId)
         {
-            _memberRepo.GetById(memberId).CommunityRole = "";
+            _memberRepo.Get(memberId).CommunityRole = "";
         }
 
         public void UpdateGroupRole(int memberId, int groupId, string roleName)
         {
-            var relation = _memberGroupRoleRelationRepository.GetMany(m => m.MemberId == memberId && m.GroupId == groupId).SingleOrDefault();
+            var relation = _memberGroupRoleRelationRepository.Query(m => m.MemberId == memberId && m.GroupId == groupId).SingleOrDefault();
 
             if(relation != null)
             {

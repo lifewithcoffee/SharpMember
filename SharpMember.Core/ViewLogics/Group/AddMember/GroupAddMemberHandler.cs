@@ -31,7 +31,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
         public GroupAddMemberVm Get(int groupId)
         {
-            var communityId = _groupRepo.GetById(groupId).CommunityId;
+            var communityId = _groupRepo.Get(groupId).CommunityId;
 
             //var items = (from m in _memberRepo.GetMany(x => x.CommunityId == communityId) select m).ToList()
             //            .Except(
@@ -44,8 +44,8 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
             //                                                })
             //            .ToList();
 
-            var allCommunityMemberQuery = _memberRepo.GetMany(x => x.CommunityId == communityId);
-            var groupMemberRelationQuery = _groupMemberRelationRepo.GetAll();
+            var allCommunityMemberQuery = _memberRepo.Query(x => x.CommunityId == communityId);
+            var groupMemberRelationQuery = _groupMemberRelationRepo.QueryAll();
             var items = (from m in allCommunityMemberQuery
                          where !(from m2 in allCommunityMemberQuery
                                  join r in groupMemberRelationQuery on m2.Id equals r.MemberId

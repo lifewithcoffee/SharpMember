@@ -37,7 +37,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
         public CommunityUpdateVm Get(int commId, int addMore)
         {
-            var community = _communityRepository.GetMany(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
+            var community = _communityRepository.Query(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
 
             CommunityUpdateVm result = community.ConvertToCommunityUpdateVM();
             result.ItemTemplateVMs = community.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVm { ItemTemplate = x}).ToList();

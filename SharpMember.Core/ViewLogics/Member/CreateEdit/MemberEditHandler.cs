@@ -43,7 +43,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             MemberUpdateVm result = null;
 
             // get existing items
-            var member = await _memberRepository.GetMany(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
+            var member = await _memberRepository.Query(m => m.Id == id).Include(m => m.MemberProfileItems).SingleOrDefaultAsync();
             if (member != null)
             {
                 result.CopyFrom(member);
@@ -53,7 +53,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
             // get the possible new items from the community item templates
             var templateIds = member.MemberProfileItems.Select(i => i.MemberProfileItemTemplateId).ToList();
             var newItems = _memberProfileItemTemplateRepository
-                .GetMany(t => t.CommunityId == member.CommunityId)
+                .Query(t => t.CommunityId == member.CommunityId)
                 .Where(t => !templateIds.Contains(t.Id))
                 .Select(t => new MemberProfileItem { MemberId = member.Id, MemberProfileItemTemplateId = t.Id })
                 .ToList();
@@ -77,7 +77,7 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 
         private List<CommunityGroupItemVm> GetGroups(int memberId)
         {
-            return _groupMemberRelationRepository.GetMany(x => x.MemberId == memberId)
+            return _groupMemberRelationRepository.Query(x => x.MemberId == memberId)
                                                  .Include(x => x.Group)
                                                  .Select(x => new CommunityGroupItemVm { Id = x.GroupId, Name = x.Group.Name, Introduction = x.Group.Description })
                                                  .ToList();

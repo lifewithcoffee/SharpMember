@@ -55,7 +55,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         public int GetNextUnassignedMemberNumber(int commId)
         {
             int nextMemberNumber = 1;
-            var member = _repo.GetMany(m => m.CommunityId == commId).OrderBy(m => m.MemberNumber).LastOrDefault();
+            var member = _repo.Query(m => m.CommunityId == commId).OrderBy(m => m.MemberNumber).LastOrDefault();
             if(member != null)
             {
                 nextMemberNumber = member.MemberNumber + 1;
@@ -76,7 +76,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// <returns>The successfully assigned member number.</returns>
         public async Task<int> AssignMemberNubmerAsync(int memberId, int nextMemberNumber)
         {
-            var member = _repo.GetById(memberId);
+            var member = _repo.Get(memberId);
             
             if(nextMemberNumber <= 0)
             {
@@ -108,7 +108,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
                 throw new CommunityNotExistsException(commId);
             }
 
-            var memberProfileItems = await _memberProfileItemTemplateReader.GetMany(t => t.CommunityId == commId)
+            var memberProfileItems = await _memberProfileItemTemplateReader.Query(t => t.CommunityId == commId)
                                                                            .AsNoTracking()
                                                                            .Select(t => new MemberProfileItem { MemberProfileItemTemplateId = t.Id })
                                                                            .ToListAsync();
@@ -119,12 +119,12 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<Member> GetByMemberNumber(int orgId, int memberNumber)
         {
-            return _repo.GetMany(m => m.MemberNumber == memberNumber && m.CommunityId == orgId);
+            return _repo.Query(m => m.MemberNumber == memberNumber && m.CommunityId == orgId);
         }
 
         public IQueryable<Member> GetByCommunity(int commId)
         {
-            return _repo.GetMany(m => m.CommunityId == commId);
+            return _repo.Query(m => m.CommunityId == commId);
         }
 
        

@@ -28,8 +28,8 @@ namespace SharpMember.Core.Services
 
         public async Task AttachProfileToUserAsync(int userId, int profileId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
-            var profile = await _memberRepository.GetByIdAsync(profileId);
+            var user = await _userRepository.GetAsync(userId);
+            var profile = await _memberRepository.GetAsync(profileId);
 
             user.Members.Add(profile);
         }

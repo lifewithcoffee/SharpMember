@@ -43,7 +43,7 @@ namespace U.DataRepositories
 
             // verify add
             var repoOrg = _fixture.GetServiceNewScope<ICommunityRepository>();
-            var readItemNames = repoOrg.Repo.GetMany(o => o.Id == existingOrgId)
+            var readItemNames = repoOrg.Repo.Query(o => o.Id == existingOrgId)
                 .Include(o => o.MemberProfileItemTemplates)
                 .SelectMany(o => o.MemberProfileItemTemplates)
                 .Select(t => t.ItemName)
@@ -58,27 +58,27 @@ namespace U.DataRepositories
             // ======================================================================================
             // update
             var repoUpdate = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
-            var updated = repoUpdate.Repo.GetMany(t => t.CommunityId == existingOrgId).First();
+            var updated = repoUpdate.Repo.Query(t => t.CommunityId == existingOrgId).First();
             string newItemName = $"updated-{Guid.NewGuid().ToString()}";
             updated.ItemName = newItemName;
             repoUpdate.Repo.Commit();
 
             // verify upate
             var repoRead = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
-            var updateItemNames = repoUpdate.Repo.GetMany(t => t.CommunityId == existingOrgId).Select(t => t.ItemName).ToList();
+            var updateItemNames = repoUpdate.Repo.Query(t => t.CommunityId == existingOrgId).Select(t => t.ItemName).ToList();
             Assert.Equal(2, updateItemNames.Count());
             Assert.Contains(newItemName, updateItemNames);
 
             // ======================================================================================
             // delete
             var repoDelete = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
-            var deleteTarget = repoDelete.Repo.GetMany(t => t.CommunityId == existingOrgId).Last();
+            var deleteTarget = repoDelete.Repo.Query(t => t.CommunityId == existingOrgId).Last();
             repoDelete.Repo.Remove(deleteTarget);
             repoDelete.Repo.Commit();
 
             // verify delete
             var repoRead2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
-            var remained = repoRead2.Repo.GetMany(t => t.CommunityId == existingOrgId).ToList();
+            var remained = repoRead2.Repo.Query(t => t.CommunityId == existingOrgId).ToList();
             Assert.Single(remained);
         }
 

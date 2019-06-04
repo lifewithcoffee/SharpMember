@@ -52,7 +52,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<MemberProfileItem> GetByMemberId(int memberId)
         {
-            return _repo.GetMany(i => i.MemberId == memberId);
+            return _repo.Query(i => i.MemberId == memberId);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// </summary>
         public void UpdateProfile(int memberId, IList<MemberProfileItem> newItems)
         {
-            var member = _memberReader.GetById(memberId);
+            var member = _memberReader.Get(memberId);
             if(null == member)
             {
                 throw new MemberNotExistsException(memberId);
@@ -89,8 +89,8 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<MemberProfileItem> GetByItemValueContains(int orgId, string itemValue)
         {
-            return from item in _repo.GetAll().AsNoTracking()
-                   join member in _memberReader.GetMany(m => m.CommunityId == orgId).AsNoTracking() on item.MemberId equals member.Id
+            return from item in _repo.QueryAll().AsNoTracking()
+                   join member in _memberReader.Query(m => m.CommunityId == orgId).AsNoTracking() on item.MemberId equals member.Id
                    where item.ItemValue.Contains(itemValue)
                    select item;
         }

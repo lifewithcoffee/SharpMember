@@ -19,7 +19,7 @@ namespace SharpMember.Core.Utils.Mappers
 
             foreach (var item in items)
             {
-                var template = await memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
+                var template = await memberProfileItemTemplateRepository.GetAsync(item.MemberProfileItemTemplateId);
                 string itemName = template.ItemName;
 
                 var itemVm = new MemberProfileItemVm().CopyFrom(item);
@@ -38,7 +38,7 @@ namespace SharpMember.Core.Utils.Mappers
 
             foreach(var item in items)
             {
-                var template = await memberProfileItemTemplateRepository.GetByIdAsync(item.MemberProfileItemTemplateId);
+                var template = await memberProfileItemTemplateRepository.GetAsync(item.MemberProfileItemTemplateId);
                 string itemName = template.ItemName;
                 result.Add(new MemberProfileItem(item));
             }

@@ -56,7 +56,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
 
         public IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId)
         {
-            return _repo.GetMany(t => t.CommunityId == commId);
+            return _repo.Query(t => t.CommunityId == commId);
         }
 
         public async Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired)
@@ -84,7 +84,7 @@ namespace SharpMember.Core.Data.Repositories.MemberSystem
         /// </summary>
         public void AddOrUpdateItemTemplates(int commId, IList<MemberProfileItemTemplate> newTemplates)
         {
-            if(null == _communityRepo.GetById(commId))
+            if(null == _communityRepo.Get(commId))
             {
                 throw new CommunityNotExistsException(commId);
             }

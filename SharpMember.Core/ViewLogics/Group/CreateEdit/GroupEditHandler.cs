@@ -31,7 +31,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
 
         public GroupUpdateVm Get(int id)
         {
-            var group = _groupRepository.GetMany(x => x.Id == id).Include(x => x.GroupMemberRelations).ThenInclude(x => x.Member).Single();
+            var group = _groupRepository.Query(x => x.Id == id).Include(x => x.GroupMemberRelations).ThenInclude(x => x.Member).Single();
             var result = group.ConvertToGroupUpdateVM();
             result.MemberItemVms = group.GroupMemberRelations.Select(x =>
                 new MemberItemVm
@@ -55,7 +55,7 @@ namespace SharpMember.Core.Views.ViewServices.GroupViewServices
         public async Task PostToDeleteSelectedMembersAsync(GroupUpdateVm data)
         {
             Ensure.IsTrue(data.Id > 0);
-            var group = _groupRepository.GetMany(x => x.Id == data.Id).Include(x => x.GroupMemberRelations).Single();
+            var group = _groupRepository.Query(x => x.Id == data.Id).Include(x => x.GroupMemberRelations).Single();
             foreach(var memberVm in data.MemberItemVms)
                 group.GroupMemberRelations.RemoveAll(x => x.MemberId == memberVm.Id && memberVm.Selected);
 

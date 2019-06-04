@@ -29,7 +29,7 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         public CommunityGroupsVm Get(int commId)
         {
             var items = _groupRepository
-                .GetMany(g => g.CommunityId == commId)
+                .Query(g => g.CommunityId == commId)
                 .ToList()
                 .Select(g => {
                     string trim = g.Description == null ? "" : g.Description.Trim();

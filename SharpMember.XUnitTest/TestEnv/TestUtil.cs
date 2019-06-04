@@ -33,7 +33,7 @@ namespace U.TestEnv
         public int GetNonexistentCommunityId()
         {
             var repo = _serviceProvider.GetService<ICommunityRepository>();
-            var community = repo.Repo.GetAll().OrderBy(o => o.Id).LastOrDefault();
+            var community = repo.Repo.QueryAll().OrderBy(o => o.Id).LastOrDefault();
             if (null == community)
                 return 1;
             else
@@ -54,7 +54,7 @@ namespace U.TestEnv
         public int GetNonexistentMemberId()
         {
             var memberRepo = _serviceProvider.GetService<IMemberRepository>();
-            var member = memberRepo.Repo.GetAll().OrderBy(m => m.Id).LastOrDefault();
+            var member = memberRepo.Repo.QueryAll().OrderBy(m => m.Id).LastOrDefault();
             if(null == member)
                 return 1;
             else

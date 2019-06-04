@@ -127,7 +127,7 @@ namespace U.TestEnv.TestService
 
             community = _fixture.GetServiceNewScope<ICommunityRepository>()
                                 .Repo
-                                .GetMany(c => c.Id == community.Id)
+                                .Query(c => c.Id == community.Id)
                                 .Include(c => c.Groups)
                                     .ThenInclude(g => g.GroupMemberRelations)
                                 .Include(c => c.Members)

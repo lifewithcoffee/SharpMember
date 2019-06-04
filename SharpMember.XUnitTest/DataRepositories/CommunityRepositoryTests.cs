@@ -40,12 +40,12 @@ namespace U.DataRepositories
 
             // read to verify add
             var readRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var readCommunity = readRepo.Repo.GetById(newCommunity.Id);
+            var readCommunity = readRepo.Repo.Get(newCommunity.Id);
             Assert.Equal(newCommunity.Name, readCommunity.Name);
 
             // update
             var updateRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var orgBeforeUpdate = updateRepo.Repo.GetById(newCommunity.Id);
+            var orgBeforeUpdate = updateRepo.Repo.Get(newCommunity.Id);
 
             string newCommunityName = Guid.NewGuid().ToString();
             orgBeforeUpdate.Name = newCommunityName;
@@ -53,7 +53,7 @@ namespace U.DataRepositories
 
             // read to verify update
             var readRepo2 = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var orgAfterUpdate = readRepo2.Repo.GetById(newCommunity.Id);
+            var orgAfterUpdate = readRepo2.Repo.Get(newCommunity.Id);
             Assert.Equal(newCommunityName, orgAfterUpdate.Name);
         }
     }
