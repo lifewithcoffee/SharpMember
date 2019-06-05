@@ -82,11 +82,9 @@ namespace SharpMember.Core
             }
         }
 
-        static private void AddRepositories(this IServiceCollection services)
+        static private void AddRepositoryServices(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-            services.AddScoped(typeof(IRepositoryRead<,>), typeof(RepositoryRead<,>));
-            services.AddScoped(typeof(IRepositoryWrite<,>), typeof(RepositoryWrite<,>));
+            services.AddRepositories();
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IRepositoryRead<>), typeof(RepositoryReader<>));
@@ -177,7 +175,7 @@ namespace SharpMember.Core
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddRepositories();
+            services.AddRepositoryServices();
             services.AddServices();
             services.AddViewServices();
         }

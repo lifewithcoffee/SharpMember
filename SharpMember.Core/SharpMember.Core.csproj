@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" />
-    <PackageReference Include="NetCoreUtils.Database" Version="0.4.0.9" />
+    <PackageReference Include="NetCoreUtils.Database" Version="1.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     <PackageReference Include="Savorboard.NPOI.Core.Ooxml" Version="1.1.4" />
   </ItemGroup>
