@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
-namespace SharpMember.Core.Data.Repositories
+namespace SharpMember.Core.Data.DataServices
 {
     //public interface IApplicationUserRepository : IRepositoryBase<ApplicationUser>
     //{

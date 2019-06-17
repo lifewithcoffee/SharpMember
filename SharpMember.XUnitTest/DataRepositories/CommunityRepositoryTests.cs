@@ -5,13 +5,14 @@ using Moq;
 using SharpMember.Core;
 using SharpMember.Core.Data;
 using SharpMember.Core.Data.Models.MemberSystem;
-using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Data.DataServices.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using U.TestEnv;
 using Xunit;
+using NetCoreUtils.Database;
 
 namespace U.DataRepositories
 {
@@ -28,32 +29,32 @@ namespace U.DataRepositories
         [Fact]
         public void Add_get_update_community()
         {
-            ICommunityRepository repo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
+            var repo = _serviceProviderFixture.GetServiceNewScope<IRepository<Community>>();
             Assert.NotNull(repo);
 
             // add
-            var newCommunity = repo.Repo.Add(new Community { Name = Guid.NewGuid().ToString()});
+            var newCommunity = repo.Add(new Community { Name = Guid.NewGuid().ToString()});
             Assert.False(newCommunity.Id > 0);
 
-            repo.Repo.Commit();
+            repo.Commit();
             Assert.True(newCommunity.Id > 0);
 
             // read to verify add
-            var readRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var readCommunity = readRepo.Repo.Get(newCommunity.Id);
+            var readRepo = _serviceProviderFixture.GetServiceNewScope<IRepository<Community>>();
+            var readCommunity = readRepo.Get(newCommunity.Id);
             Assert.Equal(newCommunity.Name, readCommunity.Name);
 
             // update
-            var updateRepo = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var orgBeforeUpdate = updateRepo.Repo.Get(newCommunity.Id);
+            var updateRepo = _serviceProviderFixture.GetServiceNewScope<IRepository<Community>>();
+            var orgBeforeUpdate = updateRepo.Get(newCommunity.Id);
 
             string newCommunityName = Guid.NewGuid().ToString();
             orgBeforeUpdate.Name = newCommunityName;
-            updateRepo.Repo.Commit();
+            updateRepo.Commit();
 
             // read to verify update
-            var readRepo2 = _serviceProviderFixture.GetServiceNewScope<ICommunityRepository>();
-            var orgAfterUpdate = readRepo2.Repo.Get(newCommunity.Id);
+            var readRepo2 = _serviceProviderFixture.GetServiceNewScope<IRepository<Community>>();
+            var orgAfterUpdate = readRepo2.Get(newCommunity.Id);
             Assert.Equal(newCommunityName, orgAfterUpdate.Name);
         }
     }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using SharpMember.Core.Data.Models.ActivitySystem;
 using NetCoreUtils.Database;
 
-namespace SharpMember.Core.Data.Repositories
+namespace SharpMember.Core.Data.DataServices
 {
     //public interface IGatheringRepository : IRepositoryBase<Gathering> { }
 

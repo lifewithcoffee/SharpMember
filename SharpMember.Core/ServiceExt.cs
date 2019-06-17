@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using SharpMember.Core.Data.Repositories;
+using SharpMember.Core.Data.DataServices;
 using SharpMember.Core.Services.Excel;
 using SharpMember.Core.Services;
 using SharpMember.Core.Data;
@@ -11,7 +11,7 @@ using SharpMember.Core.Definitions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SharpMember.Core.Data.Models;
-using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Data.DataServices.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
@@ -91,9 +91,8 @@ namespace SharpMember.Core
             services.AddScoped(typeof(IRepositoryWrite<>), typeof(RepositoryWriter<>));
 
             //services.AddScoped<IGroupRepository, GroupRepository>();
-            services.AddScoped<IMemberProfileItemRepository, MemberProfileItemRepository>();
+            services.AddScoped<IMemberProfileItemService, MemberProfileItemService>();
             services.AddScoped<IMemberRepository, MemberRepository>();
-            services.AddScoped<ICommunityRepository, CommunityRepository>();
             //services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
             //services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();

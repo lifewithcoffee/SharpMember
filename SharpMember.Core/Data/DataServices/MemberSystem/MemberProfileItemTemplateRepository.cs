@@ -9,7 +9,7 @@ using SharpMember.Core.Definitions;
 using AutoMapper;
 using SharpMember.Core.Data.Models.MemberSystem;
 
-namespace SharpMember.Core.Data.Repositories.MemberSystem
+namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
     public interface IMemberProfileItemTemplateRepository
     {

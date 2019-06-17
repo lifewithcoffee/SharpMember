@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using SharpMember.Core.Data.Repositories;
-using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Data.DataServices;
+using SharpMember.Core.Data.DataServices.MemberSystem;
 using Microsoft.Extensions.DependencyInjection;
 using SharpMember.Core.Data.Models.MemberSystem;
 using System.Linq;
@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SharpMember.Core.Definitions;
 using U.TestEnv;
+using NetCoreUtils.Database;
 
 namespace U.DataRepositories
 {
@@ -30,6 +31,7 @@ namespace U.DataRepositories
         public async Task Test_add_update_delete_MemberProfileItemTemplate()
         {
             int existingOrgId = _fixture.Util.GetExistingCommunityId();
+            Assert.True(existingOrgId > 0);
             string[] itemNames = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
             // ======================================================================================
@@ -42,8 +44,8 @@ namespace U.DataRepositories
             await repo.Repo.CommitAsync();
 
             // verify add
-            var repoOrg = _fixture.GetServiceNewScope<ICommunityRepository>();
-            var readItemNames = repoOrg.Repo.Query(o => o.Id == existingOrgId)
+            var repoOrg = _fixture.GetServiceNewScope<IRepository<Community>>();
+            var readItemNames = repoOrg.Query(o => o.Id == existingOrgId)
                 .Include(o => o.MemberProfileItemTemplates)
                 .SelectMany(o => o.MemberProfileItemTemplates)
                 .Select(t => t.ItemName)

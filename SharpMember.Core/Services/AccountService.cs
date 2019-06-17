@@ -1,8 +1,8 @@
 ﻿using NetCoreUtils.Database;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.Models.MemberSystem;
-using SharpMember.Core.Data.Repositories;
-using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Data.DataServices;
+using SharpMember.Core.Data.DataServices.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;

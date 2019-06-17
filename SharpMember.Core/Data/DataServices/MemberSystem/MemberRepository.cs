@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using SharpMember.Core.Definitions;
 
-namespace SharpMember.Core.Data.Repositories.MemberSystem
+namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
     public interface IMemberRepository
     {

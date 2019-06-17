@@ -17,11 +17,6 @@ namespace U.TestEnv
     {
         public IServiceProvider ServiceProvider { get; private set; }
 
-        public T GetService<T>()
-        {
-            return this.ServiceProvider.GetService<T>();
-        }
-
         /// <summary>
         /// This method will update ServiceProvide as well.
         /// </summary>

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\NetCoreUtils\NetCoreUtils.Database\NetCoreUtils.Database.csproj" />
     <ProjectReference Include="..\SharpMember.Core\SharpMember.Core.csproj" />
   </ItemGroup>
 

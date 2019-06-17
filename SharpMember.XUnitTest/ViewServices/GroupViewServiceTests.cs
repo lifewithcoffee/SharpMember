@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Data.DataServices.MemberSystem;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace U.ViewServices
         public async Task Group_editView_should_contain_members()
         {
             // create test community with 3 groups
-            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            var community = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
 
             int memberNumber0 = community.Groups[0].GroupMemberRelations.Count;
             Assert.True(memberNumber0 > 0);
@@ -37,7 +37,7 @@ namespace U.ViewServices
             Assert.True(memberNumber2 > 0);
 
             // verify
-            var groupEditViewService = _fixture.GetService<IGroupEditHandler>();
+            var groupEditViewService = _fixture.GetServiceNewScope<IGroupEditHandler>();
 
             int memberVmNumber0 = groupEditViewService.Get(community.Groups[0].Id).MemberItemVms.Count;
             Assert.Equal(memberNumber0, memberVmNumber0);
@@ -53,14 +53,14 @@ namespace U.ViewServices
         public async Task Group_editView_delete_selected_members()
         {
             // populate testing data
-            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            var community = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
             int totalMemberNumberBefore = community.Members.Count;
             int groupMemberNumberBefore = community.Groups[2].GroupMemberRelations.Count;
             Assert.True(totalMemberNumberBefore > 0);
             Assert.True(groupMemberNumberBefore > 0);
 
             // do change: remove members from group
-            var viewModel = _fixture.GetService<IGroupEditHandler>().Get(community.Groups[2].Id);
+            var viewModel = _fixture.GetServiceNewScope<IGroupEditHandler>().Get(community.Groups[2].Id);
             viewModel.MemberItemVms[0].Selected = true;
             viewModel.MemberItemVms[1].Selected = true;
             await _fixture.GetServiceNewScope<IGroupEditHandler>().PostToDeleteSelectedMembersAsync(viewModel);
@@ -79,7 +79,7 @@ namespace U.ViewServices
         public async Task Group_addMemberView_should_only_list_members_not_in_the_current_group()
         {
             // populate testing data
-            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            var community = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
             int totalMemberNumber = community.Members.Count;
             int groupMemberNumber = community.Groups[2].GroupMemberRelations.Count;
 

@@ -1,4 +1,4 @@
-﻿using SharpMember.Core.Data.Repositories.MemberSystem;
+﻿using SharpMember.Core.Data.DataServices.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;

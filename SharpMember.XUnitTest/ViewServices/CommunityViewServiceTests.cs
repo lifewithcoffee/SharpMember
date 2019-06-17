@@ -39,10 +39,16 @@ namespace U.ViewServices
         [Fact]
         public async Task Community_create_view_post()
         {
-            var (_, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+
             string newCommunityName = model_post.Name;
-            string itemName1 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
-            string itemName2 = model_post.ItemTemplateVMs[1].ItemTemplate.ItemName;
+
+            string itemName0 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
+            bool required0 = model_post.ItemTemplateVMs[0].ItemTemplate.IsRequired;
+
+            string itemName1 = model_post.ItemTemplateVMs[1].ItemTemplate.ItemName;
+            bool required1 = model_post.ItemTemplateVMs[1].ItemTemplate.IsRequired;
+
             int commId = model_post.Id;
 
             // verify
@@ -53,17 +59,13 @@ namespace U.ViewServices
             Assert.Equal(2, model_get.ItemTemplateVMs.Count);
 
             Assert.Equal(commId, model_get.ItemTemplateVMs[0].ItemTemplate.CommunityId);
-            Assert.True(model_get.ItemTemplateVMs[0].ItemTemplate.IsRequired);
-
             Assert.Equal(commId, model_get.ItemTemplateVMs[1].ItemTemplate.CommunityId);
-            Assert.False(model_get.ItemTemplateVMs[1].ItemTemplate.IsRequired);
 
             Assert.True(model_get.ItemTemplateVMs[0].ItemTemplate.Id > 0);
             Assert.True(model_get.ItemTemplateVMs[1].ItemTemplate.Id > 0);
 
-            Assert.Equal(itemName1, model_get.ItemTemplateVMs[0].ItemTemplate.ItemName);
-            Assert.Equal(itemName2, model_get.ItemTemplateVMs[1].ItemTemplate.ItemName);
-
+            Assert.Equal(required0, model_get.ItemTemplateVMs.Where(vm => vm.ItemTemplate.ItemName == itemName0).Single().ItemTemplate.IsRequired);
+            Assert.Equal(required1, model_get.ItemTemplateVMs.Where(vm => vm.ItemTemplate.ItemName == itemName1).Single().ItemTemplate.IsRequired);
         }
     }
 
@@ -80,19 +82,18 @@ namespace U.ViewServices
         [Fact]
         public async Task Edit_append_item_templates()
         { 
-            var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
-            string itemName1 = model_post.ItemTemplateVMs[0].ItemTemplate.ItemName;
+            var (_, model_post) = await  _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             int commId = model_post.Id;
 
             // update item templates
-            string updatedItem = ShortGuid.NewGuid();
-            string appendedItem = ShortGuid.NewGuid();
+            var model_update = _fixture.GetServiceNewScope<ICommunityEditHandler>().Get(commId, 0);
 
-            var editViewService_read = _fixture.GetServiceNewScope<ICommunityEditHandler>();
-            var model_update = editViewService_read.Get(commId, 0);
+            string updated = ShortGuid.NewGuid();
+            string appended = ShortGuid.NewGuid();
+            string unchanged = model_update.ItemTemplateVMs[0].ItemTemplate.ItemName;
 
-            model_update.ItemTemplateVMs[1].ItemTemplate.ItemName = updatedItem;
-            model_update.ItemTemplateVMs.Add(new MemberProfileItemTemplateVm { ItemTemplate = new MemberProfileItemTemplate { ItemName = appendedItem } });
+            model_update.ItemTemplateVMs[1].ItemTemplate.ItemName = updated;
+            model_update.ItemTemplateVMs.Add(new MemberProfileItemTemplateVm { ItemTemplate = new MemberProfileItemTemplate { ItemName = appended } });
 
             /** write changes
              * 
@@ -114,8 +115,7 @@ namespace U.ViewServices
              *  The workaround is simple -- post using a different DbContext. That's why the creating
              *  a new scope to get a ICommunityEditViewService instance can fix this problem.
              */
-            var editViewService_write = _fixture.GetServiceNewScope<ICommunityEditHandler>();
-            await editViewService_write.PostAsync(model_update);
+            await _fixture.GetServiceNewScope<ICommunityEditHandler>().PostAsync(model_update);
 
             // verify
             var editViewService = _fixture.GetServiceNewScope<ICommunityEditHandler>();
@@ -123,15 +123,15 @@ namespace U.ViewServices
 
             Assert.Equal(3, model_get.ItemTemplateVMs.Count);
 
-            Assert.Equal(itemName1, model_get.ItemTemplateVMs[0].ItemTemplate.ItemName);
-            Assert.Equal(updatedItem, model_get.ItemTemplateVMs[1].ItemTemplate.ItemName);
-            Assert.Equal(appendedItem, model_get.ItemTemplateVMs[2].ItemTemplate.ItemName);
+            Assert.NotNull(model_get.ItemTemplateVMs.Where(vm => vm.ItemTemplate.ItemName == updated).SingleOrDefault());
+            Assert.NotNull(model_get.ItemTemplateVMs.Where(vm => vm.ItemTemplate.ItemName == appended).SingleOrDefault());
+            Assert.NotNull(model_get.ItemTemplateVMs.Where(vm => vm.ItemTemplate.ItemName == unchanged).SingleOrDefault());
         }
 
         [Fact]
         public async Task add_more_item_templates()
         {
-            var (_, model_post) = await  _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await  _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             int itemTemplateNumber = model_post.ItemTemplateVMs.Where(x => !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Count();
 
             // when addMore = 0
@@ -146,7 +146,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Existing_item_templates_with_empty_names_shouldNot_be_saved()
         {
-            var (_, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
 
             // make change
             var model_get = _fixture.GetServiceNewScope<ICommunityEditHandler>().Get(model_post.Id, 0);
@@ -165,7 +165,7 @@ namespace U.ViewServices
         [Fact]
         public async Task New_item_templates_with_empty_names_shouldNot_be_saved()
         { 
-            var (_, model_post) = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             int vmSaved = model_post.ItemTemplateVMs.Where(x => !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Count();
 
             // add more item templates with blank names
@@ -197,10 +197,10 @@ namespace U.ViewServices
         public async Task Delete_selected_members()
         {
             // create test community with members
-            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            var community = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
 
             // delete members
-            var viewModel = _fixture.GetService<ICommunityMembersHandler>().Get(community.Id);
+            var viewModel = _fixture.GetServiceNewScope<ICommunityMembersHandler>().Get(community.Id);
             int beforeDelete = viewModel.MemberItemVms.Count;
 
             viewModel.MemberItemVms[0].Selected = true;
@@ -231,12 +231,12 @@ namespace U.ViewServices
         public async Task Delete_selected_groups()
         {
             // create test community with groups
-            var community = await _fixture.GetService<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
+            var community = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromRepository();
 
             //var groupRepo = _fixture.GetService<IRepositoryBase<Group>>();
 
             // delete groups
-            var viewModel = _fixture.GetService<ICommunityGroupsHandler>().Get(community.Id);
+            var viewModel = _fixture.GetServiceNewScope<ICommunityGroupsHandler>().Get(community.Id);
             int beforeDelete = viewModel.ItemViewModels.Count;
 
             viewModel.ItemViewModels[0].Selected = true;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SharpMember.Core.Services.Excel;
-using SharpMember.Core.Data.Repositories;
+using SharpMember.Core.Data.DataServices;
 using Microsoft.Extensions.DependencyInjection;
 using SharpMember.Models;
 

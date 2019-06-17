@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Xunit;
-using SharpMember.Core.Data.Repositories.MemberSystem;
+using SharpMember.Core.Data.DataServices.MemberSystem;
 using NetCoreUtils.Database;
 using SharpMember.Core.Data;
 using Microsoft.EntityFrameworkCore;
@@ -122,11 +122,10 @@ namespace U.TestEnv.TestService
         [Fact]
         public async Task Create_test_community_from_repository()
         {
-            var communityTestDataProvider = _fixture.GetService<ICommunityTestDataProvider>();
+            var communityTestDataProvider = _fixture.GetServiceNewScope<ICommunityTestDataProvider>();
             var community = await communityTestDataProvider.CreateTestCommunityFromRepository();
 
-            community = _fixture.GetServiceNewScope<ICommunityRepository>()
-                                .Repo
+            community = _fixture.GetServiceNewScope<IRepository<Community>>()
                                 .Query(c => c.Id == community.Id)
                                 .Include(c => c.Groups)
                                     .ThenInclude(g => g.GroupMemberRelations)
