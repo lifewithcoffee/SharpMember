@@ -16,7 +16,7 @@ namespace U.TestEnv
 {
     public class TestUtil
     {
-        IServiceProvider _serviceProvider;
+        readonly IServiceProvider _serviceProvider;
 
         public TestUtil(IServiceProvider serviceProvider)
         {
@@ -72,7 +72,7 @@ namespace U.TestEnv
             UserManager<ApplicationUser> userManager = GetNewProvider().GetService<UserManager<ApplicationUser>>();
 
             var appUser = new ApplicationUser { UserName = Guid.NewGuid().ToString() };
-            IdentityResult identityResult = await userManager.CreateAsync(appUser);
+            await userManager.CreateAsync(appUser);
             var user = await userManager.FindByNameAsync(appUser.UserName);
             return user.Id;
         }
