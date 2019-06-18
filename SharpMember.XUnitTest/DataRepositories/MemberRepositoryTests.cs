@@ -59,7 +59,7 @@ namespace U.DataRepositories
             int existingCommunityId = _fixture.Util.GetExistingCommunityId();
             string[] originalTemplats = { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
 
-            var itemTemplateRepo = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
+            var itemTemplateRepo = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
             await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
             await itemTemplateRepo.Repo.CommitAsync();
 
@@ -73,7 +73,7 @@ namespace U.DataRepositories
 
             // Delete one item template
             {
-                var itemTemplateRepo2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateRepository>();
+                var itemTemplateRepo2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
                 itemTemplateRepo2.Repo.Remove(templateToBeDeleted);
                 await itemTemplateRepo2.Repo.CommitAsync();

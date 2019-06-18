@@ -11,7 +11,7 @@ using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
-    public interface IMemberProfileItemTemplateRepository
+    public interface IMemberProfileItemTemplateService
     {
         IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId);
         Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired);
@@ -20,12 +20,12 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
         IRepository<MemberProfileItemTemplate> Repo { get; }
     }
 
-    public class MemberProfileItemTemplateRepository : IMemberProfileItemTemplateRepository
+    public class MemberProfileItemTemplateService : IMemberProfileItemTemplateService
     {
         IRepository<MemberProfileItemTemplate> _repo;
         IRepository<Community> _communityRepo;
 
-        public MemberProfileItemTemplateRepository(
+        public MemberProfileItemTemplateService(
             IRepository<MemberProfileItemTemplate> repo,
             IRepository<Community> communityRepo
             )

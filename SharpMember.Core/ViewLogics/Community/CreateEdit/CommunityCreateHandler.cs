@@ -24,14 +24,14 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         IRepository<Member> _memberRepo;
         IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
         IMemberRepository _memberRepository;
-        IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
+        IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
 
         public CommunityCreateHandler(
             IRepository<Community> orgRepo,
             IRepository<Member> memberRepo,
             IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
             IMemberRepository memberRepository,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IMemberProfileItemTemplateService memberProfileItemTemplateRepository
         )
         {
             _communityRepository = orgRepo;

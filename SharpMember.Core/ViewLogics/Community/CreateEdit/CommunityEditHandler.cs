@@ -22,12 +22,12 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
     {
         readonly IRepository<Community> _communityRepository;
         readonly IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
-        readonly IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
+        readonly IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
 
         public CommunityEditHandler(
             IRepository<Community> orgRepo,
             IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IMemberProfileItemTemplateService memberProfileItemTemplateRepository
         )
         {
             _communityRepository = orgRepo;

@@ -94,7 +94,7 @@ namespace SharpMember.Core
             services.AddScoped<IMemberProfileItemService, MemberProfileItemService>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             //services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-            services.AddScoped<IMemberProfileItemTemplateRepository, MemberProfileItemTemplateRepository>();
+            services.AddScoped<IMemberProfileItemTemplateService, MemberProfileItemTemplateService>();
             //services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
         }
         

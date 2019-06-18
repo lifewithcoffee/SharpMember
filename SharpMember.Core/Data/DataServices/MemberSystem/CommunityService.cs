@@ -39,7 +39,7 @@ namespace SharpMember.Core.Services
     {
         IRepository<Community> _communityRepo;
         IMemberRepository _memberRepository;
-        IMemberProfileItemTemplateRepository _memberProfileItemTemplateRepository;
+        IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
 
         public Community Community { get; set; }
 
@@ -47,7 +47,7 @@ namespace SharpMember.Core.Services
             IRepository<Community> communityRepo,
             IUnitOfWork<ApplicationDbContext> unitOfWork,
             IMemberRepository memberRepository,
-            IMemberProfileItemTemplateRepository memberProfileItemTemplateRepository
+            IMemberProfileItemTemplateService memberProfileItemTemplateRepository
         ):base(unitOfWork)
         {
             _communityRepo = communityRepo;
