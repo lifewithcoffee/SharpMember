@@ -131,6 +131,7 @@ namespace SharpMember.Core
         {
             AutoMapperConfiguration();
 
+            bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
             switch (GlobalConfigs.DatabaseType)
             {
                 case eDatabaseType.Sqlite:
@@ -139,30 +140,24 @@ namespace SharpMember.Core
                     );
                     break;
                 case eDatabaseType.SqlServer:
-                    services.AddDbContext<ApplicationDbContext>(
-                        options =>
-                        {
-                            string migrationAssembly = "SharpMember.Migrations.SqlServer";
-                            bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
-                            if ( config_UnitTestConnectionEnabled == true)
-                                options.UseSqlServer(
-                                    Configuration.GetConnectionString("UnitTestConnection"), 
-                                    sqlServerOption => sqlServerOption.MigrationsAssembly(migrationAssembly)
-                                );
-                            else
-                                options.UseSqlServer(
-                                    Configuration.GetConnectionString("DefaultConnection"),
-                                    sqlServerOption => sqlServerOption.MigrationsAssembly(migrationAssembly)
-                                );
-                        }
-                    );
+                    string connectionStringConfig = "DefaultConnection";
+                    if (config_UnitTestConnectionEnabled)
+                        connectionStringConfig = "UnitTestConnection";
+
+                    services.AddDbContext<ApplicationDbContext>( options =>
+                        options.UseSqlServer(
+                            Configuration.GetConnectionString(connectionStringConfig), 
+                            sqlServerOption => sqlServerOption.MigrationsAssembly("SharpMember.Migrations.SqlServer")
+                        ));
                     break;
                 case eDatabaseType.Postgres:
-                    var postgresConnStr = Configuration.GetConnectionString("PostgresConnection");
-                    Console.WriteLine($"postgresConnStr: {postgresConnStr}");
+                    string postgresConnStr = "PostgresConnection";
+                    if (config_UnitTestConnectionEnabled)
+                        postgresConnStr = "PostgresConnection_UnitTest";
+
                     services.AddDbContext<ApplicationDbContext>( options =>
                         options.UseNpgsql(
-                            postgresConnStr, 
+                            Configuration.GetConnectionString(postgresConnStr), 
                             postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
                         ));
                     break;

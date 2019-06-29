@@ -34,6 +34,7 @@ namespace U.TestEnv
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(sharpMemberDir)
                 .AddJsonFile(TestGlobalSettings.sharpMemberJsonSettingName, optional: true, reloadOnChange: true)
+                .AddJsonFile(TestGlobalSettings.sharpMemberJsonSettingNameForUnitTest, optional: true, reloadOnChange: true)
                 .AddUserSecrets(userSecretsId: "aspnet-SharpMember-4C3332C6-4145-4408-BDD4-63A97039ED0D") // use project SharpMember's secret id
                 .Build();
 
