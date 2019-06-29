@@ -10,14 +10,9 @@ namespace SharpMember.Core.Data.DataServices
         where T : class
     {
         readonly IRepository<T> _repo;
-        readonly IUnitOfWork<ApplicationDbContext> _unitOfWork;
 
-        public EntityServiceBase(
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
-            IRepository<T> repo
-        )
+        public EntityServiceBase(IRepository<T> repo)
         {
-            _unitOfWork = unitOfWork;
             _repo = repo;
         }
 
@@ -25,12 +20,12 @@ namespace SharpMember.Core.Data.DataServices
 
         public bool Commit()
         {
-            return _unitOfWork.Commit();
+            return _repo.Commit();
         }
 
         public async Task<bool> CommitAsync()
         {
-            return await _unitOfWork.CommitAsync();
+            return await _repo.CommitAsync();
         }
     }
 }

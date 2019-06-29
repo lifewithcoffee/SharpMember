@@ -30,10 +30,9 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
 
         public CommunityService(
             IRepository<Community> communityRepo,
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateService memberProfileItemTemplateRepository
-        ):base(unitOfWork, communityRepo)
+        ):base( communityRepo)
         {
             _communityRepo = communityRepo;
             _memberRepository = memberRepository;

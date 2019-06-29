@@ -26,10 +26,9 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
         readonly IRepository<Community> _communityRepo;
 
         public MemberProfileItemTemplateService(
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
             IRepository<MemberProfileItemTemplate> repo,
             IRepository<Community> communityRepo
-        ):base(unitOfWork,repo)
+        ):base(repo)
         {
             _repo = repo;
             _communityRepo = communityRepo;
