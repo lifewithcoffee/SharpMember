@@ -11,7 +11,7 @@ using SharpMember.Core.Data.Models.MemberSystem;
 
 namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
-    public interface IMemberProfileItemTemplateService
+    public interface IMemberProfileItemTemplateService : ICommittable
     {
         IQueryable<MemberProfileItemTemplate> GetByCommunityId(int commId);
         Task<MemberProfileItemTemplate> AddTemplateAsync(int commId, string itemName, bool isRequired);
@@ -20,21 +20,20 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
         IRepository<MemberProfileItemTemplate> Repo { get; }
     }
 
-    public class MemberProfileItemTemplateService : IMemberProfileItemTemplateService
+    public class MemberProfileItemTemplateService : EntityServiceBase<MemberProfileItemTemplate>, IMemberProfileItemTemplateService
     {
-        IRepository<MemberProfileItemTemplate> _repo;
-        IRepository<Community> _communityRepo;
+        readonly IRepository<MemberProfileItemTemplate> _repo;
+        readonly IRepository<Community> _communityRepo;
 
         public MemberProfileItemTemplateService(
+            IUnitOfWork<ApplicationDbContext> unitOfWork,
             IRepository<MemberProfileItemTemplate> repo,
             IRepository<Community> communityRepo
-            )
+        ):base(unitOfWork,repo)
         {
             _repo = repo;
             _communityRepo = communityRepo;
         }
-
-        public IRepository<MemberProfileItemTemplate> Repo { get { return _repo; } }
 
         public class MemberProfileItemTemplateIdComparer : IEqualityComparer<MemberProfileItemTemplate>
         {

@@ -5,8 +5,9 @@ using SharpMember.Core.Data.DataServices.MemberSystem;
 using SharpMember.Core.Definitions;
 using System;
 using System.Threading.Tasks;
+using SharpMember.Core.Data.DataServices;
 
-namespace SharpMember.Core.Services
+namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
     public interface ICommunityService : ICommittable
     {
@@ -14,32 +15,16 @@ namespace SharpMember.Core.Services
         Task AddMemberProfileTemplateAsync(string itemName, bool required);
         Task CreateCommunityAsync(string appUserId, string communityName);
         Community Community { get; set; }
+        IRepository<Community> Repo { get; }
     }
 
-    public class EntityServiceBase : ICommittable
+   
+
+    class CommunityService : EntityServiceBase<Community>, ICommunityService
     {
-        IUnitOfWork<ApplicationDbContext> _unitOfWork;
-        public EntityServiceBase(IUnitOfWork<ApplicationDbContext> unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-
-        public bool Commit()
-        {
-            return _unitOfWork.Commit();
-        }
-
-        public async Task<bool> CommitAsync()
-        {
-            return await _unitOfWork.CommitAsync();
-        }
-    }
-
-    class CommunityService : EntityServiceBase, ICommunityService
-    {
-        IRepository<Community> _communityRepo;
-        IMemberRepository _memberRepository;
-        IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
+        readonly IRepository<Community> _communityRepo;
+        readonly IMemberRepository _memberRepository;
+        readonly IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
 
         public Community Community { get; set; }
 
@@ -48,7 +33,7 @@ namespace SharpMember.Core.Services
             IUnitOfWork<ApplicationDbContext> unitOfWork,
             IMemberRepository memberRepository,
             IMemberProfileItemTemplateService memberProfileItemTemplateRepository
-        ):base(unitOfWork)
+        ):base(unitOfWork, communityRepo)
         {
             _communityRepo = communityRepo;
             _memberRepository = memberRepository;

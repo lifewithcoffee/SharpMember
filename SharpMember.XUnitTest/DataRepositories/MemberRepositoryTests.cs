@@ -11,13 +11,14 @@ using Xunit.Abstractions;
 using SharpMember.Core;
 using SharpMember.Core.Definitions;
 using U.TestEnv;
+using NetCoreUtils.Database;
 
 namespace U.DataRepositories
 {
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberRepositoryTests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public MemberRepositoryTests(ServiceProviderFixture serviceProviderFixture)
         {
@@ -61,7 +62,7 @@ namespace U.DataRepositories
 
             var itemTemplateRepo = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
             await itemTemplateRepo.AddTemplatesAsync(existingCommunityId, originalTemplats, true);
-            await itemTemplateRepo.Repo.CommitAsync();
+            await itemTemplateRepo.CommitAsync();
 
             // Generate & verify a new member
             {
@@ -75,8 +76,10 @@ namespace U.DataRepositories
             {
                 var itemTemplateRepo2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
                 var templateToBeDeleted = itemTemplateRepo2.GetByCommunityId(existingCommunityId).First();
-                itemTemplateRepo2.Repo.Remove(templateToBeDeleted);
-                await itemTemplateRepo2.Repo.CommitAsync();
+
+                var itemTemplateRepo3 = _fixture.GetServiceNewScope<IRepository<MemberProfileItemTemplate>>();
+                itemTemplateRepo3.Remove(templateToBeDeleted);
+                await itemTemplateRepo3.CommitAsync();
             }
 
             // Generate & verify a new member after deletion

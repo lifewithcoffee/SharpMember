@@ -20,7 +20,7 @@ namespace U.DataRepositories
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberProfileItemTemplateRepositoryTests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public MemberProfileItemTemplateRepositoryTests(ServiceProviderFixture serviceProviderFixture)
         {
@@ -41,7 +41,7 @@ namespace U.DataRepositories
             {
                 await repo.AddTemplateAsync(existingOrgId, name, false);
             }
-            await repo.Repo.CommitAsync();
+            await repo.CommitAsync();
 
             // verify add
             var repoOrg = _fixture.GetServiceNewScope<IRepository<Community>>();
@@ -59,28 +59,28 @@ namespace U.DataRepositories
 
             // ======================================================================================
             // update
-            var repoUpdate = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
-            var updated = repoUpdate.Repo.Query(t => t.CommunityId == existingOrgId).First();
+            var repoUpdate = _fixture.GetServiceNewScope<IRepository<MemberProfileItemTemplate>>();
+            var updated = repoUpdate.Query(t => t.CommunityId == existingOrgId).First();
             string newItemName = $"updated-{Guid.NewGuid().ToString()}";
             updated.ItemName = newItemName;
-            repoUpdate.Repo.Commit();
+            repoUpdate.Commit();
 
             // verify upate
-            var repoRead = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
-            var updateItemNames = repoUpdate.Repo.Query(t => t.CommunityId == existingOrgId).Select(t => t.ItemName).ToList();
+            var repoRead = _fixture.GetServiceNewScope<IRepository<MemberProfileItemTemplate>>();
+            var updateItemNames = repoUpdate.Query(t => t.CommunityId == existingOrgId).Select(t => t.ItemName).ToList();
             Assert.Equal(2, updateItemNames.Count());
             Assert.Contains(newItemName, updateItemNames);
 
             // ======================================================================================
             // delete
-            var repoDelete = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
-            var deleteTarget = repoDelete.Repo.Query(t => t.CommunityId == existingOrgId).Last();
-            repoDelete.Repo.Remove(deleteTarget);
-            repoDelete.Repo.Commit();
+            var repoDelete = _fixture.GetServiceNewScope<IRepository<MemberProfileItemTemplate>>();
+            var deleteTarget = repoDelete.Query(t => t.CommunityId == existingOrgId).Last();
+            repoDelete.Remove(deleteTarget);
+            repoDelete.Commit();
 
             // verify delete
-            var repoRead2 = _fixture.GetServiceNewScope<IMemberProfileItemTemplateService>();
-            var remained = repoRead2.Repo.Query(t => t.CommunityId == existingOrgId).ToList();
+            var repoRead2 = _fixture.GetServiceNewScope<IRepository<MemberProfileItemTemplate>>();
+            var remained = repoRead2.Query(t => t.CommunityId == existingOrgId).ToList();
             Assert.Single(remained);
         }
 
