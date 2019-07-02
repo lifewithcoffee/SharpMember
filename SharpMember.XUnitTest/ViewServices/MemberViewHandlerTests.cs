@@ -13,7 +13,7 @@ namespace U.ViewServices
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberViewHandlerTests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public MemberViewHandlerTests(ServiceProviderFixture fixture)
         {
@@ -37,7 +37,7 @@ namespace U.ViewServices
         [Fact]
         public async Task Delete_profileItemTemplate_should_alsoDelete_profileItems_from_allMembers()
         {
-            var (appUserId, model_post) = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
+            var (_, model_post) = await _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
 
             var model_get = _fixture.GetServiceNewScope<ICommunityEditHandler>().Get(model_post.Id, 0);
             int templateNumberBeforeDelete = model_get.ItemTemplateVMs.Count;

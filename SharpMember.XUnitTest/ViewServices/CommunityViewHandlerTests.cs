@@ -19,7 +19,7 @@ namespace U.ViewServices
     [Collection(nameof(ServiceProviderCollection))]
     public class CommunityCreateHandler_Tests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public CommunityCreateHandler_Tests(ServiceProviderFixture serviceProviderFixture)
         {
@@ -72,7 +72,7 @@ namespace U.ViewServices
     [Collection(nameof(ServiceProviderCollection))]
     public class CommunityEditView_ItemTemplate_Tests
     { 
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public CommunityEditView_ItemTemplate_Tests(ServiceProviderFixture fixture)
         {
@@ -129,7 +129,7 @@ namespace U.ViewServices
         }
 
         [Fact]
-        public async Task add_more_item_templates()
+        public async Task Add_more_item_templates()
         {
             var (_, model_post) = await  _fixture.GetServiceNewScope<ICommunityTestDataProvider>().CreateTestCommunityFromViewService();
             int itemTemplateNumber = model_post.ItemTemplateVMs.Where(x => !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Count();
@@ -186,7 +186,7 @@ namespace U.ViewServices
     [Collection(nameof(ServiceProviderCollection))]
     public class CommunityMembersView_Tests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public CommunityMembersView_Tests(ServiceProviderFixture fixture)
         {
@@ -220,7 +220,7 @@ namespace U.ViewServices
     [Collection(nameof(ServiceProviderCollection))]
     public class CommunityGroupView_Tests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public CommunityGroupView_Tests(ServiceProviderFixture fixture)
         {

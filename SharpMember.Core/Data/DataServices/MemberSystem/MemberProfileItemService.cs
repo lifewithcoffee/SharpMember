@@ -20,7 +20,7 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
 
     public class MemberProfileItemService : EntityServiceBase<MemberProfileItem>, IMemberProfileItemService
     {
-        IRepositoryRead<Member> _memberReader;
+        readonly IRepositoryRead<Member> _memberReader;
 
         public MemberProfileItemService(
             IRepository<MemberProfileItem> memberProfileItemRepo,

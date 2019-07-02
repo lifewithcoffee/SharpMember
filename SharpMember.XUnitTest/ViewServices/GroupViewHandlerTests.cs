@@ -14,7 +14,7 @@ namespace U.ViewServices
     [Collection(nameof(ServiceProviderCollection))]
     public class GroupViewHandlerTests
     {
-        ServiceProviderFixture _fixture;
+        readonly ServiceProviderFixture _fixture;
 
         public GroupViewHandlerTests(ServiceProviderFixture fixture)
         {

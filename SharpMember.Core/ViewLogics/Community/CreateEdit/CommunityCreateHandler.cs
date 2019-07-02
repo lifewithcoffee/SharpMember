@@ -20,9 +20,9 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityCreateHandler : ICommunityCreateHandler
     {
-        ICommunityService _communitySvc;
-        IMemberService _memberSvc;
-        IMemberProfileItemTemplateService _mpiTemplateSvc;
+        readonly ICommunityService _communitySvc;
+        readonly IMemberService _memberSvc;
+        readonly IMemberProfileItemTemplateService _mpiTemplateSvc;
 
         public CommunityCreateHandler(
             ICommunityService communitySvc,
