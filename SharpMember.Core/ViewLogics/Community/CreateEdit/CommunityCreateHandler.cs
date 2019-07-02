@@ -20,25 +20,19 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityCreateHandler : ICommunityCreateHandler
     {
-        IRepository<Community> _communityRepository;
-        IRepository<Member> _memberRepo;
-        IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
-        IMemberService _memberRepository;
-        IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
+        ICommunityService _communitySvc;
+        IMemberService _memberSvc;
+        IMemberProfileItemTemplateService _mpiTemplateSvc;
 
         public CommunityCreateHandler(
-            IRepository<Community> orgRepo,
-            IRepository<Member> memberRepo,
-            IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
-            IMemberService memberRepository,
-            IMemberProfileItemTemplateService memberProfileItemTemplateRepository
+            ICommunityService communitySvc,
+            IMemberService memberSvc,
+            IMemberProfileItemTemplateService mpiTemplateSvc
         )
         {
-            _communityRepository = orgRepo;
-            _memberRepo = memberRepo;
-            _memberProfileItemTemplateRepo = memberProfileItemTemplateRepo;
-            _memberRepository = memberRepository;
-            _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
+            _communitySvc = communitySvc;
+            _memberSvc = memberSvc;
+            _mpiTemplateSvc = mpiTemplateSvc;
         }
 
         public CommunityUpdateVm Get()
@@ -54,21 +48,20 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         public async Task<int> PostAsync(string appUserId, CommunityUpdateVm data)
         {
             Community community = new Community { Name = data.Name };
-            _communityRepository.Add(community);
-            await _communityRepository.CommitAsync();
+            _communitySvc.Repo.Add(community);
+            await _communitySvc.CommitAsync();
 
-            Member newMember = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(community.Id, appUserId);
+            Member newMember = await _memberSvc.GenerateNewMemberWithProfileItemsAsync(community.Id, appUserId);
             newMember.CommunityRole = RoleNames.CommunityOwner;
-            await _memberRepo.CommitAsync();
+            await _memberSvc.Repo.CommitAsync();
 
             var required = data.ItemTemplateVMs.Where(p => p.ItemTemplate.IsRequired == true).Select(p => p.ItemTemplate.ItemName);
-            await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, required, true);
+            await _mpiTemplateSvc.AddTemplatesAsync(community.Id, required, true);
 
             var optional = data.ItemTemplateVMs.Where(p => p.ItemTemplate.IsRequired == false).Select(p => p.ItemTemplate.ItemName);
-            await _memberProfileItemTemplateRepository.AddTemplatesAsync(community.Id, optional, false);
+            await _mpiTemplateSvc.AddTemplatesAsync(community.Id, optional, false);
 
-            await _memberProfileItemTemplateRepo.CommitAsync();
-
+            await _mpiTemplateSvc.Repo.CommitAsync();
             return community.Id;
         }
     }
