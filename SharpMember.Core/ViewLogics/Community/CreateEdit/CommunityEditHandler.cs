@@ -20,24 +20,21 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
 
     public class CommunityEditHandler : ICommunityEditHandler
     {
-        readonly IRepository<Community> _communityRepository;
-        readonly IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepo;
-        readonly IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
+        readonly ICommunityService _communitySvc;
+        readonly IMemberProfileItemTemplateService _mpiTemplateSvc;
 
         public CommunityEditHandler(
-            IRepository<Community> orgRepo,
-            IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepo,
-            IMemberProfileItemTemplateService memberProfileItemTemplateRepository
+            ICommunityService communitySvc,
+            IMemberProfileItemTemplateService mpiTemplateSvc
         )
         {
-            _communityRepository = orgRepo;
-            _memberProfileItemTemplateRepo = memberProfileItemTemplateRepo;
-            _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
+            _communitySvc = communitySvc;
+            _mpiTemplateSvc = mpiTemplateSvc;
         }
 
         public CommunityUpdateVm Get(int commId, int addMore)
         {
-            var community = _communityRepository.Query(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
+            var community = _communitySvc.Repo.Query(c => c.Id == commId).Include(c => c.MemberProfileItemTemplates).Single();
 
             CommunityUpdateVm result = community.ConvertToCommunityUpdateVM();
             result.ItemTemplateVMs = community.MemberProfileItemTemplates.Select(x => new MemberProfileItemTemplateVm { ItemTemplate = x}).ToList();
@@ -55,13 +52,25 @@ namespace SharpMember.Core.Views.ViewServices.CommunityViewServices
         /// </summary>
         public async Task PostAsync(CommunityUpdateVm data)
         {
-            _communityRepository.Update(new Community().CopyFrom(data));
-            await _communityRepository.CommitAsync();
+            _communitySvc.Repo.Update(new Community().CopyFrom(data));
 
-            _memberProfileItemTemplateRepo.RemoveRange(data.ItemTemplateVMs.Where(x => x.Delete).Select(x => x.ItemTemplate).ToList());
-            _memberProfileItemTemplateRepository.AddOrUpdateItemTemplates(data.Id, data.ItemTemplateVMs.Where(x => !x.Delete && !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName)).Select(x => x.ItemTemplate).ToList());
+            await _communitySvc.CommitAsync();
 
-            await _communityRepository.CommitAsync();
+            _mpiTemplateSvc.Repo.RemoveRange(
+                data.ItemTemplateVMs
+                    .Where(x => x.Delete)
+                    .Select(x => x.ItemTemplate)
+                    .ToList()
+            );
+
+            _mpiTemplateSvc.AddOrUpdateItemTemplates(
+                data.Id, 
+                data.ItemTemplateVMs.Where(x => !x.Delete && !string.IsNullOrWhiteSpace(x.ItemTemplate.ItemName))
+                                    .Select(x => x.ItemTemplate)
+                                    .ToList()
+            );
+
+            await _communitySvc.CommitAsync();
         }
     }
 }
