@@ -45,10 +45,9 @@ namespace SharpMember.Core
         where TEntity : class
     {
         public Repository(
-            IUnitOfWork<ApplicationDbContext> unitOfWork,
             IRepositoryRead<TEntity, ApplicationDbContext> repoReader,
             IRepositoryWrite<TEntity, ApplicationDbContext> repoWriter
-        ) : base(unitOfWork, repoReader, repoWriter)
+        ) : base(repoReader, repoWriter)
         { }
     }
 
