@@ -11,24 +11,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
-    public interface IMemberProfileItemService
+    public interface IMemberProfileItemService : ICommittable
     {
         void UpdateProfile(int memberId, IList<MemberProfileItem> newItems);
         IQueryable<MemberProfileItem> GetByMemberId(int memberId);
         IQueryable<MemberProfileItem> GetByItemValueContains(int orgId, string itemValue);
     }
 
-    public class MemberProfileItemService : IMemberProfileItemService
+    public class MemberProfileItemService : EntityServiceBase<MemberProfileItem>, IMemberProfileItemService
     {
-        IRepository<MemberProfileItem> _memberProfileItemRepo;
         IRepositoryRead<Member> _memberReader;
 
         public MemberProfileItemService(
             IRepository<MemberProfileItem> memberProfileItemRepo,
             IRepositoryRead<Member> memberReader
-        )
+        ):base(memberProfileItemRepo)
         {
-            _memberProfileItemRepo = memberProfileItemRepo;
             _memberReader = memberReader;
         }
 
@@ -52,7 +50,7 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
 
         public IQueryable<MemberProfileItem> GetByMemberId(int memberId)
         {
-            return _memberProfileItemRepo.Query(i => i.MemberId == memberId);
+            return _repo.Query(i => i.MemberId == memberId);
         }
 
         /// <summary>
@@ -82,14 +80,14 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
 
             IList<MemberProfileItem> oldItems = member.MemberProfileItems;
 
-            _memberProfileItemRepo.RemoveRange(oldItems.Except(newItems, new MemberProfileItemIdComparer()));
-            _memberProfileItemRepo.UpdateRange(newItems.Intersect(oldItems, new MemberProfileItemIdComparer()));
-            _memberProfileItemRepo.AddRange(newItems.Except(oldItems, new MemberProfileItemIdComparer()));
+            _repo.RemoveRange(oldItems.Except(newItems, new MemberProfileItemIdComparer()));
+            _repo.UpdateRange(newItems.Intersect(oldItems, new MemberProfileItemIdComparer()));
+            _repo.AddRange(newItems.Except(oldItems, new MemberProfileItemIdComparer()));
         }
 
         public IQueryable<MemberProfileItem> GetByItemValueContains(int orgId, string itemValue)
         {
-            return from item in _memberProfileItemRepo.QueryAll().AsNoTracking()
+            return from item in _repo.QueryAll().AsNoTracking()
                    join member in _memberReader.Query(m => m.CommunityId == orgId).AsNoTracking() on item.MemberId equals member.Id
                    where item.ItemValue.Contains(itemValue)
                    select item;

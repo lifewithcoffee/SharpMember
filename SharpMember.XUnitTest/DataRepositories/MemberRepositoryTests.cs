@@ -30,7 +30,7 @@ namespace U.DataRepositories
         {
             int nonexistentOrgId = _fixture.Util.GetNonexistentCommunityId();
 
-            IMemberRepository repo = _fixture.GetServiceNewScope<IMemberRepository>();
+            IMemberService repo = _fixture.GetServiceNewScope<IMemberService>();
             Assert.Throws<CommunityNotExistsException>(() => repo.Add(new Member { CommunityId = nonexistentOrgId }));
         }
 
@@ -39,7 +39,7 @@ namespace U.DataRepositories
         {
             int existingOrgId = _fixture.Util.GetExistingCommunityId();
 
-            IMemberRepository repo = _fixture.GetServiceNewScope<IMemberRepository>();
+            IMemberService repo = _fixture.GetServiceNewScope<IMemberService>();
 
             var member1 = repo.Add(new Member { CommunityId = existingOrgId });
             var member2 = repo.Add(new Member { CommunityId = existingOrgId });
@@ -66,7 +66,7 @@ namespace U.DataRepositories
 
             // Generate & verify a new member
             {
-                var memberRepo = _fixture.GetServiceNewScope<IMemberRepository>();
+                var memberRepo = _fixture.GetServiceNewScope<IMemberService>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Equal(0, newMember.MemberNumber);
                 Assert.Equal(2, newMember.MemberProfileItems.Count);
@@ -84,7 +84,7 @@ namespace U.DataRepositories
 
             // Generate & verify a new member after deletion
             {
-                var memberRepo = _fixture.GetServiceNewScope<IMemberRepository>();
+                var memberRepo = _fixture.GetServiceNewScope<IMemberService>();
                 var newMember = await memberRepo.GenerateNewMemberWithProfileItemsAsync(existingCommunityId, Guid.NewGuid().ToString());
                 Assert.Single(newMember.MemberProfileItems);
             }

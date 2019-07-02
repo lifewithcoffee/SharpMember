@@ -17,11 +17,11 @@ using SharpMember.Core.Data.Models.MemberSystem;
 namespace U.ViewServices
 {
     [Collection(nameof(ServiceProviderCollection))]
-    public class CommunityCreateView_Tests
+    public class CommunityCreateHandler_Tests
     {
         ServiceProviderFixture _fixture;
 
-        public CommunityCreateView_Tests(ServiceProviderFixture serviceProviderFixture)
+        public CommunityCreateHandler_Tests(ServiceProviderFixture serviceProviderFixture)
         {
             this._fixture = serviceProviderFixture;
         }

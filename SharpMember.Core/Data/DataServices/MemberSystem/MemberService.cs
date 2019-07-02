@@ -13,7 +13,7 @@ using SharpMember.Core.Definitions;
 
 namespace SharpMember.Core.Data.DataServices.MemberSystem
 {
-    public interface IMemberRepository
+    public interface IMemberService : ICommittable
     {
         int GetNextUnassignedMemberNumber(int commId);
         IQueryable<Member> GetByMemberNumber(int commId, int memberNumber);
@@ -24,19 +24,17 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
         IRepository<Member> Repo { get; }
     }
 
-    public class MemberRepository : IMemberRepository
+    public class MemberService : EntityServiceBase<Member>, IMemberService
     {
-        private readonly IRepository<Member> _repo;
         private readonly IRepositoryRead<Community> _communityReader;
         private readonly IRepositoryRead<MemberProfileItemTemplate> _memberProfileItemTemplateReader;
 
-        public MemberRepository(
+        public MemberService(
             IRepository<Member> repo,
             IRepositoryRead<Community> communityRepoReader,
             IRepositoryRead<MemberProfileItemTemplate> memberProfileItemTemplateRepoReader
-        )
+        ):base(repo)
         {
-            _repo = repo;
             _communityReader = communityRepoReader;
             _memberProfileItemTemplateReader = memberProfileItemTemplateRepoReader;
         }
@@ -126,7 +124,5 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
         {
             return _repo.Query(m => m.CommunityId == commId);
         }
-
-       
     }
 }

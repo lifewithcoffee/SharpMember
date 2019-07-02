@@ -9,7 +9,7 @@ namespace SharpMember.Core.Data.DataServices
     public class EntityServiceBase<T> : ICommittable
         where T : class
     {
-        readonly IRepository<T> _repo;
+        readonly protected IRepository<T> _repo;
 
         public EntityServiceBase(IRepository<T> repo)
         {

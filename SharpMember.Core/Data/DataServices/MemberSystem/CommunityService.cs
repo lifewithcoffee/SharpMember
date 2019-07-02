@@ -18,19 +18,17 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
         IRepository<Community> Repo { get; }
     }
 
-   
-
     class CommunityService : EntityServiceBase<Community>, ICommunityService
     {
         readonly IRepository<Community> _communityRepo;
-        readonly IMemberRepository _memberRepository;
+        readonly IMemberService _memberRepository;
         readonly IMemberProfileItemTemplateService _memberProfileItemTemplateRepository;
 
         public Community Community { get; set; }
 
         public CommunityService(
             IRepository<Community> communityRepo,
-            IMemberRepository memberRepository,
+            IMemberService memberRepository,
             IMemberProfileItemTemplateService memberProfileItemTemplateRepository
         ):base( communityRepo)
         {

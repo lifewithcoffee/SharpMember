@@ -12,11 +12,11 @@ using Xunit;
 namespace U.ViewServices
 {
     [Collection(nameof(ServiceProviderCollection))]
-    public class GroupViewServiceTests
+    public class GroupViewHandlerTests
     {
         ServiceProviderFixture _fixture;
 
-        public GroupViewServiceTests(ServiceProviderFixture fixture)
+        public GroupViewHandlerTests(ServiceProviderFixture fixture)
         {
             _fixture = fixture;
         }
@@ -71,7 +71,7 @@ namespace U.ViewServices
             Assert.Equal(groupMemberNumberBefore - 2, groupMemberNumberAfter);
 
             // verify: make sure the members are not entirely deleted from database
-            int totalMemberNumberAfter = await _fixture.GetServiceNewScope<IMemberRepository>().Repo.Query(x => x.CommunityId == community.Id).CountAsync();
+            int totalMemberNumberAfter = await _fixture.GetServiceNewScope<IMemberService>().Repo.Query(x => x.CommunityId == community.Id).CountAsync();
             Assert.Equal(totalMemberNumberBefore, totalMemberNumberAfter);
         }
 

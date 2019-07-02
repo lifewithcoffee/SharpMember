@@ -11,11 +11,11 @@ using Xunit;
 namespace U.ViewServices
 {
     [Collection(nameof(ServiceProviderCollection))]
-    public class MemberViewServiceTests
+    public class MemberViewHandlerTests
     {
         ServiceProviderFixture _fixture;
 
-        public MemberViewServiceTests(ServiceProviderFixture fixture)
+        public MemberViewHandlerTests(ServiceProviderFixture fixture)
         {
             _fixture = fixture;
         }

@@ -18,11 +18,11 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 
     public class MemberCreateHandler : IMemberCreateHandler
     {
-        IMemberRepository _memberRepository;
+        IMemberService _memberRepository;
         IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
 
         public MemberCreateHandler(
-            IMemberRepository memberRepo,
+            IMemberService memberRepo,
             IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepository
         )
         {

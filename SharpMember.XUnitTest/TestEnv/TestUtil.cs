@@ -51,7 +51,7 @@ namespace U.TestEnv
             if(existingCommunityId == null)
                 existingCommunityId = this.GetExistingCommunityId();
 
-            var repo = GetNewProvider().GetService<IMemberRepository>();
+            var repo = GetNewProvider().GetService<IMemberService>();
             var member = repo.Add(new Member { CommunityId = existingCommunityId.Value });
             repo.Repo.Commit();
             return member.Id;
@@ -59,7 +59,7 @@ namespace U.TestEnv
 
         public int GetNonexistentMemberId()
         {
-            var memberRepo = GetNewProvider().GetService<IMemberRepository>();
+            var memberRepo = GetNewProvider().GetService<IMemberService>();
             var member = memberRepo.Repo.QueryAll().OrderBy(m => m.Id).LastOrDefault();
             if(null == member)
                 return 1;
