@@ -8,7 +8,7 @@ using U.TestEnv;
 using U.TestEnv.TestService;
 using Xunit;
 
-namespace U.ViewServices
+namespace U.ViewHandlers
 {
     [Collection(nameof(ServiceProviderCollection))]
     public class MemberViewHandlerTests

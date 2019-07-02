@@ -14,7 +14,7 @@ using SharpMember.Core.Views.ViewModels.CommunityVms;
 using NetCoreUtils.Database;
 using SharpMember.Core.Data.Models.MemberSystem;
 
-namespace U.ViewServices
+namespace U.ViewHandlers
 {
     [Collection(nameof(ServiceProviderCollection))]
     public class CommunityCreateHandler_Tests
