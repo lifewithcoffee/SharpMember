@@ -14,7 +14,6 @@ using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using AutoMapper;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
@@ -55,33 +54,6 @@ namespace SharpMember.Core
 
     public static class ServiceExt
     {
-        static private bool automapper_initialized = false;
-        static private readonly object locker = new object();
-        static private void AutoMapperConfiguration()
-        {
-            /* Add thread locking to prevent this exception in xunit for the latest AutoMapper:
-             * Mapper already initialized. You must call Initialize once per application domain/process
-             */
-            lock (locker)
-            {
-                if (!automapper_initialized)
-                {
-                    Mapper.Initialize(cfg =>
-                    {
-                        cfg.CreateMap<Member, MemberUpdateVm>();
-                        cfg.CreateMap<MemberUpdateVm, Member>();
-
-                        cfg.CreateMap<GroupUpdateVm, Group>();
-                        cfg.CreateMap<Group, GroupUpdateVm>();
-
-                        cfg.CreateMap<CommunityUpdateVm, Community>();
-                        cfg.CreateMap<Community, CommunityUpdateVm>();
-                    });
-                    automapper_initialized = true;
-                }
-            }
-        }
-
         static private void AddRepositoryServices(this IServiceCollection services)
         {
             services.AddRepositories();
@@ -129,8 +101,6 @@ namespace SharpMember.Core
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)
         {
-            AutoMapperConfiguration();
-
             bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
             switch (GlobalConfigs.DatabaseType)
             {

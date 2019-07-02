@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using SharpMember.Core.Views.ViewModels;
+﻿using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +15,20 @@ namespace SharpMember.Core.Data.Models.MemberSystem
         public int CommunityId { get; set; }
     }
 
+    public static class GroupEntityExt
+    {
+        public static TOut CopyFrom<TOut>(this TOut to, GroupEntity from)
+            where TOut : GroupEntity
+        {
+            to.Id = from.Id;
+            to.Name = from.Name;
+            to.Description = from.Description;
+            to.CommunityId = from.CommunityId;
+
+            return to;
+        }
+    }
+
     /// <summary>
     /// The relationship between Member and MemberGroup is many-to-many.
     /// So MemberGroup is actuall a label system for members.
@@ -29,7 +42,7 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
         public GroupUpdateVm ConvertToGroupUpdateVM()
         {
-            return Mapper.Map<Group, GroupUpdateVm>(this);
+            return new GroupUpdateVm().CopyFrom(this);
         }
     }
 }

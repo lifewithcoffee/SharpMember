@@ -39,8 +39,6 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
             _memberProfileItemTemplateReader = memberProfileItemTemplateRepoReader;
         }
 
-        public IRepository<Member> Repo { get { return _repo; } }
-
         public Member Add(Member entity)
         {
             if(!_communityReader.Exist(e => e.Id == entity.CommunityId))

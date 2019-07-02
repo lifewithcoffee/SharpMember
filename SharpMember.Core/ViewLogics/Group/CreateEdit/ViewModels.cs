@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using SharpMember.Core.Data.Models.MemberSystem;
+﻿using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +11,7 @@ namespace SharpMember.Core.Views.ViewModels
 
         public Group ConvertToGroup()
         {
-            return Mapper.Map<GroupUpdateVm, Group>(this);
+            return new Group().CopyFrom(this);
         }
     }
 }

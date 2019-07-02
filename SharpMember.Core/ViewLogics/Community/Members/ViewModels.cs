@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using SharpMember.Core.Data.Models.MemberSystem;
+﻿using SharpMember.Core.Data.Models.MemberSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
