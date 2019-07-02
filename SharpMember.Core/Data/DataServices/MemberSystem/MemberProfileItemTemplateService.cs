@@ -22,7 +22,6 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
 
     public class MemberProfileItemTemplateService : EntityServiceBase<MemberProfileItemTemplate>, IMemberProfileItemTemplateService
     {
-        readonly IRepository<MemberProfileItemTemplate> _repo;
         readonly IRepository<Community> _communityRepo;
 
         public MemberProfileItemTemplateService(
@@ -30,7 +29,6 @@ namespace SharpMember.Core.Data.DataServices.MemberSystem
             IRepository<Community> communityRepo
         ):base(repo)
         {
-            _repo = repo;
             _communityRepo = communityRepo;
         }
 
