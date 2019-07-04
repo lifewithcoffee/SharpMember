@@ -22,10 +22,10 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 
     public class MemberEditHandler : IMemberEditHandler
     {
-        IRepository<Member> _memberRepository;
-        IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
+        readonly IRepository<Member> _memberRepository;
+        readonly IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
 
-        IRepository<GroupMemberRelation> _groupMemberRelationRepository;
+        readonly IRepository<GroupMemberRelation> _groupMemberRelationRepository;
 
         public MemberEditHandler(
             IRepository<Member> memberRepo,

@@ -18,33 +18,33 @@ namespace SharpMember.Core.Views.ViewServices.MemberViewServices
 
     public class MemberCreateHandler : IMemberCreateHandler
     {
-        IMemberService _memberRepository;
-        IRepository<MemberProfileItemTemplate> _memberProfileItemTemplateRepository;
+        readonly IMemberService _memberRepository;
+        readonly IMemberProfileItemTemplateService _mpiTemplateSvc;
 
         public MemberCreateHandler(
             IMemberService memberRepo,
-            IRepository<MemberProfileItemTemplate> memberProfileItemTemplateRepository
+            IMemberProfileItemTemplateService mpiTemplateSvc
         )
         {
             _memberRepository = memberRepo;
-            _memberProfileItemTemplateRepository = memberProfileItemTemplateRepository;
+            _mpiTemplateSvc = mpiTemplateSvc;
         }
 
         public async Task<MemberUpdateVm> GetAsync(int commId, string appUserId)
         {
             var member = await _memberRepository.GenerateNewMemberWithProfileItemsAsync(commId, appUserId);
             var result = new MemberUpdateVm().CopyFrom(member);
-            result.ProfileItemViewModels = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _memberProfileItemTemplateRepository);
+            result.ProfileItemViewModels = await ConvertTo.MemberProfileItemVMList(member.MemberProfileItems, _mpiTemplateSvc.Repo);
             return result;
         }
 
         public async Task<int> Post(MemberUpdateVm data)
         {
             Member member = new Member().CopyFrom(data);
-            member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _memberProfileItemTemplateRepository);
+            member.MemberProfileItems = await ConvertTo.MemberProfileItemList(data.ProfileItemViewModels, _mpiTemplateSvc.Repo);
 
             _memberRepository.Add(member);
-            await _memberProfileItemTemplateRepository.CommitAsync();
+            await _mpiTemplateSvc.CommitAsync();
 
             return member.Id;
         }
