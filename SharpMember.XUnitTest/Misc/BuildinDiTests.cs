@@ -17,16 +17,10 @@ namespace U.Misc
 
     class ScopedTest : IScopedTest
     {
-        IServiceProvider _serviceProvider;
 
         int count = 0;
 
-        public ScopedTest(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        void IScopedTest.Count()
+        public void Count()
         {
             count++;
         }
@@ -39,29 +33,22 @@ namespace U.Misc
 
     interface ITransientTest
     {
-        void CountScopedTestUsingInjectedInstance();
-        void CountScopedTestViaServiceProvider();
+        void Count();
+        int GetCount();
     }
 
     class TransientTest : ITransientTest
     {
-        IServiceProvider _serviceProvider;
-        IScopedTest _scopedTest;
+        int count = 0;
 
-        public TransientTest(IServiceProvider serviceProvider, IScopedTest scopedTest)
+        public void Count()
         {
-            _serviceProvider = serviceProvider;
-            _scopedTest = scopedTest;
+            count++;
         }
 
-        public void CountScopedTestUsingInjectedInstance()
+        public int GetCount()
         {
-            _scopedTest.Count();
-        }
-
-        public void CountScopedTestViaServiceProvider()
-        {
-            _serviceProvider.GetService<IScopedTest>().Count();
+            return count;
         }
     }
 
@@ -76,24 +63,29 @@ namespace U.Misc
             serviceCollection.AddScoped<IScopedTest, ScopedTest>();
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            // initial state
-            var scopedTest = serviceProvider.GetService<IScopedTest>();
-            Assert.Equal(0, scopedTest.GetCount());
-
-            // both CountScopedTestUsingInjectedInstance() & CountScopedTestViaServiceProvider()
-            // should apply to the same IScopedTest instance
+            // test transient injection
             var transientTest = serviceProvider.GetService<ITransientTest>();
-            transientTest.CountScopedTestUsingInjectedInstance();
+            transientTest.Count();
+            Assert.Equal(1, transientTest.GetCount());
+
+            transientTest = serviceProvider.GetService<ITransientTest>();
+            transientTest.Count();
+            Assert.Equal(1, transientTest.GetCount());
+
+            // test scoped injection
+            var scopedTest = serviceProvider.GetService<IScopedTest>();
+            scopedTest.Count();
             Assert.Equal(1, scopedTest.GetCount());
 
-            transientTest.CountScopedTestViaServiceProvider();
+            scopedTest = serviceProvider.GetService<IScopedTest>();
+            scopedTest.Count();
             Assert.Equal(2, scopedTest.GetCount());
 
-            // do the above test again on a new scope
-            transientTest = serviceProvider.CreateScope().ServiceProvider.GetService<ITransientTest>();
-            transientTest.CountScopedTestUsingInjectedInstance();
-            transientTest.CountScopedTestViaServiceProvider();
-            Assert.Equal(2, scopedTest.GetCount()); // the count should stay unchanged
+            // test scoped injection again on a new scope
+            var newScopedTest = serviceProvider.CreateScope().ServiceProvider.GetService<IScopedTest>();
+            newScopedTest.Count();
+            Assert.Equal(1, newScopedTest.GetCount());  // new scope counts from 0
+            Assert.Equal(2, scopedTest.GetCount());     // old scope stays unchanged
         }
     }
 }
