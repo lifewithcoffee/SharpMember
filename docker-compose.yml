@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+  postgresql:
+    image: postgres:9.6-alpine
+    container_name: "rl_postgresql"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=open
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=SharpMember
+      - POSTGRES_PORT=5432
+      # - PGDATA="/data/postgres"  # PGDATA: /data/postgres
+    volumes:
+      # - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - corecmd_playground_network
+    # restart: unless-stopped
+
+networks:
+  corecmd_playground_network:
+
+volumes:
+  postgresql-data:
