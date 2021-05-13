@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.Migrations.SqlS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.Migrations.Postgres", "SharpMember.Migrations.Postgres\SharpMember.Migrations.Postgres.csproj", "{3B170DC8-0179-42FF-B0AC-3C70566CA306}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreUtils.Xunit", "NetCoreUtils.Xunit\NetCoreUtils.Xunit.csproj", "{616B2718-4655-4231-9565-38678051E503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreUtils.Xunit", "NetCoreUtils.Xunit\NetCoreUtils.Xunit.csproj", "{616B2718-4655-4231-9565-38678051E503}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C419B233-A1DF-4AE8-9283-93653DB36751}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,7 +73,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{1FE177CE-F455-4A69-B3B9-A7843E3AF5AB} = {C419B233-A1DF-4AE8-9283-93653DB36751}
+		{6677CD58-37EA-4A57-9318-AE69DA0CC836} = {C419B233-A1DF-4AE8-9283-93653DB36751}
 		{D16CDD29-6B70-4194-ABD6-94D6FE751E45} = {35D1E616-A617-4D38-B6B2-F8225F75D793}
+		{616B2718-4655-4231-9565-38678051E503} = {C419B233-A1DF-4AE8-9283-93653DB36751}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E6595B9-A3BA-4526-AF50-445D6CFAEFE9}

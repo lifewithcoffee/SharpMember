@@ -23,10 +23,10 @@
             <div class="form-group">
                 @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "control-label" })
                 @{ 
-                    object numberHtmlAttr = new { @class = "form-control", type = "number" };
+                    object numberHtmlAttr = new { @@class = "form-control", type = "number" };
                     if (is_readonly)
                     {
-                        numberHtmlAttr = new { @class = "form-control", type = "number", @readonly = "readonly" };
+                        numberHtmlAttr = new { @@class = "form-control", type = "number", @readonly = "readonly" };
                     }
                 }
                 @Html.TextBox(item.Name, value: item.GetValue(Model.Instance), htmlAttributes: numberHtmlAttr)
@@ -50,10 +50,10 @@
                 <div class="form-group">
                     @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "control-label" })
                     @{ 
-                        object dateHtmlAttr = new { @class = "form-control", type = "date" };
+                        object dateHtmlAttr = new { @@class = "form-control", type = "date" };
                         if (is_readonly)
                         {
-                            dateHtmlAttr = new { @class = "form-control", type = "date", @readonly = "readonly" };
+                            dateHtmlAttr = new { @@class = "form-control", type = "date", @readonly = "readonly" };
                         }
 
                         object dateValue = item.GetValue(Model.Instance);
@@ -73,12 +73,12 @@
             <div class="form-group">
                 @Html.Label(item.Name, item.Name, htmlAttributes: new { @class = "control-label" })
                 @{
-                    object textAreaHtmlAttr = new { @class = "form-control", style = "height: 200px;"};
-                    object textBoxHtmlAttr = new { @class = "form-control" };
+                    object textAreaHtmlAttr = new { @@class = "form-control", style = "height: 200px;"};
+                    object textBoxHtmlAttr = new { @@class = "form-control" };
                     if (is_readonly)
                     {
-                        textAreaHtmlAttr = new { @class = "form-control", @readonly = "readonly", style = "height: 200px" };
-                        textBoxHtmlAttr = new { @class = "form-control", @readonly = "readonly" };
+                        textAreaHtmlAttr = new { @@class = "form-control", @readonly = "readonly", style = "height: 200px" };
+                        textBoxHtmlAttr = new { @@class = "form-control", @readonly = "readonly" };
                     }
                 }
 
