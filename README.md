@@ -23,11 +23,28 @@
     SharpMember/appsettings.json
 
 - Database migration:
-  - Change the current database type in `SharpMember\SharpMember.Core\Definitions\GlobalConfigs.cs`
-  - Navigate to project "SharpMember.Migrations.Postgres" or "SharpMember.Migrations.SqlServer", do:
+  - Change the current database type in:
+    `SharpMember\SharpMember.Core\Definitions\GlobalConfigs.cs`
 
-    `add-migration <migration-name>`
+  - Navigate to project `SharpMember.Migrations.Postgres` or
+    `SharpMember.Migrations.SqlServer`, do:
+
+    > add-migration <migration-name>
 
     then apply by:
 
-    `udpate-database <migration-name>`
+    > update-database <migration-name>
+
+## Create Database
+
+- Run postgres docker container by executing `docker-compose up` in the solution folder
+ 
+- Change the current database type in:
+  `SharpMember\SharpMember.Core\Definitions\GlobalConfigs.cs`
+
+- Uncomment the following section in `SharpMember/appsettings.json`:
+  > "UnitTestConnectionEnabled": true,
+
+- Navigate to project `SharpMember.Migrations.Postgres` or
+  `SharpMember.Migrations.SqlServer`, execute `update-database.bat`
+
