@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28922.388
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember", "SharpMember\SharpMember.csproj", "{AD7B624C-6AA2-4B8D-9CE9-4572E2D8A98F}"
 EndProject
@@ -17,10 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		update-local-packges.bat = update-local-packges.bat
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreUtils.Database", "..\NetCoreUtils\NetCoreUtils.Database\NetCoreUtils.Database.csproj", "{D16CDD29-6B70-4194-ABD6-94D6FE751E45}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PackageProjects", "PackageProjects", "{35D1E616-A617-4D38-B6B2-F8225F75D793}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpMember.Migrations.SqlServer", "SharpMember.Migrations.SqlServer\SharpMember.Migrations.SqlServer.csproj", "{2AE62EC4-EDB7-4D65-BDE8-846109EA1A5A}"
 EndProject
@@ -52,10 +48,6 @@ Global
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D16CDD29-6B70-4194-ABD6-94D6FE751E45}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2AE62EC4-EDB7-4D65-BDE8-846109EA1A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2AE62EC4-EDB7-4D65-BDE8-846109EA1A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AE62EC4-EDB7-4D65-BDE8-846109EA1A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,7 +67,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1FE177CE-F455-4A69-B3B9-A7843E3AF5AB} = {C419B233-A1DF-4AE8-9283-93653DB36751}
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836} = {C419B233-A1DF-4AE8-9283-93653DB36751}
-		{D16CDD29-6B70-4194-ABD6-94D6FE751E45} = {35D1E616-A617-4D38-B6B2-F8225F75D793}
 		{616B2718-4655-4231-9565-38678051E503} = {C419B233-A1DF-4AE8-9283-93653DB36751}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace SharpMember.Core.Data.DataServiceNew
 {
+    /// <summary>
+    /// ICommunityServiceNew merges the old IMemberService and ICommunityService, as
+    /// the "Community" object should be used as the aggregate root of the member system
+    /// </summary>
     interface ICommunityServiceNew : IBindable<ICommunityServiceNew>
     {
         // from old IMemberService
@@ -19,7 +23,7 @@ namespace SharpMember.Core.Data.DataServiceNew
         IQueryable<Member> QueryMembers();    // renamed from GetByCommunity()
         Task<Member> CreateMemberAsync(string appUserId);  // renamed from GenerateNewMemberWithProfileItemsAsync()
 
-        // from old ICommunityService    
+        // from old ICommunityService
         Task<Member> AddMemberAsync(string appUserId, string name, string email, string role);
         Task AddMemberProfileTemplateAsync(string itemName, bool required);
         Task CreateCommunityAsync(string appUserId, string communityName);
@@ -35,7 +39,7 @@ namespace SharpMember.Core.Data.DataServiceNew
 
         public ICommunityServiceNew Bind(int id)
         {
-            if(!_communityRepo.Exist(e => e.Id == id))
+            if (!_communityRepo.Exist(e => e.Id == id))
             {
                 throw new CommunityNotExistsException(id);
             }
@@ -70,18 +74,18 @@ namespace SharpMember.Core.Data.DataServiceNew
 
         public async Task<Member> CreateMemberAsync(string appUserId)
         {
-            var memberProfileItems  = await _memberProfileItemTemplateReader
+            var memberProfileItems = await _memberProfileItemTemplateReader
                                             .Query(t => t.CommunityId == _communityId)
                                             .AsNoTracking()
-                                            .Select(t => new MemberProfileItem{ MemberProfileItemTemplateId = t.Id })
+                                            .Select(t => new MemberProfileItem { MemberProfileItemTemplateId = t.Id })
                                             .ToListAsync();
 
-            Member returned   = new Member
-                                { 
-                                    MemberProfileItems = memberProfileItems, 
-                                    CommunityId = _communityId, 
-                                    ApplicationUserId = appUserId
-                                };
+            Member returned = new Member
+            {
+                MemberProfileItems = memberProfileItems,
+                CommunityId = _communityId,
+                ApplicationUserId = appUserId
+            };
 
             return returned;
         }
