@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
 		README.md = README.md
+		TODOs.md = TODOs.md
 		update-local-packges.bat = update-local-packges.bat
 	EndProjectSection
 EndProject
