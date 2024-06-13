@@ -14,6 +14,6 @@ namespace SharpMember.Core.Data.Models.TaskSystem
 
     public class CheckListItem : CheckListItemEntity
     {
-        public virtual WorkTask WorkTask { get; set; }
+        public virtual TaskItem WorkTask { get; set; }
     }
 }

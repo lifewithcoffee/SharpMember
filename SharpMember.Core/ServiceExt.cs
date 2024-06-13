@@ -129,6 +129,13 @@ namespace SharpMember.Core
                             Configuration.GetConnectionString(postgresConnStr), 
                             postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
                         ));
+
+                    // TODO: refactor, ref: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers?tabs=dotnet-core-cli#using-one-context-type
+                    services.AddDbContext<TaskDbContext>(options =>
+                        options.UseNpgsql(
+                            Configuration.GetConnectionString(postgresConnStr),
+                            postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
+                        ));
                     break;
                 default:
                     throw new Exception("Unknown database type for DbContext dependency injection");

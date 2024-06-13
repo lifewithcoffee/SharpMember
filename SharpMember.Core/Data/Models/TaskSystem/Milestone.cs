@@ -14,6 +14,6 @@ namespace SharpMember.Core.Data.Models.TaskSystem
     public class Milestone : MilestoneEntity
     {
         public virtual Project Project {get;set;} 
-        public virtual List<WorkTask> WorkTasks { get; set; }
+        public virtual List<TaskItem> WorkTasks { get; set; }
     }
 }
