@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SharpMember.Controllers.APIs;
+using Microsoft.Extensions.Hosting;
 
 namespace SharpMember
 {
@@ -92,12 +93,13 @@ namespace SharpMember
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
+            if(env.EnvironmentName.Equals(Environments.Development))
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
