@@ -36,7 +36,7 @@ namespace SharpMember
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSharpMemberCore(Configuration);
-            services.AddMvc();
+            services.AddMvc(option => option.EnableEndpointRouting = false );
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
                         options.RequireHttpsMetadata = true;
