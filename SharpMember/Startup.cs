@@ -35,6 +35,7 @@ namespace SharpMember
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddSharpMemberCore(Configuration);
             services.AddMvc(option => option.EnableEndpointRouting = false );
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -100,7 +101,6 @@ namespace SharpMember
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                app.UseDatabaseErrorPage();
             }
             else
             {
