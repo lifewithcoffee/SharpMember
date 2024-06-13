@@ -12,7 +12,7 @@ namespace SharpMember.Core.Services
 {
     public interface IAccountService
     {
-        Task AttachProfileToUserAsync(int userId, int profileId);
+        //Task AttachProfileToUserAsync(int userId, int profileId);
     }
 
     public class AccountService : IAccountService
@@ -26,12 +26,12 @@ namespace SharpMember.Core.Services
             this._userRepository = userRepository;
         }
 
-        public async Task AttachProfileToUserAsync(int userId, int profileId)
-        {
-            var user = await _userRepository.GetAsync(userId);
-            var profile = await _memberRepository.GetAsync(profileId);
+        //public async Task AttachProfileToUserAsync(int userId, int profileId)
+        //{
+        //    var user = await _userRepository.GetAsync(userId);
+        //    var profile = await _memberRepository.GetAsync(profileId);
 
-            user.Members.Add(profile);
-        }
+        //    user.Members.Add(profile);
+        //}
     }
 }

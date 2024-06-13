@@ -1,5 +1,4 @@
-﻿using SharpMember.Core.Data.Models.TaskSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,6 +14,6 @@ namespace SharpMember.Core.Data.Models.TaskSystem
 
     public class TaskComment : TaskCommentEntity
     {
-        public virtual WorkTask WorkTask { get; set; }
+        public virtual TaskItem WorkTask { get; set; }
     }
 }
