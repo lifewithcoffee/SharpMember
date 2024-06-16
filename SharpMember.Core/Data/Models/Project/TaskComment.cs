@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.ProjectSystem
+namespace SharpMember.Core.Data.Models.Project
 {
     public class TaskCommentEntity
     {

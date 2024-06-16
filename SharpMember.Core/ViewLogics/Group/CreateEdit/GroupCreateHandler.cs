@@ -1,5 +1,5 @@
 ﻿using NetCoreUtils.Database;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Member;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using SharpMember.Core.Utils.Mappers;
 using SharpMember.Core.Views.ViewModels;

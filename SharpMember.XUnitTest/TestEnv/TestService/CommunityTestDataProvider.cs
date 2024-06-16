@@ -1,5 +1,5 @@
 ﻿using NetCoreUtils.String;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Member;
 using Microsoft.Extensions.DependencyInjection;
 using SharpMember.Core.Services;
 using System;

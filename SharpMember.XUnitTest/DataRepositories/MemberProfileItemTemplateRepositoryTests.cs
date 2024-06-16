@@ -5,7 +5,7 @@ using Xunit;
 using SharpMember.Core.Data.DataServices;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using Microsoft.Extensions.DependencyInjection;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Member;
 using System.Linq;
 using System.Linq.Expressions;
 using SharpMember.Core;

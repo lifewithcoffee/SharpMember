@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.MemberSystem
+namespace SharpMember.Core.Data.Models.Member
 {
     public class GroupMemberRelation
     {

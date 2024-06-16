@@ -13,7 +13,7 @@ using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Member;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;

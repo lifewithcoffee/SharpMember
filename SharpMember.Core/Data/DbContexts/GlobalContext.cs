@@ -9,7 +9,7 @@ using SharpMember.Core.Definitions;
 using System.Data.SqlClient;
 using SharpMember.Utils;
 using SharpMember.Core.Data.Models.ActivitySystem;
-using SharpMember.Core.Data.Models.ProjectSystem;
+using SharpMember.Core.Data.Models.Project;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.AspNetCore.Identity;
 

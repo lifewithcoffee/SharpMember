@@ -1,6 +1,6 @@
 ﻿using NetCoreUtils.Database;
 using SharpMember.Core.Data.Models;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Member;
 using SharpMember.Core.Data.DataServices;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using System;

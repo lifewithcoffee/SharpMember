@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models.MemberSystem
+namespace SharpMember.Core.Data.Models.Member
 {
     public class GroupEntity
     {

@@ -1,4 +1,4 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using SharpMember.Core.Data.Models.Member;
 using System.Linq;
 using System.Threading.Tasks;
 

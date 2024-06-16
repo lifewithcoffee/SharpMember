@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Member;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
 using SharpMember.Core.Data;

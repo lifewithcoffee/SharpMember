@@ -1,12 +1,12 @@
 ﻿using SharpMember.Core.Data.Models.ActivitySystem;
-using SharpMember.Core.Data.Models.ProjectSystem;
+using SharpMember.Core.Data.Models.Project;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models.MemberSystem
+namespace SharpMember.Core.Data.Models.Member
 {
     public class MemberEntity
     {
