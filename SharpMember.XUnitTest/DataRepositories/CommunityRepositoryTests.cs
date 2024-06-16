@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using SharpMember.Core;
 using SharpMember.Core.Data;
-using SharpMember.Core.Data.Models.Member;
+using SharpMember.Core.Data.Models.Community;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using System;
 using System.Collections.Generic;

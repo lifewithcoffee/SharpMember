@@ -1,11 +1,11 @@
-﻿using SharpMember.Core.Data.Models.Member;
+﻿using SharpMember.Core.Data.Models.Community;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.ActivitySystem
+namespace SharpMember.Core.Data.Models.Meeting
 {
-    public class GatheringEntity
+    public class MeetingEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -14,7 +14,7 @@ namespace SharpMember.Core.Data.Models.ActivitySystem
         public string Details { get; set; }
     }
 
-    public class Gathering : GatheringEntity
+    public class Meeting : MeetingEntity
     {
     }
 }

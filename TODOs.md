@@ -11,3 +11,7 @@
 - GitHub action pipeline to deploy to AWS
 - Build REST interface and JS sdk (using openapi sdk generator)
 - Build Angular client app
+
+# Conventions
+
+- Aggregate root object has the same name with the namespace and the relevant folder

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using NetCoreUtils.Database;
 using SharpMember.Core.Data.Models;
-using SharpMember.Core.Data.Models.Member;
+using SharpMember.Core.Data.Models.Community;
 using SharpMember.Core.Data.DataServices.MemberSystem;
 using System;
 using System.Collections.Generic;

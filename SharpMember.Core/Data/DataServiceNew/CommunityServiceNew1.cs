@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCoreUtils.Database;
 using SharpMember.Core.Data.DataServices;
-using SharpMember.Core.Data.Models.Member;
+using SharpMember.Core.Data.Models.Community;
 using SharpMember.Core.Definitions;
 using System;
 using System.Collections.Generic;

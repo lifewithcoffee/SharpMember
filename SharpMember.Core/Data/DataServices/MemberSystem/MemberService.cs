@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
-using SharpMember.Core.Data.Models.Member;
+using SharpMember.Core.Data.Models.Community;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using SharpMember.Core.Definitions;

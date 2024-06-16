@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SharpMember.Core.Data.Models.Member;
+using SharpMember.Core.Data.Models.Community;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Definitions;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;

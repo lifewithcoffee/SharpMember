@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models.Member
+namespace SharpMember.Core.Data.Models.Community
 {
     public class MemberProfileItemEntity
     {
