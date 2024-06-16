@@ -12,7 +12,7 @@ using NetCoreUtils.String;
 using System.Linq;
 using SharpMember.Core.Views.ViewModels.CommunityVms;
 using NetCoreUtils.Database;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Community;
 
 namespace U.ViewHandlers
 {

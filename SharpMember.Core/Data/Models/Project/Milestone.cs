@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.TaskSystem
+namespace SharpMember.Core.Data.Models.Project
 {
     public class MilestoneEntity
     {
@@ -14,6 +14,6 @@ namespace SharpMember.Core.Data.Models.TaskSystem
     public class Milestone : MilestoneEntity
     {
         public virtual Project Project {get;set;} 
-        public virtual List<WorkTask> WorkTasks { get; set; }
+        public virtual List<TaskItem> WorkTasks { get; set; }
     }
 }

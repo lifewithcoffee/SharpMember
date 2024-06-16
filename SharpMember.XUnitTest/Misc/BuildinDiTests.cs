@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Community;
 using SharpMember.Core.Views.ViewModels;
 using System;
 using System.Collections.Generic;

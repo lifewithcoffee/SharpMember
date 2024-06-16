@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.TaskSystem
+namespace SharpMember.Core.Data.Models.Project
 {
     public class CheckListItemEntity
     {
@@ -14,6 +14,6 @@ namespace SharpMember.Core.Data.Models.TaskSystem
 
     public class CheckListItem : CheckListItemEntity
     {
-        public virtual WorkTask WorkTask { get; set; }
+        public virtual TaskItem WorkTask { get; set; }
     }
 }

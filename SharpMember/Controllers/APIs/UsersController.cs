@@ -16,9 +16,9 @@ namespace SharpMember.Controllers.APIs
     public class UsersController: ControllerBase
     {
         public static string test_security_key = "my-super-strong-securitykey_fjkaur-1442-4pe4-nqkda-2434lj-;234/-134@#!!-&**lllsei";
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager)
+        public UsersController(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }

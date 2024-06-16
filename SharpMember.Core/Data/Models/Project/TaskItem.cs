@@ -1,9 +1,9 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using SharpMember.Core.Data.Models.Community;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.TaskSystem
+namespace SharpMember.Core.Data.Models.Project
 {
     public class TaskEntity
     {
@@ -16,16 +16,16 @@ namespace SharpMember.Core.Data.Models.TaskSystem
         public DateTime CreationTime { get; set; }
     }
 
-    public class WorkTask : TaskEntity
+    public class TaskItem : TaskEntity
     {
         public virtual List<CheckListItem> CheckListItems { get; set; } = new List<CheckListItem>();
         public virtual List<TaskComment> Comments { get; set; } = new List<TaskComment>();
 
         public virtual List<WorkTaskLabelRelation> WorkTaskLabelRelations { get; set; } = new List<WorkTaskLabelRelation>();
 
-        public virtual Member WorkTaskCreator { get; set; }
-        public virtual Member WorkTaskOwner { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }    // for user's private tasks
+        //public virtual Member WorkTaskCreator { get; set; }
+        //public virtual Member WorkTaskOwner { get; set; }
+        //public virtual ApplicationUser ApplicationUser { get; set; }    // for user's private tasks
 
         public virtual Milestone Milestone { get; set; }
         public virtual Project Project { get; set; }

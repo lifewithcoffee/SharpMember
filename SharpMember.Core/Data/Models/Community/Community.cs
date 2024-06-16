@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models.MemberSystem
+namespace SharpMember.Core.Data.Models.Community
 {
     public class CommunityEntity
     {

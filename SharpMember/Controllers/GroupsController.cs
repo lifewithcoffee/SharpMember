@@ -5,23 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SharpMember.Core.Data;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Community;
 using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Definitions;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;
 using SharpMember.Core.Views.ViewModels;
 using SharpMember.Definitions;
+using SharpMember.Core.Data.DbContexts;
 
 namespace SharpMember.Controllers
 {
     public class GroupsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MemberContext _context;
         IAuthorizationService _authorizationService;
 
         public GroupsController(
-            ApplicationDbContext context,
+            MemberContext context,
             IAuthorizationService authorizationService
         ){
             _context = context;

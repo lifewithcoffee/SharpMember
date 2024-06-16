@@ -6,7 +6,7 @@ using System.Text;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using SharpMember.Core.Data.Models.MemberSystem;
+using SharpMember.Core.Data.Models.Community;
 using Xunit.Abstractions;
 using SharpMember.Core;
 using SharpMember.Core.Definitions;

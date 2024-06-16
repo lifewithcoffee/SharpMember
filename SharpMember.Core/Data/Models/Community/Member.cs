@@ -1,12 +1,11 @@
-﻿using SharpMember.Core.Data.Models.ActivitySystem;
-using SharpMember.Core.Data.Models.TaskSystem;
+﻿using SharpMember.Core.Data.Models.Project;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SharpMember.Core.Data.Models.MemberSystem
+namespace SharpMember.Core.Data.Models.Community
 {
     public class MemberEntity
     {
@@ -51,9 +50,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
     public class Member : MemberEntity
     {
-        [ForeignKey(nameof(ApplicationUserId))]
-        public virtual ApplicationUser ApplicationUser { get; set; }
-
         [ForeignKey(nameof(CommunityId))]
         public virtual Community Community { get; set; }
 

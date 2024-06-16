@@ -1,4 +1,4 @@
-﻿using SharpMember.Core.Data.Models.MemberSystem;
+﻿using SharpMember.Core.Data.Models.Community;
 using System;
 using System.Linq;
 using System.Collections.Generic;

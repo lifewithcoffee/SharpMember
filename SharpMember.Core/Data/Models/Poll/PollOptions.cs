@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpMember.Core.Data.Models.ActivitySystem
+namespace SharpMember.Core.Data.Models.Meeting
 {
     public class PollOptionEntity
     {
