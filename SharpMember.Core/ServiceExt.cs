@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SharpMember.Core.Data.DataServices;
 using SharpMember.Core.Services.Excel;
 using SharpMember.Core.Services;
-using SharpMember.Core.Data;
 using NetCoreUtils.Database;
 using SharpMember.Core.Definitions;
 using Microsoft.EntityFrameworkCore;
@@ -19,34 +18,35 @@ using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
 using SharpMember.Core.Views.ViewServices.GroupViewServices;
 using SharpMember.Core.Views.ViewModels.CommunityVms;
+using SharpMember.Core.Data.DbContexts;
 
 namespace SharpMember.Core
 {
     public class RepositoryReader<TEntity>
-        : RepositoryRead<TEntity, ApplicationDbContext>
+        : RepositoryRead<TEntity, GlobalContext>
         where TEntity : class
     {
-        public RepositoryReader(IUnitOfWork<ApplicationDbContext> unitOfWork)
+        public RepositoryReader(IUnitOfWork<GlobalContext> unitOfWork)
             : base(unitOfWork)
         { }
     }
 
     public class RepositoryWriter<TEntity>
-        : RepositoryWrite<TEntity, ApplicationDbContext>
+        : RepositoryWrite<TEntity, GlobalContext>
         where TEntity : class
     {
-        public RepositoryWriter(IUnitOfWork<ApplicationDbContext> unitOfWork)
+        public RepositoryWriter(IUnitOfWork<GlobalContext> unitOfWork)
             : base(unitOfWork)
         { }
     }
 
     public class Repository<TEntity>
-        : Repository<TEntity, ApplicationDbContext>
+        : Repository<TEntity, GlobalContext>
         where TEntity : class
     {
         public Repository(
-            IRepositoryRead<TEntity, ApplicationDbContext> repoReader,
-            IRepositoryWrite<TEntity, ApplicationDbContext> repoWriter
+            IRepositoryRead<TEntity, GlobalContext> repoReader,
+            IRepositoryWrite<TEntity, GlobalContext> repoWriter
         ) : base(repoReader, repoWriter)
         { }
     }
@@ -68,7 +68,7 @@ namespace SharpMember.Core
             services.AddScoped<IMemberProfileItemTemplateService, MemberProfileItemTemplateService>();
             //services.AddScoped<IGroupMemberRelationRepository, GroupMemberRelationRepository>();
         }
-        
+
         static private void AddServices(this IServiceCollection services)
         {
             services.AddTransient<IFullMemberPageReader, FullMemberPageReader>();
@@ -100,51 +100,37 @@ namespace SharpMember.Core
 
         static public void AddSharpMemberCore(this IServiceCollection services, IConfiguration Configuration)
         {
-            bool config_UnitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
+            bool unitTestConnectionEnabled = Configuration.GetValue<bool>("UnitTestConnectionEnabled");
+            string connStr, assembly;
             switch (GlobalConfigs.DatabaseType)
             {
                 case eDatabaseType.Sqlite:
-                    services.AddDbContext<ApplicationDbContext>(
-                        options => options.UseSqlite($"Filename={DbConsts.SqliteDbFileName}")
-                    );
+                    services.AddDbContext<GlobalContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
+                    services.AddDbContext<ProjectContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
+                    services.AddDbContext<MemberContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
                     break;
                 case eDatabaseType.SqlServer:
-                    string connectionStringConfig = "DefaultConnection";
-                    if (config_UnitTestConnectionEnabled)
-                        connectionStringConfig = "UnitTestConnection";
+                    connStr = Configuration.GetConnectionString(unitTestConnectionEnabled ? "UnitTestConnection": "DefaultConnection");
+                    assembly = "SharpMember.Migrations.SqlServer";
 
-                    services.AddDbContext<ApplicationDbContext>( options =>
-                        options.UseSqlServer(
-                            Configuration.GetConnectionString(connectionStringConfig), 
-                            sqlServerOption => sqlServerOption.MigrationsAssembly("SharpMember.Migrations.SqlServer")
-                        ));
+                    services.AddDbContext<GlobalContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
+                    services.AddDbContext<ProjectContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
+                    services.AddDbContext<MemberContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
                     break;
                 case eDatabaseType.Postgres:
-                    string postgresConnStr = "PostgresConnection";
-                    if (config_UnitTestConnectionEnabled)
-                        postgresConnStr = "PostgresConnection_UnitTest";
+                    connStr = Configuration.GetConnectionString(unitTestConnectionEnabled ? "PostgresConnection_UnitTest": "PostgresConnection");
+                    assembly = "SharpMember.Migrations.Postgres";
 
-                    services.AddDbContext<ApplicationDbContext>( options =>
-                        options.UseNpgsql(
-                            Configuration.GetConnectionString(postgresConnStr), 
-                            postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
-                        ));
-
-                    // TODO:
-                    // 1. refactor, ref: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers?tabs=dotnet-core-cli#using-one-context-type
-                    // 2. make notes: if missed adding DbContext, migration command will report TaskDbContext can't be found
-                    services.AddDbContext<ProjectContext>(options =>
-                        options.UseNpgsql(
-                            Configuration.GetConnectionString(postgresConnStr),
-                            postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
-                        ));
+                    services.AddDbContext<GlobalContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
+                    services.AddDbContext<ProjectContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
+                    services.AddDbContext<MemberContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
                     break;
                 default:
                     throw new Exception("Unknown database type for DbContext dependency injection");
             }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<GlobalContext>()
                 .AddDefaultTokenProviders();
 
             services.AddRepositoryServices();

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SharpMember.Core.Data;
 using SharpMember.Core.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using SharpMember.Core.Data.Models;
@@ -13,17 +12,18 @@ using Microsoft.AspNetCore.Authorization;
 using SharpMember.Core.Views.ViewServices.MemberViewServices;
 using SharpMember.Core.Views.ViewServices.CommunityViewServices;
 using Microsoft.Extensions.DependencyInjection;
+using SharpMember.Core.Data.DbContexts;
 
 namespace SharpMember.Controllers
 {
     //[Authorize]
     public class MembersController : ControllerBase
     {
-        ApplicationDbContext _context;
+        MemberContext _context;
         UserManager<ApplicationUser> _userManager;
 
         public MembersController(
-            ApplicationDbContext context,
+            MemberContext context,
             UserManager<ApplicationUser> userManager
         ){
             _context = context;

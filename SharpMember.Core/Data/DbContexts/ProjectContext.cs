@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SharpMember.Core.Data;
+namespace SharpMember.Core.Data.DbContexts;
 public class ProjectContext : DbContext
 {
     public DbSet<Project> Projects { get; set; }
@@ -27,7 +27,7 @@ public class ProjectContext : DbContext
     {
         base.OnModelCreating(builder);
 
-        builder.HasDefaultSchema("task");
+        builder.HasDefaultSchema("Project");
 
         builder.Entity<WorkTaskLabelRelation>().HasKey(m => new { m.WorkTaskId, m.TaskLabelId });
     }

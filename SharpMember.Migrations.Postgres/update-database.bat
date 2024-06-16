@@ -1,1 +1,3 @@
-dotnet ef database update %* --context TaskContext --startup-project ..\SharpMember
+set context=GlobalContext
+
+dotnet ef database update %* --context %context% --startup-project ..\SharpMember

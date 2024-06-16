@@ -1,2 +1,4 @@
-dotnet ef database update 0 --context TaskContext --startup-project ..\SharpMember
-dotnet ef migrations remove --context TaskContext --startup-project ..\SharpMember
+set context=ApplicationDbContext
+
+dotnet ef database update Init --context %context% --startup-project ..\SharpMember
+dotnet ef migrations remove --context %context% --startup-project ..\SharpMember
