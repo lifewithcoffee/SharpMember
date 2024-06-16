@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharpMember.Core.Data.Models.TaskSystem;
+using SharpMember.Core.Data.Models.ProjectSystem;
 using SharpMember.Core.Definitions;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 
 namespace SharpMember.Core.Data;
-public class TaskDbContext : DbContext
+public class ProjectContext : DbContext
 {
     public DbSet<Project> Projects { get; set; }
     public DbSet<Milestone> Milestones { get; set; }
@@ -17,7 +17,7 @@ public class TaskDbContext : DbContext
     public DbSet<TaskItem> WorkTasks { get; set; }
     public DbSet<WorkTaskLabelRelation> WorkTaskLabelRelations { get; set; }
 
-    public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options)
+    public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)
     {
         if (GlobalConfigs.DatabaseType == eDatabaseType.Sqlite)
             Database.EnsureCreated();

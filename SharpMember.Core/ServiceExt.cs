@@ -130,8 +130,10 @@ namespace SharpMember.Core
                             postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")
                         ));
 
-                    // TODO: refactor, ref: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers?tabs=dotnet-core-cli#using-one-context-type
-                    services.AddDbContext<TaskDbContext>(options =>
+                    // TODO:
+                    // 1. refactor, ref: https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers?tabs=dotnet-core-cli#using-one-context-type
+                    // 2. make notes: if missed adding DbContext, migration command will report TaskDbContext can't be found
+                    services.AddDbContext<ProjectContext>(options =>
                         options.UseNpgsql(
                             Configuration.GetConnectionString(postgresConnStr),
                             postgresOption => postgresOption.MigrationsAssembly("SharpMember.Migrations.Postgres")

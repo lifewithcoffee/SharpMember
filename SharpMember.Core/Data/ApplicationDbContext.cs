@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using SharpMember.Utils;
 using SharpMember.Core.Data.Models.MemberSystem;
 using SharpMember.Core.Data.Models.ActivitySystem;
-using SharpMember.Core.Data.Models.TaskSystem;
+using SharpMember.Core.Data.Models.ProjectSystem;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SharpMember.Core.Data

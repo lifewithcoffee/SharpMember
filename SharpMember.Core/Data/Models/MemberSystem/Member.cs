@@ -1,5 +1,5 @@
 ﻿using SharpMember.Core.Data.Models.ActivitySystem;
-using SharpMember.Core.Data.Models.TaskSystem;
+using SharpMember.Core.Data.Models.ProjectSystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

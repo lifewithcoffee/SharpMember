@@ -1,1 +1,1 @@
-dotnet ef database update %* --context TaskDbContext --startup-project ..\SharpMember
+dotnet ef database update %* --context TaskContext --startup-project ..\SharpMember
