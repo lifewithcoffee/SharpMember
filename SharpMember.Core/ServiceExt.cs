@@ -23,30 +23,30 @@ using SharpMember.Core.Data.DbContexts;
 namespace SharpMember.Core
 {
     public class RepositoryReader<TEntity>
-        : RepositoryRead<TEntity, GlobalContext>
+        : RepositoryRead<TEntity, MemberContext>
         where TEntity : class
     {
-        public RepositoryReader(IUnitOfWork<GlobalContext> unitOfWork)
+        public RepositoryReader(IUnitOfWork<MemberContext> unitOfWork)
             : base(unitOfWork)
         { }
     }
 
     public class RepositoryWriter<TEntity>
-        : RepositoryWrite<TEntity, GlobalContext>
+        : RepositoryWrite<TEntity, MemberContext>
         where TEntity : class
     {
-        public RepositoryWriter(IUnitOfWork<GlobalContext> unitOfWork)
+        public RepositoryWriter(IUnitOfWork<MemberContext> unitOfWork)
             : base(unitOfWork)
         { }
     }
 
     public class Repository<TEntity>
-        : Repository<TEntity, GlobalContext>
+        : Repository<TEntity, MemberContext>
         where TEntity : class
     {
         public Repository(
-            IRepositoryRead<TEntity, GlobalContext> repoReader,
-            IRepositoryWrite<TEntity, GlobalContext> repoWriter
+            IRepositoryRead<TEntity, MemberContext> repoReader,
+            IRepositoryWrite<TEntity, MemberContext> repoWriter
         ) : base(repoReader, repoWriter)
         { }
     }
