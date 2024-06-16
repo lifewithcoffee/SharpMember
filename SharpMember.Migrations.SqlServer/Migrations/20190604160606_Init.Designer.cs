@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SharpMember.Core.Data;
+using SharpMember.Core.Data.DbContexts;
 
 namespace SharpMember.Migrations.SqlServer.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(GlobalContext))]
     [Migration("20190604160606_Init")]
     partial class Init
     {
