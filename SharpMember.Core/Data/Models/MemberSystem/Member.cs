@@ -51,9 +51,6 @@ namespace SharpMember.Core.Data.Models.MemberSystem
 
     public class Member : MemberEntity
     {
-        [ForeignKey(nameof(ApplicationUserId))]
-        public virtual ApplicationUser ApplicationUser { get; set; }
-
         [ForeignKey(nameof(CommunityId))]
         public virtual Community Community { get; set; }
 
