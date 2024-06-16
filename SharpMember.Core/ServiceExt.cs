@@ -129,7 +129,21 @@ namespace SharpMember.Core
                     throw new Exception("Unknown database type for DbContext dependency injection");
             }
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            /**
+             * TODO: check with the latest doc
+             * 
+             * According to:
+             * https://learn.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0#change-the-primary-key-type
+             * ~ search "If a custom ApplicationUser class is being used, update the class to inherit from IdentityUser"
+             * 
+             * The user registration code should be:
+             * 
+             * services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+             *      .AddEntityFrameworkStores<GlobalContext>();
+             *      
+             * Then update mcn notes on how to change AppUser's ID to GUID
+             */
+            services.AddIdentity<AppUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<GlobalContext>()
                 .AddDefaultTokenProviders();
 

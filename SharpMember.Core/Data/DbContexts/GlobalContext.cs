@@ -11,11 +11,12 @@ using SharpMember.Utils;
 using SharpMember.Core.Data.Models.ActivitySystem;
 using SharpMember.Core.Data.Models.ProjectSystem;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity;
 
 namespace SharpMember.Core.Data.DbContexts;
 
 // Use default DB schema
-public class GlobalContext : IdentityDbContext<ApplicationUser>
+public class GlobalContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 {
     public DbSet<GlobalSettings> GlobalSettings { get; set; }
 

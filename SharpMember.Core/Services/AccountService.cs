@@ -18,9 +18,9 @@ namespace SharpMember.Core.Services
     public class AccountService : IAccountService
     {
         private readonly IRepository<Member> _memberRepository;
-        private readonly IRepository<ApplicationUser> _userRepository;
+        private readonly IRepository<AppUser> _userRepository;
 
-        public AccountService(IRepository<Member> memberRepository, IRepository<ApplicationUser> userRepository)
+        public AccountService(IRepository<Member> memberRepository, IRepository<AppUser> userRepository)
         {
             this._memberRepository = memberRepository;
             this._userRepository = userRepository;

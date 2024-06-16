@@ -20,11 +20,11 @@ namespace SharpMember.Controllers
     public class MembersController : ControllerBase
     {
         MemberContext _context;
-        UserManager<ApplicationUser> _userManager;
+        UserManager<AppUser> _userManager;
 
         public MembersController(
             MemberContext context,
-            UserManager<ApplicationUser> userManager
+            UserManager<AppUser> userManager
         ){
             _context = context;
             _userManager = userManager;

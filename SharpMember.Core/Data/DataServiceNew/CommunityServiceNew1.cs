@@ -43,7 +43,7 @@ namespace SharpMember.Core.Data.DataServiceNew
 
         public Task AddMemberProfileTemplateAsync(string itemName, bool required)
         {
-            throw new NotImplementedException(); // TODO AddMemberProfileTemplateAsync
+            throw new NotImplementedException(); // TODO: AddMemberProfileTemplateAsync
         }
 
         public async Task CreateCommunityAsync(string appUserId, string communityName)

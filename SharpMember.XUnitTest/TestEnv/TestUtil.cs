@@ -69,12 +69,12 @@ namespace U.TestEnv
 
         public async Task<string> GetExistingAppUserId()
         {
-            UserManager<ApplicationUser> userManager = GetNewProvider().GetService<UserManager<ApplicationUser>>();
+            UserManager<AppUser> userManager = GetNewProvider().GetService<UserManager<AppUser>>();
 
-            var appUser = new ApplicationUser { UserName = Guid.NewGuid().ToString() };
+            var appUser = new AppUser { UserName = Guid.NewGuid().ToString() };
             await userManager.CreateAsync(appUser);
             var user = await userManager.FindByNameAsync(appUser.UserName);
-            return user.Id;
+            return user.Id.ToString();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@using SharpMember.Views.Manage
 @using SharpMember.Core.Data.Models
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<AppUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
