@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SharpMember.Core.Data.DbContexts;
@@ -11,9 +12,11 @@ using SharpMember.Core.Data.DbContexts;
 namespace SharpMember.Migrations.Postgres.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class GlobalContextModelSnapshot : ModelSnapshot
+    [Migration("20240618163543_CustomiseRole")]
+    partial class CustomiseRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -11,7 +11,7 @@ using SharpMember.Core.Data.DbContexts;
 
 namespace SharpMember.Migrations.Postgres.Migrations
 {
-    [DbContext(typeof(GlobalContext))]
+    [DbContext(typeof(Core.Data.DbContexts.ApplicationContext))]
     [Migration("20240616150224_InitGlobalTables")]
     partial class InitGlobalTables
     {

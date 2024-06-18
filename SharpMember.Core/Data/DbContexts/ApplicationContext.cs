@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Identity;
 namespace SharpMember.Core.Data.DbContexts;
 
 // Use default DB schema
-public class GlobalContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
+public class ApplicationContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public DbSet<GlobalSettings> GlobalSettings { get; set; }
 
@@ -27,7 +27,7 @@ public class GlobalContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid
      */
     //public ApplicationDbContext(string connectionString) : base(GetOptionsFromConnectionString(connectionString)) { }
 
-    public GlobalContext(DbContextOptions<GlobalContext> options) : base(options)
+    public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
         if (GlobalConfigs.DatabaseType == eDatabaseType.Sqlite)
             Database.EnsureCreated();

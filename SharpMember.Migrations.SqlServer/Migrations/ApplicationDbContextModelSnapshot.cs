@@ -8,7 +8,7 @@ using SharpMember.Core.Data.DbContexts;
 
 namespace SharpMember.Migrations.SqlServer.Migrations
 {
-    [DbContext(typeof(GlobalContext))]
+    [DbContext(typeof(Core.Data.DbContexts.ApplicationContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -21,9 +21,9 @@ namespace SharpMember.Controllers
     public class CommunitiesController : ControllerBase
     {
         ILogger<CommunitiesController> _logger;
-        UserManager<AppUser> _userManager;
+        UserManager<ApplicationUser> _userManager;
 
-        public CommunitiesController(ILogger<CommunitiesController> logger, UserManager<AppUser> userManager)
+        public CommunitiesController(ILogger<CommunitiesController> logger, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _userManager = userManager;

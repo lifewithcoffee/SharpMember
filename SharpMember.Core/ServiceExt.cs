@@ -105,7 +105,7 @@ namespace SharpMember.Core
             switch (GlobalConfigs.DatabaseType)
             {
                 case eDatabaseType.Sqlite:
-                    services.AddDbContext<GlobalContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
+                    services.AddDbContext<Data.DbContexts.ApplicationContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
                     services.AddDbContext<ProjectContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
                     services.AddDbContext<MemberContext>( o => o.UseSqlite($"Filename={DbConsts.SqliteDbFileName}") );
                     break;
@@ -113,7 +113,7 @@ namespace SharpMember.Core
                     connStr = Configuration.GetConnectionString(unitTestConnectionEnabled ? "UnitTestConnection": "DefaultConnection");
                     assembly = "SharpMember.Migrations.SqlServer";
 
-                    services.AddDbContext<GlobalContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
+                    services.AddDbContext<Data.DbContexts.ApplicationContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
                     services.AddDbContext<ProjectContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
                     services.AddDbContext<MemberContext>( o1 => o1.UseSqlServer( connStr, o2 => o2.MigrationsAssembly(assembly)));
                     break;
@@ -121,7 +121,7 @@ namespace SharpMember.Core
                     connStr = Configuration.GetConnectionString(unitTestConnectionEnabled ? "PostgresConnection_UnitTest": "PostgresConnection");
                     assembly = "SharpMember.Migrations.Postgres";
 
-                    services.AddDbContext<GlobalContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
+                    services.AddDbContext<Data.DbContexts.ApplicationContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
                     services.AddDbContext<ProjectContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
                     services.AddDbContext<MemberContext>( o1 => o1.UseNpgsql(connStr, o2 => o2.MigrationsAssembly(assembly) ));
                     break;
@@ -130,21 +130,16 @@ namespace SharpMember.Core
             }
 
             /**
-             * TODO: check with the latest doc
-             * 
-             * According to:
+             * See doc:
              * https://learn.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-5.0#change-the-primary-key-type
-             * ~ search "If a custom ApplicationUser class is being used, update the class to inherit from IdentityUser"
              * 
-             * The user registration code should be:
-             * 
-             * services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-             *      .AddEntityFrameworkStores<GlobalContext>();
-             *      
-             * Then update mcn notes on how to change AppUser's ID to GUID
+             * See this link for the difference between AddIdentity, AddIdentityCore and AddDefaultIdentity:
+             * c# - AddIdentity vs AddIdentityCore - Stack Overflow
+             * https://stackoverflow.com/questions/55361533/addidentity-vs-addidentitycore
              */
-            services.AddIdentity<AppUser, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<GlobalContext>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationContext>()
+                //.AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             services.AddRepositoryServices();

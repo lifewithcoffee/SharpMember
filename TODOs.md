@@ -2,7 +2,11 @@
 
 - Clear tasks (see `task list` pane)
 - Change member Id to Guid (all root object's ID should be GUID, then internal
-  object's ID uses int)
+  object's ID uses int), or many use string is better (no need to change identity's
+  id type)
+
+---
+- More subsystems: Quiz
 
 ---
 
