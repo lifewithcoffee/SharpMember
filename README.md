@@ -48,3 +48,21 @@
 - Navigate to project `SharpMember.Migrations.Postgres` or
   `SharpMember.Migrations.SqlServer`, execute `update-database.bat`
 
+## Migrate Database
+
+From notes [2024_0730_170653]
+
+```
+dotnet ef migrations add <migration_name> --context TaskContext --startup-project ..\SharpMember
+dotnet ef database update <migration_name> --context TaskContext --startup-project ..\SharpMember
+```
+
+The migration code will be generated under folder `Migrations\<context-name>`.
+Note that if the DbContext class name is `TaskDbContext`, the `<context-name>`
+will be `TaskDb` but not `Task`.
+
+or use `--output-dir` to specify the location of the generated migration code:
+
+```
+dotnet ef migrations add InitialCreate --context BlogContext --output-dir Migrations/SqlServerMigrations
+```

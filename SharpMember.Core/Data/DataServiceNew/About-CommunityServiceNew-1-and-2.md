@@ -10,7 +10,7 @@ implementing DDD aggregate root:
 
 ## DbContext per aggregate root (for CommunityServiceNew2)
 
-Thought 2024-05-25:
+Thoughts 2024-05-25:
 
 - Every repository (named with the aggregate root object) is a DbContext with a subset
   of DbSet

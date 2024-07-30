@@ -4,7 +4,10 @@
 - ZjuaaaMemberExcelFileReadService (from About page)
 
 ---
+
 - More subsystems: Quiz
+- Meeting may need to be renamed to OnlineEvent and OnsiteEvent, sub-objects may include:
+  schedule, registration, ticket pricing etc.
 
 ---
 
