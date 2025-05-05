@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TempTest", "TempTest\TempTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15D7C48D-3046-4191-A3F6-C846921CCB85}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		nuget.config = nuget.config
 		README.md = README.md
 		TODOs.md = TODOs.md
@@ -26,6 +27,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreUtils.Xunit", "NetCoreUtils.Xunit\NetCoreUtils.Xunit.csproj", "{616B2718-4655-4231-9565-38678051E503}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C419B233-A1DF-4AE8-9283-93653DB36751}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTools", "BuildTools\BuildTools.csproj", "{A6C84D4B-574D-45C4-8829-7DC9A099AC70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github-workflows", "github-workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\branch-main.yml = .github\workflows\branch-main.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +69,10 @@ Global
 		{616B2718-4655-4231-9565-38678051E503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{616B2718-4655-4231-9565-38678051E503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{616B2718-4655-4231-9565-38678051E503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6C84D4B-574D-45C4-8829-7DC9A099AC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C84D4B-574D-45C4-8829-7DC9A099AC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6C84D4B-574D-45C4-8829-7DC9A099AC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C84D4B-574D-45C4-8829-7DC9A099AC70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +81,7 @@ Global
 		{1FE177CE-F455-4A69-B3B9-A7843E3AF5AB} = {C419B233-A1DF-4AE8-9283-93653DB36751}
 		{6677CD58-37EA-4A57-9318-AE69DA0CC836} = {C419B233-A1DF-4AE8-9283-93653DB36751}
 		{616B2718-4655-4231-9565-38678051E503} = {C419B233-A1DF-4AE8-9283-93653DB36751}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {15D7C48D-3046-4191-A3F6-C846921CCB85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E6595B9-A3BA-4526-AF50-445D6CFAEFE9}
